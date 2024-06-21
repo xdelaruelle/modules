@@ -1051,9 +1051,18 @@ proc conflict {args} {
             set loaded_conflict_mod_list [getLoadedMatchingName $mod\
                returnall 1]
             if {[llength $loaded_conflict_mod_list]} {
+               # no conflict unload attempt on loading module
                set is_conflict_loading 1
             }
          }
+      } elseif {[getConf conflict_unload] && [getConf auto_handling]} {
+         set still_loaded_conflict_mod_list {}
+         foreach loaded_conflict_mod $loaded_conflict_mod_list {
+            if {[cmdModuleUnload conun match 1 s 0 $loaded_conflict_mod]} {
+               lappend still_loaded_conflict_mod_list $loaded_conflict_mod
+            }
+         }
+         set loaded_conflict_mod_list $still_loaded_conflict_mod_list
       }
 
       if {[llength $loaded_conflict_mod_list]} {
