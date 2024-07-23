@@ -528,14 +528,15 @@ testouterr_cmd_re "sh" "unload h50" $ans [join $tserr "\n"]
 
 # uncommon case where a requirement is loaded after a module requiring it and has been automatically loaded by some module not loaded anymore
 # (loaded from a 'module load' command in a modulefile which has been loaded in a --no-auto mode)
-# this required module (h58) will not take part of the unload process as it is loaded after its dependent
+# this required module (h58) is now taken into account in the UReqUn process
 setenv_loaded_module [list h50 h51 h52 h53 h54 h55 h56 h58] [list "$mp/h50" "$mp/h51"  "$mp/h52" "$mp/h53" "$mp/h54" "$mp/h55" "$mp/h56" "$mp/h58"] [list h58]
 setenv_var __MODULES_LMPREREQ "h51&h50:h52&h50:h53&h51:h54&h51|h57:h55&h51&h52:h56&h52&h58"
 set ans [list]
 lappend ans [list unset __MODULES_LMPREREQ]
-lappend ans [list set _LMFILES_ $mp/h58]
-lappend ans [list set LOADEDMODULES h58]
-set tserr [list "unload h56" "unload h55" "unload h54" "unload h53" "unload h52" "unload h51" "unload h50" \n[msg_top_unload h50 [list h56 h55 h54 h53 h52 h51] {} {}]]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list unset __MODULES_LMTAG]
+set tserr [list "unload h56" "unload h55" "unload h54" "unload h53" "unload h52" "unload h51" "unload h50" "unload h58" \n[msg_top_unload h50 [list h56 h55 h54 h53 h52 h51] h58 {}]]
 testouterr_cmd_re "sh" "unload h50" $ans [join $tserr "\n"]
 
 # h58 has been loaded in no-auto mode, thus h56 has not been reloaded when h58 has been loaded,
