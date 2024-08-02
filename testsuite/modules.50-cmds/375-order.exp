@@ -120,19 +120,13 @@ set tserr [list {unload ia}]
 testouterr_cmd_re sh {unload --no-auto ia} $ans [join $tserr \n]
 testouterr_cmd_re sh {unload --auto ia} $ans [join $tserr \n]
 
-# ia is impacted by UReqUn process in auto mode
+# ia should not be impacted
 set ans [list]
 lappend ans [list unset __MODULES_LMPREREQ]
 lappend ans [list set _LMFILES_ $mp/ia]
 lappend ans [list set LOADEDMODULES ia]
 set tserr [list {unload ib}]
 testouterr_cmd_re sh {unload --no-auto ib} $ans [join $tserr \n]
-set ans [list]
-lappend ans [list unset __MODULES_LMPREREQ]
-lappend ans [list unset _LMFILES_]
-lappend ans [list unset LOADEDMODULES]
-lappend ans [list unset __MODULES_LMTAG]
-set tserr [list {unload ib} {unload ia} \n[msg_top_unload ib {} ia {}]]
 testouterr_cmd_re sh {unload --auto ib} $ans [join $tserr \n]
 
 
@@ -204,13 +198,13 @@ testouterr_cmd_re sh {unload --auto ia} $ans [join $tserr \n]
 setenv_loaded_module [list ib ia ij] [list $mp/ib $mp/ia $mp/ij] [list ib ia]
 setenv_var __MODULES_LMPREREQ ib&ia:ij&ib
 
-# ib should go UReqUn, ia too
+# ib should go UReqUn, not ia
 set ans [list]
 lappend ans [list unset __MODULES_LMPREREQ]
-lappend ans [list unset _LMFILES_]
-lappend ans [list unset LOADEDMODULES]
-lappend ans [list unset __MODULES_LMTAG]
-set tserr [list {unload ij} {unload ia} {unload ib} \n[msg_top_unload ij {} {ia ib} {}]]
+lappend ans [list set _LMFILES_ $mp/ia]
+lappend ans [list set LOADEDMODULES ia]
+lappend ans [list set __MODULES_LMTAG ia&auto-loaded]
+set tserr [list {unload ij} {unload ib} \n[msg_top_unload ij {} ib {}]]
 testouterr_cmd_re sh {unload --auto ij} $ans [join $tserr \n]
 
 # ib should not be impacted
@@ -242,13 +236,13 @@ set tserr [list {unload ia}]
 testouterr_cmd_re sh {unload --no-auto ia} $ans [join $tserr \n]
 testouterr_cmd_re sh {unload --auto ia} $ans [join $tserr \n]
 
-# ia is taken into account in the UReqUn process
+# ia should not be impacted
 set ans [list]
 lappend ans [list unset __MODULES_LMPREREQ]
-lappend ans [list unset _LMFILES_]
-lappend ans [list unset LOADEDMODULES]
-lappend ans [list unset __MODULES_LMTAG]
-set tserr [list {unload if} {unload ia} {unload ib} \n[msg_top_unload if {} {ia ib} {}]]
+lappend ans [list set _LMFILES_ $mp/ia]
+lappend ans [list set LOADEDMODULES ia]
+lappend ans [list set __MODULES_LMTAG ia&auto-loaded]
+set tserr [list {unload if} {unload ib} \n[msg_top_unload if {} ib {}]]
 testouterr_cmd_re sh {unload --auto if} $ans [join $tserr \n]
 
 
@@ -357,24 +351,6 @@ if {$install_unloadmatchorder eq {returnlast}} {
     set tserr [list {unload iim} {unload ih/0} \n[msg_top_unload iim {} ih/0 {}]]
 }
 testouterr_cmd_re sh {unload --no-auto iim} $ans [join $tserr \n]
-# ih/0 is also taken into the UReqUn process in auto mode
-if {$install_unloadmatchorder eq {returnlast}} {
-    set ans [list]
-    lappend ans [list set __MODULES_LMCONFLICT ih/1&ih]
-    lappend ans [list unset __MODULES_LMPREREQ]
-    lappend ans [list set _LMFILES_ $mp/ih/1]
-    lappend ans [list set LOADEDMODULES ih/1]
-    lappend ans [list unset __MODULES_LMTAG]
-    set tserr [list {unload iim} {unload ih/1} {unload ih/2} {unload ih/0} {load ih/1} \n[msg_top_unload iim {} {ih/2 ih/0} {ih/1}]]
-} else {
-    set ans [list]
-    lappend ans [list set __MODULES_LMCONFLICT ih/1&ih]
-    lappend ans [list unset __MODULES_LMPREREQ]
-    lappend ans [list set _LMFILES_ $mp/ih/1]
-    lappend ans [list set LOADEDMODULES ih/1]
-    lappend ans [list unset __MODULES_LMTAG]
-    set tserr [list {unload iim} {unload ih/1} {unload ih/0} {unload ih/2} {load ih/1} \n[msg_top_unload iim {} {ih/0 ih/2} {ih/1}]]
-}
 testouterr_cmd_re sh {unload --auto iim} $ans [join $tserr \n]
 
 

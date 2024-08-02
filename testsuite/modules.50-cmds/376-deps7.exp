@@ -110,16 +110,19 @@ testouterr_cmd_re sh {unload --no-auto --force m2} $ans [join $tserr \n]
 # same situation than above but with __MODULES_LMPREREQ not set, should not happen but just
 # check here the behavior
 unsetenv_var __MODULES_LMPREREQ
-# m1 is taken into the UReqUn process in auto mode
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/m1:$mp/m3]
+lappend ans [list set LOADEDMODULES m1:m3]
+set tserr [list {unload m2}]
+# missing prereq information, no m1 unload is attempted
+testouterr_cmd_re sh {unload --auto m2} $ans [join $tserr \n]
+testouterr_cmd_re sh {unload --auto --force m2} $ans [join $tserr \n]
 set ans [list]
 lappend ans [list set _LMFILES_ $mp/m3]
 lappend ans [list set LOADEDMODULES m3]
 lappend ans [list unset __MODULES_LMTAG]
-set tserr [list {unload m2} {unload m1} \n[msg_top_unload m2 {} m1 {}]]
-testouterr_cmd_re sh {unload --auto m2} $ans [join $tserr \n]
-testouterr_cmd_re sh {unload --auto --force m2} $ans [join $tserr \n]
-# unload is directly attempted in no-auto mode, m1 is unloaded as nothing says m3 requires it
 set tserr [list {unload m1} {unload m2} \n[msg_top_unload m2 {} m1 {}]]
+# unload is directly attempted in no-auto mode, m1 is unload as nothing says m3 requires it
 testouterr_cmd_re sh {unload --no-auto m2} $ans [join $tserr \n]
 testouterr_cmd_re sh {unload --no-auto --force m2} $ans [join $tserr \n]
 
