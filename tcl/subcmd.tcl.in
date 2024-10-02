@@ -1107,6 +1107,7 @@ proc cmdModuleLoad {context uasked tryload loadany tag_list modulepath_list\
          upvar newhidden hidden
          upvar newmsgrecid msgrecid
       }
+      lappendState eval_context $context
       # loading module is visible by default
       set hidden 0
       # error if module not found or forbidden
@@ -1394,6 +1395,7 @@ proc cmdModuleLoad {context uasked tryload loadany tag_list modulepath_list\
          break
       }
    }
+   lpopState eval_context
    lpopState mode
 
    # raise error if no module has been loaded or has produced an error during
@@ -1473,6 +1475,7 @@ proc cmdModuleUnload {context match auto force onlyureq args} {
          upvar olduasked uasked
          upvar oldmsgrecid msgrecid
       }
+      lappendState eval_context $context
       # unloading module is visible by default
       set hidden 0
       set uasked 1
@@ -1776,6 +1779,7 @@ proc cmdModuleUnload {context match auto force onlyureq args} {
          break
       }
    }
+   lpopState eval_context
    lpopState mode
 
    return $ret
