@@ -181,6 +181,11 @@ Changes made to the DepRe mechanism:
   if tagged super-sticky. Not reloaded DepRe module is considered as a DepUn
   module.
 
+* All reloads of DepRe modules are now performed on top load, unload or switch
+  evaluation rather right after the load, unload or switch that triggers the
+  unload phase of the DepRe mechanism. As a consequence, all Dependent Reload
+  modules are reloaded after main module evaluation.
+
 Notes
 -----
 
