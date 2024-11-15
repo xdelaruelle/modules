@@ -59,6 +59,13 @@ proc edit-path-sc {cmd args} {
 
    recordScanModuleElt $var $cmd envvar
 
+   # record MODULEPATH edition as "module use" command
+   if {$var eq {MODULEPATH} && $cmd in {append-path prepend-path}} {
+      foreach path $path_list {
+         recordScanModuleElt [getAbsolutePath $path] use
+      }
+   }
+
    setEnvVarIfUndefined $var {}
    return {}
 }
@@ -158,7 +165,7 @@ proc conflict-sc {args} {
 proc module-sc {command args} {
    lassign [parseModuleCommandName $command help] command cmdvalid cmdempty
    # ignore sub-commands that do not either load or unload
-   if {$command in {load load-any switch try-load unload}} {
+   if {$command in {load load-any switch try-load unload use}} {
       # parse options to distinguish them from module version spec
       lassign [parseModuleCommandArgs 0 $command 0 {*}$args] show_oneperline\
          show_mtime show_filter search_filter search_match dump_state\
@@ -188,6 +195,10 @@ proc module-sc {command args} {
                recordScanModuleElt $swoffarg switch switch-off {*}$xtaliasinc
                recordScanModuleElt $swonarg switch switch-on {*}$xtaliasreq
             }
+         }
+      } elseif {$command eq {use}} {
+         foreach path $modspeclist {
+            recordScanModuleElt [getAbsolutePath $path] use
          }
       } else {
          set xtalias [expr {$command eq {unload} ? $xtaliasinc : $xtaliasreq}]
