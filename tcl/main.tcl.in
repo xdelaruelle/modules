@@ -519,7 +519,7 @@ proc module {command args} {
       }
       avail {
          lappend cmdopts $show_oneperline $show_mtime $show_filter\
-            $search_filter $search_match
+            $search_filter $search_match [getModulePathList exiterronundef]
       }
       search {
          lappend cmdopts {}

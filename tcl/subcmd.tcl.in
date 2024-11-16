@@ -1855,7 +1855,7 @@ proc cmdModuleAliases {} {
 }
 
 proc cmdModuleAvail {show_oneperline show_mtime show_filter search_filter\
-   search_match args} {
+   search_match modpath_list args} {
    if {![llength $args]} {
       lappend args *
    }
@@ -1900,7 +1900,7 @@ proc cmdModuleAvail {show_oneperline show_mtime show_filter search_filter\
             $show_mtime 0 $one_per_line $theader_cols hidden-loaded
       }
 
-      foreach dir [getModulePathList exiterronundef] {
+      foreach dir $modpath_list {
          if {$report_modulepath} {
             array unset mod_list
             # get module list (process full dir content and do not exit when
