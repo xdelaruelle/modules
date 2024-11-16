@@ -40,7 +40,7 @@ tagcolorname mcookieversioncheck availoutput availterseoutput listoutput \
 listterseoutput editor variantshortcut bashcompletiondir fishcompletiondir \
 zshcompletiondir tcllinter tcllinteropts nagelfardatadir nagelfaraddons \
 stickypurge uniquenameloaded abortonerror sourcecache logger loggeropts \
-loggedevents conflictunload"
+loggedevents conflictunload spideroutput spiderterseoutput"
 libarglist=()
 
 # flags to know if argument has been specified on command-line
@@ -133,6 +133,8 @@ availoutput='modulepath:alias:dirwsym:sym:tag:variantifspec:key'
 availterseoutput='modulepath:alias:dirwsym:sym:tag:variantifspec'
 listoutput='header:idx:variant:sym:tag:key'
 listterseoutput='header'
+spideroutput=$availoutput
+spiderterseoutput=$availterseoutput
 editor='vi'
 variantshortcut=
 bashcompletiondir=
@@ -439,6 +441,20 @@ Optional Packages:
                           \`idx', \`variant', \`alias', \`indesym', \`sym',
                           \`tag' and \`key' (elements in LIST are separated by
                           \`:') [$listterseoutput]
+  --with-spider-output=LIST
+                          specify content to report on spider sub-command
+                          regular output. elements accepted in LIST are:
+                          \`modulepath', \`alias', \`dirwsym', \`indesym',
+                          \`sym', \`tag', \`key', \`variant' and
+                          \`variantifspec' (elements in LIST are separated by
+                          \`:') [$spideroutput]
+  --with-spider-terse-output=LIST
+                          specify content to report on spider sub-command
+                          terse output. elements accepted in LIST are:
+                          \`modulepath', \`alias', \`dirwsym', \`indesym',
+                          \`sym', \`tag', \`key', \`variant' and
+                          \`variantifspec' (elements in LIST are separated by
+                          \`:') [$spiderterseoutput]
   --with-variant-shortcut=SHORTCUTLIST
                           define shortcut characters to specify variant names.
                           Each element in SHORTCUTLIST is a variant name
@@ -843,6 +859,12 @@ for arg in "$@"; do
    --with-list-terse-output=*|--without-list-terse-output)
       allowedval=" header idx variant alias indesym sym tag key " ;
       check_and_get_package_value_list "listterseoutput" "$arg" "$allowedval" "" ;;
+   --with-spider-output=*|--without-spider-output)
+      allowedval=" modulepath alias dirwsym indesym sym tag key variant variantifspec " ;
+      check_and_get_package_value_list "spideroutput" "$arg" "$allowedval" "" ;;
+   --with-spider-terse-output=*|--without-spider-terse-output)
+      allowedval=" modulepath alias dirwsym indesym sym tag key variant variantifspec " ;
+      check_and_get_package_value_list "spiderterseoutput" "$arg" "$allowedval" "" ;;
    --with-variant-shortcut=*|--without-variant-shortcut)
       variantshortcut=$(get_package_value "$arg" "") ;;
    --with-editor=*|--without-editor)
