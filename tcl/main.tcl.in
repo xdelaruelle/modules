@@ -167,7 +167,7 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
             }
             -o {
                # option is only valid for specific sub-commands
-               if {$cmd in [list avail list]} {
+               if {$cmd in [list avail list spider]} {
                   set nextargisval asked_output
                   set output_arg -o
                } else {
@@ -179,7 +179,7 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
             }
             --output=* {
                # option is only valid for specific sub-commands
-               if {$cmd in [list avail list]} {
+               if {$cmd in [list avail list spider]} {
                   set asked_output [string range $arg 9 end]
                   set output_arg --output
                } elseif {!$ignerr} {
