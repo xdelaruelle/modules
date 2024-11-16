@@ -95,7 +95,8 @@ proc parseModuleCommandName {command defaultcmd} {
             switch display 2 display available 2 avail aliases 2 aliases list\
             2 list whatis 2 whatis purge 2 purge initadd 5 initadd initload 6\
             initadd initprepend 5 initprepend initswitch 6 initswitch\
-            initswap 6 initswitch initunload 8 initrm initlist 5 initlist} {
+            initswap 6 initswitch initunload 8 initrm initlist 5 initlist\
+            spider 3 spider} {
             if {$cmdlen >= $minlen && [string equal -length $cmdlen $command\
                $match]} {
                set command $sccmd
@@ -112,7 +113,7 @@ proc parseModuleCommandName {command defaultcmd} {
       append-path remove-path is-loaded is-saved is-used is-avail info-loaded\
       sh-to-mod edit try-load refresh state load-any lint mod-to-sh reset\
       stash stashpop stashrm stashshow stashclear stashlist cachebuild\
-      cacheclear]}]
+      cacheclear spider]}]
 
    reportDebug "(command=$command, cmdvalid=$cmdvalid, cmdempty=$cmdempty)"
    return [list $command $cmdvalid $cmdempty]
@@ -148,7 +149,7 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
             -j - --json {
                # enable json output only on supported command
                if {$cmd in [list avail savelist stashlist list search\
-                  whatis]} {
+                  whatis spider]} {
                   setState report_format json
                   set show_oneperline 0
                   set show_mtime 0
@@ -219,7 +220,7 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
             --all {
                # include hidden modules only on a limited set of command
                if {$cmd in [list avail aliases search whatis ml list lint\
-                  savelist]} {
+                  savelist spider]} {
                   setState hiding_threshold 2
                } else {
                   lappend otherargs $arg
@@ -231,7 +232,7 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
                if {$cmd eq {use}} {
                   set addpath_pos append
                } elseif {$cmd in [list avail aliases search whatis ml list\
-                  lint savelist]} {
+                  lint savelist spider]} {
                   setState hiding_threshold 2
                } else {
                   lappend otherargs $arg
@@ -361,7 +362,7 @@ proc module {command args} {
    # define states needed by module spec parsing and sub-command processing
    # define if modfile should always be fully read even for validity check
    lappendState always_read_full_file [expr {$command ni [list path paths\
-      list avail aliases edit]}]
+      list avail aliases edit spider]}]
    lappendState commandname $command
 
    # parse options, do that globally to ignore options not related to a given
@@ -374,11 +375,12 @@ proc module {command args} {
    defineParseModuleSpecificationProc [getConf advanced_version_spec]
    if {$command in [list avail paths whatis load unload switch help test\
       display path is-avail edit try-load load-any list lint mod-to-sh\
-      source]} {
+      source spider]} {
       # some cmds allow to express variant without module name
-      set allow_noname_spec [expr {$command in {avail list paths whatis}}]
+      set allow_noname_spec [expr {$command in {avail list paths whatis\
+         spider}}]
       # some cmds allow extra specifier in query
-      set allow_xt_spec [expr {$command in {avail paths whatis}}]
+      set allow_xt_spec [expr {$command in {avail paths whatis spider}}]
       set parsed_args [parseModuleSpecification 0 $allow_noname_spec\
          $allow_xt_spec 0 {*}$parsed_args]
    }
@@ -390,7 +392,7 @@ proc module {command args} {
          remove-path - is-loaded - is-saved - is-used - is-avail -\
          info-loaded - clear - sh-to-mod - edit - refresh - source - state -\
          lint - mod-to-sh - reset - stash - stashpop - stashrm - stashshow -\
-         stashclear - stashlist - cachebuild - cacheclear {
+         stashclear - stashlist - cachebuild - cacheclear - spider {
             knerror "${msgprefix}Command '$command' not supported$tryhelpmsg"
          }
       }
@@ -520,6 +522,10 @@ proc module {command args} {
       avail {
          lappend cmdopts $show_oneperline $show_mtime $show_filter\
             $search_filter $search_match [getModulePathList exiterronundef]
+      }
+      spider {
+         lappend cmdopts $show_oneperline $show_mtime $show_filter\
+            $search_filter $search_match
       }
       search {
          lappend cmdopts {}
@@ -845,7 +851,8 @@ if {[catch {
                   set accept_minus_arg [expr {$subcmdtest in {ml config} ||\
                      ([getConf advanced_version_spec] && $subcmdtest in\
                      {avail list display help is-avail is-loaded load path\
-                     paths switch test unload whatis mod-to-sh source})}]
+                     paths switch test unload whatis mod-to-sh source\
+                     spider})}]
                }
                # spare argument if minus arg is accepted
                if {[info exists accept_minus_arg] && $accept_minus_arg} {

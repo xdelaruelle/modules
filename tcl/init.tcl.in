@@ -732,7 +732,8 @@ proc initConfTagAbbrev {envvar value validvallist intvallist} {
             set setabbrevtag [expr {[currentState commandname] eq {list}}]
          }
          hidden {
-            set setabbrevtag [expr {[currentState commandname] eq {avail}}]
+            set setabbrevtag [expr {[currentState commandname] in {avail\
+               spider}}]
          }
          default {
             set setabbrevtag 1
@@ -843,7 +844,7 @@ proc isIcase {} {
    # insensitive match enablement
    lappend enabledValList always
    if {[currentState commandname] in [list avail list whatis search paths\
-      savelist]} {
+      savelist spider]} {
       lappend enabledValList search
    }
    return [expr {[getConf icase] in $enabledValList}]

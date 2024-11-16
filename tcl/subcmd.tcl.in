@@ -3097,6 +3097,37 @@ proc cmdModuleCacheclear {} {
    }
 }
 
+proc cmdModuleSpider {show_oneperline show_mtime show_filter search_filter\
+   search_match args} {
+
+   # recursively collect all modulepath used among available modules
+   inhibitErrorReport
+   setConf advanced_version_spec 1
+   defineParseModuleSpecificationProc 1
+   set modpath_list [getModulePathList exiterronundef]
+   set use_xt_query [parseModuleSpecification 0 1 1 0 use:*]
+   for {set i 0} {$i < [llength $modpath_list]} {incr i} {
+      set modpath [lindex $modpath_list $i]
+      getModules $modpath $use_xt_query
+      foreach {new_modpath from_mod_list} [getScanModuleElt $modpath use] {
+         set resolved_new_modpath [getAbsolutePath [resolvStringWithEnv\
+            $new_modpath]]
+         if {[string length $resolved_new_modpath] && $resolved_new_modpath\
+            ni $modpath_list} {
+            lappend modpath_list $resolved_new_modpath
+         }
+      }
+   }
+   unsetConf advanced_version_spec
+   defineParseModuleSpecificationProc [getConf advanced_version_spec]
+   setState inhibit_errreport 0
+   reportTrace $modpath_list {Collect modulepaths}
+
+   # perform an avail on all collected modulepaths
+   cmdModuleAvail $show_oneperline $show_mtime $show_filter $search_filter\
+      $search_match $modpath_list {*}$args
+}
+
 # ;;; Local Variables: ***
 # ;;; mode:tcl ***
 # ;;; End: ***

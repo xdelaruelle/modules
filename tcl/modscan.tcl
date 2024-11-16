@@ -360,7 +360,7 @@ proc isExtraMatchSearchRequired {mod} {
    return [expr {![getState inhibit_ems 0] && ([isEltInReport variant 0] ||\
       (([llength [getVariantListFromVersSpec $mod]] || [llength\
       [getExtraListFromVersSpec $mod]]) && [currentState commandname] in\
-      {avail paths whatis}))}]
+      {avail paths whatis spider}))}]
 }
 
 # perform extra match search on currently being built module search result
