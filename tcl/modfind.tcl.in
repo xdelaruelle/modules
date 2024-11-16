@@ -3346,8 +3346,8 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
    # Phase #6: consolidate tags set for retained modules
 
    # skip collecting tags if already performed for this modulepath or command
-   # is different than avail
-   if {[currentState commandname] eq {avail} && $dir ni [getState\
+   # is different than avail/spider
+   if {[currentState commandname] in {avail spider} && $dir ni [getState\
       tags_collected_in]} {
       # load tags from loaded modules in the global structure prior collecting
       # tags found during this getModules evaluation
