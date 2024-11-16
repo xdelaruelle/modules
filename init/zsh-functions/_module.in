@@ -13,6 +13,14 @@ _module_avail() {
    fi
 }
 
+_module_spider() {
+   local cur="${1:-}";
+   # skip spider call if word currently being completed is an option keyword
+   if [ -z "$cur" -o "${cur:0:1}" != '-' ]; then
+      module spider --color=never -s -t -S --no-indepth -o 'alias:indesym' $cur 2>&1
+   fi
+}
+
 _module_savelist() {
    module savelist --color=never -s -t 2>&1 | sed '
       /No named collection\.$/d;
@@ -46,6 +54,22 @@ _module_avail_mods() {
    done
 
    compadd -S "$suffix" -a avail_mods && ret=0
+}
+
+_module_spider_mods() {
+   local -a spider_mods;
+   local suffix=' ';
+   spider_mods=(${$(_module_spider $cur ${1:-})})
+
+   # do not append space to word completed if it is a directory (ends with /)
+   for val in $spider_mods; do
+      if [ "${val: -1:1}" = '/' ]; then
+         suffix=''
+         break
+      fi
+   done
+
+   compadd -S "$suffix" -a spider_mods && ret=0
 }
 
 _module_saved_colls() {
@@ -132,6 +156,7 @@ _module() {
             'swap:Unload mod1 and load mod2'
             'list:List loaded modules'
             'avail:List all or matching available modules'
+            'spider:Scan all modulepaths and list all or matching available modules'
             'is-avail:Is any of the modulefile(s) available'
             'is-loaded:Test if any of the modulefile(s) are loaded'
             'info-loaded:Get full name of matching loaded module(s)'
@@ -216,6 +241,22 @@ _module() {
                   '--indepth[Perform recursive avail search]' \
                   '--no-indepth[Perform non-recursive avail search]' \
                   "*::modulefile:{_module_avail_mods $cur}" && ret=0
+               ;;
+            (spider)
+               _arguments \
+                  '(-l --long)'{-l,--long}'[Display output in long format]' \
+                  '(-t --terse)'{-t,--terse}'[Display output in terse format]' \
+                  '(-j --json)'{-j,--json}'[Display output in JSON format]' \
+                  '(-o --output=)'{-o,--output=}'[Define elements to output in addition to module names]' \
+                  '(-a --all)'{-a,--all}'[Include hidden modules in search]' \
+                  '(-d --default)'{-d,--default}'[Only show default versions available]' \
+                  '(-L --latest)'{-L,--latest}'[Only show latest versions available]' \
+                  '(-i --icase)'{-i,--icase}'[Case insensitive match]' \
+                  '(-S --starts-with)'{-S,--starts-with}'[Search modules whose name begins with query string]' \
+                  '(-C --contains)'{-C,--contains}'[Search modules whose name contains query string]' \
+                  '--indepth[Perform recursive avail search]' \
+                  '--no-indepth[Perform non-recursive avail search]' \
+                  "*::modulefile:{_module_spider_mods $cur}" && ret=0
                ;;
             (aliases)
                _arguments \
