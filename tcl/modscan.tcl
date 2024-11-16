@@ -227,6 +227,14 @@ proc recordScanModuleElt {name args} {
    }
 }
 
+proc getScanModuleElt {modpath elt} {
+   if {[info exists ::g_scanModuleElt]} {
+      if {[dict exists $::g_scanModuleElt $modpath $elt]} {
+         return [dict get $::g_scanModuleElt $modpath $elt]
+      }
+   }
+}
+
 # test given variant specification matches what scanned module defines
 proc doesModVariantMatch {mod pvrlist} {
    set ret 1
