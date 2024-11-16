@@ -108,6 +108,8 @@ set install_availoutput "@availoutput@"
 set install_availterseoutput "@availterseoutput@"
 set install_listoutput "@listoutput@"
 set install_listterseoutput "@listterseoutput@"
+set install_spideroutput "@spideroutput@"
+set install_spiderterseoutput "@spiderterseoutput@"
 
 set install_variantshortcut "@variantshortcut@"
 
