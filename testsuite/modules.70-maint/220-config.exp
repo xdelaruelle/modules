@@ -39,6 +39,8 @@ unsetenv_var MODULES_AVAIL_OUTPUT
 unsetenv_var MODULES_AVAIL_TERSE_OUTPUT
 unsetenv_var MODULES_LIST_OUTPUT
 unsetenv_var MODULES_LIST_TERSE_OUTPUT
+unsetenv_var MODULES_SPIDER_OUTPUT
+unsetenv_var MODULES_SPIDER_TERSE_OUTPUT
 unsetenv_var MODULES_VARIANT_SHORTCUT
 if {[info exists env(MODULES_ICASE)]} {
     set saved_icase $env(MODULES_ICASE)
@@ -104,6 +106,8 @@ array set configdfl [list\
     silent_shell_debug        [expr {$install_silentshdbgsupport eq {y}}]\
     siteconfig                $siteconfig_filere\
     source_cache              [expr {$install_sourcecache eq {y}}]\
+    spider_output             $install_spideroutput\
+    spider_terse_output       $install_spiderterseoutput\
     sticky_purge              $install_stickypurge\
     tcl_ext_lib               lib/libtclenvmodules$install_shlib_suffix\
     tcl_linter                $install_tcllintercmd\
@@ -164,6 +168,8 @@ array set configvar [list\
     shells_with_ksh_fpath     MODULES_SHELLS_WITH_KSH_FPATH\
     silent_shell_debug        MODULES_SILENT_SHELL_DEBUG\
     source_cache              MODULES_SOURCE_CACHE\
+    spider_output             MODULES_SPIDER_OUTPUT\
+    spider_terse_output       MODULES_SPIDER_TERSE_OUTPUT\
     sticky_purge              MODULES_STICKY_PURGE\
     tag_abbrev                MODULES_TAG_ABBREV\
     tag_color_name            MODULES_TAG_COLOR_NAME\
@@ -211,6 +217,8 @@ array set configvalid [list\
     shells_with_ksh_fpath     {sh bash csh tcsh fish}\
     silent_shell_debug        {0 1}\
     source_cache              {0 1}\
+    spider_output             {modulepath alias dirwsym indesym sym tag key variant variantifspec}\
+    spider_terse_output       {modulepath alias dirwsym indesym sym tag key variant variantifspec}\
     sticky_purge              {error warning silent}\
     term_background           {dark light}\
     term_width                {0 1000}\
@@ -231,6 +239,8 @@ array set configvalidkind [list\
     logged_events             eltlist\
     nearly_forbidden_days     intbe\
     shells_with_ksh_fpath     eltlist\
+    spider_output             eltlist\
+    spider_terse_output       eltlist\
     term_width                intbe\
 ]
 
@@ -252,6 +262,8 @@ array set configkind [list\
     protected_envvars         l\
     rcfile                    l\
     shells_with_ksh_fpath     l\
+    spider_output             l\
+    spider_terse_output       l\
     tag_abbrev                l\
     tag_color_name            l\
     variant_shortcut          l\
