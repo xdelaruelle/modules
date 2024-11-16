@@ -690,7 +690,7 @@ lappend ans {  "reportModules $search_queries $modpath_label mp $hstyle $show_mt
 lappend ans {      (procedure "cmdModuleAvail" line 51)}
 lappend ans {      invoked from within}
 lappend ans {  "$cmdprocname {*}$cmdopts {*}$parsed_args"}
-lappend ans {      (procedure "module" line 186)}
+lappend ans {      (procedure "module" line 189)}
 lappend ans {      invoked from within}
 lappend ans {  "{*}$execcmdlist"}
 testouterr_cmd sh {avail} ERR [join $ans \n]
