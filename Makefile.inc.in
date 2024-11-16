@@ -145,6 +145,8 @@ availoutput := @availoutput@
 availterseoutput := @availterseoutput@
 listoutput := @listoutput@
 listterseoutput := @listterseoutput@
+spideroutput := @spideroutput@
+spiderterseoutput := @spiderterseoutput@
 
 # variant configuration
 variantshortcut := @variantshortcut@
