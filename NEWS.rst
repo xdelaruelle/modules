@@ -39,6 +39,10 @@ Modules 5.6.0 (not yet released)
 * Fix :mfcmd:`source-sh` and :subcmd:`sh-to-mod` shell translation when used
   with new *fish* shell version (4.0).
 * Doc: add :ref:`mode-select` design notes.
+* Introduce ``use`` extra specifier to search for :envvar:`MODULEPATH` changes
+  performed with :mfcmd:`module use<module>`, :mfcmd:`append-path` or
+  :mfcmd:`prepend-path` modulefile commands on :subcmd:`avail`,
+  :subcmd:`whatis` and :subcmd:`paths` sub-commands.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
