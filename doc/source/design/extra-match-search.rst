@@ -173,9 +173,11 @@ specifiers and their associated modulefile command.
 +--------------------+-----------------------------------------+
 | pushenv            | pushenv, envvar                         |
 +--------------------+-----------------------------------------+
-| append-path        | append-path, envvar                     |
+| append-path        | append-path, envvar,                    |
+|                    | use (if envvar is MODULEPATH)           |
 +--------------------+-----------------------------------------+
-| prepend-path       | prepend-path, envvar                    |
+| prepend-path       | prepend-path, envvar,                   |
+|                    | use (if envvar is MODULEPATH)           |
 +--------------------+-----------------------------------------+
 | remove-path        | remove-path, envvar                     |
 +--------------------+-----------------------------------------+
@@ -218,6 +220,8 @@ specifiers and their associated modulefile command.
 | module switch      | switch, switch-on, require, switch-off, |
 |                    | incompat                                |
 +--------------------+-----------------------------------------+
+| module use         | use                                     |
++--------------------+-----------------------------------------+
 
 +--------------------+-----------------------------------------+
 | Modulerc command   | Extra specifier(s)                      |
@@ -244,6 +248,12 @@ Switched-on module can be queried via ``switch``, ``switch-on`` and
 ``require`` specifiers. Switched-off module can be queried via ``switch``,
 ``switch-off`` and ``incompat`` specifiers. On its one-arg form, no
 switched-off module is added to relative specifiers.
+
+Change on the ``MODULEPATH`` environment variable either through
+``module use``, ``append-path`` or ``prepend-path`` may be queried with
+``use`` extra specifier. Modulepath are translated to their absolute path form
+to be recorded. Symbolic links are recorded as is (they are not translated
+into their target)
 
 Recording extra specifier specification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
