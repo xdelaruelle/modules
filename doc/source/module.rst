@@ -2908,17 +2908,20 @@ Supported extra specifier *elements* are:
 * ``conflict``, ``unload``, ``switch`` and ``switch-off``: these elements
   related to module incompatibility definition accept a module specification
   as value *name* and may be aliased ``incompat``
+* ``use``
 
 Each of the above supported *elements* corresponds to a Tcl modulefile
-command. ``load``, ``load-any``, ``try-load``, ``switch`` and ``unload`` match
-corresponding module sub-commands. ``prereq-any`` is an alias on ``prereq``
-and vice versa as both Tcl modulefile commands are the same. Following the
-same trend ``prereq-all`` is an alias on ``depends-on`` and vice versa.
-Regarding ``switch-off`` and ``switch-on`` elements they correspond
+command. ``load``, ``load-any``, ``try-load``, ``switch``, ``unload`` and
+``use`` match corresponding module sub-commands. ``prereq-any`` is an alias on
+``prereq`` and vice versa as both Tcl modulefile commands are the same.
+Following the same trend ``prereq-all`` is an alias on ``depends-on`` and vice
+versa. Regarding ``switch-off`` and ``switch-on`` elements they correspond
 respectively to the module to unload (if specified) and the module to load on
 a ``module switch`` command. ``switch`` is an alias that matches both
 ``switch-off`` and ``switch-on`` elements. ``require`` and ``incompat``
 *elements* do not match module commands where ``--not-req`` option is set.
+Setting the ``MODULEPATH`` environment variable with ``append-path`` or
+``prepend-path`` commands can be queried with ``use`` element.
 
 When several *names* are set on one *element* criterion (e.g.,
 ``env:PATH,LD_LIBRARY_PATH``), they act as an *OR* operation. Which means
@@ -2960,6 +2963,9 @@ if an unknown extra specifier *element* is defined in search query.
    .. versionchanged:: 5.5
       ``not:`` prefix for extra specifier criterion added to select modules
       not matching specified names
+
+   .. versionchanged:: 5.6
+      Extra specifier ``use`` added
 
 
 .. _Module tags:

@@ -6,6 +6,17 @@ Release notes
 This file describes changes in recent versions of Modules. It primarily
 documents those changes that are of interest to users and admins.
 
+.. _5.6 release notes:
+
+Modules 5.6.0 (not yet released)
+--------------------------------
+
+* Introduce ``use`` extra specifier to search for :envvar:`MODULEPATH` changes
+  performed with :mfcmd:`module use<module>`, :mfcmd:`append-path` or
+  :mfcmd:`prepend-path` modulefile commands on :subcmd:`avail`,
+  :subcmd:`whatis` and :subcmd:`paths` sub-commands.
+
+
 .. _5.5 release notes:
 
 Modules 5.5.0 (2024-11-11)
