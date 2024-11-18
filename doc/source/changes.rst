@@ -945,6 +945,12 @@ The following module sub-commands appeared on Modules 5.
  * ``not:`` prefix may be added to variant specification to get modules not
    providing variant or not matching specified variant values.
 
+ Starting Modules 5.6:
+
+ * ``use`` :ref:`extra specifier` is introduced.
+ * setting :envvar:`MODULEPATH` environment variable with :mfcmd:`append-path`
+   or :mfcmd:`prepend-path` may also be queried with ``use`` extra specifier.
+
 :subcmd:`reload`
 
  Starting Modules 5.4, support for :option:`--force` option is added on this
