@@ -148,6 +148,7 @@ complete -f -n '__fish_module_no_subcommand' -c module -a 'cachebuild' --descrip
 complete -f -n '__fish_module_no_subcommand' -c module -a 'cacheclear' --description 'Delete cache file in enabled modulepath(s)'
 
 complete -c module -s V -l version --description 'Module version'
+complete -c module -l dumpname --description 'Module implementation name'
 complete -c module -s T -l trace --description 'Enable trace and debug messages'
 complete -c module -s D -l debug --description 'Enable debug messages'
 complete -c module -s v -l verbose --description 'Enable verbose messages'
