@@ -1300,13 +1300,13 @@ proc parseModuleSpecificationProcAdvVersSpec {mlspec nonamespec xtspec\
    # define extra specifier known list, to raise error if argument does not
    # match
    set xtelt_valid_list [list always-load append-path chdir complete conflict\
-      depends-on envvar family incompat load load-any prepend-path prereq\
-      prereq-all prereq-any pushenv remove-path require set-alias\
-      set-function setenv switch switch-on switch-off tag try-load uncomplete\
-      unload unset-alias unset-function unsetenv use variant]
-   set xtelt_modspec_list [list always-load conflict depends-on incompat load\
-      load-any prereq prereq-all prereq-any require switch switch-on\
-      switch-off try-load unload]
+      depends-on depends-on-any envvar family incompat load load-any\
+      prepend-path prereq prereq-all prereq-any pushenv remove-path require\
+      set-alias set-function setenv switch switch-on switch-off tag try-load\
+      uncomplete unload unset-alias unset-function unsetenv use variant]
+   set xtelt_modspec_list [list always-load conflict depends-on\
+      depends-on-any incompat load load-any prereq prereq-all prereq-any\
+      require switch switch-on switch-off try-load unload]
 
    set mlunload 0
    set nextmlunload 0
