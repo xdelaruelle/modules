@@ -134,7 +134,7 @@ proc prereq-sc {args} {
       optional opt_list args
 
    foreach modspec [parseModuleSpecification 0 0 0 0 {*}$args] {
-      recordScanModuleElt $modspec prereq prereq-any require
+      recordScanModuleElt $modspec prereq prereq-any depends-on-any require
    }
 }
 
@@ -310,8 +310,8 @@ proc getModMatchingExtraSpec {modpath pxtlist} {
          set one_crit_res [list]
          foreach name $namelist {
             if {$elt in {require incompat load unload prereq conflict\
-               prereq-all prereq-any depends-on always-load load-any try-load\
-               switch switch-on switch-off}} {
+               prereq-all prereq-any depends-on depends-on-any always-load\
+               load-any try-load switch switch-on switch-off}} {
                if {[dict exists $::g_scanModuleElt $modpath $elt]} {
                   foreach {modspec values} [dict get $::g_scanModuleElt\
                      $modpath $elt] {
