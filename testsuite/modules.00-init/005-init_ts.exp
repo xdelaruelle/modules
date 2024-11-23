@@ -749,7 +749,7 @@ proc err_extraspecifier {xtspec} {
         depends-on envvar family incompat load load-any prepend-path prereq\
         prereq-all prereq-any pushenv remove-path require set-alias\
         set-function setenv switch switch-on switch-off tag try-load\
-        uncomplete unload unset-alias unset-function unsetenv variant"
+        uncomplete unload unset-alias unset-function unsetenv use variant"
 }
 
 proc err_xtspec_notallowed {} {
