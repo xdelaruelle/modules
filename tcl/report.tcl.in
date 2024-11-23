@@ -656,6 +656,10 @@ proc reportVersion {} {
       (@MODULES_BUILD_DATE@)}
 }
 
+proc reportName {} {
+   report Modules
+}
+
 # disable error reporting (non-critical report only) unless debug enabled
 proc inhibitErrorReport {} {
    if {![isVerbosityLevel trace]} {
@@ -2135,6 +2139,7 @@ Switches:
 Options:
   -h | --help     This usage info
   -V | --version  Module version
+  --dumpname      Module implementation name
   -D | --debug    Enable debug messages
   -T | --trace    Enable trace messages
   -v | --verbose  Enable verbose messages
