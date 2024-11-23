@@ -645,6 +645,7 @@ if {[catch {
    # made during argument parse to wait for potential paging to be setup
    set show_help 0
    set show_version 0
+   set show_name 0
    setState cmdline "$argv0 $argv"
 
    # Load extension library if enabled
@@ -725,6 +726,9 @@ if {[catch {
             }
             -V - --version {
                set show_version 1
+            }
+            --dumpname {
+               set show_name 1
             }
             --paginate {
                set asked_paginate 1
@@ -936,6 +940,10 @@ if {[catch {
    }
    if {$show_version} {
       reportVersion
+      flushAndExit
+   }
+   if {$show_name} {
+      reportName
       flushAndExit
    }
 
