@@ -277,6 +277,16 @@ switches are accepted:
 
     .. versionadded:: 4.0
 
+.. option:: --dumpname
+
+ Report the name of the current implementation of the :command:`module`
+ command. This option returns ``Modules`` for this implementation. The command
+ then terminates without further processing.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. option:: --force, -f
 
  On :subcmd:`load`, :subcmd:`unload`, :subcmd:`switch`, :subcmd:`load-any`,
