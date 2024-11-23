@@ -127,6 +127,7 @@ _module() {
       '(-s --silent)'{-s,--silent}'[Turn off error, warning and informational messages]' \
       '(-h --help)'{-h,--help}'[Usage info]' \
       '(-V --version)'{-V,--version}'[Module version]' \
+      '--dumpname[Module implementation name]' \
       '(-w --width=)'{-w,--width=}'[Set output width]' \
       '--paginate[Pipe mesg output into a pager if stream attached to terminal]' \
       '--no-pager[Do not pipe message output into a pager]' \
@@ -209,7 +210,8 @@ _module() {
          )
          # show commands only with compatible options
          if (( !$+opt_args[-h] && !$+opt_args[--help] \
-            && !$+opt_args[-V] && !$+opt_args[--version] )); then
+            && !$+opt_args[-V] && !$+opt_args[--version] \
+            && !$+opt_args[--dumpname] )); then
             _describe -t cmds 'Module Sub-Commands' cmds && ret=0
          fi
          ;;
