@@ -45,6 +45,9 @@ testouterr_cmd_re "sh" "-h" "" "$pos_ans"
 # no command means help
 testouterr_cmd_re "sh" "" "OK" "$pos_ans"
 
+# dump implementation name
+testouterr_cmd sh --dumpname OK Modules
+
 # invalid option leads to error code
 testouterr_cmd "ALL" "--foobar display loc_fq/2.0" "ERR" "$bad_longarg\n$err_typehelp"
 testouterr_cmd "ALL" "-z display loc_fq/2.0" "ERR" "$bad_shortarg\n$err_typehelp"
