@@ -251,5 +251,59 @@ if {[info exists env(TESTSUITE_EXTRA)]} {
         tag5 {
             variant xtfoo val1 val2 val3
         }
+        use1 {
+            module use /path/to/dir1
+        }
+        use2 {
+            module use {}
+        }
+        use3 {
+            module use /path/to/dir1 /path/to/dir2
+        }
+        use_opt1 {
+            module use -a /path/to/dir1 /path/to/dir2
+        }
+        use_opt2 {
+            module use /path/to/dir1 --append /path/to/dir2
+        }
+        use_opt3 {
+            module use --other /path/to/dir1 /path/to/dir2
+        }
+        use_append1 {
+            append-path MODULEPATH /path/to/dir1
+        }
+        use_append2 {
+            append-path OTHERPATH /path/to/dir1
+        }
+        use_append3 {
+            append-path MODULEPATH /path/to/dir1 /path/to/dir2
+        }
+        use_append_opt1 {
+            append-path -d : MODULEPATH /path/to/dir1 /path/to/dir2
+        }
+        use_append_opt2 {
+            append-path MODULEPATH /path/to/dir1 --duplicates /path/to/dir2
+        }
+        use_append_opt3 {
+            append-path --other MODULEPATH /path/to/dir1 /path/to/dir2
+        }
+        use_prepend1 {
+            prepend-path MODULEPATH /path/to/dir1
+        }
+        use_prepend2 {
+            prepend-path OTHERPATH /path/to/dir1
+        }
+        use_prepend3 {
+            prepend-path MODULEPATH /path/to/dir1 /path/to/dir2
+        }
+        use_prepend_opt1 {
+            prepend-path -d : MODULEPATH /path/to/dir1 /path/to/dir2
+        }
+        use_prepend_opt2 {
+            prepend-path MODULEPATH /path/to/dir1 --duplicates /path/to/dir2
+        }
+        use_prepend_opt3 {
+            prepend-path --other MODULEPATH /path/to/dir1 /path/to/dir2
+        }
     }
 }
