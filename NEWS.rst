@@ -43,6 +43,9 @@ Modules 5.6.0 (not yet released)
   performed with :mfcmd:`module use<module>`, :mfcmd:`append-path` or
   :mfcmd:`prepend-path` modulefile commands on :subcmd:`avail`,
   :subcmd:`whatis` and :subcmd:`paths` sub-commands.
+* Add :option:`--dumpname` option to report name of current Environment
+  Modules implementation. Here it returns ``Modules``. This option is also
+  available on Lmod starting version 8.7.50.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
