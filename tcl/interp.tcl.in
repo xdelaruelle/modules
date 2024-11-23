@@ -100,7 +100,7 @@ proc initModfileModeAliases {mode auto aliasesVN aliasesPassArgVN\
       # the evaluation mode
       set ::g_modfileEvalModes {load unload display help test whatis refresh\
          scan}
-      ##nagelfar ignore #44 Too long line
+      ##nagelfar ignore #45 Too long line
       array set g_modfilePerModeAliases {
 add-property   {nop            nop            nop            nop            nop            nop            nop          nop         }
 always-load    {always-load    nop            reportCmd      nop            nop            nop            nop          always-load-sc}
@@ -109,6 +109,7 @@ chdir          {chdir          nop            reportCmd      nop            nop 
 complete       {complete       complete-un    reportCmd      nop            nop            nop            complete     complete-sc }
 conflict       {conflict       nop            reportCmd      nop            nop            nop            nop          conflict-sc }
 depends-on     {prereqAllModfileCmd  nop      reportCmd      nop            nop            nop            nop          prereq-all-sc}
+depends-on-any {prereqAnyModfileCmd  nop      reportCmd      nop            nop            nop            nop          prereq-sc   }
 extensions     {nop            nop            nop            nop            nop            nop            nop          nop         }
 family         {family         family-un      reportCmd      nop            nop            nop            nop          family-sc   }
 hide-modulefile {hide-modulefile hide-modulefile hide-modulefile hide-modulefile hide-modulefile hide-modulefile nop   nop         }
@@ -173,7 +174,7 @@ x-resource     {x-resource     x-resource     reportCmd      nop            nop 
          set aliasesPassArg($alias) [list $alias]
       # prereq commands need auto_handling state as first arg
       } elseif {$mode eq {load} && $alias in {prereq prereq-any prereq-all\
-         depends-on}} {
+         depends-on depends-on-any}} {
          set aliasesPassArg($alias) [list 0 $auto]
       # associate a trace command if per-mode alias command is not reportCmd
       # in display mode (except for source-sh and unique-name-conflict)
