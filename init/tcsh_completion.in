@@ -108,6 +108,7 @@ complete module 'C,/*,f,' 'C,.*,f,' 'C,~/*,f,' \
         'n/--help/n/' \
         'n/-V/n/' \
         'n/--version/n/' \
+        'n/--dumpname/n/' \
         'C/sw*/(switch)/' \
         "p/1/(@comp_cmds@ @comp_opts@)/" \
         "n/-*/(@comp_cmds@)/"
