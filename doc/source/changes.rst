@@ -952,6 +952,7 @@ The following module sub-commands appeared on Modules 5.
  * ``use`` :ref:`extra specifier` is introduced.
  * setting :envvar:`MODULEPATH` environment variable with :mfcmd:`append-path`
    or :mfcmd:`prepend-path` may also be queried with ``use`` extra specifier.
+ * ``depends-on-any`` :ref:`extra specifier` is introduced.
 
 :subcmd:`reload`
 
@@ -1026,6 +1027,8 @@ The following modulefile Tcl commands appeared on Modules 5.
 +------------+-----------------------------------------------------------------+
 | 5.5        | :mfcmd:`hide-modulefile`, :mfcmd:`hide-version`,                |
 |            | :mfcmd:`lsb-release`                                            |
++------------+-----------------------------------------------------------------+
+| 5.6        | :mfcmd:`depends-on-any`                                         |
 +------------+-----------------------------------------------------------------+
 
 :mfcmd:`system`, :mfcmd:`is-used`

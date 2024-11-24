@@ -46,6 +46,11 @@ Modules 5.6.0 (not yet released)
 * Add :option:`--dumpname` option to report name of current Environment
   Modules implementation. Here it returns ``Modules``. This option is also
   available on Lmod starting version 8.7.50.
+* Add the :mfcmd:`depends-on-any` modulefile command, alias over the
+  :mfcmd:`prereq` command for compatibility with Lmod Tcl modulefiles.
+* Add ``depends-on-any`` extra specifier to query modulefile requirement
+  definitions. The extra specifier aliases ``prereq``, ``prereq-any`` or
+  ``require`` may also be used to query this modulefile command.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
