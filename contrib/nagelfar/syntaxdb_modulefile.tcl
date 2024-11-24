@@ -31,6 +31,7 @@ chdir
 complete
 conflict
 depends-on
+depends-on-any
 family
 getenv
 getvariant
@@ -87,6 +88,7 @@ set ::syntax(chdir) 1
 set ::syntax(complete) 3
 set ::syntax(conflict) {x x*}
 set ::syntax(depends-on) {o* x x*}
+set ::syntax(depends-on-any) {o* x x*}
 set ::syntax(family) 1
 set ::syntax(getenv) {o? x x?}
 set ::syntax(getvariant) {o? x x?}
@@ -239,6 +241,8 @@ set {::option(append-path -d)} 1
 set {::option(append-path --delim)} 1
 set ::option(depends-on) {--optional --tag}
 set {::option(depends-on --tag)} 1
+set ::option(depends-on-any) {--optional --tag}
+set {::option(depends-on-any --tag)} 1
 set ::option(getenv) --return-value
 set ::option(getvariant) --return-value
 set {::option(module add)} {--tag --not-req}
