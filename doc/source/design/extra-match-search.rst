@@ -199,11 +199,15 @@ specifiers and their associated modulefile command.
 +--------------------+-----------------------------------------+
 | prereq             | prereq, prereq-any, require             |
 +--------------------+-----------------------------------------+
-| prereq-any         | prereq-any, prereq, require             |
+| prereq-any         | prereq-any, depends-on-any, prereq,     |
+|                    | require                                 |
 +--------------------+-----------------------------------------+
 | prereq-all         | prereq-all, depends-on, require         |
 +--------------------+-----------------------------------------+
 | depends-on         | depends-on, prereq-all, require         |
++--------------------+-----------------------------------------+
+| depends-on-any     | depends-on-any, prereq-any, prereq,     |
+|                    | require                                 |
 +--------------------+-----------------------------------------+
 | always-load        | always-load, require                    |
 +--------------------+-----------------------------------------+

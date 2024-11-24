@@ -2911,10 +2911,11 @@ Supported extra specifier *elements* are:
 * ``setenv``, ``unsetenv``, ``append-path``, ``prepend-path``, ``remove-path``
   and ``pushenv``: these elements related to environment variable handling may
   also be aliased ``envvar``
-* ``prereq``, ``prereq-any``, ``prereq-all``, ``depends-on``, ``always-load``,
-  ``load``, ``load-any``, ``try-load``, ``switch`` and ``switch-on``: these
-  elements related to module requirement definition accept a module
-  specification as value *name* and may be aliased ``require``
+* ``prereq``, ``prereq-any``, ``prereq-all``, ``depends-on``,
+  ``depends-on-any``, ``always-load``, ``load``, ``load-any``, ``try-load``,
+  ``switch`` and ``switch-on``: these elements related to module requirement
+  definition accept a module specification as value *name* and may be aliased
+  ``require``
 * ``conflict``, ``unload``, ``switch`` and ``switch-off``: these elements
   related to module incompatibility definition accept a module specification
   as value *name* and may be aliased ``incompat``
@@ -2923,15 +2924,16 @@ Supported extra specifier *elements* are:
 Each of the above supported *elements* corresponds to a Tcl modulefile
 command. ``load``, ``load-any``, ``try-load``, ``switch``, ``unload`` and
 ``use`` match corresponding module sub-commands. ``prereq-any`` is an alias on
-``prereq`` and vice versa as both Tcl modulefile commands are the same.
-Following the same trend ``prereq-all`` is an alias on ``depends-on`` and vice
-versa. Regarding ``switch-off`` and ``switch-on`` elements they correspond
-respectively to the module to unload (if specified) and the module to load on
-a ``module switch`` command. ``switch`` is an alias that matches both
-``switch-off`` and ``switch-on`` elements. ``require`` and ``incompat``
-*elements* do not match module commands where ``--not-req`` option is set.
-Setting the ``MODULEPATH`` environment variable with ``append-path`` or
-``prepend-path`` commands can be queried with ``use`` element.
+``prereq``, ``depends-on-any`` and vice versa as both Tcl modulefile commands
+are the same. Following the same trend ``prereq-all`` is an alias on
+``depends-on`` and vice versa. Regarding ``switch-off`` and ``switch-on``
+elements they correspond respectively to the module to unload (if specified)
+and the module to load on a ``module switch`` command. ``switch`` is an alias
+that matches both ``switch-off`` and ``switch-on`` elements. ``require`` and
+``incompat`` *elements* do not match module commands where ``--not-req``
+option is set. Setting the ``MODULEPATH`` environment variable with
+``append-path`` or ``prepend-path`` commands can be queried with ``use``
+element.
 
 When several *names* are set on one *element* criterion (e.g.,
 ``env:PATH,LD_LIBRARY_PATH``), they act as an *OR* operation. Which means
@@ -2975,7 +2977,7 @@ if an unknown extra specifier *element* is defined in search query.
       not matching specified names
 
    .. versionchanged:: 5.6
-      Extra specifier ``use`` added
+      Extra specifiers ``use`` and ``depends-on-any`` added
 
 
 .. _Module tags:
@@ -3018,10 +3020,10 @@ meaning:
 The :option:`--tag` option helps to apply additional tags to modules. It is
 available on :subcmd:`load`, :subcmd:`load-any`, :subcmd:`switch` and
 :subcmd:`try-load` sub-commands and on :mfcmd:`always-load`,
-:mfcmd:`depends-on`, :mfcmd:`module`, :mfcmd:`prereq`, :mfcmd:`prereq-all` and
-:mfcmd:`prereq-any` modulefile commands. In case the designated module is
-already loaded, the additional tags are added to the list of tags already
-applied to this module.
+:mfcmd:`depends-on`, :mfcmd:`depends-on-any`, :mfcmd:`module`,
+:mfcmd:`prereq`, :mfcmd:`prereq-all` and :mfcmd:`prereq-any` modulefile
+commands. In case the designated module is already loaded, the additional tags
+are added to the list of tags already applied to this module.
 
 Module tags are reported along the module they are associated to on
 :subcmd:`avail` and :subcmd:`list` sub-command results and also when module's
