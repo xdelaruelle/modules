@@ -242,6 +242,14 @@ the *modulefile* is being loaded.
     .. versionchanged:: 5.5
        Option ``--modulepath`` added
 
+.. mfcmd:: depends-on-any [options] modulefile...
+
+ Alias of :mfcmd:`prereq` command.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. mfcmd:: exit [N]
 
  This is not a modules specific command but another overloaded Tcl command
@@ -1956,13 +1964,14 @@ requirement. The latter means specified modulefiles should not be loaded for
 the modulefile that express the conflict to be loaded too.
 
 Pre-requirement could be expressed with :mfcmd:`prereq`, :mfcmd:`prereq-any`,
-:mfcmd:`prereq-all`, :mfcmd:`depends-on`, :mfcmd:`always-load`,
-:mfcmd:`module load<module>`, :mfcmd:`module switch<module>`,
-:mfcmd:`module try-load<module>` or :mfcmd:`module load-any<module>`
-modulefile commands. When the :mconfig:`auto_handling` configuration option is
-disabled, required modulefile should be manually loaded prior their dependent
-modulefile when expressed with the :mfcmd:`prereq`, :mfcmd:`prereq-any`,
-:mfcmd:`prereq-all` or :mfcmd:`depends-on` modulefile commands. For other
+:mfcmd:`prereq-all`, :mfcmd:`depends-on`, :mfcmd:`depends-on-any`,
+:mfcmd:`always-load`, :mfcmd:`module load<module>`,
+:mfcmd:`module switch<module>`, :mfcmd:`module try-load<module>` or
+:mfcmd:`module load-any<module>` modulefile commands. When the
+:mconfig:`auto_handling` configuration option is disabled, required modulefile
+should be manually loaded prior their dependent modulefile when expressed with
+the :mfcmd:`prereq`, :mfcmd:`prereq-any`, :mfcmd:`prereq-all`,
+:mfcmd:`depends-on` or :mfcmd:`depends-on-any` modulefile commands. For other
 commands or when :mconfig:`auto_handling` is enabled, pre-required modulefiles
 are automatically loaded.
 
@@ -2006,12 +2015,13 @@ with the :mfcmd:`module` command will attempt to load or unload the designated
 modulefile but it will not mark them as pre-requirement or conflict.
 
 Adding the ``--optional`` option on :mfcmd:`prereq`, :mfcmd:`prereq-any`,
-:mfcmd:`prereq-all`, :mfcmd:`depends-on` or :mfcmd:`always-load` modulefile
-commands declares the pre-requirement as optional. If an optional
-pre-requirement is not found loaded or cannot be automatically loaded, the
-dependency expressed is yet considered satisfied. When an optional requirement
-is loaded afterward, the dependent module will get automatically reloaded if
-the :mconfig:`auto_handling` configuration option is enabled.
+:mfcmd:`prereq-all`, :mfcmd:`depends-on`, :mfcmd:`depends-on-any` or
+:mfcmd:`always-load` modulefile commands declares the pre-requirement as
+optional. If an optional pre-requirement is not found loaded or cannot be
+automatically loaded, the dependency expressed is yet considered satisfied.
+When an optional requirement is loaded afterward, the dependent module will
+get automatically reloaded if the :mconfig:`auto_handling` configuration
+option is enabled.
 
 By adding the :option:`--force` option to the :command:`module` command when
 loading or unloading modulefile, the consistency checks are by-passed. This
@@ -2108,9 +2118,9 @@ on Modules whereas on Lmod it is equivalent to the :mfcmd:`prereq-all`
 command.
 
 If the :mconfig:`auto_handling` configuration option is disabled, the
-requirements defined with the :mfcmd:`depends-on` command are not
-automatically loaded and an error is raised if none of these requirements are
-found loaded.
+requirements defined with the :mfcmd:`depends-on` or :mfcmd:`depends-on-any`
+commands are not automatically loaded and an error is raised if none of these
+requirements are found loaded.
 
 If the :mconfig:`auto_handling` or :mconfig:`conflict_unload` configuration
 options are disabled, the conflicts defined with the :mfcmd:`family` command
