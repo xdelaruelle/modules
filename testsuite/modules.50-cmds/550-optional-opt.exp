@@ -30,8 +30,24 @@ set modfile $mp/$mod
 set modfilere $mpre/$mod
 
 
-# prereq / prereq-any (single requirement)
+# prereq / prereq-any / depends-on-any (single requirement)
 setenv_var TESTSUITE_OPTIONAL_OPT prereq1
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&$mod|foo/1.0]
+lappend ans [list set _LMFILES_ $mp/foo/1.0:$modfile]
+lappend ans [list set LOADEDMODULES foo/1.0:$mod]
+lappend ans [list set __MODULES_LMTAG foo/1.0&auto-loaded]
+set tserr [msg_top_load $mod {} foo/1.0 {}]
+testouterr_cmd sh "load --auto $mod" $ans $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&$mod|foo/1.0]
+lappend ans [list set _LMFILES_ $modfile]
+lappend ans [list set LOADEDMODULES $mod]
+testouterr_cmd sh "load --no-auto $mod" $ans {}
+
+setenv_var TESTSUITE_OPTIONAL_OPT depends-on-any1
 
 set ans [list]
 lappend ans [list set __MODULES_LMPREREQ $mod&$mod|foo/1.0]
@@ -96,8 +112,25 @@ testouterr_cmd sh "load --auto $mod" $ans $tserr
 testouterr_cmd sh "load --no-auto $mod" $ans $tserr
 
 
-# prereq / prereq-any (multiple requirements)
+# prereq / prereq-any / depends-on-any (multiple requirements)
 setenv_var TESTSUITE_OPTIONAL_OPT prereq2
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&$mod|foo/1.0|bar/1.0]
+lappend ans [list set _LMFILES_ $mp/foo/1.0:$modfile]
+lappend ans [list set LOADEDMODULES foo/1.0:$mod]
+lappend ans [list set __MODULES_LMEXTRATAG foo/1.0&foo]
+lappend ans [list set __MODULES_LMTAG foo/1.0&foo&auto-loaded]
+set tserr [msg_top_load $mod {} foo/1.0 {}]
+testouterr_cmd sh "load --auto $mod" $ans $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&$mod|foo/1.0|bar/1.0]
+lappend ans [list set _LMFILES_ $modfile]
+lappend ans [list set LOADEDMODULES $mod]
+testouterr_cmd sh "load --no-auto $mod" $ans {}
+
+setenv_var TESTSUITE_OPTIONAL_OPT depends-on-any2
 
 set ans [list]
 lappend ans [list set __MODULES_LMPREREQ $mod&$mod|foo/1.0|bar/1.0]
@@ -226,8 +259,25 @@ testouterr_cmd sh "load --auto $mod" $ans $tserr
 testouterr_cmd sh "load --no-auto $mod" $ans $tserr
 
 
-# prereq / prereq-any (multiple requirements, first has bad code)
+# prereq / prereq-any / depends-on-any (multiple requirements, first has bad code)
 setenv_var TESTSUITE_OPTIONAL_OPT prereq4
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&$mod|foo/1.0|bar/1.0]
+lappend ans [list set _LMFILES_ $mp/bar/1.0:$modfile]
+lappend ans [list set LOADEDMODULES bar/1.0:$mod]
+lappend ans [list set __MODULES_LMEXTRATAG bar/1.0&foo]
+lappend ans [list set __MODULES_LMTAG bar/1.0&foo&auto-loaded]
+set tserr [msg_top_load $mod {} bar/1.0 {}]
+testouterr_cmd sh "load --auto $mod" $ans $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&$mod|foo/1.0|bar/1.0]
+lappend ans [list set _LMFILES_ $modfile]
+lappend ans [list set LOADEDMODULES $mod]
+testouterr_cmd sh "load --no-auto $mod" $ans {}
+
+setenv_var TESTSUITE_OPTIONAL_OPT depends-on-any4
 
 set ans [list]
 lappend ans [list set __MODULES_LMPREREQ $mod&$mod|foo/1.0|bar/1.0]
@@ -356,8 +406,22 @@ testouterr_cmd sh "load --auto $mod" $ans $tserr
 testouterr_cmd sh "load --no-auto $mod" $ans $tserr
 
 
-# prereq / prereq-any (multiple requirements, first does not exist, second breaks, none loaded)
+# prereq / prereq-any / depends-on-any (multiple requirements, first does not exist, second breaks, none loaded)
 setenv_var TESTSUITE_OPTIONAL_OPT prereq6
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&$mod|unk/1.0|foo/1.0]
+lappend ans [list set _LMFILES_ $modfile]
+lappend ans [list set LOADEDMODULES $mod]
+testouterr_cmd sh "load --auto $mod" $ans {}
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&$mod|unk/1.0|foo/1.0]
+lappend ans [list set _LMFILES_ $modfile]
+lappend ans [list set LOADEDMODULES $mod]
+testouterr_cmd sh "load --no-auto $mod" $ans {}
+
+setenv_var TESTSUITE_OPTIONAL_OPT depends-on-any6
 
 set ans [list]
 lappend ans [list set __MODULES_LMPREREQ $mod&$mod|unk/1.0|foo/1.0]
@@ -438,6 +502,9 @@ lappend ans [list set __MODULES_LMTAG foo/1.0&foo]
 set tserr [msg_top_load {foo/1.0 <foo>} {} {} $mod]
 testouterr_cmd sh "load --auto foo/1.0" $ans $tserr
 
+setenv_var TESTSUITE_OPTIONAL_OPT depends-on-any2
+testouterr_cmd sh "load --auto foo/1.0" $ans $tserr
+
 setenv_var __MODULES_LMPREREQ $mod&$mod|foo/1.0&$mod|bar/1.0
 setenv_var TESTSUITE_OPTIONAL_OPT prereq-all2
 set ans [list]
@@ -475,6 +542,9 @@ lappend ans [list set LOADEDMODULES foo/1.0:bar/1.0:$mod]
 lappend ans [list set __MODULES_LMEXTRATAG foo/1.0&foo:bar/1.0&foo]
 lappend ans [list set __MODULES_LMTAG foo/1.0&foo:bar/1.0&foo]
 set tserr [msg_top_load {bar/1.0 <foo>} {} {} $mod]
+testouterr_cmd sh "load --auto bar/1.0" $ans $tserr
+
+setenv_var TESTSUITE_OPTIONAL_OPT depends-on-any2
 testouterr_cmd sh "load --auto bar/1.0" $ans $tserr
 
 setenv_var __MODULES_LMPREREQ $mod&$mod|foo/1.0&$mod|bar/1.0
@@ -520,6 +590,9 @@ lappend ans [list unset __MODULES_LMTAG]
 set tserr [msg_top_unload {foo/1.0 <foo>} {} {} $mod]
 testouterr_cmd sh "unload --auto foo/1.0" $ans $tserr
 
+setenv_var TESTSUITE_OPTIONAL_OPT depends-on-any2
+testouterr_cmd sh "unload --auto foo/1.0" $ans $tserr
+
 setenv_var __MODULES_LMPREREQ $mod&$mod|foo/1.0&$mod|bar/1.0
 unsetenv_var __MODULES_LMEXTRATAG
 unsetenv_var __MODULES_LMTAG
@@ -563,6 +636,9 @@ lappend ans [list set __MODULES_LMTAG bar/1.0&foo]
 set tserr [msg_top_unload {foo/1.0 <foo>} {} {} $mod]
 testouterr_cmd sh "unload --auto foo/1.0" $ans $tserr
 
+setenv_var TESTSUITE_OPTIONAL_OPT depends-on-any2
+testouterr_cmd sh "unload --auto foo/1.0" $ans $tserr
+
 setenv_var __MODULES_LMPREREQ $mod&$mod|foo/1.0&$mod|bar/1.0
 unsetenv_var __MODULES_LMEXTRATAG
 unsetenv_var __MODULES_LMTAG
@@ -600,6 +676,9 @@ setenv_var TESTSUITE_OPTIONAL_OPT prereq3
 set tserr [msg_unload {foo/1.0 <foo>} $err_evalabort]
 testouterr_cmd sh "unload --auto foo/1.0" ERR $tserr
 
+setenv_var TESTSUITE_OPTIONAL_OPT depends-on-any3
+testouterr_cmd sh "unload --auto foo/1.0" ERR $tserr
+
 setenv_var __MODULES_LMPREREQ $mod&$mod|foo/1.0&$mod|bar/1.0
 unsetenv_var __MODULES_LMEXTRATAG
 unsetenv_var __MODULES_LMTAG
@@ -625,6 +704,9 @@ setenv_var __MODULES_LMEXTRATAG foo/1.0&foo:bar/1.0&foo
 setenv_var __MODULES_LMTAG foo/1.0&foo:bar/1.0&foo
 setenv_var TESTSUITE_OPTIONAL_OPT prereq7
 set tserr [msg_load $mod $err_evalabort]\n\n[msg_unload {foo/1.0 <foo>} [err_depre $mod]]
+testouterr_cmd sh "unload --auto foo/1.0" ERR $tserr
+
+setenv_var TESTSUITE_OPTIONAL_OPT depends-on-any7
 testouterr_cmd sh "unload --auto foo/1.0" ERR $tserr
 
 setenv_var __MODULES_LMPREREQ $mod&$mod|foo/1.0&$mod|bar/1.0
