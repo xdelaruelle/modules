@@ -185,7 +185,7 @@ testouterr_cmd sh {lint -i lINt/1.2} ERR [msg_lint $mp/lint/1.2 {*}$lintmsg12]
 
 
 # full linting
-set lintmsgfoo10 [list "$warn_msgs line 19: Unknown command \"unk\""]
+set lintmsgfoo10 [list "$warn_msgs line 21: Unknown command \"unk\""]
 set lintmsgloadany10 "$warn_msgs line 8: Unknown command \"unk\""
 set lintmsglist10 [list "$warn_msgs line 8: Command \"module list\" should not be used in modulefile"\
 "$warn_msgs line 11: Command \"module list\" should not be used in modulefile"\

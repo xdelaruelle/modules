@@ -305,5 +305,8 @@ if {[info exists env(TESTSUITE_EXTRA)]} {
         use_prepend_opt3 {
             prepend-path --other MODULEPATH /path/to/dir1 /path/to/dir2
         }
+        depends-on-any1 {
+            depends-on-any xtfoo
+        }
     }
 }

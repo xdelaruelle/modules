@@ -1519,6 +1519,56 @@ set tserr [msg_top_load foo/1.0 {} $mod{foo=val1} {}]
 testouterr_cmd sh "load --auto foo/1.0" $ans $tserr
 
 
+# depends-on--any
+setenv_var TESTSUITE_TAG_OPT prtag14
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&foo/1.0]
+lappend ans [list set _LMFILES_ $mp/foo/1.0:$modfile]
+lappend ans [list set LOADEDMODULES foo/1.0:$mod]
+lappend ans [list set __MODULES_LMEXTRATAG foo/1.0&foo]
+lappend ans [list set __MODULES_LMTAG foo/1.0&foo&auto-loaded]
+set tserr [msg_top_load $mod {} foo/1.0 {}]
+testouterr_cmd sh "load --auto $mod" $ans $tserr
+
+set tserr [msg_load $mod [err_prereq foo/1.0]]
+testouterr_cmd sh "load --no-auto $mod" ERR $tserr
+
+# test tag update on already loaded module (depends-on-any)
+setenv_loaded_module [list foo/1.0] [list $mp/foo/1.0]
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&foo/1.0]
+lappend ans [list set _LMFILES_ $mp/foo/1.0:$modfile]
+lappend ans [list set LOADEDMODULES foo/1.0:$mod]
+lappend ans [list set __MODULES_LMEXTRATAG foo/1.0&foo]
+lappend ans [list set __MODULES_LMTAG foo/1.0&foo]
+testouterr_cmd sh "load --auto $mod" $ans {}
+testouterr_cmd sh "load --no-auto $mod" $ans {}
+
+setenv_path_var __MODULES_LMEXTRATAG foo/1.0&bar
+setenv_path_var __MODULES_LMTAG foo/1.0&bar
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&foo/1.0]
+lappend ans [list set _LMFILES_ $mp/foo/1.0:$modfile]
+lappend ans [list set LOADEDMODULES foo/1.0:$mod]
+lappend ans [list set __MODULES_LMEXTRATAG foo/1.0&bar&foo]
+lappend ans [list set __MODULES_LMTAG foo/1.0&bar&foo]
+testouterr_cmd sh "load --auto $mod" $ans {}
+testouterr_cmd sh "load --no-auto $mod" $ans {}
+
+setenv_path_var __MODULES_LMEXTRATAG foo/1.0&foo&bar
+setenv_path_var __MODULES_LMTAG foo/1.0&foo&bar
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ $mod&foo/1.0]
+lappend ans [list set _LMFILES_ $mp/foo/1.0:$modfile]
+lappend ans [list set LOADEDMODULES foo/1.0:$mod]
+testouterr_cmd sh "load --auto $mod" $ans {}
+testouterr_cmd sh "load --no-auto $mod" $ans {}
+
+unsetenv_path_var __MODULES_LMEXTRATAG
+unsetenv_path_var __MODULES_LMTAG
+unsetenv_loaded_module
+
+
 #
 #  Cleanup
 #

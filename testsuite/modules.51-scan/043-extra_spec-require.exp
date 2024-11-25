@@ -66,6 +66,7 @@ testouterr_cmd sh {avail -t extra prereq:xtfoo/1.0 prereq:xtfoo/2.0} OK $tserr
 testouterr_cmd sh {avail -t extra require:xtfoo/1.0} OK $tserr
 testouterr_cmd sh {avail -t extra require:xtfoo/1.0,xtbar/1.0} OK $tserr
 testouterr_cmd sh {avail -t extra prereq-any:xtfoo/1.0} OK $tserr
+testouterr_cmd sh {avail -t extra depends-on-any:xtfoo/1.0} OK $tserr
 
 setenv_var MODULES_EXTENDED_DEFAULT 1
 testouterr_cmd sh {avail -t extra prereq:xtfoo/3} OK $tserr
@@ -173,6 +174,7 @@ testouterr_cmd sh {avail -t extra prereq:xtfoo/1.0 prereq:variant/1.0 prereq:xtf
 testouterr_cmd sh {avail -t extra prereq:xtfoo/1.0 prereq:variant/1.0 prereq:xtunk/1.0} OK {}
 
 testouterr_cmd sh {avail -t extra prereq-any:variant/1.0} OK $tserr
+testouterr_cmd sh {avail -t extra depends-on-any:variant/1.0} OK $tserr
 
 
 setenv_var TESTSUITE_EXTRA prereq6
@@ -270,7 +272,25 @@ testouterr_cmd sh {avail -t extra prereq-any:xtfoo\ @1.0\ foo=val1} OK $tserr
 testouterr_cmd sh {avail -t extra prereq-any:xtbar} OK {}
 testouterr_cmd sh {avail -t extra prereq-any:xtfoo} OK $tserr
 testouterr_cmd sh {avail -t extra prereq:xtfoo/2.0} OK $tserr
+testouterr_cmd sh {avail -t extra depends-on-any:xtfoo/2.0} OK $tserr
 testouterr_cmd sh {avail -t extra require:xtfoo/1.5} OK $tserr
+testouterr_cmd sh {avail -t extra depends-on:xtfoo/1.5} OK {}
+
+
+#
+# depends-on-any
+#
+
+setenv_var TESTSUITE_EXTRA depends-on-any1
+
+testouterr_cmd sh {avail -t extra depends-on-any:xtfoo/1.0} OK $tserr
+testouterr_cmd sh {avail -t extra depends-on-any:xtfoo\ @1.0\ foo=val1} OK $tserr
+testouterr_cmd sh {avail -t extra depends-on-any:xtbar} OK {}
+testouterr_cmd sh {avail -t extra depends-on-any:xtfoo} OK $tserr
+testouterr_cmd sh {avail -t extra prereq:xtfoo/2.0} OK $tserr
+testouterr_cmd sh {avail -t extra prereq-any:xtfoo/2.0} OK $tserr
+testouterr_cmd sh {avail -t extra require:xtfoo/1.5} OK $tserr
+testouterr_cmd sh {avail -t extra depends-on:xtfoo/1.5} OK {}
 
 
 #

@@ -153,5 +153,8 @@ if {[info exists env(TESTSUITE_TAG_OPT)]} {
             variant foo val1 val2 val3
             variant --default val1 bar val1 val2 val3
         }
+        prtag14 {
+            depends-on-any --tag=foo foo/1.0
+        }
     }
 }
