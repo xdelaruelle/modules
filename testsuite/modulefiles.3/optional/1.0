@@ -79,5 +79,20 @@ if {[info exists env(TESTSUITE_OPTIONAL_OPT)]} {
         err2 {
             prereq --foo --optional foo/1.0
         }
+        depends-on-any1 {
+            depends-on-any --optional foo/1.0
+        }
+        depends-on-any2 - depends-on-any3 - depends-on-any4 {
+            depends-on-any --optional --tag=foo foo/1.0 bar/1.0
+        }
+        depends-on-any6 {
+            depends-on-any --optional unk/1.0 foo/1.0
+        }
+        depends-on-any7 {
+            depends-on-any --optional --tag=foo foo/1.0 bar/1.0
+            if {![is-loaded foo/1.0]} {
+                break
+            }
+        }
     }
 }
