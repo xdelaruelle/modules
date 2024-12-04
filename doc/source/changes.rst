@@ -964,6 +964,12 @@ The following module sub-commands appeared on Modules 5.
  Starting Modules 5.5, definition of :command:`mogui` shell alias or function
  is added on this sub-command.
 
+:subcmd:`lint`
+
+ Starting Modules 5.6, readable modulecache files are also linted when no
+ module specification is provided as argument or if :file:`.modulecache` file
+ is specifically linted.
+
 Environment
 """""""""""
 
