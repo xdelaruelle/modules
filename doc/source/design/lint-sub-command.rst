@@ -31,8 +31,8 @@ Configuration
   Nagelfar-specific syntax databases and plugins to lint modulefiles have to
   be installed.
 
-  * Specific syntax databases and plugins to lint modulefiles, modulerc and
-    global/user rc are not enabled if this option is disabled
+  * Specific syntax databases and plugins to lint modulefiles, modulerc,
+    modulecache and global/user rc are not enabled if this option is disabled
 
 * :instopt:`--nagelfardatadir` installation option defines where to install
   Nagelfar-specific files to lint modulefiles.
@@ -65,6 +65,7 @@ Sub-command acts similarly than :subcmd:`edit` sub-command:
 In case no argument is provided, it means to select everything:
 
 * Every global and user rc file
+* Every .modulecache in enabled modulepaths
 * Every .modulerc and .version files in enabled modulepaths
 * Every available modulefiles in enabled modulepaths
 * Include modules declared forbidden
@@ -79,6 +80,7 @@ Arguments could also be a file path:
   global rc file location
 * file is considered a modulerc if filename equals ``.version`` or
   ``.modulerc``
+* file is considered a modulecache if filename equals ``.modulecache``
 * otherwise file is considered a modulefile
 
 Processing is aborted as soon as one lint command execution fails
@@ -91,13 +93,13 @@ Nagelfar linting
 * It does not evaluate files sourced by designated files
 * If :instopt:`--enable-nagelfar-addons` is enabled (default) a specific
   syntax database and plugin is added to the Nagelfar command line to lint
-  specified file depending on its type (global/user rc, modulerc or
-  modulefile)
+  specified file depending on its type (global/user rc, modulerc, modulecache
+  or modulefile)
 
   * Modulefile command, their options and syntaxes are checked based on this
     file type
   * Since not the same command set can be used in global/user rc file, in
-    modulerc and modulefile
+    modulerc, modulecache and modulefile
 
 
 Report output
