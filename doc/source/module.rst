@@ -1794,18 +1794,21 @@ Module Sub-Commands
  module version (see `Advanced module version specifiers`_ section below).
 
  If no *modulefile* is specified, all the *modulefiles* and modulerc
- available in enabled modulepaths are analyzed as well as global and user rc
- files. Hidden modulefiles are also analyzed when :option:`--all`/:option:`-a`
- option is set.
+ available in enabled modulepaths are analyzed as well as global rc, user rc
+ and modulecache files . Hidden modulefiles are also analyzed when
+ :option:`--all`/:option:`-a` option is set.
 
  When :command:`nagelfar.tcl` is the selected linter command, a static Tcl
  syntax analysis is performed. In addition, syntax of modulefile commands are
- checked in these files based on their kind (global/user rc, modulerc or
- modulefile).
+ checked in these files based on their kind (global/user rc, modulerc,
+ modulecache or modulefile).
 
  .. only:: html
 
     .. versionadded:: 5.2
+
+    .. versionchanged:: 5.6
+       Also lint :file:`.modulecache` files
 
 .. subcmd:: list [-t|-l|-j] [-a] [-o LIST] [-S|-C] [pattern...]
 
