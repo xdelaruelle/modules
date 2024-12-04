@@ -2803,6 +2803,7 @@ proc cmdModuleLint {args} {
    set linter_mfile [getConf tcl_linter]
    set linter_mrc [getConf tcl_linter]
    set linter_gmrc [getConf tcl_linter]
+   set linter_mcache [getConf tcl_linter]
    # add module-specific syntax database in addition to regular Tcl one
    ##nagelfar ignore #11 Strange command
    @nagelfaraddons@if {$linter eq {nagelfar}} {
@@ -2815,6 +2816,9 @@ proc cmdModuleLint {args} {
    @nagelfaraddons@   lappend linter_gmrc -s _\
    @nagelfaraddons@      -s {@nagelfardatadir@/syntaxdb_modulefile.tcl}\
    @nagelfaraddons@      -plugin {@nagelfardatadir@/plugin_globalrc.tcl}
+   @nagelfaraddons@   lappend linter_mcache -s _\
+   @nagelfaraddons@      -s {@nagelfardatadir@/syntaxdb_modulecache.tcl}\
+   @nagelfaraddons@      -plugin {@nagelfardatadir@/plugin_modulecache.tcl}
    @nagelfaraddons@}
    set global_rclist [getGlobalRcFileList]
 
@@ -2828,6 +2832,11 @@ proc cmdModuleLint {args} {
 
       inhibitErrorReport
       foreach dir [getModulePathList exiterronundef] {
+         set cachefile [getModuleCacheFilename $dir]
+         if {[file readable $cachefile]} {
+            set tolint($cachefile) mcache
+         }
+
          # fetch all existing rc file current user has access to
          foreach {elt props} [findModules $dir * 0 0] {
             switch -- [lindex $props 0] {
@@ -2854,10 +2863,18 @@ proc cmdModuleLint {args} {
          if {$modfile ne {}} {
             if {$modfile in $global_rclist} {
                set mkind gmrc
-            } elseif {[file tail $modfile] in {.modulerc .version}} {
-               set mkind mrc
             } else {
-               set mkind mfile
+               switch -- [file tail $modfile] {
+                  .modulerc - .version {
+                     set mkind mrc
+                  }
+                  .modulecache {
+                     set mkind mcache
+                  }
+                  default {
+                     set mkind mfile
+                  }
+               }
             }
             set tolint($modfile) $mkind
          }

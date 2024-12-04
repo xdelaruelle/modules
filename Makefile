@@ -713,9 +713,11 @@ ifeq ($(vimaddons),y)
 endif
 ifeq ($(nagelfaraddons),y)
 	$(INSTALL_DIR) '$(DESTDIR)$(nagelfardatadir)'
+	$(INSTALL_DATA) share/nagelfar/plugin_modulecache.tcl  '$(DESTDIR)$(nagelfardatadir)/'
 	$(INSTALL_DATA) share/nagelfar/plugin_modulefile.tcl  '$(DESTDIR)$(nagelfardatadir)/'
 	$(INSTALL_DATA) share/nagelfar/plugin_modulerc.tcl  '$(DESTDIR)$(nagelfardatadir)/'
 	$(INSTALL_DATA) share/nagelfar/plugin_globalrc.tcl  '$(DESTDIR)$(nagelfardatadir)/'
+	$(INSTALL_DATA) share/nagelfar/syntaxdb_modulecache.tcl  '$(DESTDIR)$(nagelfardatadir)/'
 	$(INSTALL_DATA) share/nagelfar/syntaxdb_modulefile.tcl  '$(DESTDIR)$(nagelfardatadir)/'
 	$(INSTALL_DATA) share/nagelfar/syntaxdb_modulerc.tcl  '$(DESTDIR)$(nagelfardatadir)/'
 endif
@@ -756,9 +758,11 @@ ifeq ($(vimaddons),y)
 	-rmdir -p '$(DESTDIR)$(vimdatadir)'
 endif
 ifeq ($(nagelfaraddons),y)
+	rm -f '$(DESTDIR)$(nagelfardatadir)/plugin_modulecache.tcl'
 	rm -f '$(DESTDIR)$(nagelfardatadir)/plugin_modulefile.tcl'
 	rm -f '$(DESTDIR)$(nagelfardatadir)/plugin_modulerc.tcl'
 	rm -f '$(DESTDIR)$(nagelfardatadir)/plugin_globalrc.tcl'
+	rm -f '$(DESTDIR)$(nagelfardatadir)/syntaxdb_modulecache.tcl'
 	rm -f '$(DESTDIR)$(nagelfardatadir)/syntaxdb_modulefile.tcl'
 	rm -f '$(DESTDIR)$(nagelfardatadir)/syntaxdb_modulerc.tcl'
 	-rmdir -p '$(DESTDIR)$(nagelfardatadir)'
