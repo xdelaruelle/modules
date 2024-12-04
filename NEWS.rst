@@ -51,6 +51,9 @@ Modules 5.6.0 (not yet released)
 * Add ``depends-on-any`` extra specifier to query modulefile requirement
   definitions. The extra specifier aliases ``prereq``, ``prereq-any`` or
   ``require`` may also be used to query this modulefile command.
+* The :subcmd:`lint` sub-command now also lint any readable modulecache files
+  when no modulefile specification is passed as argument or if
+  :file:`.modulecache` file location is specifically passed as argument.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
