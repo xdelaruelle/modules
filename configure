@@ -419,40 +419,40 @@ Optional Packages:
                           specify content to report on avail sub-command
                           regular output. elements accepted in LIST are:
                           \`modulepath', \`alias', \`dirwsym', \`indesym',
-                          \`sym', \`tag', \`key', \`variant' and
+                          \`sym', \`tag', \`key', \`hidden', \`variant' and
                           \`variantifspec' (elements in LIST are separated by
                           \`:') [$availoutput]
   --with-avail-terse-output=LIST
                           specify content to report on avail sub-command
                           terse output. elements accepted in LIST are:
                           \`modulepath', \`alias', \`dirwsym', \`indesym',
-                          \`sym', \`tag', \`key', \`variant' and
+                          \`sym', \`tag', \`key', \`hidden', \`variant' and
                           \`variantifspec' (elements in LIST are separated by
                           \`:') [$availterseoutput]
   --with-list-output=LIST
                           specify content to report on list sub-command
                           regular output. elements accepted in LIST are:
                           \`header', \`idx', \`variant', \`alias', \`indesym',
-                          \`sym', \`tag' and \`key' (elements in LIST are
-                          separated by \`:') [$listoutput]
+                          \`sym', \`tag', \`hidden' and \`key' (elements in
+                          LIST are separated by \`:') [$listoutput]
   --with-list-terse-output=LIST
                           specify content to report on list sub-command terse
                           output. elements accepted in LIST are: \`header',
                           \`idx', \`variant', \`alias', \`indesym', \`sym',
-                          \`tag' and \`key' (elements in LIST are separated by
-                          \`:') [$listterseoutput]
+                          \`tag', \`hidden' and \`key' (elements in LIST are
+                          separated by \`:') [$listterseoutput]
   --with-spider-output=LIST
                           specify content to report on spider sub-command
                           regular output. elements accepted in LIST are:
                           \`modulepath', \`alias', \`dirwsym', \`indesym',
-                          \`sym', \`tag', \`key', \`variant' and
+                          \`sym', \`tag', \`key', \`hidden', \`variant' and
                           \`variantifspec' (elements in LIST are separated by
                           \`:') [$spideroutput]
   --with-spider-terse-output=LIST
                           specify content to report on spider sub-command
                           terse output. elements accepted in LIST are:
                           \`modulepath', \`alias', \`dirwsym', \`indesym',
-                          \`sym', \`tag', \`key', \`variant' and
+                          \`sym', \`tag', \`key', \`hidden', \`variant' and
                           \`variantifspec' (elements in LIST are separated by
                           \`:') [$spiderterseoutput]
   --with-variant-shortcut=SHORTCUTLIST
@@ -848,22 +848,22 @@ for arg in "$@"; do
       allowedval=" load ml mod-to-sh purge reload switch switch_unload try-load unload " ;
       check_and_get_package_value_list "abortonerror" "$arg" "$allowedval" "" ;;
    --with-avail-output=*|--without-avail-output)
-      allowedval=" modulepath alias dirwsym indesym sym tag key variant variantifspec " ;
+      allowedval=" modulepath alias dirwsym indesym sym tag key hidden variant variantifspec " ;
       check_and_get_package_value_list "availoutput" "$arg" "$allowedval" "" ;;
    --with-avail-terse-output=*|--without-avail-terse-output)
-      allowedval=" modulepath alias dirwsym indesym sym tag key variant variantifspec " ;
+      allowedval=" modulepath alias dirwsym indesym sym tag key hidden variant variantifspec " ;
       check_and_get_package_value_list "availterseoutput" "$arg" "$allowedval" "" ;;
    --with-list-output=*|--without-list-output)
-      allowedval=" header idx variant alias indesym sym tag key " ;
+      allowedval=" header idx variant alias indesym sym tag hidden key " ;
       check_and_get_package_value_list listoutput "$arg" "$allowedval" "" ;;
    --with-list-terse-output=*|--without-list-terse-output)
-      allowedval=" header idx variant alias indesym sym tag key " ;
+      allowedval=" header idx variant alias indesym sym tag hidden key " ;
       check_and_get_package_value_list "listterseoutput" "$arg" "$allowedval" "" ;;
    --with-spider-output=*|--without-spider-output)
-      allowedval=" modulepath alias dirwsym indesym sym tag key variant variantifspec " ;
+      allowedval=" modulepath alias dirwsym indesym sym tag key hidden variant variantifspec " ;
       check_and_get_package_value_list "spideroutput" "$arg" "$allowedval" "" ;;
    --with-spider-terse-output=*|--without-spider-terse-output)
-      allowedval=" modulepath alias dirwsym indesym sym tag key variant variantifspec " ;
+      allowedval=" modulepath alias dirwsym indesym sym tag key hidden variant variantifspec " ;
       check_and_get_package_value_list "spiderterseoutput" "$arg" "$allowedval" "" ;;
    --with-variant-shortcut=*|--without-variant-shortcut)
       variantshortcut=$(get_package_value "$arg" "") ;;
