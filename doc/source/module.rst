@@ -451,11 +451,11 @@ switches are accepted:
  does not matter.
 
  Accepted elements in *LIST* for :subcmd:`avail` sub-command are:
- *modulepath*, *alias*, *dirwsym*, *indesym*, *sym*, *tag*, *key*, *variant*
- and *variantifspec*.
+ *modulepath*, *alias*, *dirwsym*, *indesym*, *sym*, *tag*, *key*, *hidden*,
+ *variant* and *variantifspec*.
 
  Accepted elements in *LIST* for :subcmd:`list` sub-command are: *header*,
- *idx*, *variant*, *alias*, *indesym*, *sym*, *tag* and *key*.
+ *idx*, *variant*, *alias*, *indesym*, *sym*, *tag*, *hidden* and *key*.
 
  The order of the elements in *LIST* does not matter. Module names are the
  only content reported when *LIST* is set to an empty value.
@@ -484,6 +484,10 @@ switches are accepted:
 
     .. versionchanged:: 5.4
        Elements *alias* and *indesym* added for :subcmd:`list` sub-command
+
+    .. versionchanged:: 5.6
+       Element *hidden* added for :subcmd:`avail` and :subcmd:`list`
+       sub-commands
 
 .. option:: --paginate
 
@@ -4283,6 +4287,7 @@ ENVIRONMENT
 
  * ``alias``: module aliases.
  * ``dirwsym``: directories associated with symbolic versions.
+ * ``hidden``: show all hidden modules.
  * ``indesym``: symbolic versions reported independently from the module or
    directory they are attached to.
  * ``key``: legend appended at the end of the output to explain it.
@@ -4320,6 +4325,9 @@ ENVIRONMENT
     .. versionchanged:: 5.3.1
        Element ``indesym`` added
 
+    .. versionchanged:: 5.6
+       Element ``hidden`` added
+
 .. envvar:: MODULES_AVAIL_TERSE_OUTPUT
 
  A colon separated list of the elements to report in addition to module names
@@ -4342,6 +4350,9 @@ ENVIRONMENT
 
     .. versionchanged:: 5.3
        Elements ``variant`` and ``variantifspec`` added
+
+    .. versionchanged:: 5.6
+       Element ``hidden`` added
 
 .. envvar:: MODULES_CACHE_BUFFER_BYTES
 
@@ -4733,6 +4744,7 @@ ENVIRONMENT
  * ``alias``: module aliases targeting loaded modules.
  * ``header``: sentence to introduce the list of loaded modules or to state
    that no modules are loaded currently.
+ * ``hidden``: show hidden loaded modules.
  * ``idx``: index position of each loaded module.
  * ``indesym``: symbolic versions reported independently from the loaded
    module they are attached to.
@@ -4759,6 +4771,9 @@ ENVIRONMENT
     .. versionchanged:: 5.4
        Elements ``alias`` and ``indesym`` added
 
+    .. versionchanged:: 5.6
+       Element ``hidden`` added
+
 .. envvar:: MODULES_LIST_TERSE_OUTPUT
 
  A colon separated list of the elements to report in addition to module names
@@ -4784,6 +4799,9 @@ ENVIRONMENT
 
     .. versionchanged:: 5.4
        Elements ``alias`` and ``indesym`` added
+
+    .. versionchanged:: 5.6
+       Element ``hidden`` added
 
 .. envvar:: MODULES_LOGGED_EVENTS
 

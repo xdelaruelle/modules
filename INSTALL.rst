@@ -830,9 +830,9 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
  Specify the content to report on avail sub-command regular output in addition
  to the available module names. Elements accepted in LIST are: ``modulepath``,
- ``alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``, ``key``, ``variant``
- and ``variantifspec`` (elements in LIST are separated by ``:``). The order of
- the elements in LIST does not matter.
+ ``alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``, ``key``, ``hidden``,
+ ``variant`` and ``variantifspec`` (elements in LIST are separated by ``:``).
+ The order of the elements in LIST does not matter.
  (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec:key``)
 
  This installation option defines the default value of the
@@ -852,13 +852,16 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
     .. versionchanged:: 5.3.1
        Element ``indesym`` added
 
+    .. versionchanged:: 5.6
+       Element ``hidden`` added
+
 .. instopt:: --with-avail-terse-output=LIST
 
  Specify the content to report on avail sub-command terse output in addition
  addition to the available module names. Elements accepted in LIST are:
  ``modulepath``, ``alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``,
- ``key``, ``variant`` and ``variantifspec`` (elements in LIST are separated by
- ``:``). The order of the elements in LIST does not matter.
+ ``key``, ``hidden``, ``variant`` and ``variantifspec`` (elements in LIST are
+ separated by ``:``). The order of the elements in LIST does not matter.
  (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec``)
 
  This installation option defines the default value of the
@@ -877,6 +880,9 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
     .. versionchanged:: 5.3.1
        Element ``indesym`` added
+
+    .. versionchanged:: 5.6
+       Element ``hidden`` added
 
 .. instopt:: --with-bashcompletiondir=DIR
 
@@ -1038,9 +1044,9 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
  Specify the content to report on list sub-command regular output in addition
  to the loaded module names. Elements accepted in LIST are: ``header``,
- ``idx``, ``variant``, ``alias``, ``indesym``, ``sym``, ``tag`` and ``key``
- (elements in LIST are separated by ``:``). The order of the elements in LIST
- does not matter. (default=\ ``header:idx:variant:sym:tag:key``)
+ ``idx``, ``variant``, ``alias``, ``indesym``, ``sym``, ``tag``, ``hidden``
+ and ``key`` (elements in LIST are separated by ``:``). The order of the
+ elements in LIST does not matter. (default=\ ``header:idx:variant:sym:tag:key``)
 
  This installation option defines the default value of the
  :mconfig:`list_output` configuration option which could be changed after
@@ -1056,13 +1062,16 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
     .. versionchanged:: 5.4
        Elements ``alias`` and ``indesym`` added
 
+    .. versionchanged:: 5.6
+       Element ``hidden`` added
+
 .. instopt:: --with-list-terse-output=LIST
 
  Specify the content to report on list sub-command terse output in addition
  to the loaded module names. Elements accepted in LIST are: ``header``,
- ``idx``, ``variant``, ``alias``, ``indesym``, ``sym``, ``tag`` and ``key``
- (elements in LIST are separated by ``:``). The order of the elements in LIST
- does not matter. (default=\ ``header``)
+ ``idx``, ``variant``, ``alias``, ``indesym``, ``sym``, ``tag``, ``hidden``
+ and ``key`` (elements in LIST are separated by ``:``). The order of the
+ elements in LIST does not matter. (default=\ ``header``)
 
  This installation option defines the default value of the
  :mconfig:`list_terse_output` configuration option which could be changed
@@ -1077,6 +1086,9 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
     .. versionchanged:: 5.4
        Elements ``alias`` and ``indesym`` added
+
+    .. versionchanged:: 5.6
+       Element ``hidden`` added
 
 .. instopt:: --with-loadedmodules=MODLIST
 
