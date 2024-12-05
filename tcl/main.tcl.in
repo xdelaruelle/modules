@@ -221,7 +221,7 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
                # include hidden modules only on a limited set of command
                if {$cmd in [list avail aliases search whatis ml list lint\
                   savelist spider]} {
-                  setState hiding_threshold 2
+                  set ::asked_hiding_threshold 2
                } else {
                   lappend otherargs $arg
                }
@@ -233,7 +233,7 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
                   set addpath_pos append
                } elseif {$cmd in [list avail aliases search whatis ml list\
                   lint savelist spider]} {
-                  setState hiding_threshold 2
+                  set ::asked_hiding_threshold 2
                } else {
                   lappend otherargs $arg
                }
@@ -312,9 +312,10 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
 
          # check option value is coherent with current sub-command (remove
          # append/subtract operator at the start if any)
-         if {[isDiffBetweenList [split [expr {[string index $asked_output 0]\
-            in {+ -} ? [string range $asked_output 1 end] : $asked_output}]\
-            :] [lindex $::g_config_defs($outputconf) 4]]} {
+         set asked_output_list [split [expr {[string index $asked_output 0]\
+            in {+ -} ? [string range $asked_output 1 end] : $asked_output}] :]
+         if {[isDiffBetweenList $asked_output_list [lindex\
+            $::g_config_defs($outputconf) 4]]} {
             knerror "Invalid element in value list for '$output_arg' option\
                on $cmd sub-command\nAllowed elements are: [lindex\
                $::g_config_defs($outputconf) 4] (separated by ':')"
