@@ -31,7 +31,7 @@ array set g_state_defs [list\
    extra_siteconfig_loaded {0}\
    false_rendered {0}\
    force {0}\
-   hiding_threshold {0}\
+   hiding_threshold {0 initStateHidingThreshold}\
    inhibit_errreport {0}\
    inhibit_interp {0}\
    init_error_report {0}\
@@ -69,7 +69,7 @@ array set g_state_defs [list\
 # value, is configuration lockable to default value, value kind, valid value
 # list?, internal value representation?, proc to call to initialize option
 # value, valid value list kind
-##nagelfar ignore #78 Too long line
+##nagelfar ignore #79 Too long line
 array set g_config_defs [list\
    contact {MODULECONTACT root@localhost 0 s}\
    abort_on_error {MODULES_ABORT_ON_ERROR {@abortonerror@} 0 l {load ml\
@@ -78,10 +78,11 @@ array set g_config_defs [list\
    auto_handling {MODULES_AUTO_HANDLING @autohandling@ 0 b {0 1}}\
    avail_indepth {MODULES_AVAIL_INDEPTH @availindepth@ 0 b {0 1}}\
    avail_output {MODULES_AVAIL_OUTPUT {@availoutput@} 0 l {modulepath alias\
-      dirwsym indesym sym tag key variant variantifspec} {} {} eltlist}\
+      dirwsym indesym sym tag key hidden variant variantifspec} {} {}\
+      eltlist}\
    avail_terse_output {MODULES_AVAIL_TERSE_OUTPUT {@availterseoutput@} 0 l\
-      {modulepath alias dirwsym indesym sym tag key variant variantifspec} {}\
-      {} eltlist}\
+      {modulepath alias dirwsym indesym sym tag key hidden variant\
+      variantifspec} {} {} eltlist}\
    cache_buffer_bytes {MODULES_CACHE_BUFFER_BYTES 32768 0 i {4096 1000000} {}\
       {} intbe}\
    cache_expiry_secs {MODULES_CACHE_EXPIRY_SECS 0 0 i {0 31536000} {} {}\
@@ -105,9 +106,9 @@ array set g_config_defs [list\
    implicit_requirement {MODULES_IMPLICIT_REQUIREMENT @implicitrequirement@ 0\
       b {0 1}}\
    list_output {MODULES_LIST_OUTPUT {@listoutput@} 0 l {header idx variant\
-      alias indesym sym tag key} {} {} eltlist}\
+      alias indesym sym tag hidden key} {} {} eltlist}\
    list_terse_output {MODULES_LIST_TERSE_OUTPUT {@listterseoutput@} 0 l\
-      {header idx variant alias indesym sym tag key} {} {} eltlist}\
+      {header idx variant alias indesym sym tag hidden key} {} {} eltlist}\
    locked_configs {{} {@lockedconfigs@} 0 o}\
    logged_events {MODULES_LOGGED_EVENTS {@loggedevents@} 1 l {auto_eval\
       requested_eval requested_cmd} {} {} eltlist}\
@@ -132,10 +133,11 @@ array set g_config_defs [list\
       1}}\
    siteconfig {{} {@etcdir@/siteconfig.tcl} 0 s}\
    spider_output {MODULES_SPIDER_OUTPUT {@spideroutput@} 0 l {modulepath\
-      alias dirwsym indesym sym tag key variant variantifspec} {} {} eltlist}\
+      alias dirwsym indesym sym tag key hidden variant variantifspec} {} {}\
+      eltlist}\
    spider_terse_output {MODULES_SPIDER_TERSE_OUTPUT {@spiderterseoutput@} 0 l\
-      {modulepath alias dirwsym indesym sym tag key variant variantifspec} {}\
-      {} eltlist}\
+      {modulepath alias dirwsym indesym sym tag key hidden variant\
+      variantifspec} {} {} eltlist}\
    source_cache {MODULES_SOURCE_CACHE @sourcecache@ 0 b {0 1}}\
    sticky_purge {MODULES_STICKY_PURGE {@stickypurge@} 0 s {error warning\
       silent}}\
@@ -546,6 +548,19 @@ proc initStateShellType {} {
          return [getState shell]
       }
    }
+}
+
+proc initStateHidingThreshold {} {
+   # sets default fallback value
+   lassign $::g_state_defs(hiding_threshold) hiding_threshold
+
+   if {[isEltInReport hidden 0]} {
+      set hiding_threshold 2
+   } elseif {[info exists ::asked_hiding_threshold]} {
+      set hiding_threshold $::asked_hiding_threshold
+   }
+
+   return $hiding_threshold
 }
 
 # Get all groups of user running modulecmd.tcl process
