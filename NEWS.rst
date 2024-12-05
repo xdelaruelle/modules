@@ -54,6 +54,12 @@ Modules 5.6.0 (not yet released)
 * The :subcmd:`lint` sub-command now also lint any readable modulecache files
   when no modulefile specification is passed as argument or if
   :file:`.modulecache` file location is specifically passed as argument.
+* Add the ``hidden`` element in the allowed value list of the
+  :mconfig:`avail_output`, :mconfig:`avail_terse_output`,
+  :mconfig:`list_output`, :mconfig:`list_terse_output`,
+  :mconfig:`spider_output` and :mconfig:`spider_terse_output` configuration
+  options. When set, it is equivalent to use :option:`--all` option: hidden
+  modules are show.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
