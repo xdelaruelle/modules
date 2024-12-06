@@ -1138,6 +1138,7 @@ testouterr_cmd "sh" "avail" "OK" "$ts_sh\n\n$ts_key"
 # test JSON output over a global result
 testouterrjson_cmd sh {avail --json} OK $ts_sh_json
 testouterrjson_cmd sh {avail --all --json} OK $ts_sh_all_json
+testouterrjson_cmd sh {avail -o +hidden --json} OK $ts_sh_all_json
 
 if {[is_quick_mode]} {
     exec stty cols $term_cols
