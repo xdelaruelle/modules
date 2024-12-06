@@ -225,7 +225,7 @@ testerr_cmd_re sh {list -a --color=always} "$cur_loaded
 Key:
 [sgr 2]hidden-loaded[sgr 22]  "
 setenv_var MODULES_COLORS ""
-testerr_cmd_re sh {list -a --color=always} "$cur_loaded
+testerr_cmd_re sh {list -o +hidden --color=always} "$cur_loaded
  1\\) key/5.0 <H>  
 
 Key:

@@ -32,3 +32,7 @@ if {[info exists env(TESTSUITE_STASH)]} {
 if {[info exists env(TESTSUITE_RESET_NOW_FORBIDDEN)]} {
     module-forbid foo/0.2
 }
+
+if {[info exists env(TESTSUITE_AVAIL_OUTPUT_HIDDEN)]} {
+    module-hide foo/1.0
+}
