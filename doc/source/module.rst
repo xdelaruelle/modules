@@ -463,7 +463,8 @@ switches are accepted:
  *LIST* may be prefixed by ``+`` or ``-`` character to indicate respectively
  to append it to or subtract it from current configuration option value.
 
- See also :envvar:`MODULES_AVAIL_OUTPUT` and :envvar:`MODULES_LIST_OUTPUT`.
+ See also :envvar:`MODULES_AVAIL_OUTPUT`, :envvar:`MODULES_LIST_OUTPUT` and
+ :envvar:`MODULES_SPIDER_OUTPUT`.
 
  .. only:: html
 
@@ -5168,6 +5169,67 @@ ENVIRONMENT
  .. only:: html
 
     .. versionadded:: 5.4
+
+.. envvar:: MODULES_SPIDER_OUTPUT
+
+ A colon separated list of the elements to report in addition to module names
+ on :subcmd:`spider` sub-command regular output mode.
+
+ Accepted elements that can be set in value list are:
+
+ * ``alias``: module aliases.
+ * ``dirwsym``: directories associated with symbolic versions.
+ * ``hidden``: show all hidden modules.
+ * ``indesym``: symbolic versions reported independently from the module or
+   directory they are attached to.
+ * ``key``: legend appended at the end of the output to explain it.
+ * ``modulepath``: modulepath names set as header prior the list of available
+   modules found in them.
+ * ``sym``: symbolic versions associated with available modules.
+ * ``tag``: tags associated with available modules.
+ * ``variant``: variants and their possible values associated with available
+   modules.
+ * ``variantifspec``: like ``variant`` but only if a variant has been
+   specified in search query.
+
+ The order of the elements in the list does not matter. Module names are the
+ only content reported when *LIST* is set to an empty value.
+
+ In case the ``modulepath`` element is missing from value list, the available
+ modules from global/user rc and all enabled modulepaths are reported as a
+ single list.
+
+ When ``indesym`` element is set, ``dirwsym`` and ``sym`` elements are
+ disabled.
+
+ This environment variable value supersedes the default value set in the
+ :mconfig:`spider_output` configuration option. It can be defined with
+ the :subcmd:`config` sub-command. The :option:`--output`/:option:`-o` command
+ line switches override this environment variable.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
+.. envvar:: MODULES_SPIDER_TERSE_OUTPUT
+
+ A colon separated list of the elements to report in addition to module names
+ on :subcmd:`spider` sub-command terse output mode.
+
+ See :envvar:`MODULES_SPIDER_OUTPUT` to get the accepted elements that can be
+ set in value list.
+
+ The order of the elements in the list does not matter. Module names are the
+ only content reported when *LIST* is set to an empty value.
+
+ This environment variable value supersedes the default value set in the
+ :mconfig:`spider_terse_output` configuration option. It can be defined with
+ the :subcmd:`config` sub-command. The :option:`--output`/:option:`-o`
+ command line switches override this environment variable.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
 
 .. envvar:: MODULES_STICKY_PURGE
 
