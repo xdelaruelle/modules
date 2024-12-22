@@ -1269,6 +1269,40 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
     .. versionadded:: 4.3
 
+.. instopt:: --with-spider-output=LIST
+
+ Specify the content to report on spider sub-command regular output in
+ addition to the available module names. Elements accepted in LIST are:
+ ``modulepath``, ``alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``,
+ ``key``, ``hidden``, ``variant`` and ``variantifspec`` (elements in LIST are
+ separated by ``:``). The order of the elements in LIST does not matter.
+ (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec:key``)
+
+ This installation option defines the default value of the
+ :mconfig:`spider_output` configuration option which could be changed after
+ installation with the :subcmd:`config` sub-command.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
+.. instopt:: --with-spider-terse-output=LIST
+
+ Specify the content to report on spider sub-command terse output in addition
+ addition to the available module names. Elements accepted in LIST are:
+ ``modulepath``, ``alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``,
+ ``key``, ``hidden``, ``variant`` and ``variantifspec`` (elements in LIST are
+ separated by ``:``). The order of the elements in LIST does not matter.
+ (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec``)
+
+ This installation option defines the default value of the
+ :mconfig:`spider_terse_output` configuration option which could be changed
+ after installation with the :subcmd:`config` sub-command.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. instopt:: --with-sticky-purge=VALUE
 
  When unloading a sticky or super-sticky module during a module purge, raise
@@ -1592,6 +1626,14 @@ installation.
 +-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
 | :mconfig:`source_cache`           | ``0``                                        | :instopt:`--enable-source-cache`,            |              |           |
 |                                   |                                              | :envvar:`MODULES_SOURCE_CACHE`               |              |           |
++-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
+| :mconfig:`spider_output`          | modulepath:alias:dirwsym:sym:tag:\           | :instopt:`--with-spider-output`,             |              |           |
+|                                   | variantifspec:key                            | :envvar:`MODULES_SPIDER_OUTPUT`,             |              |           |
+|                                   |                                              | :option:`--output`                           |              |           |
++-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
+| :mconfig:`spider_terse_output`    | modulepath:alias:dirwsym:sym:tag:\           | :instopt:`--with-spider-terse-output`,       |              |           |
+|                                   | variantifspec                                | :envvar:`MODULES_SPIDER_TERSE_OUTPUT`,       |              |           |
+|                                   |                                              | :option:`--output`                           |              |           |
 +-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
 | :mconfig:`sticky_purge`           | ``error``                                    | :instopt:`--with-sticky-purge`,              |              |           |
 |                                   |                                              | :envvar:`MODULES_STICKY_PURGE`               |              |           |
