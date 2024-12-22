@@ -445,14 +445,14 @@ switches are accepted:
 .. option:: --output=LIST, -o LIST
 
  Define the content to report in addition to module names. This option is
- supported by :subcmd:`avail` and :subcmd:`list` sub-commands on their regular
- or terse output modes. Accepted values are a *LIST* of elements to report
- separated by colon character (``:``). The order of the elements in *LIST*
- does not matter.
+ supported by :subcmd:`avail`, :subcmd:`list` and :subcmd:`spider`
+ sub-commands on their regular or terse output modes. Accepted values are a
+ *LIST* of elements to report separated by colon character (``:``). The order
+ of the elements in *LIST* does not matter.
 
- Accepted elements in *LIST* for :subcmd:`avail` sub-command are:
- *modulepath*, *alias*, *dirwsym*, *indesym*, *sym*, *tag*, *key*, *hidden*,
- *variant* and *variantifspec*.
+ Accepted elements in *LIST* for :subcmd:`avail` and :subcmd:`spider`
+ sub-command are: *modulepath*, *alias*, *dirwsym*, *indesym*, *sym*, *tag*,
+ *key*, *hidden*, *variant* and *variantifspec*.
 
  Accepted elements in *LIST* for :subcmd:`list` sub-command are: *header*,
  *idx*, *variant*, *alias*, *indesym*, *sym*, *tag*, *hidden* and *key*.
@@ -487,8 +487,11 @@ switches are accepted:
        Elements *alias* and *indesym* added for :subcmd:`list` sub-command
 
     .. versionchanged:: 5.6
-       Element *hidden* added for :subcmd:`avail` and :subcmd:`list`
-       sub-commands
+       Sub-command :subcmd:`spider` supported
+
+    .. versionchanged:: 5.6
+       Element *hidden* added for :subcmd:`avail`, :subcmd:`list` and
+       :subcmd:`spider` sub-commands
 
 .. option:: --paginate
 
@@ -1456,6 +1459,40 @@ Module Sub-Commands
   .. only:: html
 
      .. versionadded:: 5.4
+
+ .. mconfig:: spider_output
+
+  Content to report in addition to module names on :subcmd:`spider`
+  sub-command regular output mode.
+
+  Default value is ``modulepath:alias:dirwsym:sym:tag:key``. It can be changed
+  at installation time with :instopt:`--with-spider-output` option. The
+  :envvar:`MODULES_SPIDER_OUTPUT` environment variable is defined by
+  :subcmd:`config` sub-command when changing this configuration option from
+  its default value. The :option:`--output`/:option:`-o` command line switches
+  change the value of this configuration option. See
+  :envvar:`MODULES_SPIDER_OUTPUT` description for details.
+
+  .. only:: html
+
+     .. versionadded:: 5.6
+
+ .. mconfig:: spider_terse_output
+
+  Content to report in addition to module names on :subcmd:`spider`
+  sub-command terse output mode.
+
+  Default value is ``modulepath:alias:dirwsym:sym:tag``. It can be changed at
+  installation time with :instopt:`--with-spider-terse-output` option. The
+  :envvar:`MODULES_SPIDER_TERSE_OUTPUT` environment variable is defined by
+  :subcmd:`config` sub-command when changing this configuration option from
+  its default value. The :option:`--output`/:option:`-o` command line switches
+  change the value of this configuration option. See
+  :envvar:`MODULES_SPIDER_TERSE_OUTPUT` description for details.
+
+  .. only:: html
+
+     .. versionadded:: 5.6
 
  .. mconfig:: sticky_purge
 
@@ -3181,8 +3218,9 @@ or defining a ``bar`` variant but without ``value1`` among available values.
 
 Module variants are reported along the module they are associated to on
 :subcmd:`list` sub-command results. They are also reported on :subcmd:`avail`
-sub-command if specified in search query or added to the element to report in
-sub-command output (see :option:`--output`/:option:`-o` option).
+and :subcmd:`spider` sub-command if specified in search query or added to the
+element to report in sub-command output (see :option:`--output`/:option:`-o`
+option).
 
 Variants are reported within curly braces next to module name, each variant
 definition separated from the others with a colon character (e.g.,
