@@ -1012,6 +1012,9 @@ The following environment variables appeared on Modules 5.
 |            | :envvar:`MODULES_CONFLICT_UNLOAD`,                              |
 |            | :envvar:`__MODULES_LMPREREQPATH`                                |
 +------------+-----------------------------------------------------------------+
+| 5.6        | :envvar:`MODULES_SPIDER_OUTPUT`,                                |
+|            | :envvar:`MODULES_SPIDER_TERSE_OUTPUT`                           |
++------------+-----------------------------------------------------------------+
 
 Modules Specific Tcl Commands
 """""""""""""""""""""""""""""
