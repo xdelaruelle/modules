@@ -844,6 +844,8 @@ The following command line switches appeared on Modules 5.
  ``+`` or ``-`` which means value should respectively be appended to or
  subtracted from current configuration option value.
 
+ Starting Modules 5.6, :subcmd:`spider` sub-command is supported.
+
 :option:`--force`
 
  Starting Modules 5.4, this command line switch by-passes *abort on error*
@@ -1193,6 +1195,8 @@ The following Modules configuration option has been introduced on Modules 5.
 +------------+-----------------------------------------------------------------+
 | 5.5        | :mconfig:`hide_auto_loaded`, :mconfig:`logger`,                 |
 |            | :mconfig:`logged_events`, :mconfig:`conflict_unload`            |
++------------+-----------------------------------------------------------------+
+| 5.6        | :mconfig:`spider_output`, :mconfig:`spider_terse_output`        |
 +------------+-----------------------------------------------------------------+
 
 :mconfig:`auto_handling`

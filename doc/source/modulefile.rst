@@ -1830,12 +1830,19 @@ When loading a *modulefile* or a virtual module targeted by a
 inherits the ``hidden-loaded`` tag. Hidden loaded modules are not reported
 among :subcmd:`list` sub-command results.
 
-If the :option:`--all` is set on :subcmd:`avail`, :subcmd:`aliases`,
+If the :option:`--all` option is set on :subcmd:`avail`, :subcmd:`aliases`,
 :subcmd:`whatis` or :subcmd:`search` sub-commands, hidden modules are taken
 into account in search. Hard-hidden modules are unaffected by this option.
 
-If the :option:`--all` is set on :subcmd:`list` sub-command, hidden loaded
-modules are included in result output.
+If the :option:`--all` option is set on :subcmd:`list` sub-command, hidden
+loaded modules are included in result output.
+
+A behavior equivalent to the use of the :option:`--all` option is obtained on
+:subcmd:`avail` and :subcmd:`list` sub-commands by adding the ``hidden``
+element to the output configuration option controlling regular or terse
+reporting of these sub-commands: :mconfig:`avail_output`,
+:mconfig:`avail_terse_output`, :mconfig:`list_output`,
+:mconfig:`list_terse_output`.
 
 Advanced module version specifiers
 ----------------------------------
