@@ -51,6 +51,20 @@ Modules 5.6.0 (not yet released)
 * Add ``depends-on-any`` extra specifier to query modulefile requirement
   definitions. The extra specifier aliases ``prereq``, ``prereq-any`` or
   ``require`` may also be used to query this modulefile command.
+* Introduce the :mconfig:`spider_output` and :mconfig:`spider_terse_output`
+  configuration options to define the content to report in addition to the
+  available module names respectively for :subcmd:`spider` sub-command regular
+  and terse output modes. Excepted value for these configuration options is a
+  colon separated list of elements to report. Default value is
+  ``modulepath:alias:dirwsym:sym:tag:variantifspec:key`` for
+  :mconfig:`spider_output` and
+  ``modulepath:alias:dirwsym:sym:tag:variantifspec`` for
+  :mconfig:`spider_terse_output`. These values can be changed at installation
+  time respectively with the :instopt:`--with-spider-output` and
+  :instopt:`--with-spider-terse-output` options. These values can then be
+  superseded by using the :subcmd:`config` sub-command which sets the
+  :envvar:`MODULES_SPIDER_OUTPUT` and :envvar:`MODULES_SPIDER_TERSE_OUTPUT`
+  environment variables.
 * The :subcmd:`lint` sub-command now also lint any readable modulecache files
   when no modulefile specification is passed as argument or if
   :file:`.modulecache` file location is specifically passed as argument.
