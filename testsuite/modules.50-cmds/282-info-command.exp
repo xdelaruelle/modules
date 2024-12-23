@@ -139,6 +139,15 @@ testouterr_cmd_re "sh" "help $module" "OK" "$modlin\n$header_help\n\nhelp\nhelp\
 # test test
 testouterr_cmd_re "sh" "test $module" "OK" "$modlin\n$header_test\n\ntest\ntest\nTest result: PASS\n$modlin"
 
+
+setenv_var MODULEPATH $modpath.4
+
+# test spider
+setenv_var TESTSUITE_INFO_COMMAND spider
+set tserr "spider\n$modpath.4:\ninfo/command\ninfo/commandexp"
+testouterr_cmd sh "spider -t $module" OK $tserr
+
+
 #
 #  Cleanup
 #
