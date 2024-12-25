@@ -319,6 +319,14 @@ The following command line switches appeared on Modules 4.
 |            | :option:`--width`, :option:`-w`                                 |
 +------------+-----------------------------------------------------------------+
 
+:option:`--long`, :option:`--terse`
+
+ Starting Modules 4.0, :subcmd:`savelist` sub-command is supported.
+
+:option:`--all`
+
+ Starting Modules 4.7, :subcmd:`list` sub-command is supported.
+
 
 Module Sub-Commands
 """""""""""""""""""
@@ -852,6 +860,32 @@ The following command line switches appeared on Modules 5.
  behavior. Modulefile is unloaded anyway when an evaluation error occurs if
  :option:`--force` option is used.
 
+:option:`--all`
+
+ Starting Modules 5.2, :subcmd:`lint` and :subcmd:`savelist` sub-commands are
+ supported.
+
+ Starting Modules 5.6, :subcmd:`spider` sub-command is supported.
+
+:option:`--contains`, :option:`--starts-with`
+
+ Starting Modules 5.1, :subcmd:`list` sub-command is supported.
+
+ Starting Modules 5.2, :subcmd:`savelist` sub-command is supported.
+
+ Starting Modules 5.6, :subcmd:`spider` sub-command is supported.
+
+:option:`--json`, :option:`--long`, :option:`--terse`
+
+ Starting Modules 5.2, :subcmd:`stashlist` sub-command is supported.
+
+ Starting Modules 5.6, :subcmd:`spider` sub-command is supported.
+
+:option:`--default`, :option:`--latest`, :option:`--indepth`,
+:option:`--no-indepth`
+
+ Starting Modules 5.6, :subcmd:`spider` sub-command is supported.
+
 Module Sub-Commands
 """""""""""""""""""
 
@@ -868,6 +902,8 @@ The following module sub-commands appeared on Modules 5.
 |            | :subcmd:`stashshow`, :subcmd:`stashclear`, :subcmd:`stashlist`  |
 +------------+-----------------------------------------------------------------+
 | 5.3        | :subcmd:`cachebuild`, :subcmd:`cacheclear`                      |
++------------+-----------------------------------------------------------------+
+| 5.6        | :subcmd:`spider`                                                |
 +------------+-----------------------------------------------------------------+
 
 :subcmd:`list`
