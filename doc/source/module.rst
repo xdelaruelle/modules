@@ -204,8 +204,8 @@ switches are accepted:
 
  Include hidden modules in search performed with :subcmd:`avail`,
  :subcmd:`aliases`, :subcmd:`list`, :subcmd:`lint`, :subcmd:`savelist`,
- :subcmd:`search` or :subcmd:`whatis` sub-commands. Hard-hidden modules are
- not affected by this option.
+ :subcmd:`search`, :subcmd:`spider` or :subcmd:`whatis` sub-commands.
+ Hard-hidden modules are not affected by this option.
 
  .. only:: html
 
@@ -216,6 +216,9 @@ switches are accepted:
 
     .. versionchanged:: 5.2
        Support for :subcmd:`lint` and :subcmd:`savelist` sub-commands added
+
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
 
 .. option:: --auto
 
@@ -237,9 +240,9 @@ switches are accepted:
 
 .. option:: --contains, -C
 
- On :subcmd:`avail`, :subcmd:`list` and :subcmd:`savelist` sub-commands,
- return modules or collections whose fully qualified name contains search
- query string.
+ On :subcmd:`avail`, :subcmd:`list`, :subcmd:`savelist` and :subcmd:`spider`
+ sub-commands, return modules or collections whose fully qualified name
+ contains search query string.
 
  .. only:: html
 
@@ -250,6 +253,9 @@ switches are accepted:
 
     .. versionchanged:: 5.2
        Support for :subcmd:`savelist` sub-command added
+
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
 
 .. option:: --debug, -D, -DD
 
@@ -266,16 +272,19 @@ switches are accepted:
 
 .. option:: --default, -d
 
- On :subcmd:`avail` sub-command, display only the default version of each
- module name. Default version is the explicitly set default version or also
- the implicit default version if the configuration option
- :mconfig:`implicit_default` is enabled (see :ref:`Locating Modulefiles`
- section in the :ref:`modulefile(5)` man page for further details on implicit
- default version).
+ On :subcmd:`avail` and :subcmd:`spider` sub-commands, display only the
+ default version of each module name. Default version is the explicitly set
+ default version or also the implicit default version if the configuration
+ option :mconfig:`implicit_default` is enabled (see :ref:`Locating
+ Modulefiles` section in the :ref:`modulefile(5)` man page for further details
+ on implicit default version).
 
  .. only:: html
 
     .. versionadded:: 4.0
+
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
 
 .. option:: --dumpname
 
@@ -373,38 +382,62 @@ switches are accepted:
 
 .. option:: --indepth
 
- On :subcmd:`avail` sub-command, include in search results the matching
- modulefiles and directories and recursively the modulefiles and directories
- contained in these matching directories.
+ On :subcmd:`avail` and :subcmd:`spider` sub-commands, include in search
+ results the matching modulefiles and directories and recursively the
+ modulefiles and directories contained in these matching directories.
 
  .. only:: html
 
     .. versionadded:: 4.3
 
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
+
 .. option:: --json, -j
 
  Display :subcmd:`avail`, :subcmd:`list`, :subcmd:`savelist`,
- :subcmd:`stashlist`, :subcmd:`whatis` and :subcmd:`search` output in JSON
- format.
+ :subcmd:`search`, :subcmd:`spider`, :subcmd:`stashlist` and :subcmd:`whatis`
+ output in JSON format.
 
  .. only:: html
 
     .. versionadded:: 4.5
 
+    .. versionchanged:: 5.2
+       Support for :subcmd:`stashlist` sub-command added
+
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
+
+
 .. option:: --latest, -L
 
- On :subcmd:`avail` sub-command, display only the highest numerically sorted
- version of each module name (see :ref:`Locating Modulefiles` section in the
- :ref:`modulefile(5)` man page).
+ On :subcmd:`avail` and :subcmd:`spider` sub-commands, display only the
+ highest numerically sorted version of each module name (see :ref:`Locating
+ Modulefiles` section in the :ref:`modulefile(5)` man page).
 
  .. only:: html
 
     .. versionadded:: 4.0
 
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
+
 .. option:: --long, -l
 
- Display :subcmd:`avail`, :subcmd:`list`, :subcmd:`savelist` and
- :subcmd:`stashlist` output in long format.
+ Display :subcmd:`avail`, :subcmd:`list`, :subcmd:`savelist`, :subcmd:`spider`
+ and :subcmd:`stashlist` output in long format.
+
+ .. only:: html
+
+    .. versionchanged:: 4.0
+       Support for :subcmd:`savelist` sub-command added
+
+    .. versionchanged:: 5.2
+       Support for :subcmd:`stashlist` sub-command added
+
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
 
 .. option:: --no-auto
 
@@ -417,14 +450,17 @@ switches are accepted:
 
 .. option:: --no-indepth
 
- On :subcmd:`avail` sub-command, limit search results to the matching
- modulefiles and directories found at the depth level expressed by the search
- query. Thus modulefiles contained in directories part of the result are
- excluded.
+ On :subcmd:`avail` and :subcmd:`spider` sub-commands, limit search results to
+ the matching modulefiles and directories found at the depth level expressed
+ by the search query. Thus modulefiles contained in directories part of the
+ result are excluded.
 
  .. only:: html
 
     .. versionadded:: 4.3
+
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
 
 .. option:: --no-pager
 
@@ -525,8 +561,9 @@ switches are accepted:
 
 .. option:: --starts-with, -S
 
- On :subcmd:`avail`, :subcmd:`list` and :subcmd:`savelist` sub-commands,
- return modules or collections whose name starts with search query string.
+ On :subcmd:`avail`, :subcmd:`list`, :subcmd:`savelist` and :subcmd:`spider`
+ sub-commands, return modules or collections whose name starts with search
+ query string.
 
  .. only:: html
 
@@ -537,6 +574,9 @@ switches are accepted:
 
     .. versionchanged:: 5.2
        Support for :subcmd:`savelist` sub-command added
+
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
 
 .. option:: --tag=LIST
 
@@ -554,8 +594,19 @@ switches are accepted:
 
 .. option:: --terse, -t
 
- Display :subcmd:`avail`, :subcmd:`list`, :subcmd:`savelist` and
- :subcmd:`stashlist` output in short format.
+ Display :subcmd:`avail`, :subcmd:`list`, :subcmd:`savelist`, :subcmd:`spider`
+ and :subcmd:`stashlist` output in short format.
+
+ .. only:: html
+
+    .. versionchanged:: 4.0
+       Support for :subcmd:`savelist` sub-command added
+
+    .. versionchanged:: 5.2
+       Support for :subcmd:`stashlist` sub-command added
+
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
 
 .. option:: --timer
 
@@ -2450,6 +2501,74 @@ Module Sub-Commands
     .. versionchanged:: 5.2
        Accept modulefile specification as argument
 
+.. subcmd:: spider [-d|-L] [-t|-l|-j] [-a] [-o LIST] [-S|-C] [--indepth|--no-indepth] [pattern...]
+
+ List all available *modulefiles* found in enabled modulepaths and recursively
+ found in modulepaths enabled by available *modulefiles*.
+
+ :subcmd:`spider` sub-command first performs an :ref:`extra match search` to
+ get all modulepaths to look at. These modulepaths are collected from the
+ directory arguments set to the :mfcmd:`module use<module>`,
+ :mfcmd:`append-path MODULEPATH<append-path>` or :mfcmd:`prepend-path
+ MODULEPATH<prepend-path>` modulefile commands. Collecting modulepaths is
+ first achieved in the modulepaths defined in :envvar:`MODULEPATH` then in
+ each modulepath collected from modulefiles, and so on. As collecting
+ modulepaths implies evaluating every available modulefiles, it is advised to
+ build and use :ref:`Module cache` to improve search speed.
+
+ Once modulepaths are gathered, :subcmd:`spider` proceeds and reports like
+ :subcmd:`avail` sub-command. The same set of options are supported.
+
+ If a *pattern* argument is given, then each collected modulepath is searched
+ for *modulefiles* whose pathname, symbolic version-name or alias
+ match *pattern* in a case insensitive manner by default. *pattern* may
+ contain wildcard characters.i
+
+ Symbolic version-names and aliases found in the search are displayed in the
+ result of this sub-command. Symbolic version-names are displayed next to
+ the *modulefile* they are assigned to within parenthesis. Aliases are listed
+ in the modulepath section where they have been defined. To distinguish
+ aliases from *modulefiles* a ``@`` symbol is added within parenthesis next to
+ their name. Aliases defined through a global or user specific module RC file
+ are listed under the **global/user modulerc** section.
+
+ When colored output is enabled and a specific graphical rendition is defined
+ for module *default* version, the ``default`` symbol is omitted and instead
+ the defined graphical rendition is applied to the relative modulefile. When
+ colored output is enabled and a specific graphical rendition is defined for
+ module alias, the ``@`` symbol is omitted. The defined graphical rendition
+ applies to the module alias name. See :envvar:`MODULES_COLOR` and
+ :envvar:`MODULES_COLORS` sections for details on colored output.
+
+ Module tags applying to the available *modulefiles* returned by the
+ :subcmd:`spider` sub-command are reported along the module name they are
+ associated to (see `Module tags`_ section).
+
+ Module variants and their available values may be reported along the module
+ name they belong to (see `Module variants`_ section) if defined in spider
+ output configuration option (see :option:`--output`/:option:`-o` option). The
+ :ref:`extra match search` process is triggered to collect variant
+ information.
+
+ A *Key* section is added at the end of the output in case some elements are
+ reported in parentheses or chevrons along module name or if some graphical
+ rendition is made over some output elements. This *Key* section gives hints
+ on the meaning of such elements.
+
+ The parameter *pattern* may also refer to a symbolic modulefile name or a
+ modulefile alias. It may also leverage a specific syntax to finely select
+ module version (see `Advanced module version specifiers`_ section below).
+
+ If *pattern* contains variant specification or :ref:`extra specifier`, the
+ :ref:`extra match search` process is triggered to collect command information
+ used in modulefiles. Modules are included in results only if they match
+ *pattern* variant specification and extra specifier. *pattern* may be a bare
+ variant specification or extra specifier without mention of a module name.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. subcmd:: stash [-f]
 
  :subcmd:`Save<save>` current environment in a stash collection then
@@ -3002,9 +3121,10 @@ resolved to their target either if set in extra specifier query or in
 modulefile definition.
 
 Extra specifier can only be set in a module search context (:subcmd:`avail`,
-:subcmd:`whatis` and :subcmd:`paths` sub-commands). An error is raised if used
-on a module specification query in another context. An error is also raised
-if an unknown extra specifier *element* is defined in search query.
+:subcmd:`spider`, :subcmd:`whatis` and :subcmd:`paths` sub-commands). An error
+is raised if used on a module specification query in another context. An error
+is also raised if an unknown extra specifier *element* is defined in search
+query.
 
 .. only:: html
 
@@ -3024,6 +3144,9 @@ if an unknown extra specifier *element* is defined in search query.
    .. versionchanged:: 5.6
       Extra specifiers ``use`` and ``depends-on-any`` added
 
+   .. versionchanged:: 5.6
+      Support for :subcmd:`spider` sub-command added
+
 
 .. _Module tags:
 
@@ -3042,7 +3165,7 @@ or consequence of a module action. The inherited tags are:
   :mfcmd:`module-forbid` command and thus this module cannot be loaded.
 * ``hidden``: module has been set *hidden* through the use of the
   :mfcmd:`module-hide` command and thus it is not reported by default among
-  the result of an :subcmd:`avail` sub-command.
+  the result of :subcmd:`avail` or :subcmd:`spider` sub-commands.
 * ``hidden-loaded``: module has been set *hidden once loaded* through the use
   of the :mfcmd:`module-hide --hidden-loaded<module-hide>` command thus it is
   not reported by default among the result of a :subcmd:`list` sub-command.
@@ -3071,9 +3194,9 @@ commands. In case the designated module is already loaded, the additional tags
 are added to the list of tags already applied to this module.
 
 Module tags are reported along the module they are associated to on
-:subcmd:`avail` and :subcmd:`list` sub-command results and also when module's
-loading, unloading, refreshing or tagging evaluation is mentioned. Tags could
-be reported either:
+:subcmd:`avail`, :subcmd:`list` and :subcmd:`spider` sub-command results and
+also when module's loading, unloading, refreshing or tagging evaluation is
+mentioned. Tags could be reported either:
 
 * along the module name, all tags set within angle brackets, each tag
   separated from the others with a colon character (e.g.,
@@ -3114,6 +3237,8 @@ Module tags cannot be used in search query to designate a modulefile.
    .. versionchanged:: 5.1
       Tag ``keep-loaded`` added
 
+   .. versionchanged:: 5.6
+      Support for :subcmd:`spider` sub-command added
 
 .. _Sticky modules:
 
@@ -3181,9 +3306,9 @@ requirements or produce different environment variable setup.
 Variants are interpreted in contexts where *modulefiles* are evaluated.
 Variants specified on module designation are ignored by the
 :subcmd:`is-avail` or :subcmd:`path` sub-commands. On search sub-commands
-(:subcmd:`avail`, :subcmd:`whatis` and :subcmd:`paths`), variants are
-interpreted and trigger the :ref:`extra match search` process to filter
-results.
+(:subcmd:`avail`, :subcmd:`spider`, :subcmd:`whatis` and :subcmd:`paths`),
+variants are interpreted and trigger the :ref:`extra match search` process to
+filter results.
 
 When modulefile is evaluated a value should be specified for each variant this
 modulefile declares. When reaching the :mfcmd:`variant` modulefile command
@@ -3218,7 +3343,7 @@ or defining a ``bar`` variant but without ``value1`` among available values.
 
 Module variants are reported along the module they are associated to on
 :subcmd:`list` sub-command results. They are also reported on :subcmd:`avail`
-and :subcmd:`spider` sub-command if specified in search query or added to the
+and :subcmd:`spider` sub-commands if specified in search query or added to the
 element to report in sub-command output (see :option:`--output`/:option:`-o`
 option).
 
@@ -3226,11 +3351,11 @@ Variants are reported within curly braces next to module name, each variant
 definition separated from the others with a colon character (e.g.,
 ``foo/1.2{variant1=value:+variant2}``). Boolean variants are reported with the
 ``+name`` or ``-name`` syntaxes on :subcmd:`list` sub-command or with the
-``name=on,off`` syntax on :subcmd:`avail` sub-command. When a shortcut
-character is defined for a variant (see :envvar:`MODULES_VARIANT_SHORTCUT`) it
-is reported with the ``<shortcut>value`` syntax. For instance if ``%``
-character is defined as a shortcut for *variant1*:
-``foo/1.2{%value:+variant2}``.
+``name=on,off`` syntax on :subcmd:`avail` and :subcmd:`spider` sub-commands.
+When a shortcut character is defined for a variant (see
+:envvar:`MODULES_VARIANT_SHORTCUT`) it is reported with the
+``<shortcut>value`` syntax. For instance if ``%`` character is defined as a
+shortcut for *variant1*: ``foo/1.2{%value:+variant2}``.
 
 When the JSON output mode is enabled (with :option:`--json`), variants are
 reported under the ``variants`` JSON object as name/value pairs. Values of
@@ -3253,6 +3378,9 @@ Variant shortcut and color rendering do not apply on JSON output.
       ``not:`` prefix for variant search criterion added to select modules not
       matching specified variant values
 
+   .. versionchanged:: 5.6
+      Variants specified in :subcmd:`spider` search query interpreted to
+      filter results
 
 .. _Extra match search:
 
@@ -3266,13 +3394,13 @@ version specified in search query, these remaining modulefiles are evaluated
 to collect their content.
 
 Extra match search is available on the following module search sub-commands:
-:subcmd:`avail`, :subcmd:`whatis` and :subcmd:`paths`.
+:subcmd:`avail`, :subcmd:`spider`, :subcmd:`whatis` and :subcmd:`paths`.
 
 Extra match search is triggered when:
 
 * :ref:`Module variants` and their available values have to be reported in
-  avail output (see :option:`--output`/:option:`-o` option): extra match
-  search is triggered to collect variant information
+  avail and spider outputs (see :option:`--output`/:option:`-o` option): extra
+  match search is triggered to collect variant information
 * Module variant is specified in search query: extra match search is triggered
   to collect variant information then match them against variant specified in
   query
@@ -3305,6 +3433,9 @@ to build and use :ref:`Module cache` to improve search speed.
 .. only:: html
 
    .. versionadded:: 5.3
+
+   .. versionchanged:: 5.6
+      Support for :subcmd:`spider` sub-command added
 
 
 .. _collections:
@@ -3752,8 +3883,8 @@ has to be run by someone who owns write access in modulepath directory to
 create cache file.
 
 Cache files are used any time a module search occurs in modulepaths. They are
-analyzed for instance during :subcmd:`avail`, :subcmd:`load`,
-:subcmd:`display` or :subcmd:`whatis` sub-commands.
+analyzed for instance during :subcmd:`avail`, :subcmd:`spider`,
+:subcmd:`load`, :subcmd:`display` or :subcmd:`whatis` sub-commands.
 
 Cache files are removed with :subcmd:`cacheclear` sub-command. This command
 has to be run by someone who own write access in modulepath directory to
@@ -4673,10 +4804,10 @@ ENVIRONMENT
  them. When :envvar:`MODULES_ICASE` is set to ``never``, a case sensitive
  match is applied in any cases. When set to ``search``, a case insensitive
  match is applied to the :subcmd:`avail`, :subcmd:`list`, :subcmd:`whatis`,
- :subcmd:`paths` and :subcmd:`savelist` sub-commands. When set to ``always``,
- a case insensitive match is also applied to the other module sub-commands
- and modulefile Tcl commands for the module specification they receive as
- argument.
+ :subcmd:`paths`, :subcmd:`savelist` and :subcmd:`spider` sub-commands. When
+ set to ``always``, a case insensitive match is also applied to the other
+ module sub-commands and modulefile Tcl commands for the module specification
+ they receive as argument.
 
  This environment variable value supersedes the default value set in the
  :mconfig:`icase` configuration option. It can be defined with the
@@ -4693,6 +4824,9 @@ ENVIRONMENT
 
     .. versionchanged:: 5.2
        Search mode applied to :subcmd:`savelist` sub-command
+
+    .. versionchanged:: 5.6
+       Search mode applied to :subcmd:`spider` sub-command
 
 .. envvar:: MODULES_IGNORE_CACHE
 
@@ -5095,11 +5229,13 @@ ENVIRONMENT
 
 .. envvar:: MODULES_SEARCH_MATCH
 
- When searching for modules with :subcmd:`avail` sub-command, defines the way
- query string should match against available module names. With
- ``starts_with`` value, returned modules are those whose name begins by search
- query string. When set to ``contains``, any modules whose fully qualified
- name contains search query string are returned.
+ When searching for modules with :subcmd:`avail`, :subcmd:`list`,
+ :subcmd:`spider` or collections with :subcmd:`savelist` sub-commands, defines
+ the way query string should match against available module/collection names.
+ With ``starts_with`` value, returned modules/collections are those whose
+ name begins by search query string. When set to ``contains``, any
+ modules/collections whose fully qualified name contains search query string
+ are returned.
 
  This environment variable value supersedes the default value set in the
  :mconfig:`search_match` configuration option. It can be defined with the
@@ -5110,6 +5246,15 @@ ENVIRONMENT
  .. only:: html
 
     .. versionadded:: 4.3
+
+    .. versionchanged:: 5.1
+       Support for :subcmd:`list` sub-command added
+
+    .. versionchanged:: 5.2
+       Support for :subcmd:`savelist` sub-command added
+
+    .. versionchanged:: 5.6
+       Support for :subcmd:`spider` sub-command added
 
 .. envvar:: MODULES_SET_SHELL_STARTUP
 

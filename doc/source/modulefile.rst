@@ -620,11 +620,12 @@ the *modulefile* is being loaded.
  by a :mfcmd:`module-hide --hard<module-hide>` command, this module is
  unveiled when precisely named to return an access error.
 
- Forbidden modules included in the result of an :subcmd:`avail` sub-command
- are reported with a ``forbidden`` tag applied to them. Nearly forbidden
- modules included in the result of an :subcmd:`avail` or a :subcmd:`list`
- sub-command are reported with a ``nearly-forbidden`` tag applied to them. See
- :ref:`Module tags` section in :ref:`module(1)`.
+ Forbidden modules included in the result of :subcmd:`avail` or
+ :subcmd:`spider` sub-commands are reported with a ``forbidden`` tag applied
+ to them. Nearly forbidden modules included in the result of :subcmd:`avail`,
+ :subcmd:`list` or :subcmd:`spider` sub-commands are reported with a
+ ``nearly-forbidden`` tag applied to them. See :ref:`Module tags` section in
+ :ref:`module(1)`.
 
  The parameter *modulefile* may leverage a specific syntax to finely select
  module version (see `Advanced module version specifiers`_ section below). It
@@ -702,14 +703,15 @@ the *modulefile* is being loaded.
  prevails over ``--not-group``.
 
  If the :option:`--all` option is set on :subcmd:`avail`, :subcmd:`aliases`,
- :subcmd:`whatis` or :subcmd:`search` sub-commands, hiding is disabled thus
- hidden modulefiles are included in module search. Hard-hidden modules (i.e.,
- declared hidden with ``--hard`` option) are not affected by :option:`--all`
- and stay hidden even if option is set. :option:`--all` option does not apply
- to *module selection* sub-commands like :subcmd:`load`. Thus in such context
- a hidden module should always be referred by its exact full name (e.g.,
- ``foo/1.2.3`` not ``foo``) unless if it has been hidden in ``--soft`` mode. A
- hard-hidden module cannot be unveiled or selected in any case.
+ :subcmd:`whatis`, :subcmd:`search` or :subcmd:`spider` sub-commands, hiding
+ is disabled thus hidden modulefiles are included in module search.
+ Hard-hidden modules (i.e., declared hidden with ``--hard`` option) are not
+ affected by :option:`--all` and stay hidden even if option is set.
+ :option:`--all` option does not apply to *module selection* sub-commands like
+ :subcmd:`load`. Thus in such context a hidden module should always be
+ referred by its exact full name (e.g., ``foo/1.2.3`` not ``foo``) unless if
+ it has been hidden in ``--soft`` mode. A hard-hidden module cannot be
+ unveiled or selected in any case.
 
  If several :mfcmd:`module-hide` commands target the same *modulefile*, the
  strongest hiding level is retained which means if both a regular, a
@@ -720,12 +722,12 @@ the *modulefile* is being loaded.
  is superseded by a stronger :mfcmd:`module-hide` statement with no
  ``--hidden-loaded`` option set.
 
- Hidden modules included in the result of an :subcmd:`avail` sub-command are
- reported with a ``hidden`` tag applied to them. Hidden loaded modules
- included in the result of a :subcmd:`list` sub-command are reported with a
- ``hidden-loaded`` tag applied to them. This tag is not reported on
- :subcmd:`avail` sub-command context. See :ref:`Module tags` section in
- :ref:`module(1)`.
+ Hidden modules included in the result of :subcmd:`avail` or :subcmd:`spider`
+ sub-commands are reported with a ``hidden`` tag applied to them. Hidden
+ loaded modules included in the result of :subcmd:`list` sub-command are
+ reported with a ``hidden-loaded`` tag applied to them. This tag is not
+ reported on :subcmd:`avail` or :subcmd:`spider` sub-commands context. See
+ :ref:`Module tags` section in :ref:`module(1)`.
 
  The parameter *modulefile* may also be a symbolic modulefile name or a
  modulefile alias. It may also leverage a specific syntax to finely select
@@ -767,8 +769,8 @@ the *modulefile* is being loaded.
   *commandname* can be: ``load``, ``unload``, ``refresh``, ``reload``,
   ``source``, ``switch``, ``display``, ``avail``, ``aliases``, ``list``,
   ``whatis``, ``search``, ``purge``, ``restore``, ``help``, ``test``,
-  ``try-load``, ``load-any``, ``mod-to-sh``, ``reset``, ``stash`` or
-  ``stashpop``.
+  ``try-load``, ``load-any``, ``mod-to-sh``, ``reset``, ``stash``,
+  ``stashpop`` or ``spider``.
 
   .. only:: html
 
@@ -910,11 +912,11 @@ the *modulefile* is being loaded.
 .. mfcmd:: module-tag [options] tag modulefile...
 
  Associate *tag* to designated *modulefile*. This tag information will be
- reported along *modulefile* on :subcmd:`avail` and :subcmd:`list`
- sub-commands (see :ref:`Module tags` section in :ref:`module(1)`). Tag
- information can be queried during *modulefile* evaluation with the
- :mfcmd:`module-info tags<module-info>` modulefile command.
- :mfcmd:`module-tag` commands should be placed in one of the
+ reported along *modulefile* on :subcmd:`avail`, :subcmd:`list` and
+ :subcmd:`spider` sub-commands (see :ref:`Module tags` section in
+ :ref:`module(1)`). Tag information can be queried during *modulefile*
+ evaluation with the :mfcmd:`module-info tags<module-info>` modulefile
+ command. :mfcmd:`module-tag` commands should be placed in one of the
  :file:`modulecmd.tcl` rc files.
 
  :mfcmd:`module-tag` command accepts the following options:
@@ -1024,7 +1026,7 @@ the *modulefile* is being loaded.
 .. mfcmd:: modulepath-label directory label
 
  Assigns *label* string to modulepath *directory*. This *label* is used on
- :subcmd:`avail` output to refer to the modulepath.
+ :subcmd:`avail` and :subcmd:`spider` output to refer to the modulepath.
 
  The parameter *directory* corresponds to a fully or partially qualified
  modulepath. If *directory* is ``.`` (dot) then the current directory of the
@@ -1831,18 +1833,20 @@ inherits the ``hidden-loaded`` tag. Hidden loaded modules are not reported
 among :subcmd:`list` sub-command results.
 
 If the :option:`--all` option is set on :subcmd:`avail`, :subcmd:`aliases`,
-:subcmd:`whatis` or :subcmd:`search` sub-commands, hidden modules are taken
-into account in search. Hard-hidden modules are unaffected by this option.
+:subcmd:`whatis`, :subcmd:`search` or :subcmd:`spider` sub-commands, hidden
+modules are taken into account in search. Hard-hidden modules are unaffected
+by this option.
 
 If the :option:`--all` option is set on :subcmd:`list` sub-command, hidden
 loaded modules are included in result output.
 
 A behavior equivalent to the use of the :option:`--all` option is obtained on
-:subcmd:`avail` and :subcmd:`list` sub-commands by adding the ``hidden``
-element to the output configuration option controlling regular or terse
-reporting of these sub-commands: :mconfig:`avail_output`,
+:subcmd:`avail`, :subcmd:`list` and :subcmd:`spider` sub-commands by adding
+the ``hidden`` element to the output configuration option controlling regular
+or terse reporting of these sub-commands: :mconfig:`avail_output`,
 :mconfig:`avail_terse_output`, :mconfig:`list_output`,
-:mconfig:`list_terse_output`.
+:mconfig:`list_terse_output`, :mconfig:`spider_output`,
+:mconfig:`spider_terse_output`.
 
 Advanced module version specifiers
 ----------------------------------
