@@ -48,6 +48,7 @@ Module version specification to return all matching modules
 - specification used to resolve argument passed to the following commands:
 
   - ``avail``
+  - ``spider``
   - ``paths``
   - ``whatis``
   - ``list`` (matching specification retrieved from loaded modules, not ``getModules``)

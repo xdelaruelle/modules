@@ -15,56 +15,56 @@ Use cases
 - Restrict usage of particular software to a limited set of user (RestrictUsage)
 
   - Included in module specification result for a not granted user: no
-  - Visible for a not granted user on a full ``avail``: no
-  - Visible for a not granted user on a targeted ``avail``: no
+  - Visible for a not granted user on a full ``avail`` or ``spider``: no
+  - Visible for a not granted user on a targeted ``avail`` or ``spider``: no
   - Visible for a not granted user once loaded on a ``list``: yes
   - Load tentative for a not granted user: error
 
 - Allow usage of particular software once clearance has been obtained (AllowOnceCleared)
 
   - Included in module specification result for a not granted user: yes
-  - Visible for a not granted user on a full ``avail``: yes
-  - Visible for a not granted user on a targeted ``avail``: yes
+  - Visible for a not granted user on a full ``avail`` or ``spider``: yes
+  - Visible for a not granted user on a targeted ``avail`` or ``spider``: yes
   - Visible for a not granted user once loaded on a ``list``: yes
   - Load tentative for a not granted user: error
 
 - Expire a software after a given date (Expire)
 
   - Included in module specification result for a not granted user: no after expiration date
-  - Visible for a not granted user on a full ``avail``: no after expiration date
-  - Visible for a not granted user on a targeted ``avail``: no after expiration date
+  - Visible for a not granted user on a full ``avail`` or ``spider``: no after expiration date
+  - Visible for a not granted user on a targeted ``avail`` or ``spider``: no after expiration date
   - Visible for a not granted user once loaded on a ``list``: yes, even after expiration date
   - Load tentative for a not granted user: error after expiration date
 
 - Disclose a software after a given date (Disclose)
 
   - Included in module specification result for a not granted user: no prior disclosure date
-  - Visible for a not granted user on a full ``avail``: no prior disclosure date
-  - Visible for a not granted user on a targeted ``avail``: no prior disclosure date
+  - Visible for a not granted user on a full ``avail`` or ``spider``: no prior disclosure date
+  - Visible for a not granted user on a targeted ``avail`` or ``spider``: no prior disclosure date
   - Visible for a not granted user once loaded on a ``list``: yes, even prior disclosure date
   - Load tentative for a not granted user: error prior disclosure date
 
 - Hide software not of interest for current user (HideNotOfInt)
 
   - Included in module specification result for a not granted user: yes
-  - Visible for a not granted user on a full ``avail``: no, unless specific option set
-  - Visible for a not granted user on a targeted ``avail``: yes
+  - Visible for a not granted user on a full ``avail`` or ``spider``: no, unless specific option set
+  - Visible for a not granted user on a targeted ``avail`` or ``spider``: yes
   - Visible for a not granted user once loaded on a ``list``: yes
   - Load tentative for a not granted user: success
 
 - Hide software only useful for other software as dependency (HideDep)
 
   - Included in module specification result for a not granted user: yes
-  - Visible for a not granted user on a full ``avail``: no, unless specific option set
-  - Visible for a not granted user on a targeted ``avail``: yes
+  - Visible for a not granted user on a full ``avail`` or ``spider``: no, unless specific option set
+  - Visible for a not granted user on a targeted ``avail`` or ``spider``: yes
   - Visible for a not granted user once loaded on a ``list``: yes
   - Load tentative for a not granted user: success
 
 - Hide dependency software once loaded (HideDepOnceLoaded)
 
   - Included in module specification result for a not granted user: see HideDep
-  - Visible for a not granted user on a full ``avail``: see HideDep
-  - Visible for a not granted user on a targeted ``avail``: see HideDep
+  - Visible for a not granted user on a full ``avail`` or ``spider``: see HideDep
+  - Visible for a not granted user on a targeted ``avail`` or ``spider``: see HideDep
   - Visible for a not granted user once loaded on a ``list``: no, unless specific option set
   - Load tentative for a not granted user: see HideDep
 
@@ -76,7 +76,7 @@ Specification
 
 - ``module-hide`` removes visibility of specified modules
 
-  - ``module-hide`` acts when modules are searched (``avail``, ``whatis`` and ``search`` sub-commands) or selected (``load``, ``unload``, ``display``, etc sub-commands)
+  - ``module-hide`` acts when modules are searched (``avail``, ``spider``, ``whatis`` and ``search`` sub-commands) or selected (``load``, ``unload``, ``display``, etc sub-commands)
 
   - Visibility is however enabled if hidden module is specifically searched
 
@@ -104,7 +104,7 @@ Specification
       - is included/excluded the same way for ``prereq`` and ``conflict`` sub-commands than ``load`` sub-command
       - is matched by ``is-loaded`` and ``info-loaded`` sub-commands querying it once loaded
       - is excluded from ``module whatis`` result
-      - is included/excluded the same way for ``whatis`` sub-command than ``avail`` sub-command
+      - is included/excluded the same way for ``whatis``, ``spider`` sub-commands than ``avail`` sub-command
       - is excluded from ``module avail`` result
       - is excluded from ``module avail m*`` result
       - is included in ``module avail mod/1.0`` result
@@ -113,7 +113,7 @@ Specification
       - is excluded from ``module avail mod@:2`` result, even if default symbol targets it
       - is included in ``module avail mod@1.0,2.0`` result
 
-  - Included in module resolution result if :option:`--all` option of ``avail``, ``whatis``, ``search`` and ``aliases`` sub-commands is set
+  - Included in module resolution result if :option:`--all` option of ``avail``, ``whatis``, ``search``, ``aliases`` and ``spider`` sub-commands is set
 
     - ``--all`` option does not apply to ``is-avail`` sub-command to make it coherent with ``load`` sub-command (e.g., a ``is-avail mod`` returning true implies ``load mod`` effectively loading a module)
 
@@ -136,7 +136,7 @@ Specification
       - is included/excluded the same way for ``prereq`` and ``conflict`` sub-commands than ``load`` sub-command
       - is matched by ``is-loaded`` and ``info-loaded`` sub-commands querying it once loaded
       - is excluded from ``module whatis`` result
-      - is included/excluded the same way for ``whatis`` sub-command than ``avail`` sub-command
+      - is included/excluded the same way for ``whatis``, ``spider`` sub-commands than ``avail`` sub-command
       - is excluded from ``module avail`` result
       - is excluded from ``module avail m*`` result
       - is included in ``module avail mod/1.0`` result
@@ -149,7 +149,7 @@ Specification
 
     - Designated modules are strictly hidden, also referred as *hard-hidden*
 
-      - ``--all`` option of ``avail`` sub-command cannot unveil them
+      - ``--all`` option of ``avail`` and ``spider`` sub-commands cannot unveil them
 
     - Excluded from module resolution result, which means it is always excluded from resolution on following context:
 
@@ -167,7 +167,7 @@ Specification
       - is included/excluded the same way for ``prereq`` and ``conflict`` sub-commands than ``load`` sub-command
       - is matched by ``is-loaded`` and ``info-loaded`` sub-commands querying it once loaded
       - is excluded from any ``avail`` query result
-      - is included/excluded the same way for ``whatis`` sub-command than ``avail`` sub-command
+      - is included/excluded the same way for ``whatis``, ``spider`` sub-commands than ``avail`` sub-command
 
     - Visibility of a module targeted by a ``module-hide --hard`` command acts like if no modulefile exists on filesystem
 
@@ -374,7 +374,7 @@ Specification
     - also remove parent module name from the list of alternative names
     - if resolution query corresponds to parent module name, unhide ``default`` symbol unless if hard-hidden
 
-- On ``avail`` sub-command
+- On ``avail``/``spider`` sub-commands
 
   - Hidden symbolic versions are not reported along module they target
 

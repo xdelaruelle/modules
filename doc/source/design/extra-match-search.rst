@@ -38,8 +38,8 @@ What triggers an extra match search?
 ------------------------------------
 
 * module variants should be reported
-* variant is specified in query on :subcmd:`avail`, :subcmd:`paths` or
-  :subcmd:`whatis`
+* variant is specified in query on :subcmd:`avail`, :subcmd:`paths`,
+  :subcmd:`spider` or :subcmd:`whatis`
 * an extra specifier is specified in query
 
 Extra match search process

@@ -56,7 +56,8 @@ Specification
 
   - on ``module list`` output
   - on ``module avail`` output
-  - those two sub-commands only display symbolic versions manually defined
+  - on ``module spider`` output
+  - those three sub-commands only display symbolic versions manually defined
 
 - Alternative module names deduced from the automatically defined version specifiers need to be tracked
 

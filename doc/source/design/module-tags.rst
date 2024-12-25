@@ -14,7 +14,7 @@ Specification
 - Introduce one new modulefile command to set tags on modulefiles: :mfcmd:`module-tag`
 
   - A tag is a piece of information associated to individual modulefiles
-  - That is reported along module name on ``avail`` or ``list`` sub-command results
+  - That is reported along module name on ``avail``, ``spider`` or ``list`` sub-command results
   - This piece of information could lead to specific behaviors when handling modulefile over the different module sub-commands or modulefile evaluation modes
 
     - For instance, a module with a ``sticky`` tag set on it cannot be unloaded
@@ -42,7 +42,7 @@ Specification
 
 - Tags inherited from module state:
 
-  - ``hidden``: module not visible, not reported by default in ``avail`` result (tag acquired through :mfcmd:`module-hide`)
+  - ``hidden``: module not visible, not reported by default in ``avail`` and ``spider`` result (tag acquired through :mfcmd:`module-hide`)
   - ``hidden-loaded``: loaded module not reported by default in ``list`` result (tag acquired through ``module-hide --hidden-loaded`` or ``--tag`` option)
   - ``forbidden``: module that cannot be loaded (tag acquired through :mfcmd:`module-forbid`)
   - ``nearly-forbidden``: module that soon cannot be loaded (tag acquired through ``module-forbid``)
@@ -98,7 +98,7 @@ Defining
 
 - ``module-tag`` is intended to be used in modulerc files
 
-  - to be easily fetched during ``avail`` sub-command processing
+  - to be easily fetched during ``avail`` and ``spider`` sub-commands processing
   - they also need to be enabled in modulefile context as global/user rc files are evaluated as modulefile, not modulerc
   - it enables to dissociate environment changes described in the modulefile from the properties of this modulefile
 
@@ -192,7 +192,7 @@ Persistency
 Reporting
 ^^^^^^^^^
 
-- Defined tags are reported on ``avail`` and ``list`` sub-command results
+- Defined tags are reported on ``avail``, ``spider`` and ``list`` sub-command results
 
   - Reported along modulefile name, within angle brackets (following the HTML tag fashion)
   - Each tag separated by a colon
@@ -211,7 +211,7 @@ Reporting
   - Tags are reported the same way than on ``list`` sub-command
   - If load evaluation fails, the tags are not reported as they were not yet set
 
-- Tags applying to module alias are reported on ``avail`` reports only
+- Tags applying to module alias are reported on ``avail`` and ``spider`` reports only
 
   - Where the module alias stands for itself in the report
   - On ``list`` reports, alias is reported along its modulefile target
@@ -221,11 +221,11 @@ Reporting
 
 - Tags applying to symbolic version are never reported
 
-  - As symbols are never reported alone on ``avail`` or ``list`` reports
+  - As symbols are never reported alone on ``avail``, ``spider`` or ``list`` reports
   - Always reported along their modulefile target
   - Also these tags of the symbolic versions are not inherited by symbol's target
 
-- Some tags are not reported on ``avail`` output:
+- Some tags are not reported on ``avail`` and ``spider`` outputs:
 
   - ``hidden-loaded``: correspond to hiding module from loaded list, not from available list
 
@@ -246,7 +246,7 @@ Reporting
 Abbreviations
 """""""""""""
 
-- Tag abbreviations are used to translate tag names when reporting them on ``avail`` or ``list`` sub-command output
+- Tag abbreviations are used to translate tag names when reporting them on ``avail``, ``spider`` or ``list`` sub-command output
 
 - The :mconfig:`tag_abbrev` configuration defines the abbreviations to apply to each tag
 

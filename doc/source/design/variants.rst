@@ -518,7 +518,7 @@ Specifying
 - variants specified on search context are taken into account to filter results
 
   - due to the :ref:`extra-match-search` mechanism
-  - it concerns the ``avail``, ``whatis`` and ``paths`` sub-commands
+  - it concerns the ``avail``, ``spider``, ``whatis`` and ``paths`` sub-commands
   - only available modules matching the variant specification will be retained
   - for instance ``avail mod foo=var`` returns all versions of *mod* module where a variant *foo* is defined with *var* as a possible value
   - exception is made for ``is-avail`` and ``path`` search sub-command
@@ -651,6 +651,16 @@ Reporting
   - Which in turns requires more processing time as modulefiles are evaluated
   - Having cache file available helps to reduce the I/O load caused by such process
 
+- Variants defined by modulefiles may be reported on ``spider`` sub-command
+
+  - Not by default, if ``variant`` value is added to ``spider_output`` or
+    ``spider_terse_output``
+  - Or if ``variantifspec`` value is added to ``spider_output`` or
+    ``spider_terse_output`` and a variant is specified in search query
+  - It requires an :ref:`extra-match-search`
+  - Which in turns requires more processing time as modulefiles are evaluated
+  - Having cache file available helps to reduce the I/O load caused by such process
+
 - A specific color key is defined to highlight variants: ``va``
 
 - Variant report depends on variant type
@@ -660,7 +670,7 @@ Reporting
   - valued variant with shortcut set: ``<shortcut>value`` (for instance if ``%`` is a defined shortcut: ``%value``)
   - in case a shortcut is defined over a Boolean variant, Boolean report prevails over shortcut
 
-- On ``avail``, all possible values of variant are reported
+- On ``avail`` and ``spider``, all possible values of variant are reported
 
   - Values are separated from each other with ``,`` character
   - Boolean variant are reported as valued variant with ``on`` and ``off`` values reported
@@ -732,7 +742,7 @@ Comparing module specification including variants
       - A *scan* evaluation is made on them
       - Only those declaring specified variants and values are retained in results
 
-    - It applies to ``avail``, ``whatis`` and ``paths`` sub-commands
+    - It applies to ``avail``, ``spider``, ``whatis`` and ``paths`` sub-commands
     - Exception is made for ``is-avail`` and ``path`` sub-commands
 
       - do not trigger *extra match search* process
@@ -859,14 +869,14 @@ Specific impact
 
 - When loading a module with variant, if this module is already loaded but with a different variant set an error is raised
 
-- Tags applying specifically on variants do not appear over ``avail`` result
+- Tags applying specifically on variants do not appear over ``avail`` or ``spider`` results
 
   - Even when variants are processed on ``avail`` mode
   - However if a module is loaded and tags apply to the variant selected, these tags will appear on the module designation within ``avail`` result
 
 - Forbidding a specific variant of a module will not exclude it from search results
 
-  - The module will still be reported on ``avail`` or evaluated on ``whatis``
+  - The module will still be reported on ``avail``, ``spider`` or evaluated on ``whatis``
   - Even if this specific variant is searched
   - As search sub-commands report all possible variants of available modules
 
