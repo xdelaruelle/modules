@@ -51,6 +51,11 @@ Modules 5.6.0 (not yet released)
 * Add ``depends-on-any`` extra specifier to query modulefile requirement
   definitions. The extra specifier aliases ``prereq``, ``prereq-any`` or
   ``require`` may also be used to query this modulefile command.
+* Introduce the :subcmd:`spider` sub-command that lists available modules
+  found in enabled modulepaths and recursively found in modulepaths enabled by
+  available modules. After a first step aimed at collecting all modulepaths,
+  :subcmd:`spider` proceeds and reports like :subcmd:`avail` sub-command. The
+  same set of options are supported.
 * Introduce the :mconfig:`spider_output` and :mconfig:`spider_terse_output`
   configuration options to define the content to report in addition to the
   available module names respectively for :subcmd:`spider` sub-command regular
