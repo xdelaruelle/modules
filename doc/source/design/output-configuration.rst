@@ -12,6 +12,8 @@ Configuration
   - :mconfig:`avail_terse_output`: elements to report on ``avail`` sub-command terse mode
   - :mconfig:`list_output`: elements to report on :subcmd:`list` sub-command regular mode
   - :mconfig:`list_terse_output`: elements to report on ``list`` sub-command terse mode
+  - :mconfig:`spider_output`: elements to report on :subcmd:`spider` sub-command regular mode
+  - :mconfig:`spider_terse_output`: elements to report on ``spider`` sub-command terse mode
 
 Specification
 -------------
@@ -20,6 +22,7 @@ Specification
 
   - For ``avail`` sub-command, on regular and :option:`--terse` modes
   - For ``list`` sub-command, on regular and :option:`--terse` modes
+  - For ``spider`` sub-command, on regular and :option:`--terse` modes
 
 - Output configuration is not available (but could be added later on)
 
@@ -36,6 +39,8 @@ Specification
   - ``avail_terse_output``: ``modulepath:alias:dirwsym:sym:tag:variantifspec``
   - ``list_output``: ``header:idx:variant:sym:tag:key``
   - ``list_terse_output``: ``header``
+  - ``spider_output``: ``modulepath:alias:dirwsym:sym:tag:variantifspec:key``
+  - ``spider_terse_output``: ``modulepath:alias:dirwsym:sym:tag:variantifspec``
 
 - The above default value could be superseded:
 
@@ -45,6 +50,8 @@ Specification
     - :envvar:`MODULES_AVAIL_TERSE_OUTPUT` to supersede ``avail_terse_output`` default value
     - :envvar:`MODULES_LIST_OUTPUT` to supersede ``list_output`` default value
     - :envvar:`MODULES_LIST_TERSE_OUTPUT` to supersede ``list_terse_output`` default value
+    - :envvar:`MODULES_SPIDER_OUTPUT` to supersede ``spider_output`` default value
+    - :envvar:`MODULES_SPIDER_TERSE_OUTPUT` to supersede ``spider_terse_output`` default value
 
   - with the :option:`-o`/:option:`--output` command-line option
 
@@ -54,8 +61,11 @@ Specification
 - Accepted elements in value lists are:
 
   - For ``avail`` options: modulepath, alias, dirwsym, indesym, sym, tag, key,
-    variant, variantifspec
-  - For ``list`` options: header, idx, variant, alias, indesym, sym, tag, key
+    variant, variantifspec, hidden
+  - For ``list`` options: header, idx, variant, alias, indesym, sym, tag, key,
+    hidden
+  - For ``spider`` options: modulepath, alias, dirwsym, indesym, sym, tag,
+    key, variant, variantifspec, hidden
 
 - If the ``-o``/``--output`` options are wrongly specified
 
@@ -75,7 +85,10 @@ Specification
   - order of elements in the list does not matter
   - an empty string is a valid value (means only the modulefile name has to be reported)
 
-- If the ``MODULES_AVAIL_OUTPUT``/``MODULES_AVAIL_TERSE_OUTPUT``/``MODULES_LIST_OUTPUT``/``MODULES_LIST_TERSE_OUTPUT`` env vars are wrongly specified
+- If the ``MODULES_AVAIL_OUTPUT``/``MODULES_AVAIL_TERSE_OUTPUT``,
+  ``MODULES_LIST_OUTPUT``/``MODULES_LIST_TERSE_OUTPUT``,
+  ``MODULES_SPIDER_OUTPUT``/``MODULES_SPIDER_TERSE_OUTPUT`` env vars are
+  wrongly specified
 
   - Their value is ignored
   - So the default value takes precedence, unless a ``-o``/``--output`` option is specified
@@ -98,7 +111,7 @@ Specification
   - Hidden modules is exclusively controlled by ``--all`` option to get these modules unveiled
   - Indepth/no-indepth output is exclusively controlled by ``--no-indepth/--indepth`` and related configuration option
 
-- When *modulepath* element is removed from an ``avail``-related option
+- When *modulepath* element is removed from an ``avail`` or ``spider``-related option
 
   - all the modulefiles returned from all searched modulepaths are merged and sorted as a single set
   - a module appearing in several modulepaths is only reported once
@@ -117,12 +130,12 @@ Output key
   - Legend entries only concern elements that can be found in reported output
   - Legend entries are not reported on JSON output mode
 
-- Output key is enabled by default on ``avail`` and ``list`` sub-command output
+- Output key is enabled by default on ``avail``, ``spider`` and ``list`` sub-command output
 
   - Key is reported at the end of the output
   - No key section is reported if no element need to be described (no color, no symbol, no tag, etc)
 
-- Variant keys are not adapted for ``avail`` output
+- Variant keys are not adapted for ``avail``/``spider`` output
 
   - Even if all possible values are reported instead of the only one set
   - Users should be able to understand ``name=val1,val2,...`` corresponds to

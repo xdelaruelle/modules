@@ -5,8 +5,9 @@ Module cache
 
 Objective is to consolidate available module information in a few number of
 files in order to process these files when doing global module queries like
-done by :subcmd:`avail` or :subcmd:`whatis` sub-commands instead of walking
-through the whole modulepath directories to compute this information.
+done by :subcmd:`avail`, :subcmd:`spider` or :subcmd:`whatis` sub-commands
+instead of walking through the whole modulepath directories to compute this
+information.
 
 With cache files, it is expected to have lesser IO load and more efficiently
 handle environments with thousands modulefiles stored in a parallel
@@ -42,7 +43,8 @@ Cache content
 
 As cache files should be used instead of walking through modulepath directory
 to search for valid modulercs and modulefiles. Cache file should contain
-everything to be autonomous to proceed ``avail`` or ``whatis`` queries.
+everything to be autonomous to proceed ``avail``, ``spider`` or ``whatis``
+queries.
 
 Yet module search can be very dynamic as things set for instance in modulerc
 files may dynamically produce new modulefiles or define properties specific to
@@ -57,9 +59,9 @@ into the cache file. An entry is set for each valid modulerc file. Same goes
 for modulefiles as some conditional structure in their code can dynamically
 change dependency, whatis or other definitions.
 
-It is expected that modulefile will be evaluated on ``avail`` or ``whatis``
-commands for complex queries. So for such use case it is important to have
-modulefile content cached.
+It is expected that modulefile will be evaluated on ``avail``, ``spider`` or
+``whatis`` commands for complex queries. So for such use case it is important
+to have modulefile content cached.
 
 Thus by reading the cache file, in one IO the content of all the modulerc and
 modulefiles of the modulepath will be fetched.
@@ -110,7 +112,7 @@ syntax:
 
 For instance: ``modulerc-content foo/.modulerc #%Module {body}``. Modification
 time is not needed for modulerc as this information is not reported on an
-``avail`` sub-command in long mode.
+``avail``, ``spider`` sub-commands in long mode.
 
 Every modulercs and modulefiles file contained in modulepath are recorded
 in cache with ``modulerc-content`` or ``modulefile-content`` command.
@@ -212,6 +214,7 @@ sub-commands:
 * whatis
 * aliases
 * avail
+* spider
 * switch
 * restore
 * save
@@ -330,12 +333,12 @@ Cache file evaluation is tracked to avoid evaluating twice the same cache
 file.
 
 Cache evaluation stops if an erroneous command or syntax is encountered. Like
-for erroneous modulerc, error is not reported during ``avail`` or ``whatis``
-commands unless if ran in debug mode. Error is reporting during a ``load``
-evaluation. Cache evaluation is considered failed if there is an error in the
-cache file, thus a non-cache module search will occur instead of relying on
-cache module listing. However descriptions of modulefile and modulerc
-evaluated in cache prior the error occurs are retained.
+for erroneous modulerc, error is not reported during ``avail``, ``spider`` or
+``whatis`` commands unless if ran in debug mode. Error is reporting during a
+``load`` evaluation. Cache evaluation is considered failed if there is an
+error in the cache file, thus a non-cache module search will occur instead of
+relying on cache module listing. However descriptions of modulefile and
+modulerc evaluated in cache prior the error occurs are retained.
 
 cachebuild sub-command
 ----------------------

@@ -54,7 +54,7 @@ Specification
     - on specification that are processed as a wild search, ``extended_default`` has no impact
 
       - as a wildcard character ``*`` is appended to specification
-      - affects ``avail`` sub-command
+      - affects ``avail``/``spider`` sub-commands
 
   - :ref:`module_version_specification_to_select_one_module`
   - :ref:`module_version_specification_to_check_compatibility`
