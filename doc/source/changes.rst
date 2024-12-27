@@ -1051,7 +1051,8 @@ The following environment variables appeared on Modules 5.
 |            | :envvar:`__MODULES_LMPREREQPATH`                                |
 +------------+-----------------------------------------------------------------+
 | 5.6        | :envvar:`MODULES_SPIDER_OUTPUT`,                                |
-|            | :envvar:`MODULES_SPIDER_TERSE_OUTPUT`                           |
+|            | :envvar:`MODULES_SPIDER_TERSE_OUTPUT`,                          |
+|            | :envvar:`MODULES_SPIDER_INDEPTH`                                |
 +------------+-----------------------------------------------------------------+
 
 Modules Specific Tcl Commands

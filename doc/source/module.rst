@@ -5369,6 +5369,27 @@ ENVIRONMENT
 
     .. versionadded:: 5.4
 
+.. envvar:: MODULES_SPIDER_INDEPTH
+
+ If set to ``1``, enable in depth search results for :subcmd:`spider`
+ sub-command. If set to ``0`` disable :subcmd:`spider` sub-command in depth
+ mode. Other values are ignored.
+
+ When in depth mode is enabled, modulefiles and directories contained in
+ directories matching search query are also included in search results. When
+ disabled these modulefiles and directories contained in matching directories
+ are excluded.
+
+ This environment variable value supersedes the default value set in the
+ :mconfig:`spider_indepth` configuration option. It can be defined with the
+ :subcmd:`config` sub-command. The :option:`--indepth` and
+ :option:`--no-indepth` command line switches override this environment
+ variable.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. envvar:: MODULES_SPIDER_OUTPUT
 
  A colon separated list of the elements to report in addition to module names
