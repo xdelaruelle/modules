@@ -69,7 +69,7 @@ array set g_state_defs [list\
 # value, is configuration lockable to default value, value kind, valid value
 # list?, internal value representation?, proc to call to initialize option
 # value, valid value list kind
-##nagelfar ignore #79 Too long line
+##nagelfar ignore #80 Too long line
 array set g_config_defs [list\
    contact {MODULECONTACT root@localhost 0 s}\
    abort_on_error {MODULES_ABORT_ON_ERROR {@abortonerror@} 0 l {load ml\
@@ -132,6 +132,7 @@ array set g_config_defs [list\
    silent_shell_debug {MODULES_SILENT_SHELL_DEBUG @silentshdbgsupport@ 0 b {0\
       1}}\
    siteconfig {{} {@etcdir@/siteconfig.tcl} 0 s}\
+   spider_indepth {MODULES_SPIDER_INDEPTH 1 0 b {0 1}}\
    spider_output {MODULES_SPIDER_OUTPUT {@spideroutput@} 0 l {modulepath\
       alias dirwsym indesym sym tag key hidden variant variantifspec} {} {}\
       eltlist}\
