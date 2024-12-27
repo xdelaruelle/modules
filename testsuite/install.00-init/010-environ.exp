@@ -72,7 +72,8 @@ unsetenv_var MODULES_CONFLICT_UNLOAD
 set env(MODULES_IMPLICIT_REQUIREMENT) 1
 
 # clean any in depth mode configuration
-catch {unset env(MODULES_AVAIL_INDEPTH)}
+unsetenv_var MODULES_AVAIL_INDEPTH
+unsetenv_var MODULES_SPIDER_INDEPTH
 
 # clean any unload match order config
 catch {unset env(MODULES_UNLOAD_MATCH_ORDER)}

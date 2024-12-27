@@ -71,7 +71,6 @@ array set configdfl [list\
     color                     "never \\\(env-var\\\)"\
     colors                    [expr {$install_termbg eq {dark} ? $valid_darkbgcolors : $valid_lightbgcolors}]\
     conflict_unload           [expr {$install_conflictunload eq {y}}]\
-    avail_indepth             [expr {$install_availindepth eq {y}}]\
     contact                   root@localhost\
     editor                    "$install_editor"\
     extended_default          [expr {$install_extendeddefault eq {y}}]\
@@ -106,6 +105,7 @@ array set configdfl [list\
     silent_shell_debug        [expr {$install_silentshdbgsupport eq {y}}]\
     siteconfig                $siteconfig_filere\
     source_cache              [expr {$install_sourcecache eq {y}}]\
+    spider_indepth            [expr {$install_spiderindepth eq {y}}]\
     spider_output             $install_spideroutput\
     spider_terse_output       $install_spiderterseoutput\
     sticky_purge              $install_stickypurge\
@@ -168,6 +168,7 @@ array set configvar [list\
     shells_with_ksh_fpath     MODULES_SHELLS_WITH_KSH_FPATH\
     silent_shell_debug        MODULES_SILENT_SHELL_DEBUG\
     source_cache              MODULES_SOURCE_CACHE\
+    spider_indepth            MODULES_SPIDER_INDEPTH\
     spider_output             MODULES_SPIDER_OUTPUT\
     spider_terse_output       MODULES_SPIDER_TERSE_OUTPUT\
     sticky_purge              MODULES_STICKY_PURGE\
@@ -217,6 +218,7 @@ array set configvalid [list\
     shells_with_ksh_fpath     {sh bash csh tcsh fish}\
     silent_shell_debug        {0 1}\
     source_cache              {0 1}\
+    spider_indepth            {0 1}\
     spider_output             {modulepath alias dirwsym indesym sym tag key hidden variant variantifspec}\
     spider_terse_output       {modulepath alias dirwsym indesym sym tag key hidden variant variantifspec}\
     sticky_purge              {error warning silent}\
