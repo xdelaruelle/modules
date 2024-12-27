@@ -70,6 +70,14 @@ Modules 5.6.0 (not yet released)
   superseded by using the :subcmd:`config` sub-command which sets the
   :envvar:`MODULES_SPIDER_OUTPUT` and :envvar:`MODULES_SPIDER_TERSE_OUTPUT`
   environment variables.
+* Introduce the ability to control whether :subcmd:`spider` command search
+  results should recursively include or not modulefiles from directories
+  matching search query by use of the :option:`--indepth` and
+  :option:`--no-indepth` command-line switches or :mconfig:`spider_indepth`
+  configuration option (that sets :envvar:`MODULES_SPIDER_INDEPTH` environment
+  variable through :subcmd:`config` command). Default value (enabled) may also
+  be changed at installation time with
+  :instopt:`--disable-spider-indepth<--enable-spider-indepth>` option.
 * Doc: add :ref:`spider-sub-command` design notes.
 * The :subcmd:`lint` sub-command now also lint any readable modulecache files
   when no modulefile specification is passed as argument or if
