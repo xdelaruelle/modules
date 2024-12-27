@@ -1511,6 +1511,22 @@ Module Sub-Commands
 
      .. versionadded:: 5.4
 
+ .. mconfig:: spider_indepth
+
+  :subcmd:`spider` sub-command in depth search mode.
+
+  Default value is ``1``. It can be changed at installation time with
+  :instopt:`--disable-spider-indepth<--enable-spider-indepth>` option. The
+  :envvar:`MODULES_SPIDER_INDEPTH` environment variable is defined by
+  :subcmd:`config` sub-command when changing this configuration option from
+  its default value. The :option:`--indepth` and :option:`--no-indepth`
+  command line switches change the value of this configuration option. See
+  :envvar:`MODULES_SPIDER_INDEPTH` description for details.
+
+  .. only:: html
+
+     .. versionadded:: 5.6
+
  .. mconfig:: spider_output
 
   Content to report in addition to module names on :subcmd:`spider`

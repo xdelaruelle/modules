@@ -1232,7 +1232,8 @@ The following Modules configuration option has been introduced on Modules 5.
 | 5.5        | :mconfig:`hide_auto_loaded`, :mconfig:`logger`,                 |
 |            | :mconfig:`logged_events`, :mconfig:`conflict_unload`            |
 +------------+-----------------------------------------------------------------+
-| 5.6        | :mconfig:`spider_output`, :mconfig:`spider_terse_output`        |
+| 5.6        | :mconfig:`spider_output`, :mconfig:`spider_terse_output`,       |
+|            | :mconfig:`spider_indepth`                                       |
 +------------+-----------------------------------------------------------------+
 
 :mconfig:`auto_handling`
