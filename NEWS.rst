@@ -70,6 +70,7 @@ Modules 5.6.0 (not yet released)
   superseded by using the :subcmd:`config` sub-command which sets the
   :envvar:`MODULES_SPIDER_OUTPUT` and :envvar:`MODULES_SPIDER_TERSE_OUTPUT`
   environment variables.
+* Doc: add :ref:`spider-sub-command` design notes.
 * The :subcmd:`lint` sub-command now also lint any readable modulecache files
   when no modulefile specification is passed as argument or if
   :file:`.modulecache` file location is specifically passed as argument.
