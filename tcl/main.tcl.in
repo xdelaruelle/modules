@@ -124,7 +124,9 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
    set show_oneperline 0
    set show_mtime 0
    set show_filter {}
-   set search_filter [expr {[getConf avail_indepth] ? {} : {noindepth}}]
+   set indepth_opt [expr {$cmd eq {spider} ? {spider_indepth} :\
+      {avail_indepth}}]
+   set search_filter [expr {[getConf $indepth_opt] ? {} : {noindepth}}]
    set search_match [getConf search_match]
    set dump_state 0
    set addpath_pos prepend
