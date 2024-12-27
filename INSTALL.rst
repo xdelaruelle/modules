@@ -748,6 +748,22 @@ instance :instopt:`--disable-set-manpath<--enable-set-manpath>`):
 
     .. versionadded:: 5.4
 
+.. instopt:: --enable-spider-indepth
+
+ When performing an :subcmd:`spider` sub-command, include in search results
+ the matching modulefiles and directories and recursively the modulefiles and
+ directories contained in these matching directories when enabled or limit
+ search results to the matching modulefiles and directories found at the depth
+ level expressed by the search query if disabled. (default=yes)
+
+ This installation option defines the default value of the
+ :mconfig:`spider_indepth` configuration option which could be changed after
+ installation with the :subcmd:`config` sub-command.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. instopt:: --enable-versioning
 
  Append Modules version to installation prefix and deploy a ``versions``
@@ -1626,6 +1642,10 @@ installation.
 +-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
 | :mconfig:`source_cache`           | ``0``                                        | :instopt:`--enable-source-cache`,            |              |           |
 |                                   |                                              | :envvar:`MODULES_SOURCE_CACHE`               |              |           |
++-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
+| :mconfig:`spider_indepth`         | ``1``                                        | :instopt:`--enable-spider-indepth`,          |              |           |
+|                                   |                                              | :envvar:`MODULES_SPIDER_INDEPTH`,            |              |           |
+|                                   |                                              | :option:`--indepth`, :option:`--no-indepth`  |              |           |
 +-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
 | :mconfig:`spider_output`          | modulepath:alias:dirwsym:sym:tag:\           | :instopt:`--with-spider-output`,             |              |           |
 |                                   | variantifspec:key                            | :envvar:`MODULES_SPIDER_OUTPUT`,             |              |           |
