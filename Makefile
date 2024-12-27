@@ -323,6 +323,12 @@ else
   setavailindepth := 0
 endif
 
+ifeq ($(spiderindepth),y)
+  setspiderindepth := 1
+else
+  setspiderindepth := 0
+endif
+
 ifeq ($(implicitdefault),y)
   setimplicitdefault := 1
 else
@@ -443,6 +449,7 @@ sed -e 's|@prefix@|$(prefix)|g' \
 	-e 's|@conflictunload@|$(setconflictunload)|g' \
 	-e 's|@implicitrequirement@|$(setimplicitrequirement)|g' \
 	-e 's|@availindepth@|$(setavailindepth)|g' \
+	-e 's|@spiderindepth@|$(setspiderindepth)|g' \
 	-e 's|@silentshdbgsupport@|$(setsilentshdbgsupport)|g' \
 	-e 's|@ml@|$(setml)|g' \
 	-e 's|@setshellstartup@|$(setsetshellstartup)|g' \

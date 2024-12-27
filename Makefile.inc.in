@@ -87,8 +87,9 @@ conflictunload := @conflictunload@
 # implicitly define requirement on module load/module unload modules
 implicitrequirement := @implicitrequirement@
 
-# in depth avail search
+# in depth searches
 availindepth := @availindepth@
+spiderindepth := @spiderindepth@
 
 # ignore superseding value for locked configuration options
 lockedconfigs := @lockedconfigs@

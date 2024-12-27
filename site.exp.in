@@ -68,6 +68,7 @@ set install_conflictunload "@conflictunload@"
 set install_implicitrequirement "@implicitrequirement@"
 
 set install_availindepth "@availindepth@"
+set install_spiderindepth "@spiderindepth@"
 
 set install_lockedconfigs "@lockedconfigs@"
 

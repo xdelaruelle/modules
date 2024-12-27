@@ -132,7 +132,7 @@ array set g_config_defs [list\
    silent_shell_debug {MODULES_SILENT_SHELL_DEBUG @silentshdbgsupport@ 0 b {0\
       1}}\
    siteconfig {{} {@etcdir@/siteconfig.tcl} 0 s}\
-   spider_indepth {MODULES_SPIDER_INDEPTH 1 0 b {0 1}}\
+   spider_indepth {MODULES_SPIDER_INDEPTH @spiderindepth@ 0 b {0 1}}\
    spider_output {MODULES_SPIDER_OUTPUT {@spideroutput@} 0 l {modulepath\
       alias dirwsym indesym sym tag key hidden variant variantifspec} {} {}\
       eltlist}\
