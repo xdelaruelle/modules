@@ -92,6 +92,19 @@ testouterr_cmd sh {avail -t} OK $ts_indepth
 testouterr_cmd sh {avail -t --no-indepth} OK $ts_noindepth
 
 
+# test spider indepth has no impact
+setenv_var MODULES_AVAIL_INDEPTH 0
+setenv_var MODULES_SPIDER_INDEPTH 1
+testouterr_cmd sh {avail -t} OK $ts_noindepth
+setenv_var MODULES_SPIDER_INDEPTH 0
+testouterr_cmd sh {avail -t --indepth} OK $ts_indepth
+setenv_var MODULES_AVAIL_INDEPTH 1
+setenv_var MODULES_SPIDER_INDEPTH 0
+testouterr_cmd sh {avail -t} OK $ts_indepth
+setenv_var MODULES_SPIDER_INDEPTH 1
+testouterr_cmd sh {avail -t --no-indepth} OK $ts_noindepth
+
+
 # enable no in depth mode for the remaining tests
 setenv_var MODULES_AVAIL_INDEPTH 0
 
