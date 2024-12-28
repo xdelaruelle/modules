@@ -1,0 +1,274 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:        modules.92-spider/%M%
+#   Revision:       %I%
+#   First Edition:  2024/12/27
+#   Last Mod.:      %U%, %G%
+#
+#   Authors:        Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:    Testuite testsequence
+#   Command:        spider
+#   Modulefiles:
+#   Sub-Command:
+#
+#   Comment:    %C{
+#           Check the module 'spider' command in no in depth mode
+#       }C%
+#
+##############################################################################
+
+set mp "$modpath.indepth"
+set mpre "$modpathre.indepth"
+
+# setup specific environment
+setenv_path_var MODULEPATH $mp
+
+# ensure default tag abbreviation is defined
+setenv_var MODULES_TAG_ABBREV {auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF}
+
+set ts_indepth "$mp:
+deepA/4/1/(ds)
+deepA/4/1/2/1
+deepA/4/1/2/3
+deepA/4/1/3/1(default)
+deepA/4/1/3/2
+mod0
+mod1/1
+mod1/2
+mod2/1(default)
+mod2/2
+mod3/1(@)
+mod5/1
+mod6/3/1/2/1
+mod7/4/1
+mod8/4/1(@)
+mod9/3/2(default)
+mod9/4/1
+mod10
+mod11/1(sym)
+mod11/2
+mod30/2
+modv/1(default)"
+
+set ts_noindepth "$mp:
+deepA/
+mod0
+mod1/
+mod2/
+mod3/
+mod5/
+mod6/
+mod7/
+mod8/
+mod9/
+mod10
+mod11/
+mod30/
+modv/"
+
+# check various initialization ways
+testouterr_cmd sh {spider -t --indepth} OK $ts_indepth
+testouterr_cmd sh {spider -t --no-indepth --indepth} OK $ts_indepth
+testouterr_cmd sh {spider -t --no-indepth} OK $ts_noindepth
+testouterr_cmd sh {spider -t --indepth --no-indepth} OK $ts_noindepth
+
+skip_if_quick_mode
+
+if {$install_spiderindepth eq {y}} {
+    testouterr_cmd sh {spider -t} OK $ts_indepth
+} else {
+    testouterr_cmd sh {spider -t} OK $ts_noindepth
+}
+
+setenv_var MODULES_SPIDER_INDEPTH 0
+testouterr_cmd sh {spider -t} OK $ts_noindepth
+testouterr_cmd sh {spider -t --indepth} OK $ts_indepth
+
+setenv_var MODULES_SPIDER_INDEPTH 1
+testouterr_cmd sh {spider -t} OK $ts_indepth
+testouterr_cmd sh {spider -t --no-indepth} OK $ts_noindepth
+
+
+# test avail indepth has no impact
+setenv_var MODULES_SPIDER_INDEPTH 0
+setenv_var MODULES_AVAIL_INDEPTH 1
+testouterr_cmd sh {spider -t} OK $ts_noindepth
+setenv_var MODULES_AVAIL_INDEPTH 0
+testouterr_cmd sh {spider -t --indepth} OK $ts_indepth
+setenv_var MODULES_SPIDER_INDEPTH 1
+setenv_var MODULES_AVAIL_INDEPTH 0
+testouterr_cmd sh {spider -t} OK $ts_indepth
+setenv_var MODULES_AVAIL_INDEPTH 1
+testouterr_cmd sh {spider -t --no-indepth} OK $ts_noindepth
+
+
+# enable no in depth mode for the remaining tests
+setenv_var MODULES_SPIDER_INDEPTH 0
+
+# long display
+set tserr "- Package/Alias $modlin.- Versions $modlin.- Last mod. $modlin\n$mpre:
+mod1/\\s+
+mod10\\s+\[0-9\/]{10} \[0-9:]{8}
+mod11/\\s+"
+testouterr_cmd_re sh {spider -l mod1} OK $tserr
+
+# hidden modulefile only displayed if fully qualified
+testouterr_cmd sh {spider -t mod4} OK {}
+testouterr_cmd sh {spider -t mod4/.1} OK "$mp:\nmod4/.1 <H>"
+
+# returns elements of current depth level (need a trailing / to go down)
+testouterr_cmd sh {spider -t mod1} OK "$mp:\nmod1/\nmod10\nmod11/"
+testouterr_cmd sh {spider -t mod11} OK "$mp:\nmod11/"
+testouterr_cmd sh {spider -t mod1/} OK "$mp:\nmod1/1\nmod1/2"
+
+# check depth level recognition against wildcard characters
+testouterr_cmd sh {spider -t mod1*} OK "$mp:\nmod1/\nmod10\nmod11/"
+testouterr_cmd sh {spider -t mod1**} OK "$mp:\nmod1/\nmod10\nmod11/"
+testouterr_cmd sh {spider -t mod1/*} OK "$mp:\nmod1/1\nmod1/2"
+testouterr_cmd sh {spider -t mod1/?} OK "$mp:\nmod1/1\nmod1/2"
+testouterr_cmd sh {spider -t mod1/??} OK {}
+testouterr_cmd sh {spider -t mod1*/*} OK "$mp:\nmod1/1\nmod1/2\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod1?/} OK "$mp:\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod1?/*} OK "$mp:\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod1?} OK "$mp:\nmod10\nmod11/"
+testouterr_cmd sh {spider -t mod1?*} OK "$mp:\nmod10\nmod11/"
+testouterr_cmd sh {spider -t mod1*?} OK "$mp:\nmod10\nmod11/"
+testouterr_cmd sh {spider -t mod??} OK "$mp:\nmod10\nmod11/\nmod30/"
+testouterr_cmd sh {spider -t mod?*?} OK "$mp:\nmod10\nmod11/\nmod30/"
+testouterr_cmd sh {spider -t mod??/} OK "$mp:\nmod11/1(sym)\nmod11/2\nmod30/2"
+testouterr_cmd sh {spider -t mod??/*} OK "$mp:\nmod11/1(sym)\nmod11/2\nmod30/2"
+testouterr_cmd sh {spider -t mod??/?} OK "$mp:\nmod11/1(sym)\nmod11/2\nmod30/2"
+testouterr_cmd sh {spider -t mod??/2} OK "$mp:\nmod11/2\nmod30/2"
+testouterr_cmd sh {spider -t mod2?} OK {}
+testouterr_cmd sh {spider -t mod2?/} OK {}
+
+# test no in depth mode on various sub-directories
+testouterr_cmd sh {spider -t mod2/} OK "$mp:\nmod2/1(default)\nmod2/2"
+testouterr_cmd sh {spider -t mod2/default} OK "$mp:\nmod2/1(default)"
+testouterr_cmd sh {spider -t mod3/} OK "$mp:\nmod3/1(@)"
+testouterr_cmd sh {spider -t mod5/} OK "$mp:\nmod5/1"
+testouterr_cmd sh {spider -t mod6/} OK "$mp:\nmod6/3/"
+testouterr_cmd sh {spider -t mod6/3} OK "$mp:\nmod6/3/"
+testouterr_cmd sh {spider -t mod6/3/} OK "$mp:\nmod6/3/1/"
+testouterr_cmd sh {spider -t mod6/3/1/2} OK "$mp:\nmod6/3/1/2/"
+testouterr_cmd sh {spider -t mod6/3/1/2/} OK "$mp:\nmod6/3/1/2/1"
+testouterr_cmd sh {spider -t mod6/?/1/2/} OK "$mp:\nmod6/3/1/2/1"
+testouterr_cmd sh {spider -t mod6/?/2/2/} OK {}
+testouterr_cmd sh {spider -t mod6/?/2/6/7/} OK {}
+testouterr_cmd sh {spider -t mod7/} OK "$mp:\nmod7/4/"
+testouterr_cmd sh {spider -t mod7/4/} OK "$mp:\nmod7/4/1"
+testouterr_cmd sh {spider -t mod8/} OK "$mp:\nmod8/4/"
+testouterr_cmd sh {spider -t mod8/4/} OK "$mp:\nmod8/4/1(@)"
+testouterr_cmd sh {spider -t mod9/} OK "$mp:\nmod9/3/\nmod9/4/"
+testouterr_cmd sh {spider -t mod9/4/} OK "$mp:\nmod9/4/1"
+testouterr_cmd sh {spider -t mod11/sym} OK "$mp:\nmod11/1(sym)"
+testouterr_cmd sh {spider -t mod?/3/} OK "$mp:\nmod6/3/1/\nmod9/3/2(default)"
+
+# check impact of only latest and only default output filtering
+testouterr_cmd sh {spider -t -d} OK [if_implicitdefault $ts_noindepth $mp:\nmod0\nmod2/\nmod10\nmodv/]
+testouterr_cmd sh {spider -t -L} OK $ts_noindepth
+testouterr_cmd sh {spider -t -d mod2} OK "$mp:\nmod2/"
+testouterr_cmd sh {spider -t -L mod2} OK "$mp:\nmod2/"
+testouterr_cmd sh {spider -t -d mod2/} OK "$mp:\nmod2/1(default)"
+testouterr_cmd sh {spider -t -L mod2/} OK "$mp:\nmod2/2"
+testouterr_cmd sh {spider -t -d mod1*} OK [if_implicitdefault $mp:\nmod1/\nmod10\nmod11/ $mp:\nmod10]
+testouterr_cmd sh {spider -t -L mod1*} OK "$mp:\nmod1/\nmod10\nmod11/"
+testouterr_cmd sh {spider -t -d mod1*/*} OK [if_implicitdefault "$mp:\nmod1/2\nmod11/2"]
+testouterr_cmd sh {spider -t -L mod1*/*} OK "$mp:\nmod1/2\nmod11/2"
+testouterr_cmd sh {spider -t -d mod1?/} OK [if_implicitdefault "$mp:\nmod11/2"]
+testouterr_cmd sh {spider -t -L mod1?/} OK "$mp:\nmod11/2"
+testouterr_cmd sh {spider -t -d mod2?} OK {}
+testouterr_cmd sh {spider -t -L mod2?} OK {}
+testouterr_cmd sh {spider -t -d mod2?/} OK {}
+testouterr_cmd sh {spider -t -L mod2?/} OK {}
+testouterr_cmd sh {spider -t */*/} OK "$mp:\ndeepA/4/1/(ds)\nmod6/3/1/\nmod7/4/1\nmod8/4/1(@)\nmod9/3/2(default)\nmod9/4/1"
+testouterr_cmd sh {spider -t -d */*/} OK [if_implicitdefault "$mp:\ndeepA/4/1/(ds)\nmod6/3/1/\nmod7/4/1\nmod8/4/1(@)\nmod9/3/2(default)\nmod9/4/1" "$mp:\nmod9/3/2(default)"]
+testouterr_cmd sh {spider -t -L */*/} OK "$mp:\ndeepA/4/1/(ds)\nmod6/3/1/\nmod7/4/1\nmod8/4/1(@)\nmod9/3/2(default)\nmod9/4/1"
+testouterr_cmd sh {spider -t -d deepA/4/1/3/} OK "$mp:\ndeepA/4/1/3/1(default)"
+testouterr_cmd sh {spider -t -L deepA/4/1/3/} OK "$mp:\ndeepA/4/1/3/2"
+# specific tests to improve modEq procedure coverage
+setenv_var MODULES_EXTENDED_DEFAULT 1
+testouterr_cmd sh {spider -t -L */*/} OK "$mp:\ndeepA/4/1/(ds)\nmod6/3/1/\nmod7/4/1\nmod8/4/1(@)\nmod9/3/2(default)\nmod9/4/1"
+testouterr_cmd sh {spider -i -t -L */*/} OK "$mp:\ndeepA/4/1/(ds)\nmod6/3/1/\nmod7/4/1\nmod8/4/1(@)\nmod9/3/2(default)\nmod9/4/1"
+unsetenv_var MODULES_EXTENDED_DEFAULT
+
+# test no in depth mode and contains search match mode
+testouterr_cmd sh {spider -t -C od2/} OK "$mp:\nmod2/1(default)\nmod2/2"
+testouterr_cmd sh {spider -t -C 1} OK "$mp:\nmod1/\nmod10\nmod11/"
+testouterr_cmd sh {spider -t -C ul} OK {}
+testouterr_cmd sh {spider -t -C 6/3/1} OK "$mp:\nmod6/3/1/"
+
+# usage of no indepth mode spider in modulefile
+unsetenv_var MODULES_SPIDER_INDEPTH
+set tserr "$mp:
+mod1/
+mod10
+mod11/
+
+$mp:
+mod10
+mod11/
+
+$mp:
+mod1/1
+mod1/2
+mod10
+mod11/1(sym)
+mod11/2
+
+$mp:
+mod1/1
+mod1/2
+
+$mp:
+mod1/1
+mod1/2
+mod11/1(sym)
+mod11/2
+
+$mp:
+mod11/1(sym)
+mod11/2"
+
+# test modulepath and module names containing space character
+setenv_var MODULES_SPIDER_INDEPTH 0
+set mp "$modpath wspace"
+if {!$is_symlink_supported} {
+    send_user "\tskipping tests over '$mp' modulepath as symbolic links are not supported on filesystem\n"
+} else {
+
+setenv_path_var MODULEPATH $mp
+testouterr_cmd sh {spider -t spacen} OK "$mp:\nspacen/\nspacenb/(dw s)\nspacenc/"
+testouterr_cmd sh {spider -t space\ ya} OK "$mp:\n'space ya'/"
+
+}
+
+set mp "$modpath wspac "
+# create modulepath finishing by space on the file (it crashes git checkout on Windows if saved in repo)
+if {!$is_symlink_supported || [catch {file link -symbolic $mp modulefiles.2}]} {
+    send_user "\tskipping tests over '$mp' modulepath as symbolic links are not supported on filesystem or cannot be created\n"
+} else {
+
+# generate modulefiles that cannot be recorded in git repository
+create_endspace_test_modulefiles
+
+setenv_path_var MODULEPATH $mp
+testouterr_cmd sh {spider -t space\ y\ } OK "$mp:\n'space y '/"
+
+# delete modulepath link created for the test
+file delete $mp
+
+# delete generated modulefiles
+delete_endspace_test_modulefiles
+
+}
+
+
+#
+#  Cleanup
+#
+
+reset_test_env
