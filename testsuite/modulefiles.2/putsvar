@@ -24,4 +24,6 @@
 #
 ##############################################################################
 
-puts stderr $env(FOO)
+if {![module-info mode scan]} {
+    puts stderr $env(FOO)
+}
