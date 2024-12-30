@@ -36,6 +36,6 @@ proc ModulesTest { } {
 
 if { [module-info mode whatis] } {
     module-whatis "[module-info specified]"
-} elseif { ![module-info mode help] && ![module-info mode test]} {
+} elseif {[module-info mode] ni {help test scan}} {
     puts stderr "[module-info specified]"
 }

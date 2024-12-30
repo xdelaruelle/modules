@@ -23,7 +23,7 @@
 #			
 ##############################################################################
 
-if { ![module-info mode whatis] } {
+if {[module-info mode] ni {whatis scan}} {
 	puts stderr [ concat "modB " [module-info mode]]
 }
 setenv MODB_LOADED 1
