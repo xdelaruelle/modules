@@ -214,11 +214,11 @@ proc getEqArrayKeyProc {arrname name} {
    return $name
 }
 
-# Check a module name does match query at expected depth level when indepth
-# search is disabled. Define procedure on the fly to adapt its
-# code to indepth configuration option and querydepth and test mode params.
-proc defineDoesModMatchAtDepthProc {indepth querydepth test} {
-   set procprops $indepth:$querydepth:$test
+# Check a module name does match query at the depth level expressed in query
+# when search mode is not contains. Define procedure on the fly to adapt its
+# code to search configuration option and querydepth and test mode params.
+proc defineDoesModMatchAtDepthProc {contains querydepth test} {
+   set procprops $contains:$querydepth:$test
 
    # define proc if not done yet or if it was defined for another context
    if {[info procs doesModMatchAtDepth] eq {} ||\
@@ -231,7 +231,7 @@ proc defineDoesModMatchAtDepthProc {indepth querydepth test} {
       set ::g_doesModMatchAtDepth_procprops $procprops
 
       # define optimized procedure
-      if {$indepth} {
+      if {$contains} {
          set atdepth {$mod}
       } else {
          set atdepth "\[join \[lrange \[split \$mod /\] 0 $querydepth\] /\]"
