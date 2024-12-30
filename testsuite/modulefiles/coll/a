@@ -23,6 +23,6 @@
 #
 ##############################################################################
 
-if {![module-info mode whatis]} { 
+if {[module-info mode] ni {whatis scan}} {
     puts stderr "[module-info mode] [module-info name]"
 }
