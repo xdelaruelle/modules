@@ -3149,7 +3149,7 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
    # Phase #5: filter results to keep those matching search query
 
    # define module name and version comparison procs
-   defineDoesModMatchAtDepthProc $indepth $querydepth $mtest
+   defineDoesModMatchAtDepthProc $contains $querydepth $mtest
 
    # element to include in output
    set report_indesym [isEltInReport indesym 0]
