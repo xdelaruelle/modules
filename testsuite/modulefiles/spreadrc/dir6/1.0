@@ -64,7 +64,7 @@ if {[info procs $existing_proc] ne $existing_proc} {
 # env variable spread across interpretation and even between interpreters
 } else {
     if {[info exists env(spreadmodcasc)] && [$existing_proc] eq "spreadmodcasc"\
-        && [module-info mode] ne "whatis"} {
+        && [module-info mode] ni {whatis scan}} {
         puts stderr "procedure $existing_proc has been altered"
     }
     if {[info exists env(spreadrccasc)] && [$existing_proc] eq "spreadrccasc"} {
