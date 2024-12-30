@@ -62,6 +62,6 @@ proc ModulesTest { } {
     return 1
 }
 
-if { ![module-info mode whatis] } {
+if {[module-info mode] ni {whatis scan}} {
     puts stdout "[module-info flags]"
 }

@@ -39,6 +39,6 @@ if { [module-info mode whatis] } {
     module-whatis "[module-info command]"
 } elseif {[module-info command] eq {mod-to-sh}} {
     setenv INFOCMD [module-info command]
-} else {
+} elseif {[module-info mode] ne {scan}} {
     puts stderr "[module-info command]"
 }

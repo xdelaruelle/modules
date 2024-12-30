@@ -57,7 +57,7 @@ if {[info procs $existing_proc] ne $existing_proc} {
 # overridden proc does not spread as cascaded interpretation occurs in a
 # different interpreter
 } elseif {[info exists env(spreadcasc)] && [$existing_proc] eq "spreadcasc"\
-    && [module-info mode] ne "whatis"} {
+    && [module-info mode] ni {whatis scan}} {
     puts stderr "procedure $existing_proc has been altered"
 }
 if {[info procs spread_proc] eq "spread_proc"} {

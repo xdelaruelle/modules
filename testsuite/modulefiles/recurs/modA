@@ -24,7 +24,7 @@
 ##############################################################################
 
 conflict modA
-if { ![module-info mode whatis] } {
+if {[module-info mode] ni {whatis scan}} {
 	puts stderr [ concat "modA " [module-info mode]]
 }
 setenv MODA_LOADED 1
