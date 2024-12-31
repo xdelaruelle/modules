@@ -1,0 +1,769 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:		modules.51-scan/%M%
+#   Revision:		%I%
+#   First Edition:	2023/01/14
+#   Last Mod.:		%U%, %G%
+#
+#   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:	Testuite testsequence
+#   Command:		spider
+#   Modulefiles:    scan
+#   Sub-Command:
+#
+#   Comment:	%C{
+#           Tests scan evaluation on spider sub-command
+#		}C%
+#
+##############################################################################
+
+skip_if_quick_mode
+
+set mp $modpath.4
+set mpre $modpathre.4
+setenv_path_var MODULEPATH $mp
+
+# ensure advanced version specifiers are enabled
+setenv_var MODULES_ADVANCED_VERSION_SPEC 1
+
+# ensure spider tests are made using in depth mode
+setenv_var MODULES_SPIDER_INDEPTH 1
+
+# ensure spider tests have implicit default enabled
+setenv_var MODULES_IMPLICIT_DEFAULT 1
+
+setenv_var MODULES_SPIDER_TERSE_OUTPUT alias:dirwsym:sym:tag:variant
+
+
+#
+# scan evaluation on erroneous modulefiles
+#
+
+setenv_var TESTSUITE_SCAN break1
+set tserr1 "scan/1.0
+scan/1.1
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan} OK $tserr1
+
+setenv_var TESTSUITE_SCAN break2
+set tserr2 "scan/1.0{foo=val1,val2}
+scan/1.1{foo=val1,val2}
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan} OK $tserr2
+
+setenv_var TESTSUITE_SCAN unk1
+testouterr_cmd sh {spider -t scan} OK $tserr1
+
+setenv_var TESTSUITE_SCAN unk2
+testouterr_cmd sh {spider -t scan} OK $tserr2
+
+setenv_var TESTSUITE_SCAN undef1
+testouterr_cmd sh {spider -t scan} OK $tserr1
+
+setenv_var TESTSUITE_SCAN undef2
+testouterr_cmd sh {spider -t scan} OK $tserr2
+
+setenv_var TESTSUITE_SCAN exit1
+testouterr_cmd sh {spider -t scan} OK $tserr1
+
+setenv_var TESTSUITE_SCAN exit2
+testouterr_cmd sh {spider -t scan} OK $tserr2
+
+setenv_var TESTSUITE_SCAN continue1
+testouterr_cmd sh {spider -t scan} OK $tserr1
+
+setenv_var TESTSUITE_SCAN continue2
+testouterr_cmd sh {spider -t scan} OK $tserr2
+
+setenv_var TESTSUITE_SCAN variant1
+testouterr_cmd sh {spider -t scan} OK $tserr1
+
+setenv_var TESTSUITE_SCAN variant2
+testouterr_cmd sh {spider -t scan} OK $tserr2
+
+setenv_var TESTSUITE_SCAN mfcmderr1
+testouterr_cmd sh {spider -t scan} OK $tserr1
+
+setenv_var TESTSUITE_SCAN mfcmderr2
+set tserr3 "scan/1.0{foo=val1,val2:qux=val1,val2}
+scan/1.1{foo=val1,val2:qux=val1,val2}
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan} OK $tserr3
+
+
+#
+# puts text during scan
+#
+
+# puts to stdout
+setenv_var TESTSUITE_SCAN puts1
+set ans [list]
+lappend ans [list out {some text}]
+lappend ans [list out {some text}]
+lappend ans [list out {some text}]
+lappend ans [list out {some text}]
+set tserr "scan/1.0{foo=val1,val2}
+scan/1.1{foo=val1,val2}
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan} $ans $tserr
+
+setenv_var TESTSUITE_SCAN puts2
+testouterr_cmd sh {spider -t scan} $ans $tserr
+
+setenv_var TESTSUITE_SCAN puts3
+testouterr_cmd sh {spider -t scan} $ans $tserr
+
+# puts to stderr
+setenv_var TESTSUITE_SCAN puts4
+set tserr "some text
+some text
+some text
+some text
+scan/1.0{foo=val1,val2}
+scan/1.1{foo=val1,val2}
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan} OK $tserr
+
+
+#
+# symbolic version elements during scan
+#
+
+setenv_var TESTSUITE_SCAN sym1
+
+set tserr "scan/1.0{foo=val1,val2,val3,val4}(sym)
+scan/1.1{foo=val1,val2,val3,val4}
+scan/2.0{foo=val1,val2,val3}(foo)
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t foo=val3} OK $tserr
+
+set tserr ".*
+Get modules: {((source|scan|foo).* )*(source|scan|foo).*} matching 'foo=val3' in '$mpre'
+scan/1.0{foo=val1,val2,val3,val4}\\\(sym\\\)
+scan/1.1{foo=val1,val2,val3,val4}
+scan/2.0{foo=val1,val2,val3}\\\(foo\\\)
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd_re sh {spider -T -t foo=val3} OK $tserr
+
+set tserr "scan/1.0{foo=val1,val2,val3,val4}(sym)
+scan/1.1{foo=val1,val2,val3,val4}"
+testouterr_cmd sh {spider -t foo=val4} OK $tserr
+
+set tserr "scan/1.0{foo=val1,val2,val3,val4}(sym)"
+testouterr_cmd sh {spider -t scan/sym foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {((source|scan|foo).* )*(source|scan|foo).*} matching 'foo=val4' in '$mpre'
+scan/1.0{foo=val1,val2,val3,val4}\\\(sym\\\)
+scan/1.1{foo=val1,val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {scan/1.0} matching 'scan@:1.0 foo=val4' in '$mpre'
+scan/1.0{foo=val1,val2,val3,val4}\\\(sym\\\)"
+testouterr_cmd_re sh {spider -T -t scan@:1.0 foo=val4} OK $tserr
+
+# with global symbol
+setenv_var MODULERCFILE $env(TESTSUITEDIR)/etc/modulerc.scan
+set tserr "scan/1.0{foo=val1,val2,val3,val4}(globalsym:sym)
+scan/1.1{foo=val1,val2,val3,val4}"
+testouterr_cmd sh {spider -t foo=val4} OK $tserr
+
+set tserr "scan/1.0{foo=val1,val2,val3,val4}(globalsym:sym)"
+testouterr_cmd sh {spider -t scan/globalsym foo=val4} OK $tserr
+
+testouterr_cmd sh {spider -t scan/globalsym foo=val5} OK {}
+
+# no extra match filter
+set tserr "scan/1.0{foo=val1,val2,val3,val4}(globalsym:sym)
+scan/1.1{foo=val1,val2,val3,val4}
+scan/2.0{foo=val1,val2,val3}(foo)
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t -o tag:variant:sym:alias scan} OK $tserr
+
+set tserr ".*
+Get modules: {foo/globalsym scan/globalsym foo/globalunk scan/globalunk} matching 'foo=val4' in ''
+.*
+Get modules: {((source|scan|foo).* )*(source|scan|foo).*} matching 'foo=val4' in '$mpre'
+scan/1.0{foo=val1,val2,val3,val4}\\\(globalsym:sym\\\)
+scan/1.1{foo=val1,val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@:1.0 foo=val4' in ''
+.*
+Get modules: {scan/1.0} matching 'scan@:1.0 foo=val4' in '$mpre'
+scan/1.0{foo=val1,val2,val3,val4}\\\(globalsym:sym\\\)"
+testouterr_cmd_re sh {spider -T -t scan@:1.0 foo=val4} OK $tserr
+setenv_var MODULERCFILE $ORIG_MODULERCFILE
+
+
+#
+# default symbolic version during scan
+#
+
+setenv_var TESTSUITE_SCAN sym2
+
+set tserr ".*
+Get modules: {} matching 'scan foo=val1' in ''
+.*
+Get modules: {scan/1.1 scan/default scan/1.0} matching 'scan foo=val1' in '$mpre'
+scan/1.0{foo=val1,val2,val3}\\\(default\\\)
+scan/1.1{foo=val1,val2,val3}"
+testouterr_cmd_re sh {spider -T -t scan foo=val1} OK $tserr
+
+if {$install_searchmatch eq {contains}} {
+set tserr ".*
+Get modules: {} matching 'scan foo=val4' in ''
+.*
+Get modules: {scan/2.0 scan/2.1} matching 'scan foo=val4' in '$mpre'
+scan/2.0{foo=val2,val3,val4}
+scan/2.1{foo=val2,val3,val4}"
+} else {
+set tserr ".*
+Get modules: {} matching 'scan foo=val4' in ''
+.*
+Get modules: {((scan).* )*(scan).*} matching 'scan foo=val4' in '$mpre'
+scan/2.0{foo=val2,val3,val4}
+scan/2.1{foo=val2,val3,val4}"
+}
+testouterr_cmd_re sh {spider -T -t scan foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@default foo=val4' in ''
+.*
+Get modules: {} matching 'scan@default foo=val4' in '$mpre'"
+testouterr_cmd_re sh {spider -T -t scan@default foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@default foo=val2' in ''
+.*
+Get modules: {scan/default scan/1.0} matching 'scan@default foo=val2' in '$mpre'
+scan/1.0{foo=val1,val2,val3}\\\(default\\\)"
+testouterr_cmd_re sh {spider -T -t scan@default foo=val2} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@1.1:2.1 foo=val4' in ''
+.*
+Get modules: {scan/2.0 scan/2.1} matching 'scan@1.1:2.1 foo=val4' in '$mpre'
+scan/2.0{foo=val2,val3,val4}
+scan/2.1{foo=val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t scan@1.1:2.1 foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@1.1:2.0 foo=val2' in ''
+.*
+Get modules: {scan/2.0 scan/1.1} matching 'scan@1.1:2.0 foo=val2' in '$mpre'
+scan/1.1{foo=val1,val2,val3}
+scan/2.0{foo=val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t scan@1.1:2.0 foo=val2} OK $tserr
+
+
+#
+# auto symbolic version during scan
+#
+
+setenv_var TESTSUITE_SCAN sym3
+
+set tserr ".*
+Get modules: {} matching 'scan foo=val1' in ''
+.*
+Get modules: {scan/1.1 scan/1.0} matching 'scan foo=val1' in '$mpre'
+scan/1.0{foo=val1,val2,val3}
+scan/1.1{foo=val1,val2,val3}"
+testouterr_cmd_re sh {spider -T -t scan foo=val1} OK $tserr
+
+if {$install_searchmatch eq {contains}} {
+set tserr ".*
+Get modules: {} matching 'scan foo=val4' in ''
+.*
+Get modules: {scan/2.0 scan/2.1} matching 'scan foo=val4' in '$mpre'
+scan/2.0{foo=val2,val3,val4}
+scan/2.1{foo=val2,val3,val4}"
+} else {
+set tserr ".*
+Get modules: {} matching 'scan foo=val4' in ''
+.*
+Get modules: {((scan).* )*(scan).*} matching 'scan foo=val4' in '$mpre'
+scan/2.0{foo=val2,val3,val4}
+scan/2.1{foo=val2,val3,val4}"
+}
+testouterr_cmd_re sh {spider -T -t scan foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@default foo=val4' in ''
+.*
+Get modules: {scan/2.1 scan/default} matching 'scan@default foo=val4' in '$mpre'
+scan/2.1{foo=val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t scan@default foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@default foo=val2' in ''
+.*
+Get modules: {scan/2.1 scan/default} matching 'scan@default foo=val2' in '$mpre'
+scan/2.1{foo=val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t scan@default foo=val2} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@latest foo=val4' in ''
+.*
+Get modules: {scan/2.1 scan/latest} matching 'scan@latest foo=val4' in '$mpre'
+scan/2.1{foo=val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t scan@latest foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@latest foo=val2' in ''
+.*
+Get modules: {scan/2.1 scan/latest} matching 'scan@latest foo=val2' in '$mpre'
+scan/2.1{foo=val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t scan@latest foo=val2} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@1.1:2.0 foo=val4' in ''
+.*
+Get modules: {scan/2.0} matching 'scan@1.1:2.0 foo=val4' in '$mpre'
+scan/2.0{foo=val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t scan@1.1:2.0 foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@1.1:2.1 foo=val2' in ''
+.*
+Get modules: {scan/2.0 scan/1.1 scan/2.1} matching 'scan@1.1:2.1 foo=val2' in '$mpre'
+scan/1.1{foo=val1,val2,val3}
+scan/2.0{foo=val2,val3,val4}
+scan/2.1{foo=val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t scan@1.1:2.1 foo=val2} OK $tserr
+
+
+setenv_var TESTSUITE_SCAN sym4
+
+set tserr ".*
+Get modules: {} matching 'scan@default foo=val2' in ''
+.*
+Get modules: {scan/2.1 scan/default} matching 'scan@default foo=val2' in '$mpre'
+scan/2.1{foo=val2,val3,val4}\\\(default\\\)"
+testouterr_cmd_re sh {spider -T -t scan@default foo=val2} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@latest foo=val4' in ''
+.*
+Get modules: {scan/2.1 scan/latest} matching 'scan@latest foo=val4' in '$mpre'
+scan/2.1{foo=val2,val3,val4}\\\(default\\\)"
+testouterr_cmd_re sh {spider -T -t scan@latest foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@1.1:2.0 foo=val2' in ''
+.*
+Get modules: {scan/2.0 scan/1.1} matching 'scan@1.1:2.0 foo=val2' in '$mpre'
+scan/1.1{foo=val1,val2,val3}
+scan/2.0{foo=val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t scan@1.1:2.0 foo=val2} OK $tserr
+
+
+#
+# alias element during scan
+#
+
+setenv_var TESTSUITE_SCAN alias1
+
+set tserr "scan/1.0{foo=val1,val2,val3,val4}
+scan/1.1{foo=val1,val2,val3,val4}
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t foo=val3} OK $tserr
+
+set tserr "scan/1.0{foo=val1,val2,val3,val4}
+scan/1.1{foo=val1,val2,val3,val4}"
+testouterr_cmd sh {spider -t foo=val4} OK $tserr
+
+# matching name, but no variant in an alias (no resolution to target on spider)
+testouterr_cmd sh {spider -t scan/alias foo=val4} OK {}
+
+testouterr_cmd sh {spider -t scan/alias foo=val5} OK {}
+
+set tserr ".*
+Get modules: {((source|scan).* )*(source|scan).*} matching 'foo=val4' in '$mpre'
+scan/1.0{foo=val1,val2,val3,val4}
+scan/1.1{foo=val1,val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t foo=val4} OK $tserr
+
+# with global symbol
+setenv_var MODULERCFILE $env(TESTSUITEDIR)/etc/modulerc.scan
+
+testouterr_cmd sh {spider -t scan/glalias foo=val4} OK {}
+testouterr_cmd sh {spider -t scanalias foo=val4} OK {}
+
+# no extra match filter
+set tserr "scan/1.0{foo=val1,val2,val3,val4}
+scan/1.1{foo=val1,val2,val3,val4}
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}
+scan/alias(@)
+scan/alunk(@)
+scan/glalias(@)
+scan/glalunk(@)
+scanalias(@)"
+testouterr_cmd sh {spider -t -o tag:variant:sym:alias scan} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'foo=val4' in ''
+.*
+Get modules: {((source|scan).* )*(source|scan).*} matching 'foo=val4' in '$mpre'
+scan/1.0{foo=val1,val2,val3,val4}
+scan/1.1{foo=val1,val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t foo=val4} OK $tserr
+
+set tserr ".*
+Get modules: {} matching 'scan@:1.0 foo=val4' in ''
+.*
+Get modules: {scan/1.0} matching 'scan@:1.0 foo=val4' in '$mpre'
+scan/1.0{foo=val1,val2,val3,val4}"
+testouterr_cmd_re sh {spider -T -t scan@:1.0 foo=val4} OK $tserr
+setenv_var MODULERCFILE $ORIG_MODULERCFILE
+
+
+#
+# no-indepth mode
+#
+
+setenv_var TESTSUITE_VARIANT free3
+setenv_path_var MODULEPATH $modpath.3
+
+set tserr variant/
+testouterr_cmd sh {spider -t --no-indepth foo=anything} OK $tserr
+testouterr_cmd sh {spider -t --no-indepth variant foo=anything} OK $tserr
+testouterr_cmd sh {spider -t --no-indepth varian foo=anything} OK $tserr
+
+set tserr "variant/1.0{foo=*}
+variant/6.0{foo=*}"
+testouterr_cmd sh {spider -t --no-indepth variant/ foo=anything} OK $tserr
+unsetenv_var TESTSUITE_VARIANT
+
+setenv_var TESTSUITE_SCAN noindepth1
+setenv_path_var MODULEPATH $mp
+
+set tserr scan/
+testouterr_cmd sh {spider -t --no-indepth foo=val4} OK $tserr
+testouterr_cmd sh {spider -t --no-indepth scan foo=val4} OK $tserr
+testouterr_cmd sh {spider -t --no-indepth sca foo=val4} OK $tserr
+
+set tserr "scan/2.0{foo=val2,val3,val4}
+scan/2.1{foo=val2,val3,val4}"
+testouterr_cmd sh {spider -t --no-indepth scan/ foo=val4} OK $tserr
+
+testouterr_cmd sh {spider -t --no-indepth foo=val5} OK {}
+testouterr_cmd sh {spider -t --no-indepth foo=val} OK {}
+testouterr_cmd sh {spider -t --no-indepth scan/ foo=val5} OK {}
+
+
+#
+# special chars
+#
+
+setenv_var TESTSUITE_SCAN special1
+
+testouterr_cmd sh {spider -t foo=*} OK {}
+testouterr_cmd sh {spider -t variant foo=*} OK {}
+
+set tserr "scan/1.0{foo=val1,val2,val3}
+scan/1.1{foo=val1,val2,val3}
+scan/2.0{foo=val2,val3,val4}
+scan/2.1{foo=val2,val3,val4}"
+testouterr_cmd sh {spider -t * foo=val2} OK $tserr
+
+setenv_var MODULES_VARIANT_SHORTCUT foo=%
+set tserr "scan/1.0{%val1,val2,val3}
+scan/1.1{%val1,val2,val3}
+scan/2.0{%val2,val3,val4}
+scan/2.1{%val2,val3,val4}"
+testouterr_cmd sh {spider -t * %val2} OK $tserr
+unsetenv_var MODULES_VARIANT_SHORTCUT
+
+setenv_var TESTSUITE_SCAN special2
+
+set tserr "scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t * foo=val2} OK $tserr
+
+set tserr "scan/1.0{foo=on,off}
+scan/1.1{foo=on,off}"
+testouterr_cmd sh {spider -t * +foo} OK $tserr
+
+
+#
+# error accessing modules
+#
+
+# disable module cache for these specific tests
+if {[info exists env(TESTSUITE_ENABLE_MODULECACHE)]} {
+    setenv_var MODULES_IGNORE_CACHE 1
+}
+
+# creating modules with no or incompatible header
+close [open $mp/scan/1.5 w]
+set fid [open $mp/scan/1.6 w]
+puts $fid {#%Module99}
+close $fid
+
+setenv_var TESTSUITE_SCAN access1
+
+set tserr "scan/1.0{foo=val1,val2,val3}
+scan/1.1{foo=val1,val2,val3}
+scan/2.0{foo=val2,val3,val4}
+scan/2.1{foo=val2,val3,val4}"
+testouterr_cmd sh {spider -t scan foo=val2} OK $tserr
+
+testouterr_cmd sh {spider -t scan@1.5 foo=val2} OK {}
+testouterr_cmd sh {spider -t scan@1.6 foo=val2} OK {}
+
+set tserr "scan/2.0{foo=val2,val3,val4}"
+testouterr_cmd sh {spider -t scan@1.2:2.0 foo=val2} OK $tserr
+
+file delete $mp/scan/1.5
+file delete $mp/scan/1.6
+
+# cannot test access if cannot change file permission
+if {!$is_file_perms_editable} {
+    send_user "\tskipping access tests as file permissions cannot be changed\n"
+# cannot test access if superuser privileges are in use
+} elseif {$tcl_platform(user) eq "root"} {
+    send_user "\tskipping access tests as tests are run by superuser\n"
+# cannot test access if restricted file permissions have no effect
+} elseif {$is_locked_dir_file_readable && $is_locked_file_readable} {
+    send_user "\tskipping access tests as locked files or directories are still readable\n"
+} else {
+
+change_file_perms $mp/scan/1.0 ugo-r
+
+set tserr "scan/2.0{foo=val2,val3,val4}
+scan/2.1{foo=val2,val3,val4}"
+testouterr_cmd sh {spider -t scan foo=val2} OK $tserr
+
+testouterr_cmd sh {spider -t scan@1.0 foo=val2} OK {}
+
+set tserr "scan/2.0{foo=val2,val3,val4}"
+testouterr_cmd sh {spider -t scan@1.1:2.0 foo=val2} OK $tserr
+
+restore_file_perms $mp/scan/1.0
+
+}
+
+if {[info exists env(TESTSUITE_ENABLE_MODULECACHE)]} {
+    unsetenv_var MODULES_IGNORE_CACHE
+}
+
+
+#
+# scan evaluation when modulepath contains dot hidden symbol
+#
+
+setenv_path_var MODULEPATH $modpath
+
+set tserr "procedure auto_load_index has not been altered
+procedure auto_load_index has not been altered"
+testouterr_cmd sh {spider -t foo=val2} OK $tserr
+testouterr_cmd sh {spider -t -a foo=val2} OK $tserr
+
+setenv_path_var MODULEPATH $mp
+
+
+#
+# scan evaluation when module alias points to a directory
+#
+
+setenv_var TESTSUITE_SCAN diralias1
+
+set tserr "scan/1.0{foo=val1,val2,val3}
+scan/1.1{foo=val1,val2,val3}
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t foo=val2} OK $tserr
+testouterr_cmd sh {spider -t scan foo=val2} OK $tserr
+
+set tserr "scan/1.0{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan/1.0 foo=val2} OK $tserr
+
+setenv_var TESTSUITE_SCAN diralias2
+
+set tserr "scan/1.0{foo=val1,val2,val3}
+scan/1.1{foo=val1,val2,val3}
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t foo=val2} OK $tserr
+
+testouterr_cmd sh {spider -t foo=val2} OK $tserr
+
+testouterr_cmd sh {spider -t diralscan foo=val2} OK {}
+testouterr_cmd sh {spider -t diralscan/1.0 foo=val2} OK {}
+
+
+#
+# same variant specified several times
+#
+
+setenv_var TESTSUITE_SCAN variant1
+
+set tserr "scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan foo=val1 foo=val2} OK $tserr
+testouterr_cmd sh {spider -t scan foo=val1 foo=val4 foo=val2} OK {}
+testouterr_cmd sh {spider -t scan foo=val2 foo=val4} OK {}
+
+
+#
+# one variant several values
+#
+
+setenv_var TESTSUITE_SCAN variant1
+
+set tserr "scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan foo=val1,val2} OK $tserr
+testouterr_cmd sh {spider -t scan foo=val9,val2} OK $tserr
+testouterr_cmd sh {spider -t scan foo=val1,val9} OK $tserr
+testouterr_cmd sh {spider -t scan foo=val7,val1,val9} OK $tserr
+testouterr_cmd sh {spider -t scan foo=val7,val1,val9,val2} OK $tserr
+testouterr_cmd sh {spider -t scan foo=val8,val9,val7} OK {}
+testouterr_cmd sh {spider -t scan foo=,val1} OK $tserr
+testouterr_cmd sh {spider -t scan foo=val1,} OK $tserr
+testouterr_cmd sh {spider -t scan foo=val1,,val2} OK $tserr
+testouterr_cmd sh {spider -t scan foo=val1,1} OK $tserr
+testouterr_cmd sh {spider -t scan foo=1,val1} OK $tserr
+testouterr_cmd sh {spider -t scan foo=1,val1,0} OK $tserr
+testouterr_cmd sh {spider -t scan foo=0,1,val1} OK $tserr
+testouterr_cmd sh {spider -t scan foo=1,0} OK {}
+testouterr_cmd sh {spider -t scan foo=,} OK {}
+
+
+#
+# negated queries
+#
+
+setenv_var TESTSUITE_SCAN variant3
+
+set tserr "scan/1.0{foo=val1,val2}
+scan/1.1{foo=val1,val2}
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan not:foo=val1} OK {}
+testouterr_cmd sh {spider -t scan not:foo=val} OK $tserr
+testouterr_cmd sh {spider -t scan not:bar=val1} OK $tserr
+testouterr_cmd sh {spider -t scan not:foo=val7,val8} OK $tserr
+testouterr_cmd sh {spider -t scan not:bar=val1,val2} OK $tserr
+testouterr_cmd sh {spider -t scan not:foo=val1,val4} OK {}
+testouterr_cmd sh {spider -t scan not:foo=val4,val1} OK {}
+testouterr_cmd sh {spider -t scan not:foo=val1,val2} OK {}
+testouterr_cmd sh {spider -t scan not:foo=} OK $tserr
+
+
+# boolean tests
+testouterr_cmd sh {spider -t scan not:-foo} OK $tserr
+testouterr_cmd sh {spider -t scan not:+foo} OK $tserr
+
+setenv_var TESTSUITE_SCAN variant4
+set tserr "scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan not:-foo} OK $tserr
+testouterr_cmd sh {spider -t scan not:~foo} OK $tserr
+testouterr_cmd sh {spider -t scan not:+foo} OK $tserr
+
+
+# free-value variant
+setenv_var TESTSUITE_SCAN variant5
+testouterr_cmd sh {spider -t scan not:foo=} OK $tserr
+testouterr_cmd sh {spider -t scan not:foo=val} OK $tserr
+testouterr_cmd sh {spider -t scan not:foo=val1} OK {}
+
+
+# bad syntax tests
+setenv_var TESTSUITE_SCAN variant3
+testouterr_cmd sh {spider -t scan not:@1.0} ERR [err_extraspec not:@1.0]
+testouterr_cmd sh {spider -t scan not:@1,2} ERR [err_extraspec not:@1,2]
+testouterr_cmd sh {spider -t scan not:@1:} ERR [err_extraspec not:@1:]
+testouterr_cmd sh {spider -t scan not:=value} ERR [err_novariantname =value]
+
+setenv_var TESTSUITE_SCAN variant4
+testouterr_cmd sh {spider -t scan not:-foo:} ERR [err_extraspecifier foo]
+testouterr_cmd sh {spider -t scan not:~foo:} ERR [err_extraspecifier foo]
+testouterr_cmd sh {spider -t scan not:+foo:} ERR [err_extraspecifier foo]
+
+
+# variant shortcut tests
+setenv_var TESTSUITE_SCAN special1
+setenv_var MODULES_VARIANT_SHORTCUT foo=%
+
+set tserr "scan/2.0{%val2,val3,val4}
+scan/2.1{%val2,val3,val4}"
+testouterr_cmd sh {spider -t scan not:%val1} OK $tserr
+testouterr_cmd sh {spider -t scan not:%val1,val8} OK $tserr
+testouterr_cmd sh {spider -t scan not:%val1,val4} OK {}
+
+set tserr "scan/1.0{%val1,val2,val3}
+scan/1.1{%val1,val2,val3}
+scan/2.0{%val2,val3,val4}
+scan/2.1{%val2,val3,val4}"
+testouterr_cmd sh {spider -t scan not:%} OK $tserr
+
+unsetenv_var MODULES_VARIANT_SHORTCUT
+
+
+# mixed AND/NOT queries
+setenv_var TESTSUITE_SCAN variant6
+
+testouterr_cmd sh {spider -t scan not:foo=val1 +bar} OK {}
+testouterr_cmd sh {spider -t scan not:foo=val1 not:-bar} OK {}
+testouterr_cmd sh {spider -t scan not:foo=val1,val4 not:-bar} OK {}
+
+set tserr "scan/1.0{bar=on,off:foo=val1,val2}
+scan/1.1{bar=on,off:foo=val1,val2}"
+testouterr_cmd sh {spider -t scan not:foo=val4 -bar} OK $tserr
+testouterr_cmd sh {spider -t scan not:foo=val4,val0 -bar} OK $tserr
+
+set tserr "scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan not:foo=val4 not:+bar} OK $tserr
+
+set tserr "scan/1.0{bar=on,off:foo=val1,val2}
+scan/1.1{bar=on,off:foo=val1,val2}
+scan/2.0{foo=val1,val2,val3}
+scan/2.1{foo=val1,val2,val3}"
+testouterr_cmd sh {spider -t scan not:foo=val4 not:qux=val1} OK $tserr
+
+
+# global search
+set mp1 $env(HOME)/mp1
+create_simple_module_scan_setup $mp1
+setenv_var MODULEPATH $mp1
+
+set tserr "bar/1
+bar/2
+foo/1{bar=on,off:foo=val1,val2}
+qux/1
+qux/2"
+testouterr_cmd sh {spider -t not:foo=val4} OK $tserr
+testouterr_cmd sh {spider -t not:foo=val4 not:bar=foo} OK $tserr
+testouterr_cmd sh {spider -t not:foo=val4 not:bar=bar,foo} OK $tserr
+set tserr "bar/1
+bar/2
+qux/1
+qux/2"
+testouterr_cmd sh {spider -t not:foo=val4 not:+bar} OK $tserr
+testouterr_cmd sh {spider -t not:foo=val4,val2 not:+bar} OK $tserr
+testouterr_cmd sh {spider -t not:foo=val1,val2 not:+bar} OK $tserr
+
+delete_module_scan_setup $mp1
+
+
+#
+#  Cleanup
+#
+
+reset_test_env

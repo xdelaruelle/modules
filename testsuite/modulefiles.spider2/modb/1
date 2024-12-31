@@ -1,0 +1,29 @@
+#%Module
+if {[info exists env(TESTSUITE_SPIDER_MODPATH2)]} {
+    switch -- $env(TESTSUITE_SPIDER_MODPATH2) {
+        use_modpath3 {
+            module use ../../modulefiles.spider3
+        }
+        use_append_modpath3 {
+            module use --append ../../modulefiles.spider3
+        }
+        append_modpath3 {
+            append-path MODULEPATH ../../modulefiles.spider3
+        }
+        prepend_modpath3 {
+            prepend-path MODULEPATH ../../modulefiles.spider3
+        }
+        use_modpath3_and_misc {
+            module use ../../modulefiles.spider3 {} /path/to/unk ../../modulefiles.spider1
+        }
+        use_append_modpath3_and_misc {
+            module use -a ../../modulefiles.spider3 {} /path/to/unk ../../modulefiles.spider1
+        }
+        append_modpath3_and_misc {
+            append-path MODULEPATH ../../modulefiles.spider3 {} /path/to/unk ../../modulefiles.spider1
+        }
+        prepend_modpath3_and_misc {
+            prepend-path MODULEPATH ../../modulefiles.spider3 {} /path/to/unk ../../modulefiles.spider1
+        }
+    }
+}
