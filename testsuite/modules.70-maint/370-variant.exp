@@ -10,7 +10,7 @@
 #   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
 #
 #   Description:	Testuite testsequence
-#   Command:		list, avail, path, paths, is-avail
+#   Command:		list, avail, path, paths, is-avail, spider
 #   Modulefiles:    variant
 #   Sub-Command:
 #
@@ -374,11 +374,13 @@ unsetenv_var MODULES_ADVANCED_VERSION_SPEC
 
 
 #
-# avail
+# avail/spider
 #
 
 setenv_var MODULES_AVAIL_OUTPUT {modulepath:alias:dirwsym:sym:tag:variantifspec}
 setenv_var MODULES_AVAIL_TERSE_OUTPUT {modulepath:alias:dirwsym:sym:tag:variantifspec}
+setenv_var MODULES_SPIDER_OUTPUT {modulepath:alias:dirwsym:sym:tag:variantifspec}
+setenv_var MODULES_SPIDER_TERSE_OUTPUT {modulepath:alias:dirwsym:sym:tag:variantifspec}
 
 # variant not reported
 testouterr_cmd_re sh {avail variant/1.0} OK "$modlin $mpre $modlin
@@ -391,11 +393,13 @@ testouterr_cmd_re sh {avail variant/1.0 foo=val1 baz=2} OK {}
 setenv_var TESTSUITE_VARIANT 1
 set tserr "$modlin $mpre $modlin\nvariant/6.0{bar=1,2,3:foo=val1,val2,val3}  "
 testouterr_cmd_re sh {avail variant@6.0 foo=val1 baz=2} OK {}
+testouterr_cmd_re sh {spider variant@6.0 foo=val1 baz=2} OK {}
 testouterr_cmd_re sh {avail variant@6.0 foo=val4 bar=1} OK {}
 testouterr_cmd_re sh {avail variant@6.0 foo=val4} OK {}
 testouterr_cmd_re sh {avail variant@6.0 foo=val4 foo=val1} OK {}
 testouterr_cmd_re sh {avail variant@6.0 baz=3} OK {}
 testouterr_cmd_re sh {avail variant@6.0 foo=val1 foo=val2} OK $tserr
+testouterr_cmd_re sh {spider variant@6.0 foo=val1 foo=val2} OK $tserr
 testouterr_cmd_re sh {avail variant@6.0 foo=val1 bar=2} OK $tserr
 testouterr_cmd_re sh {avail variant@6.0 foo=val1 bar=2 bar=1} OK $tserr
 testouterr_cmd_re sh {avail variant@6.0 foo=val1 bar=2 bar=4} OK {}
@@ -415,6 +419,7 @@ variant/6.0{bar=1,2,3:foo=val1,val2,val3}"
     set tserr "$mp:\nvariant/"
 }
 testouterr_cmd sh {avail -t foo=val3 bar=3} OK $tserr
+testouterr_cmd sh {spider -t foo=val3 bar=3} OK $tserr
 
 # shortcut variant specification
 setenv_var MODULES_VARIANT_SHORTCUT foo=%
@@ -422,9 +427,12 @@ set tserr "$modlin $mpre $modlin\nvariant/6.0{bar=1,2,3:%val1,val2,val3}  "
 testouterr_cmd_re sh {avail variant@6.0 %val4} OK {}
 testouterr_cmd_re sh {avail variant@6.0 %val1 bar=2} OK $tserr
 setenv_var MODULES_AVAIL_OUTPUT {modulepath:alias:dirwsym:sym:tag}
+setenv_var MODULES_SPIDER_OUTPUT {modulepath:alias:dirwsym:sym:tag}
 set tserr "$modlin $mpre $modlin\nvariant/6.0  "
 testouterr_cmd_re sh {avail variant@6.0 %val2} OK $tserr
+testouterr_cmd_re sh {spider variant@6.0 %val2} OK $tserr
 setenv_var MODULES_AVAIL_OUTPUT {modulepath:alias:dirwsym:sym:tag:variantifspec}
+setenv_var MODULES_SPIDER_OUTPUT {modulepath:alias:dirwsym:sym:tag:variantifspec}
 # no module name/version, but variant specified
 if {$install_availindepth eq {y}} {
     set tserr "$mp:\nvariant/4.0{bar=1,2,3:%val1,val2,val3}
@@ -442,10 +450,14 @@ setenv_var TESTSUITE_VARIANT bool1
 set tserr "$modlin $mpre $modlin\nvariant/6.0{bar=on,off:foo=on,off}  "
 testouterr_cmd_re sh {avail variant@6.0 +foo -bar} OK $tserr
 testouterr_cmd_re sh {avail variant@6.0 +foo} OK $tserr
+testouterr_cmd_re sh {spider variant@6.0 +foo} OK $tserr
 setenv_var MODULES_AVAIL_OUTPUT {modulepath:alias:dirwsym:sym:tag}
+setenv_var MODULES_SPIDER_OUTPUT {modulepath:alias:dirwsym:sym:tag}
 set tserr "$modlin $mpre $modlin\nvariant/6.0  "
 testouterr_cmd_re sh {avail variant@6.0 ~bar} OK $tserr
+testouterr_cmd_re sh {spider variant@6.0 ~bar} OK $tserr
 setenv_var MODULES_AVAIL_OUTPUT {modulepath:alias:dirwsym:sym:tag:variantifspec}
+setenv_var MODULES_SPIDER_OUTPUT {modulepath:alias:dirwsym:sym:tag:variantifspec}
 # no module name/version, but variant specified
 if {$install_availindepth eq {n}} {
     set tserr "$modlin $mpre $modlin\nvariant/  "
@@ -484,7 +496,9 @@ setenv_var MODULES_COLORS "hi=1"
 setenv_var TESTSUITE_VARIANT 1
 set tserr "$mpre:\n[sgr 1]variant/6.0[sgr 22]{bar=1,2,3:[sgr 1]foo[sgr 22]=[sgr 1]val1[sgr 22],val2,val3}"
 testouterr_cmd_re sh {avail --color=always -t variant@6.0,8.0 foo=val1 baz=2} OK {}
+testouterr_cmd_re sh {spider --color=always -t variant@6.0,8.0 foo=val1 baz=2} OK {}
 testouterr_cmd_re sh {avail --color=always -t variant@6.0,8.0 foo=val1} OK $tserr
+testouterr_cmd_re sh {spider --color=always -t variant@6.0,8.0 foo=val1} OK $tserr
 set tserr "$mpre:\n[sgr 1]variant/6[sgr 22].0{bar=1,2,3:[sgr 1]foo[sgr 22]=[sgr 1]val1[sgr 22],val2,val3}
 variant/7.0{[sgr 1]foo[sgr 22]=[sgr 1]val1[sgr 22],val2,val3}"
 testouterr_cmd_re sh {avail --color=always -t variant@6:8 foo=val1 baz=2} OK {}
@@ -496,6 +510,7 @@ testouterr_cmd_re sh {avail --color=always -t variant@6:8 foo=val1,val3 bar=2 fo
 testouterr_cmd_re sh {avail --color=always -t variant@6:8 foo=val1,val1 bar=2 foo=val3} OK $tserr
 set tserr "$mpre:\n[sgr 1]variant/6[sgr 22].0{[sgr 1]bar[sgr 22]=[sgr 1]1[sgr 22],[sgr 1]2[sgr 22],3:[sgr 1]foo[sgr 22]=[sgr 1]val1[sgr 22],[sgr 1]val2[sgr 22],val3}"
 testouterr_cmd_re sh {avail --color=always -t variant@6:8 foo=val1 bar=2 foo=val2 bar=1} OK $tserr
+testouterr_cmd_re sh {spider --color=always -t variant@6:8 foo=val1 bar=2 foo=val2 bar=1} OK $tserr
 set tserr "$mpre:\n[sgr 1]variant/6[sgr 22].0{bar=1,2,3:[sgr 1]foo[sgr 22]=[sgr 1]val1[sgr 22],[sgr 1]val2[sgr 22],[sgr 1]val3[sgr 22]}
 variant/7.0{[sgr 1]foo[sgr 22]=[sgr 1]val1[sgr 22],[sgr 1]val2[sgr 22],[sgr 1]val3[sgr 22]}"
 testouterr_cmd_re sh {avail --color=always -t variant@6:8 foo=val3 foo=val1 foo=val2} OK $tserr

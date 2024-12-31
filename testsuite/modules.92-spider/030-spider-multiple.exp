@@ -1,0 +1,158 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:         modules.92-spider/%M%
+#   Revision:       %I%
+#   First Edition:  2024/12/29
+#   Last Mod.:      %U%, %G%
+#
+#   Authors:        Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:    Testuite testsequence
+#   Command:        spider
+#   Modulefiles:    loc_rc1/1.0, loc_rc1/2.0, loc_rc3/1.0, loc_rc3/2.0,
+#                   loc_rc3/3.0, loc_rc6, averssort, sym_foo, bad
+#   Sub-Command:
+#
+#   Comment:    %C{
+#           Check the module 'spider' command for a category
+#           module name in terse output mode.
+#       }C%
+#
+##############################################################################
+
+skip_if_quick_mode
+
+# ensure spider tests are made using in depth mode
+setenv_var MODULES_SPIDER_INDEPTH 1
+
+# ensure regular spider search match is set for these tests
+setenv_var MODULES_SEARCH_MATCH starts_with
+
+setenv_var MODULES_TERM_WIDTH 211
+
+set module1 "loc_rc1"
+set mod1vers1 "1.0"
+set mod1vers2 "2.0"
+set mod1sym "foo"
+set module2 "loc_rc3"
+set mod2vers1 "1.0"
+set mod2vers2 "2.0"
+set mod2vers3 "3.0"
+set mod2sym1 "default"
+set mod2sym2 "cur:stable"
+set mod2sym3 "chk:exp:new:test"
+set module3 "averssort"
+set mod3vers1 "1"
+set mod3vers2 "1.2.4"
+set mod3vers3 "1.10"
+set module4 "sym_foo"
+set module5 "bad"
+set mod5vers1 "after"
+set mod5vers2 "before"
+set mod5vers3 "body"
+set mod5vers4 "proc"
+set mod5sym1 "good"
+set module6 "loc_rc6"
+set mod6vers1 "0.9"
+set mod6vers2 "1.2"
+set mod6sym1 "default"
+set mod6sym2 "new"
+set mod6alias1 "1"
+set mod6alias2 "bar"
+set module7 "modalias/1.0"
+set header "$modlin $modpathre $modlin\n"
+set header2 "$modlin global/user modulerc $modlin\n"
+
+set key_sym "Key:
+\\(symbolic-version\\)  "
+set key_al "Key:
+\\(@\\)=module-alias  "
+set key_al_sym "Key:
+\\(@\\)=module-alias  \\(symbolic-version\\)  "
+
+#
+#  tests on a module with single symbol
+#
+
+# Check this only for the /bin/csh
+set ts_csh "$header$module1/$mod1vers1\\($mod1sym\\)\\s+$module1/$mod1vers2\\s+"
+
+testouterr_cmd_re "csh" "spider $module1" "OK" "$ts_csh\n\n$key_sym"
+testouterr_cmd_re "csh" "spider $module1 $module1" "OK" "$ts_csh\n$ts_csh\n\n$key_sym"
+
+
+#
+#  tests on a module with multiple symbols
+#
+
+set ts_csh "$header$module2/$mod2vers1\\($mod2sym1\\)\\s+$module2/$mod2vers2\\($mod2sym2\\)\\s+$module2/$mod2vers3\\($mod2sym3\\)\\s+"
+
+testouterr_cmd_re "csh" "spider $module2" "OK" "$ts_csh\n\n$key_sym"
+testouterr_cmd_re "csh" "spider $module2 $module2" "OK" "$ts_csh\n$ts_csh\n\n$key_sym"
+
+
+#
+#  tests on a module alias
+#
+
+set ts_csh "$header$module3/$mod3vers1\\(@\\)\\s+$module3/$mod3vers2\\(@\\)\\s+$module3/$mod3vers3\\(@\\)\\s+"
+
+testouterr_cmd_re "csh" "spider $module3" "OK" "$ts_csh\n\n$key_al"
+testouterr_cmd_re "csh" "spider $module3 $module3" "OK" "$ts_csh\n$ts_csh\n\n$key_al"
+
+
+#
+#  tests on a module alias set from a global modulerc
+#
+
+set env(MODULERCFILE) "$env(TESTSUITEDIR)/etc/modulerc"
+set ts_csh "$header2$module4\\(special:@\\)\\s+"
+
+testouterr_cmd_re "csh" "spider $module4" "OK" "$ts_csh\n\n$key_al_sym"
+testouterr_cmd_re "csh" "spider $module4 $module4" "OK" "$ts_csh\n$ts_csh\n\n$key_al_sym"
+
+
+#
+#  tests on a erroneous module with symbols
+#  no error should be displayed
+#
+
+set ts_csh "$header$module5/$mod5vers1\\($mod5sym1\\)\\s+$module5/$mod5vers2\\s+${module5}2/$mod5vers3\\s+${module5}2/$mod5vers4\\s+
+
+$modlin $modpathre.2 $modlin
+bad3/bodyfor\\s+bad3/bodyif\\s+bad3/bodyproc\\s+bad3/bodysource\\s+bad3/bodywhile\\s+bad3/proc2\\s+bad3/proc3\\s+bad3/procproc\\s+bad3/procsource\\s+badrc3/1\\s+"
+
+testouterr_cmd_re "csh" "spider $module5" "OK" "$ts_csh\n\n$key_sym"
+testouterr_cmd_re "csh" "spider $module5 $module5" "OK" "$ts_csh\n$ts_csh\n\n$key_sym"
+
+
+#
+#  tests on a module mixing aliases, symbols and regular modulefile
+#
+
+set ts_csh "$header$module6/$mod6vers1\\s+$module6/$mod6alias1\\(@\\)\\s+$module6/$mod6vers2\\($mod6sym1:$mod6sym2\\)\\s+$module6/$mod6alias2\\(@\\)\\s+"
+
+testouterr_cmd_re "csh" "spider $module6" "OK" "$ts_csh\n\n$key_al_sym"
+testouterr_cmd_re "csh" "spider $module6 $module6" "OK" "$ts_csh\n$ts_csh\n\n$key_al_sym"
+
+
+#
+#  tess on a module alias when multiple paths set
+#
+
+# save the former modulepath setup
+setenv_path_var MODULEPATH "$modpath.deep" $modpath
+set header "$modlin $modpathre.deep $modlin\n"
+set ts_csh "$header$module7\\(@\\)\\s+"
+
+testouterr_cmd_re "csh" "spider $module7" "OK" "$ts_csh\n\n$key_al"
+testouterr_cmd_re "csh" "spider $module7 $module7" "OK" "$ts_csh\n$ts_csh\n\n$key_al"
+
+
+#
+#  Cleanup
+#
+
+reset_test_env

@@ -1,0 +1,92 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:         modules.92-spider/%M%
+#   Revision:       %I%
+#   First Edition:  2024/12/29
+#   Last Mod.:      %U%, %G%
+#
+#   Authors:        Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:    Testuite testsequence
+#   Command:        spider
+#   Modulefiles:    help/2.0, loc_rc6/bar, loc_rc1/1.0
+#   Sub-Command:
+#
+#   Comment:    %C{
+#           Check the module 'spider' command for a full qualified
+#           module name in terse output mode.
+#       }C%
+#
+##############################################################################
+
+skip_if_quick_mode
+
+# ensure spider tests are made using in depth mode
+setenv_var MODULES_SPIDER_INDEPTH 1
+
+# ensure regular spider search match is set for these tests
+setenv_var MODULES_SEARCH_MATCH starts_with
+
+set module "help"
+set version "2.0"
+set module2 "loc_rc6"
+set alias2 "bar"
+set module3 "loc_rc1"
+set version3 "1.0"
+set symbol3 "foo"
+
+set key_al "Key:
+\\(@\\)=module-alias  "
+set key_sym "Key:
+\\(symbolic-version\\)  "
+
+#
+#  Check this only for the /bin/csh
+#
+
+set header "$modlin $modpathre $modlin\n"
+set ts_csh "$header$module/$version"
+
+#
+#  The tests
+#
+
+testouterr_cmd_re "csh" "spider $module/$version" OK "$ts_csh\\s+"
+
+# command nickname tests
+testouterr_cmd_re "csh" "spi $module" OK "$ts_csh\\s+"
+
+skip_if_quick_mode
+
+#
+#  Test spider on an alias module
+#
+
+set ts_csh "$header$module2/$alias2\\(@\\)"
+testouterr_cmd_re "csh" "spider $module2/$alias2" OK "$ts_csh\\s+\n\n$key_al"
+
+#
+#  Test spider on a symbolic version
+#
+
+set ts_csh "$header$module3/$version3\\($symbol3\\)"
+testouterr_cmd_re "csh" "spider $module3/$symbol3" OK "$ts_csh\\s+\n\n$key_sym"
+
+#
+# test when loaded environment is inconsistent
+#
+
+setenv_loaded_module [list foo bar] "/path/to/foo"
+
+# FIXME: bad environment state should not affect result of spider command
+#   like avail sub-command in 90/020
+testouterr_cmd_re "csh" "spider $module3/$symbol3" ERR "$ts_csh\\s+\n\n$key_sym"
+
+
+#
+#  Cleanup
+#
+
+reset_test_env

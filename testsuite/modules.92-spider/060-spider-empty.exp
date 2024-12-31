@@ -1,0 +1,49 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:        modules.92-spider/%M%
+#   Revision:       %I%
+#   First Edition:  2024/12/29
+#   Last Mod.:      %U%, %G%
+#
+#   Authors:        Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:    Testuite testsequence
+#   Command:        spider
+#   Modulefiles:    
+#   Sub-Command:
+#
+#   Comment:    %C{
+#           Check the module 'spider' command for not existing
+#           module files.
+#       }C%
+#
+##############################################################################
+
+skip_if_quick_mode
+
+#
+#  Check this only for the /bin/csh
+#
+
+
+#
+#  The tests
+#
+
+testouterr_cmd "csh" "spider wddlbrmpft" "OK" ""
+testouterr_cmd_re "csh" "spider --long wddlbrmpft" "OK" ""
+
+
+# test with a global modulerc set
+set env(MODULERCFILE) "$env(TESTSUITEDIR)/etc/modulerc"
+testouterr_cmd "csh" "spider wddlbrmpft" "OK" ""
+testouterr_cmd_re "csh" "spider --long wddlbrmpft" "OK" ""
+
+
+#
+#  Cleanup
+#
+
+reset_test_env

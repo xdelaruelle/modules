@@ -1,0 +1,229 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:         modules.92-spider/%M%
+#   Revision:       %I%
+#   First Edition:  2024/12/29
+#   Last Mod.:      %U%, %G%
+#
+#   Authors:        Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:    Testuite testsequence
+#   Command:        spider
+#   Modulefiles:    uname/domain, uname/machine, uname/nodename
+#   Modulefiles:    uname/release, uname/sysnae, uname/version
+#   Modulefiles:    unsetenv/0.6, unsetenv/0.8, unsetenv/0.9
+#   Modulefiles:    unsetenv/1.0, averssort, sym_foo, loc_rc2
+#   Sub-Command:
+#
+#   Comment:    %C{
+#           Check the module 'spider' command for a bunch of
+#           module names.
+#       }C%
+#
+##############################################################################
+
+skip_if_quick_mode
+
+#
+#  Check this only for the /bin/csh
+#
+
+# ensure spider tests are made using in depth mode
+setenv_var MODULES_SPIDER_INDEPTH 1
+
+# ensure default tag abbreviation is defined
+setenv_var MODULES_TAG_ABBREV {auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF}
+
+set header "$modpathre:"
+set header2 "global/user modulerc:"
+
+set ts_csh1 "uname/cache"
+set ts_csh2 "uname/domain"
+set ts_csh3 "uname/machine"
+set ts_csh4 "uname/nodename"
+set ts_csh5 "uname/release"
+set ts_csh6 "uname/sysname"
+set ts_csh7 "uname/unk"
+set ts_csh8 "uname/version"
+set ts_csh9 "unsetenv/0.6"
+set ts_csh10 "unsetenv/0.8"
+set ts_csh11 "unsetenv/0.9"
+set ts_csh12 "unsetenv/1.0"
+
+set tsa1_csh1 "averssort/1"
+set tsa1_csh2 "averssort/1.2.4"
+set tsa1_csh3 "averssort/1.10"
+
+set tsa2_csh1 "sym_foo"
+
+set tsv1_csh1 "loc_rc2/1.0\\(bar:blah:foo\\)"
+
+
+#
+#  test on regular modulefiles
+#
+
+set tserr_starts $header\n$ts_csh1\n$ts_csh2\n$ts_csh3\n$ts_csh4\n$ts_csh5\n$ts_csh6\n$ts_csh7\n$ts_csh8\n$ts_csh9\n$ts_csh10\n$ts_csh11\n$ts_csh12\n\n$modpathre.2:\nunloc
+set tserr_contains $header\ninfo/name\n$ts_csh1\n$ts_csh2\n$ts_csh3\n$ts_csh4\n$ts_csh5\n$ts_csh6\n$ts_csh7\n$ts_csh8\n\n$modpathre.2:\ninfo/username\nveryveryveryveryveryveryveryverylong/name\\(sym\\)
+
+if {$::install_searchmatch eq {contains}} {
+    testouterr_cmd_re csh {spider -t name} OK $tserr_contains
+} else {
+    testouterr_cmd_re csh {spider -t un} OK $tserr_starts
+}
+testouterr_cmd_re csh {spider -t -S un} OK $tserr_starts
+testouterr_cmd_re csh {spider -t --starts-with un} OK $tserr_starts
+testouterr_cmd_re csh {spider -t -C name} OK $tserr_contains
+testouterr_cmd_re csh {spider -t --contains name} OK $tserr_contains
+# no module starting with 'name' > nothing found
+testouterr_cmd_re csh {spider -t -S name} OK {}
+
+
+# test search match option set from environment variable
+setenv_var MODULES_SEARCH_MATCH starts_with
+testouterr_cmd_re csh {spider -t un} OK $tserr_starts
+testouterr_cmd_re csh {spider -t -S un} OK $tserr_starts
+testouterr_cmd_re csh {spider -t -C name} OK $tserr_contains
+setenv_var MODULES_SEARCH_MATCH contains
+testouterr_cmd_re csh {spider -t name} OK $tserr_contains
+testouterr_cmd_re csh {spider -t -C name} OK $tserr_contains
+testouterr_cmd_re csh {spider -t -S un} OK $tserr_starts
+setenv_var MODULES_SEARCH_MATCH bad
+if {$::install_searchmatch eq {contains}} {
+    testouterr_cmd_re csh {spider -t name} OK $tserr_contains
+} else {
+    testouterr_cmd_re csh {spider -t un} OK $tserr_starts
+}
+unsetenv_var MODULES_SEARCH_MATCH
+
+#
+#  test on module alias
+#
+
+set tserr_starts $header\n$tsa1_csh1\\(@\\)\n$tsa1_csh2\\(@\\)\n$tsa1_csh3\\(@\\)
+set tserr_contains $header\n$tsa1_csh1\\(@\\)\n$tsa1_csh2\\(@\\)\n$tsa1_csh3\\(@\\)\nverssort/1\nverssort/1.2.1\nverssort/1.2.4\nverssort/1.8-2015-12-01\nverssort/1.8-2016-02-01\nverssort/1.10
+if {$::install_searchmatch eq {contains}} {
+    testouterr_cmd_re csh {spider -t rsso} OK $tserr_contains
+} else {
+    testouterr_cmd_re csh {spider -t avers} OK $tserr_starts
+}
+testouterr_cmd_re csh {spider -t -S avers} OK $tserr_starts
+testouterr_cmd_re csh {-S spider -t avers} OK $tserr_starts
+testouterr_cmd_re csh {spider -t -C rsso} OK $tserr_contains
+testouterr_cmd_re csh {-C spider -t rsso} OK $tserr_contains
+
+#
+#  test on symbolic version
+#
+
+set tserr_starts $header\n$tsv1_csh1
+set tserr_contains $tserr_starts
+if {$::install_searchmatch eq {contains}} {
+    testouterr_cmd_re csh {spider -l -t _rc2/f} OK $tserr_contains
+} else {
+    testouterr_cmd_re csh {spider -l -t loc_rc2/f} OK $tserr_starts
+}
+testouterr_cmd_re csh {spider -C -S -l -t loc_rc2/f} OK $tserr_starts
+testouterr_cmd_re csh {--contains spider -S -l -t loc_rc2/f} OK $tserr_starts
+testouterr_cmd_re csh {spider -S -C -l -t _rc2/f} OK $tserr_contains
+testouterr_cmd_re csh {--starts-with spider -C -l -t _rc2/f} OK $tserr_contains
+testouterr_cmd_re csh {-S --contains spider -l -t loc_rc2/f} OK $tserr_contains
+
+#
+# test on hidden modulefile
+#
+
+testouterr_cmd_re csh {spider -C -t idde} OK {}
+testouterr_cmd_re csh {spider -C -t rc8/foo} OK {}
+set tserr_contains $header\ninfo/specified\\(foo\\)\ninforc/foo\\(@\\)\nloc_rc1/1.0\\(foo\\)\nloc_rc2/1.0\\(bar:blah:foo\\)\nloc_tr/3.0\\(bar:default:exp:foo:reg:tr2bar:tr2exp:trbar:trexp:trreg\\)\nmodbad/foo\n\n$modpathre.2:\nextdfl7/10foo\nfoo/0.1\nfoo/0.2\nfoo/1\nfoo/2\nnanfoo/1\\(nan\\)
+testouterr_cmd_re csh {spider -C -t foo} OK $tserr_contains
+testouterr_cmd_re csh {spider -S -t foo} OK $modpathre.2:\nfoo/0.1\nfoo/0.2\nfoo/1\nfoo/2
+set tserr_starts "$header\nloc_rc8/.2.0\\(foo\\) <H>"
+set tserr_contains $tserr_starts
+testouterr_cmd_re csh {spider -S -t loc_rc8/foo} OK $tserr_starts
+testouterr_cmd_re csh {spider -C -t loc_rc8/foo} OK $tserr_contains
+
+#
+# test on virtual modulefile
+#
+
+setenv_var MODULEPATH $modpath.deep
+set tserr_contains $modpathre.deep:\nmodvirt/1.0\\(@\\)\nmodvirt/3.0\nmodvirt/dir0/sub1/4.0\nmodvirt/dir0/sub1/5.0\\(@\\)\nmodvirt/dir0/sub1/6.0\nmodvirt/dir1/1.0\nmodvirt/dir1/2.0\\(@\\)\nmodvirt/dir2/2.0\nmodvirt/dir2/3.0\\(@\\)
+testouterr_cmd_re csh {spider -C -t virt} OK $tserr_contains
+set tserr_contains $modpathre.deep:\nmodtr/dir5/subdir/\\(dadj:sfld\\)\nmodtr/dir5/subdir/mod5.0\\(madj\\)\nmodvirt/dir0/sub1/4.0\nmodvirt/dir0/sub1/5.0\\(@\\)\nmodvirt/dir0/sub1/6.0
+testouterr_cmd_re csh {spider -C -t sub} OK $tserr_contains
+set tserr_contains $modpathre.deep:\nmodvirt/dir0/sub1/4.0\nmodvirt/dir0/sub1/5.0\\(@\\)\nmodvirt/dir0/sub1/6.0
+testouterr_cmd_re csh {spider -C -t dir0/su} OK $tserr_contains
+
+
+#
+# test on directories
+#
+
+set tserr_contains $modpathre.deep:\nmodtr/dir4/\\(default:fld:reg:trfld:trreg\\)\nmodtr/dir4/al7\\(madj:@\\)\nmodtr/dir4/al8\\(dadj:@\\)\nmodtr/dir4/mod4.0
+testouterr_cmd_re csh {spider -C -t modtr/dir4} OK $tserr_contains
+set tserr_contains $modpathre.deep:\nmodtr/dir4/\\(default:fld:reg:trfld:trreg\\)\nmodtr/dir4/al7\\(madj:@\\)\nmodtr/dir4/al8\\(dadj:@\\)\nmodtr/dir4/mod4.0
+testouterr_cmd_re csh {spider -C -t dir4} OK $tserr_contains
+set tserr_contains $modpathre.deep:\nmodtr/dir1/1.0\\(cur:stable\\)\nmodtr/dir2/2.0\\(next:tr2unstable:trunstable:unstable\\)\nmodtr/dir3/al2\\(bar:default:exp:reg:tr2bar:trbar:@\\)\nmodtr/dir3/al3\\(default:exp:reg:@\\)\nmodtr/dir4/\\(default:fld:reg:trfld:trreg\\)\nmodtr/dir4/al7\\(madj:@\\)\nmodtr/dir4/al8\\(dadj:@\\)\nmodtr/dir4/mod4.0\nmodtr/dir5/subdir/\\(dadj:sfld\\)\nmodtr/dir5/subdir/mod5.0\\(madj\\)
+testouterr_cmd_re csh {spider -C -t tr/dir} OK $tserr_contains
+set tserr_contains $modpathre.deep:\nmodulerc/dir2/1.0/\\(default:foo\\)\nmodulerc/dir2/1.0/rc1\\(default:foo\\)\nmodulerc/dir2/1.0/rc2
+testouterr_cmd_re csh {spider -C -t rc/dir2/1} OK $tserr_contains
+
+
+#
+#  test on module alias set from global modulerc
+#
+
+setenv_var MODULEPATH $modpath
+setenv_var MODULERCFILE "$env(TESTSUITEDIR)/etc/modulerc"
+set tserr_starts $header2\n$tsa2_csh1\\(special:@\\)
+set tserr_contains $tserr_starts
+if {$::install_searchmatch eq {contains}} {
+    testouterr_cmd_re csh {spider -t _foo} OK $tserr_contains
+} else {
+    testouterr_cmd_re csh {spider -t sym_} OK $tserr_starts
+}
+testouterr_cmd_re csh {spider -t -C _foo} OK $tserr_contains
+testouterr_cmd_re csh {spider -t -S sym_} OK $tserr_starts
+
+
+#
+# wildcard character tests
+#
+
+set mp "$modpath.indepth"
+# setup specific environment
+setenv_path_var MODULEPATH $mp
+setenv_var MODULES_SEARCH_MATCH starts_with
+
+testouterr_cmd sh {spider -t mod1*} OK "$mp:\nmod1/1\nmod1/2\nmod10\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod1**} OK "$mp:\nmod1/1\nmod1/2\nmod10\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod1/*} OK "$mp:\nmod1/1\nmod1/2"
+testouterr_cmd sh {spider -t mod1/?} OK "$mp:\nmod1/1\nmod1/2"
+testouterr_cmd sh {spider -t mod1/??} OK {}
+testouterr_cmd sh {spider -t mod1*/*} OK "$mp:\nmod1/1\nmod1/2\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod1?/} OK "$mp:\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod1?/*} OK "$mp:\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod1?} OK "$mp:\nmod10\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod1?*} OK "$mp:\nmod10\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod1*?} OK "$mp:\nmod10\nmod11/1(sym)\nmod11/2"
+testouterr_cmd sh {spider -t mod??} OK "$mp:\nmod10\nmod11/1(sym)\nmod11/2\nmod30/2"
+testouterr_cmd sh {spider -t mod?*?} OK "$mp:\nmod10\nmod11/1(sym)\nmod11/2\nmod30/2"
+testouterr_cmd sh {spider -t mod??/} OK "$mp:\nmod11/1(sym)\nmod11/2\nmod30/2"
+testouterr_cmd sh {spider -t mod??/*} OK "$mp:\nmod11/1(sym)\nmod11/2\nmod30/2"
+testouterr_cmd sh {spider -t mod??/?} OK "$mp:\nmod11/1(sym)\nmod11/2\nmod30/2"
+testouterr_cmd sh {spider -t mod??/2} OK "$mp:\nmod11/2\nmod30/2"
+testouterr_cmd sh {spider -t mod2?} OK {}
+testouterr_cmd sh {spider -t mod2?/} OK {}
+
+testouterr_cmd sh {spider -C -t od?/?/} OK $mp:\nmod6/3/1/2/1\nmod7/4/1\nmod8/4/1(@)\nmod9/3/2(default)\nmod9/4/1
+testouterr_cmd sh {spider -C -t 3?/1} OK {}
+testouterr_cmd sh {spider -C -t 3*/1} OK $mp:\ndeepA/4/1/3/1(default)\nmod3/1(@)\nmod6/3/1/2/1
+
+#
+#  Cleanup
+#
+
+reset_test_env
