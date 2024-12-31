@@ -1,0 +1,115 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:        modules.92-spider/%M%
+#   Revision:       %I%
+#   First Edition:  2024/12/29
+#   Last Mod.:      %U%, %G%
+#
+#   Authors:        Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:    Testuite testsequence
+#   Command:        spider
+#   Modulefiles:    help/2.0, averssort, sym_foo, loc_rc6
+#   Sub-Command:
+#
+#   Comment:    %C{
+#           Check the module 'spider' command for a full qualified
+#           module name in long output mode.
+#       }C%
+#
+##############################################################################
+
+skip_if_quick_mode
+
+#
+#  Check this only for the /bin/csh
+#
+
+# ensure spider tests are made using in depth mode
+setenv_var MODULES_SPIDER_INDEPTH 1
+
+# ensure regular spider search match is set for these tests
+setenv_var MODULES_SEARCH_MATCH starts_with
+
+set module "help"
+set version "2.0"
+set alias1 "averssort"
+set alias1target "verssort"
+set a1vers1 "1"
+set a1vers2 "1.2.4"
+set a1vers3 "1.10"
+set alias2 "sym_foo"
+set alias2target "loc_rc1/foo"
+set alias2vers "special"
+set module2 "loc_rc6"
+set mod2vers1 "0.9"
+set mod2vers2 "1.2"
+set mod2sym1 "default"
+set mod2sym2 "new"
+set mod2alias1 "1"
+set mod2alias2 "bar"
+
+set header "- Package/Alias $modlin.- Versions $modlin.- Last mod. $modlin\n"
+set header1 "$header$modpathre:\n"
+set header2 "${header}global/user modulerc:\n"
+set ts_csh "$header1$module\/$version                                                    \[0-9\/]{10} \[0-9:]{8}"
+set tsa1_csh "$header1$alias1/$a1vers1 -> $alias1target/$a1vers1\\s+\n$alias1/$a1vers2 -> $alias1target/$a1vers2\\s+\n$alias1/$a1vers3 -> $alias1target/$a1vers3\\s+"
+set tsa2_csh "$header2$alias2 -> $alias2target\\s+$alias2vers\\s+"
+set tsa3_csh "$header1$module2/$mod2vers1\\s+\[0-9\/]{10} \[0-9:]{8}\n$module2/$mod2alias1 -> $module2/$mod2vers2\\s+\n$module2/$mod2vers2\\s+$mod2sym1:$mod2sym2\\s+\[0-9\/]{10} \[0-9:]{8}\n$module2/$mod2alias2 -> $module2/$mod2vers2\\s+"
+set tsv1_csh "$header1$module2/$mod2vers2\\s+$mod2sym1:$mod2sym2\\s+\[0-9\/]{10} \[0-9:]{8}"
+
+
+#
+#  test on regular modulefile
+#
+
+testouterr_cmd_re "csh" "spider -l $module" "OK" "$ts_csh"
+
+
+#
+#  test on module alias
+#
+
+testouterr_cmd_re "csh" "spider -l $alias1" "OK" "$tsa1_csh"
+
+
+#
+#  test on symbolic version
+#
+
+testouterr_cmd_re "csh" "spider -t -l $module2/$mod2sym2" "OK" "$tsv1_csh"
+
+
+#
+#  test on module alias set from global modulerc
+#
+
+set env(MODULERCFILE) "$env(TESTSUITEDIR)/etc/modulerc"
+testouterr_cmd_re "csh" "spider -l $alias2" "OK" "$tsa2_csh"
+
+
+#
+#  tests on a module mixing aliases, symbols and regular modulefile
+#
+
+testouterr_cmd_re "csh" "spider -l $module2" "OK" "$tsa3_csh"
+
+
+#
+#  test on very long module name
+#
+
+setenv_path_var MODULEPATH $modpath.2
+
+set module "veryveryveryveryveryveryveryverylong/name"
+set ts_csh "$header$modpathre.2:\n${module}sym\\s+\[0-9\/]{10} \[0-9:]{8}"
+testouterr_cmd_re csh "spider -l $module" OK $ts_csh
+
+
+#
+#  Cleanup
+#
+
+reset_test_env

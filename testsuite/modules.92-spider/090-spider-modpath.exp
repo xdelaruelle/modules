@@ -1,0 +1,189 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:        modules.92-spider/%M%
+#   Revision:       %I%
+#   First Edition:  2024/12/30
+#   Last Mod.:      %U%, %G%
+#
+#   Authors:        Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:    Testuite testsequence
+#   Command:        spider
+#   Modulefiles:
+#   Sub-Command:
+#
+#   Comment:    %C{
+#           Check the module 'spider' command against different kind of
+#           modulepath activation
+#       }C%
+#
+##############################################################################
+
+skip_if_quick_mode
+
+setenv_var MODULES_SPIDER_INDEPTH 1
+
+setenv_var MODULEPATH $modpath.spider1
+
+
+set tserr "$modpath.spider1:
+moda/1
+moda/2"
+testouterr_cmd sh {spider -t} OK $tserr
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 remove_modpath2
+testouterr_cmd sh {spider -t} OK $tserr
+setenv_var TESTSUITE_SPIDER_MODPATH1 unuse_modpath2
+testouterr_cmd sh {spider -t} OK $tserr
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_modpath3
+set tserr "$modpath.spider1:
+moda/1
+moda/2
+
+$modpath.spider2:
+modb/1
+modb/2
+
+$modpath.spider3:
+modc/1
+modc/2"
+testouterr_cmd sh {spider -t} OK $tserr
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_append_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH1 append_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH2 prepend_modpath3
+testouterr_cmd sh {spider -t} OK $tserr
+setenv_var TESTSUITE_SPIDER_MODPATH1 prepend_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH2 append_modpath3
+testouterr_cmd sh {spider -t} OK $tserr
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_append_modpath3
+setenv_var TESTSUITE_SPIDER_MODPATH3 use_modpath1
+testouterr_cmd sh {spider -t} OK $tserr
+setenv_var TESTSUITE_SPIDER_MODPATH3 append_modpath1
+testouterr_cmd sh {spider -t} OK $tserr
+setenv_var TESTSUITE_SPIDER_MODPATH3 prepend_modpath1
+testouterr_cmd sh {spider -t} OK $tserr
+
+
+set tserr "$modpath.spider1:
+moda/1
+moda/2"
+testouterr_cmd sh {spider -t moda} OK $tserr
+set tserr ".*
+Collect modulepaths: $modpathre.spider1 $modpathre.spider2 $modpathre.spider3
+.*"
+testouterr_cmd_re sh {spider -T -t moda} OK $tserr
+
+
+# no modulepath set
+unsetenv_var MODULEPATH
+testouterr_cmd sh {spider -t} ERR $err_nomodpath
+
+# empty modulepath set
+setenv_var MODULEPATH {}
+testouterr_cmd sh {spider -t} OK {}
+
+# unexistent modulepath
+setenv_var MODULEPATH /path/to/unk
+testouterr_cmd sh {spider -t} OK {}
+
+# empty modulepath among other
+setenv_var MODULEPATH /path/to/unk::$modpath.spider1
+set tserr ".*
+Collect modulepaths: /path/to/unk $modpathre.spider1 $modpathre.spider2 $modpathre.spider3
+.*"
+testouterr_cmd_re sh {spider -T -t moda} OK $tserr
+
+# same modulepath set several time
+setenv_var MODULEPATH /path/to/unk::$modpath.spider1:/path/to/unk:$modpath.spider1
+set tserr ".*
+Collect modulepaths: /path/to/unk $modpathre.spider1 $modpathre.spider2 $modpathre.spider3
+.*"
+testouterr_cmd_re sh {spider -T -t moda} OK $tserr
+
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_modpath3_and_misc
+testouterr_cmd_re sh {spider -T -t moda} OK $tserr
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_append_modpath3_and_misc
+testouterr_cmd_re sh {spider -T -t moda} OK $tserr
+setenv_var TESTSUITE_SPIDER_MODPATH2 append_modpath3_and_misc
+testouterr_cmd_re sh {spider -T -t moda} OK $tserr
+setenv_var TESTSUITE_SPIDER_MODPATH2 prepend_modpath3_and_misc
+testouterr_cmd_re sh {spider -T -t moda} OK $tserr
+setenv_var TESTSUITE_SPIDER_MODPATH2 prepend_modpath3_and_misc
+
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_modpath3
+
+# MSYS environment does not support anymore such test
+if {!$is_symlink_supported || $os_name eq {msys} || [catch {
+    file link -symbolic $modpath.link1 modulefiles.spider1
+    file link -symbolic $modpath.link2 modulefiles.link1
+}]} {
+    send_user "\tskipping tests over symlink modulepath as symlink is not supported on filesystem or cannot be created\n"
+} else {
+    setenv_var MODULEPATH $modpath.spider1
+    setenv_var TESTSUITE_SPIDER_MODPATH3 use_link1
+    set tserr "$modpath.spider1:
+moda/1
+moda/2
+
+$modpath.link1:
+moda/1
+moda/2"
+    testouterr_cmd sh {spider -t moda} OK $tserr
+    setenv_var TESTSUITE_SPIDER_MODPATH3 append_link1
+    testouterr_cmd sh {spider -t moda} OK $tserr
+    setenv_var TESTSUITE_SPIDER_MODPATH3 prepend_link1
+    testouterr_cmd sh {spider -t moda} OK $tserr
+
+    setenv_var TESTSUITE_SPIDER_MODPATH3 use_link2
+    set tserr "$modpath.spider1:
+moda/1
+moda/2
+
+$modpath.link2:
+moda/1
+moda/2"
+    testouterr_cmd sh {spider -t moda} OK $tserr
+    setenv_var TESTSUITE_SPIDER_MODPATH3 append_link2
+    testouterr_cmd sh {spider -t moda} OK $tserr
+    setenv_var TESTSUITE_SPIDER_MODPATH3 prepend_link2
+    testouterr_cmd sh {spider -t moda} OK $tserr
+
+    # check modulepath report order
+    setenv_var TESTSUITE_SPIDER_MODPATH3 append_link2
+    set tserr "$modpath.spider1:
+moda/1
+moda/2
+
+$modpath.spider2:
+modb/1
+modb/2
+
+$modpath.spider3:
+modc/1
+modc/2
+
+$modpath.link2:
+moda/1
+moda/2"
+    testouterr_cmd sh {spider -t} OK $tserr
+    setenv_var TESTSUITE_SPIDER_MODPATH3 prepend_link2
+    testouterr_cmd sh {spider -t} OK $tserr
+
+    catch {
+        file delete $modpath.link1
+        file delete $modpath.link2
+    }
+}
+
+
+#
+#  Cleanup
+#
+
+reset_test_env

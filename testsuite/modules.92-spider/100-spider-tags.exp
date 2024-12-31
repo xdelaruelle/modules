@@ -1,0 +1,185 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:		modules.92-spider/%M%
+#   Revision:		%I%
+#   First Edition:	2024/12/29
+#   Last Mod.:		%U%, %G%
+#
+#   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:	Testuite testsequence
+#   Command:
+#   Modulefiles:    tag
+#   Sub-Command:    spider
+#
+#   Comment:	%C{
+#           Test output of tags on spider sub-command
+#		}C%
+#
+##############################################################################
+
+set mp $modpath.3
+set mpre [regsub -all "\(\[.+?\]\)" $mp {\\\1}]
+
+# setup specific environment
+setenv_path_var MODULEPATH $mp
+
+# ensure default tag abbreviation is defined
+setenv_var MODULES_TAG_ABBREV {auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF}
+
+# test with regular modulefile
+set tserr "$modlin $mpre $modlin
+tag/1.0 <F>  
+
+Key:
+<module-tag>  <F>=forbidden  "
+testouterr_cmd_re sh {spider tag/1.0} OK $tserr
+
+# terse output
+set tserr "$mp:
+tag/1.0 <F>"
+testouterr_cmd sh {spider -t tag/1.0} OK $tserr
+
+# long output
+set tserr "- Package/Alias $modlin.- Versions $modlin.- Last mod. $modlin
+$mpre:
+tag/1.0\\s+\[0-9\/]{10} \[0-9:]{8}"
+testouterr_cmd_re sh {spider -l tag/1.0} OK $tserr
+
+set tserr "{\"$mp\": {
+\"tag/1.0\": { \"name\": \"tag/1.0\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"forbidden\" \], \"pathname\": \"$mp/tag/1.0\"}
+}}"
+testouterr_cmd sh {spider -j tag/1.0} OK $tserr
+
+skip_if_quick_mode
+
+setenv_loaded_module [list tag/1.0] [list $mp/tag/1.0]
+set tserr "$modlin $mpre $modlin
+tag/1.0 <F:L>  
+
+Key:
+<module-tag>  <L>=loaded  <F>=forbidden  "
+testouterr_cmd_re sh {spider tag/1.0} OK $tserr
+
+set tserr "{\"$mp\": {
+\"tag/1.0\": { \"name\": \"tag/1.0\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"forbidden\", \"loaded\" \], \"pathname\": \"$mp/tag/1.0\"}
+}}"
+testouterr_cmd sh {spider -j tag/1.0} OK $tserr
+
+setenv_loaded_module [list tag/1.0] [list $mp/tag/1.0] [list tag/1.0]
+set tserr "$modlin $mpre $modlin
+tag/1.0 <aL:F>  
+
+Key:
+<module-tag>  <aL>=auto-loaded  <F>=forbidden  "
+testouterr_cmd_re sh {spider tag/1.0} OK $tserr
+
+set tserr "{\"$mp\": {
+\"tag/1.0\": { \"name\": \"tag/1.0\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"auto-loaded\", \"forbidden\" \], \"pathname\": \"$mp/tag/1.0\"}
+}}"
+testouterr_cmd sh {spider -j tag/1.0} OK $tserr
+
+# test with virtual module
+unsetenv_loaded_module
+set tserr "$modlin $mpre $modlin
+tag/2.0 <F>  
+
+Key:
+<module-tag>  <F>=forbidden  "
+testouterr_cmd_re sh {spider tag/2.0} OK $tserr
+
+set tserr "{\"$mp\": {
+\"tag/2.0\": { \"name\": \"tag/2.0\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"forbidden\" \], \"pathname\": \"$mp/tag/1.0\"}
+}}"
+testouterr_cmd sh {spider -j tag/2.0} OK $tserr
+
+setenv_loaded_module [list tag/2.0] [list $mp/tag/1.0]
+set tserr "$modlin $mpre $modlin
+tag/2.0 <F:L>  
+
+Key:
+<module-tag>  <L>=loaded  <F>=forbidden  "
+testouterr_cmd_re sh {spider tag/2.0} OK $tserr
+
+set tserr "{\"$mp\": {
+\"tag/2.0\": { \"name\": \"tag/2.0\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"forbidden\", \"loaded\" \], \"pathname\": \"$mp/tag/1.0\"}
+}}"
+testouterr_cmd sh {spider -j tag/2.0} OK $tserr
+
+setenv_loaded_module [list tag/2.0] [list $mp/tag/1.0] [list tag/2.0]
+set tserr "$modlin $mpre $modlin
+tag/2.0 <aL:F>  
+
+Key:
+<module-tag>  <aL>=auto-loaded  <F>=forbidden  "
+testouterr_cmd_re sh {spider tag/2.0} OK $tserr
+
+set tserr "{\"$mp\": {
+\"tag/2.0\": { \"name\": \"tag/2.0\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"auto-loaded\", \"forbidden\" \], \"pathname\": \"$mp/tag/1.0\"}
+}}"
+testouterr_cmd sh {spider -j tag/2.0} OK $tserr
+
+# test with module alias
+unsetenv_loaded_module
+set tserr "$modlin $mpre $modlin
+tag/3.0\\(@\\) <F>  
+
+Key:
+\\(@\\)=module-alias  <module-tag>  <F>=forbidden  "
+testouterr_cmd_re sh {spider tag/3.0} OK $tserr
+
+set tserr "{\"$mp\": {
+\"tag/3.0\": { \"name\": \"tag/3.0\", \"type\": \"alias\", \"symbols\": \[\], \"tags\": \[ \"forbidden\" \], \"target\": \"tag/1.0\"}
+}}"
+testouterr_cmd sh {spider -j tag/3.0} OK $tserr
+
+setenv_loaded_module [list tag/1.0] [list $mp/tag/1.0]
+setenv_var __MODULES_LMALTNAME tag/1.0&al|tag/3.0
+set tserr "$modlin $mpre $modlin
+tag/3.0\\(@\\) <F>  
+
+Key:
+\\(@\\)=module-alias  <module-tag>  <F>=forbidden  "
+testouterr_cmd_re sh {spider tag/3.0} OK $tserr
+
+set tserr "{\"$mp\": {
+\"tag/3.0\": { \"name\": \"tag/3.0\", \"type\": \"alias\", \"symbols\": \[\], \"tags\": \[ \"forbidden\" \], \"target\": \"tag/1.0\"}
+}}"
+testouterr_cmd sh {spider -j tag/3.0} OK $tserr
+
+setenv_loaded_module [list tag/1.0] [list $mp/tag/1.0] [list tag/1.0]
+set tserr "$modlin $mpre $modlin
+tag/3.0\\(@\\) <F>  
+
+Key:
+\\(@\\)=module-alias  <module-tag>  <F>=forbidden  "
+testouterr_cmd_re sh {spider tag/3.0} OK $tserr
+
+set tserr "{\"$mp\": {
+\"tag/3.0\": { \"name\": \"tag/3.0\", \"type\": \"alias\", \"symbols\": \[\], \"tags\": \[ \"forbidden\" \], \"target\": \"tag/1.0\"}
+}}"
+testouterr_cmd sh {spider -j tag/3.0} OK $tserr
+
+# test hidden-loaded tag that should not be reported on spider
+setenv_var MODULES_TAG_ABBREV {auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=Hl:forbidden=F:nearly-forbidden=nF}
+setenv_var TESTSUITE_MODULE_TAG_SET13 1
+set tserr "$modlin $mpre $modlin
+tag/5.0  "
+testouterr_cmd_re sh {spider tag/5.0} OK $tserr
+unsetenv_var TESTSUITE_MODULE_TAG_SET13
+setenv_var TESTSUITE_MODULE_TAG_SET14 1
+set tserr "$modlin $mpre $modlin
+tag/5.0 <H>  
+
+Key:
+<module-tag>  <H>=hidden  "
+testouterr_cmd_re sh {spider tag/5.0} OK $tserr
+unsetenv_var TESTSUITE_MODULE_TAG_SET14
+
+#
+#  Cleanup
+#
+
+reset_test_env

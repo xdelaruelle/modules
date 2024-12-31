@@ -1,0 +1,32 @@
+#%Module
+if {[info exists env(TESTSUITE_SPIDER_MODPATH3)]} {
+    switch -- $env(TESTSUITE_SPIDER_MODPATH3) {
+        use_modpath1 {
+            module use ../../../testsuite/modulefiles.spider1
+        }
+        append_modpath1 {
+            append-path MODULEPATH ../../../testsuite/modulefiles.spider1
+        }
+        prepend_modpath1 {
+            prepend-path MODULEPATH ../../../testsuite/modulefiles.spider1
+        }
+        use_link1 {
+            module use ../../modulefiles.link1
+        }
+        use_link2 {
+            module use ../../modulefiles.link2
+        }
+        append_link1 {
+            append-path MODULEPATH ../../modulefiles.link1
+        }
+        append_link2 {
+            append-path MODULEPATH ../../modulefiles.link2
+        }
+        prepend_link1 {
+            prepend-path MODULEPATH ../../modulefiles.link1
+        }
+        prepend_link2 {
+            prepend-path MODULEPATH ../../modulefiles.link2
+        }
+    }
+}
