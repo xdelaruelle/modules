@@ -766,6 +766,9 @@ Module Sub-Commands
  *pattern* variant specification and extra specifier. *pattern* may be a bare
  variant specification or extra specifier without mention of a module name.
 
+ When several *patterns* are provided all modulefiles matching at least one of
+ these *patterns* are listed.
+
  .. only:: html
 
     .. versionchanged:: 4.0
@@ -797,6 +800,10 @@ Module Sub-Commands
     .. versionchanged:: 5.3
        *pattern* may include variant specification or extra specifier to
        filter results
+
+    .. versionchanged:: 5.6
+       Results from a multi *pattern* search are consolidated under a single
+       output
 
 .. subcmd:: cachebuild [modulepath...]
 
@@ -2580,6 +2587,9 @@ Module Sub-Commands
  used in modulefiles. Modules are included in results only if they match
  *pattern* variant specification and extra specifier. *pattern* may be a bare
  variant specification or extra specifier without mention of a module name.
+
+ When several *patterns* are provided all modulefiles matching at least one of
+ these *patterns* are listed.
 
  .. only:: html
 

@@ -991,6 +991,7 @@ The following module sub-commands appeared on Modules 5.
  * setting :envvar:`MODULEPATH` environment variable with :mfcmd:`append-path`
    or :mfcmd:`prepend-path` may also be queried with ``use`` extra specifier.
  * ``depends-on-any`` :ref:`extra specifier` is introduced.
+ * result of a multi pattern search is consolidated under a single output
 
 :subcmd:`reload`
 
