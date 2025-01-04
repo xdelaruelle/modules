@@ -1883,49 +1883,40 @@ proc cmdModuleAvail {show_oneperline show_mtime show_filter search_filter\
    set search_rc_filter $search_filter
    lappend search_rc_filter rc_alias_only
 
-   # disable error reporting to avoid modulefile errors
-   # to mix with avail results
+   # disable error report to avoid modulefile errors to mix with avail results
    inhibitErrorReport
 
-   foreach mod $args {
-      set search_queries [list $mod]
-      array unset mod_list
-      # look if aliases have been defined in the global or user-specific
-      # modulerc and display them if any in a dedicated list
-      array set mod_list [getModules {} $mod $show_mtime $search_rc_filter\
-         $show_filter]
+   # look if aliases have been defined in the global or user-specific rc
+   array set mod_list [getMatchingAnyModules {} $args $show_mtime\
+      $search_rc_filter $show_filter]
+   if {$report_modulepath} {
+      reportModules $args {global/user modulerc} hi $hstyle $show_mtime 0\
+         $one_per_line $theader_cols hidden-loaded
+   }
 
+   foreach dir $modpath_list {
+      set dir_mod_list [getMatchingAnyModules $dir $args $show_mtime\
+         $search_filter $show_filter]
       if {$report_modulepath} {
-         reportModules $search_queries {global/user modulerc} hi $hstyle\
-            $show_mtime 0 $one_per_line $theader_cols hidden-loaded
-      }
-
-      foreach dir $modpath_list {
-         if {$report_modulepath} {
-            array unset mod_list
-            # get module list (process full dir content and do not exit when
-            # err is raised from a modulerc)
-            array set mod_list [getModules $dir $mod $show_mtime\
-               $search_filter $show_filter]
-            set modpath_label [getModulepathLabel $dir]
-            reportModules $search_queries $modpath_label mp $hstyle\
-               $show_mtime 0 $one_per_line $theader_cols hidden-loaded
-         } else {
-            # add result if not already added from an upper priority modpath
-            foreach {elt props} [getModules $dir $mod $show_mtime\
-               $search_filter $show_filter] {
-               if {![info exists mod_list($elt)]} {
-                  set mod_list($elt) $props
-               }
+         array unset mod_list
+         array set mod_list $dir_mod_list
+         set modpath_label [getModulepathLabel $dir]
+         reportModules $args $modpath_label mp $hstyle $show_mtime 0\
+            $one_per_line $theader_cols hidden-loaded
+      } else {
+         # add result if not already added from an upper priority modpath
+         foreach {elt props} $dir_mod_list {
+            if {![info exists mod_list($elt)]} {
+               set mod_list($elt) $props
             }
          }
       }
+   }
 
-      # no report by modulepath, mix all aggregated results
-      if {!$report_modulepath} {
-         reportModules $search_queries noheader {} {} $show_mtime 0\
-            $one_per_line $theader_cols hidden-loaded
-      }
+   # no report by modulepath, mix all aggregated results
+   if {!$report_modulepath} {
+      reportModules $args noheader {} {} $show_mtime 0 $one_per_line\
+         $theader_cols hidden-loaded
    }
 
    # display output key

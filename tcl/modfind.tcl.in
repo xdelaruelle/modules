@@ -3374,6 +3374,15 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
    return $got_list
 }
 
+proc getMatchingAnyModules {dir pattern_list fetch_mtime search filter} {
+   set mod_list {}
+   foreach pattern $pattern_list {
+      lappend mod_list {*}[getModules $dir $pattern $fetch_mtime $search\
+         $filter]
+   }
+   return $mod_list
+}
+
 # ;;; Local Variables: ***
 # ;;; mode:tcl ***
 # ;;; End: ***
