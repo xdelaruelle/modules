@@ -387,6 +387,8 @@ colorset_test_case {avail loc_t} [list hi loc_t] ".*loc_tr.*loc_tr.*loc_tr.*loc_
 colorset_test_case {avail -l loc_t} [list hi loc_t] ".*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*"
 colorset_test_case {avail -t loc_t} [list hi loc_t] ".*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*"
 colorset_test_case {avail loc_tr} [list hi loc_tr] ".*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*loc_tr.*"
+colorset_test_case {avail loc_tr/3 loc_tr/1} [list hi loc_tr/1 hi loc_tr/3] ".*loc_tr/1.0.*loc_tr/3.0.*"
+colorset_test_case {spider loc_tr/3.0 loc_tr/1} [list hi loc_tr/1 hi loc_tr/3.0] ".*loc_tr/1.0.*loc_tr/3.0.*"
 colorset_test_case {whatis loc_tr} [list hi loc_tr] ".*\\s+loc_tr/1.0: .*\\s+loc_tr/2.0: .*\\s+loc_tr/3.0: .*"
 colorset_test_case {search loc_tr} [list hi loc_tr] ".*: loc_tr/1.0\n.*: loc_tr/2.0\n.*: loc_tr/3.0"
 # matched strings expressed with the advanced version specifiers

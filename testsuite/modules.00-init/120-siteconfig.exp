@@ -686,8 +686,8 @@ lappend ans {      invoked from within}
 lappend ans {  "displayElementList $header $hsgrkey $hstyle $one_per_line $show_idx 1 $display_list $len_list $max_len"}
 lappend ans {      (procedure "reportModules" line 151)}
 lappend ans {      invoked from within}
-lappend ans {  "reportModules $search_queries $modpath_label mp $hstyle $show_mtime 0 $one_per_line $theader_cols hidden-loaded"}
-lappend ans {      (procedure "cmdModuleAvail" line 51)}
+lappend ans {  "reportModules $args $modpath_label mp $hstyle $show_mtime 0 $one_per_line $theader_cols hidden-loaded"}
+lappend ans {      (procedure "cmdModuleAvail" line 44)}
 lappend ans {      invoked from within}
 lappend ans {  "$cmdprocname {*}$cmdopts {*}$parsed_args"}
 lappend ans {      (procedure "module" line 189)}

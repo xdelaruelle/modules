@@ -55,7 +55,7 @@ testouterr_cmd_re sh {display foo foo} OK $tserr
 
 # check correct result is obtained on avail
 set tsav $mpre:\nfoo/1\nfoo/2\nfoo1/1\nfoo1/2
-set tserr $tsav\n\n$tsav
+set tserr $tsav
 testouterr_cmd_re sh {avail -t foo foo} OK $tserr
 
 # verify if cache is taken into account on display
@@ -182,8 +182,6 @@ set tserr "(.*)+
 DEBUG \\\[#1:load:look/8\\\] findModules: finding 'sp cial\\*' in $mpre .*
 (.*)+
 DEBUG \\\[#1:load:look/8\\\] findModules: create cache entry .*
-(.*)+
-'sp cial/1'  
 (.*)+
 DEBUG \\\[#1:load:look/8\\\] getModules: use cache entry .*
 (.*)+
