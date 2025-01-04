@@ -498,6 +498,10 @@ proc module {command args} {
          set cmdprocsuffix Resurface
          lappend cmdopts module-info loaded
       }
+      whatis {
+         set cmdprocsuffix Search
+         lappend cmdopts {}
+      }
       default {
          set cmdprocsuffix [string toupper $command 0 0]
       }
@@ -529,9 +533,6 @@ proc module {command args} {
       spider {
          lappend cmdopts $show_oneperline $show_mtime $show_filter\
             $search_filter $search_match
-      }
-      search {
-         lappend cmdopts {}
       }
       list - savelist {
          lappend cmdopts $show_oneperline $show_mtime $search_match
