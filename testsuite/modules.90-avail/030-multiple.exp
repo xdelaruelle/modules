@@ -28,6 +28,8 @@ setenv_var MODULES_AVAIL_INDEPTH 1
 # ensure regular avail search match is set for these tests
 setenv_var MODULES_SEARCH_MATCH starts_with
 
+setenv_var MODULES_TERM_WIDTH 211
+
 set module1 "loc_rc1"
 set mod1vers1 "1.0"
 set mod1vers2 "2.0"
@@ -76,7 +78,7 @@ set key_al_sym "Key:
 set ts_csh "$header$module1/$mod1vers1\\($mod1sym\\)\\s+$module1/$mod1vers2\\s+"
 
 testouterr_cmd_re "csh" "avail $module1" "OK" "$ts_csh\n\n$key_sym"
-testouterr_cmd_re "csh" "avail $module1 $module1" "OK" "$ts_csh\n$ts_csh\n\n$key_sym"
+testouterr_cmd_re "csh" "avail $module1 $module1" "OK" "$ts_csh\n\n$key_sym"
 
 skip_if_quick_mode
 
@@ -88,7 +90,7 @@ skip_if_quick_mode
 set ts_csh "$header$module2/$mod2vers1\\($mod2sym1\\)\\s+$module2/$mod2vers2\\($mod2sym2\\)\\s+$module2/$mod2vers3\\($mod2sym3\\)\\s+"
 
 testouterr_cmd_re "csh" "avail $module2" "OK" "$ts_csh\n\n$key_sym"
-testouterr_cmd_re "csh" "avail $module2 $module2" "OK" "$ts_csh\n$ts_csh\n\n$key_sym"
+testouterr_cmd_re "csh" "avail $module2 $module2" "OK" "$ts_csh\n\n$key_sym"
 
 
 #
@@ -98,7 +100,7 @@ testouterr_cmd_re "csh" "avail $module2 $module2" "OK" "$ts_csh\n$ts_csh\n\n$key
 set ts_csh "$header$module3/$mod3vers1\\(@\\)\\s+$module3/$mod3vers2\\(@\\)\\s+$module3/$mod3vers3\\(@\\)\\s+"
 
 testouterr_cmd_re "csh" "avail $module3" "OK" "$ts_csh\n\n$key_al"
-testouterr_cmd_re "csh" "avail $module3 $module3" "OK" "$ts_csh\n$ts_csh\n\n$key_al"
+testouterr_cmd_re "csh" "avail $module3 $module3" "OK" "$ts_csh\n\n$key_al"
 
 
 #
@@ -109,7 +111,7 @@ set env(MODULERCFILE) "$env(TESTSUITEDIR)/etc/modulerc"
 set ts_csh "$header2$module4\\(special:@\\)\\s+"
 
 testouterr_cmd_re "csh" "avail $module4" "OK" "$ts_csh\n\n$key_al_sym"
-testouterr_cmd_re "csh" "avail $module4 $module4" "OK" "$ts_csh\n$ts_csh\n\n$key_al_sym"
+testouterr_cmd_re "csh" "avail $module4 $module4" "OK" "$ts_csh\n\n$key_al_sym"
 
 
 #
@@ -120,7 +122,7 @@ testouterr_cmd_re "csh" "avail $module4 $module4" "OK" "$ts_csh\n$ts_csh\n\n$key
 set ts_csh "$header$module5/$mod5vers1\\($mod5sym1\\)\\s+$module5/$mod5vers2\\s+${module5}2/$mod5vers3\\s+${module5}2/$mod5vers4\\s+"
 
 testouterr_cmd_re "csh" "avail $module5" "OK" "$ts_csh\n\n$key_sym"
-testouterr_cmd_re "csh" "avail $module5 $module5" "OK" "$ts_csh\n$ts_csh\n\n$key_sym"
+testouterr_cmd_re "csh" "avail $module5 $module5" "OK" "$ts_csh\n\n$key_sym"
 
 
 #
@@ -130,7 +132,24 @@ testouterr_cmd_re "csh" "avail $module5 $module5" "OK" "$ts_csh\n$ts_csh\n\n$key
 set ts_csh "$header$module6/$mod6vers1\\s+$module6/$mod6alias1\\(@\\)\\s+$module6/$mod6vers2\\($mod6sym1:$mod6sym2\\)\\s+$module6/$mod6alias2\\(@\\)\\s+"
 
 testouterr_cmd_re "csh" "avail $module6" "OK" "$ts_csh\n\n$key_al_sym"
-testouterr_cmd_re "csh" "avail $module6 $module6" "OK" "$ts_csh\n$ts_csh\n\n$key_al_sym"
+testouterr_cmd_re "csh" "avail $module6 $module6" "OK" "$ts_csh\n\n$key_al_sym"
+
+# no match for first pattern
+testouterr_cmd_re csh "avail unk $module6" OK $ts_csh\n\n$key_al_sym
+# no match for second pattern
+testouterr_cmd_re csh "avail $module6 unk" OK $ts_csh\n\n$key_al_sym
+# no match on both pattern
+testouterr_cmd_re csh "avail unk knu" OK {}
+
+
+#
+# mix different search patterns
+#
+
+set ts_csh "$header$module1/$mod1vers1\\($mod1sym:special\\)\\s+$module1/$mod1vers2\\s+"
+append ts_csh "$module6/$mod6vers1\\s+$module6/$mod6alias1\\(@\\)\\s+$module6/$mod6vers2\\($mod6sym1:$mod6sym2\\)\\s+$module6/$mod6alias2\\(@\\)\\s+"
+
+testouterr_cmd_re csh "avail $module1 $module6" OK $ts_csh\n\n$key_al_sym
 
 
 #
@@ -143,7 +162,17 @@ set header "$modlin $modpathre.deep $modlin\n"
 set ts_csh "$header$module7\\(@\\)\\s+"
 
 testouterr_cmd_re "csh" "avail $module7" "OK" "$ts_csh\n\n$key_al"
-testouterr_cmd_re "csh" "avail $module7 $module7" "OK" "$ts_csh\n$ts_csh\n\n$key_al"
+testouterr_cmd_re "csh" "avail $module7 $module7" "OK" "$ts_csh\n\n$key_al"
+
+
+#
+# mix different search patterns found in different modulepaths
+#
+
+append ts_csh "\n\n$modlin $modpathre $modlin\n"
+append ts_csh "$module1/$mod1vers1\\($mod1sym:special\\)\\s+$module1/$mod1vers2\\s+"
+
+testouterr_cmd_re csh "avail $module1 $module7" OK $ts_csh\n\n$key_al_sym
 
 
 #
