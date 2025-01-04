@@ -216,15 +216,10 @@ proc cmdModulePath {mod} {
 }
 
 proc cmdModuleWhatis {args} {
-   if {![llength $args]} {
-      lappend args {}
-   }
-   foreach mod $args {
-      cmdModuleSearch $mod {}
-   }
+   cmdModuleSearch $args {}
 }
 
-proc cmdModuleSearch {{mod {}} {search {}}} {
+proc cmdModuleSearch {{mod_pattern_list {}} {search {}}} {
    # disable error reporting to avoid modulefile errors
    # to mix with valid search results
    inhibitErrorReport
@@ -235,7 +230,8 @@ proc cmdModuleSearch {{mod {}} {search {}}} {
    defineModEqProc $icase [getConf extended_default]
 
    lappend searchmod rc_defs_included
-   if {$mod eq {}} {
+   if {![llength $mod_pattern_list]} {
+      lappend mod_pattern_list {}
       lappend searchmod wild
    }
    set foundmod 0
@@ -243,7 +239,8 @@ proc cmdModuleSearch {{mod {}} {search {}}} {
    set dir_list [getModulePathList exiterronundef]
    foreach dir $dir_list {
       array unset mod_list
-      array set mod_list [getModules $dir $mod 0 $searchmod]
+      array set mod_list [getMatchingAnyModules $dir $mod_pattern_list 0\
+         $searchmod {}]
       array unset interp_list
       array set interp_list {}
 
@@ -257,7 +254,7 @@ proc cmdModuleSearch {{mod {}} {search {}}} {
             modulefile {
                if {[isModuleTagged $elt forbidden 0 $dir/$elt]} {
                   # register any error occurring on element matching search
-                  if {[modEq $mod $elt]} {
+                  if {[modEqAny $mod_pattern_list $elt]} {
                      set err_list($elt) [list accesserr [getForbiddenMsg\
                         $elt $dir/$elt]]
                   }
@@ -272,7 +269,7 @@ proc cmdModuleSearch {{mod {}} {search {}}} {
                if {[isModuleTagged $elt forbidden 0 [lindex $mod_list($elt)\
                   2]]} {
                   # register any error occurring on element matching search
-                  if {[modEq $mod $elt]} {
+                  if {[modEqAny $mod_pattern_list $elt]} {
                      set err_list($elt) [list accesserr [getForbiddenMsg\
                         $elt [lindex $mod_list($elt) 2]]]
                   }
@@ -295,10 +292,10 @@ proc cmdModuleSearch {{mod {}} {search {}}} {
                      # if module target not found in current modulepath add to
                      # list for global search after initial modulepath lookup
                      if {[string first {Unable to locate} $issuemsg] == 0} {
-                        set extra_search($modname) [list $dir [modEq $mod\
-                           $elt]]
+                        set extra_search($modname) [list $dir [modEqAny\
+                           $mod_pattern_list $elt]]
                      # register resolution error if alias name matches search
-                     } elseif {[modEq $mod $elt]} {
+                     } elseif {[modEqAny $mod_pattern_list $elt]} {
                         set err_list($modname) [list $issuetype $issuemsg]
                      }
                   }
@@ -310,15 +307,16 @@ proc cmdModuleSearch {{mod {}} {search {}}} {
                   1] $icase]
                if {[info exists mod_list($elt_target)] && [lindex\
                   $mod_list($elt_target) 0] in [list invalid accesserr] &&\
-                  [modEq $mod $elt]} {
+                  [modEqAny $mod_pattern_list $elt]} {
                   set err_list($elt_target) $mod_list($elt_target)
                } elseif {![info exists mod_list($elt_target)]} {
-                  set extra_search($elt_target) [list $dir [modEq $mod $elt]]
+                  set extra_search($elt_target) [list $dir [modEqAny\
+                     $mod_pattern_list $elt]]
                }
             }
             invalid - accesserr {
                # register any error occurring on element matching search
-               if {[modEq $mod $elt]} {
+               if {[modEqAny $mod_pattern_list $elt]} {
                   set err_list($elt) $mod_list($elt)
                }
             }
@@ -378,7 +376,7 @@ proc cmdModuleSearch {{mod {}} {search {}}} {
    unsetConf implicit_default
 
    # prepare string translation to highlight search query string
-   set matchmodmap [prepareMapToHightlightSubstr $mod]
+   set matchmodmap [prepareMapToHightlightSubstr {*}$mod_pattern_list]
    set matchsearchmap [prepareMapToHightlightSubstr $search]
 
    # interpret all modulefile we got for each modulepath
@@ -418,11 +416,13 @@ proc cmdModuleSearch {{mod {}} {search {}}} {
    setState inhibit_errreport 0
 
    # report errors if a modulefile was searched but not found
-   if {$mod ne {} && !$foundmod} {
+   if {[string length [lindex $mod_pattern_list 0]] && !$foundmod} {
       # no error registered means nothing was found to match search
       if {![array exists err_list]} {
-         set err_list($mod) [list none "Unable to locate a modulefile for\
-            '$mod'"]
+         foreach mod_pattern $mod_pattern_list {
+            set err_list($mod_pattern) [list none "Unable to locate a\
+               modulefile for '$mod_pattern'"]
+         }
       }
       foreach elt [array names err_list] {
          reportIssue {*}$err_list($elt)
