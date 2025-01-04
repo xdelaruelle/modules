@@ -88,6 +88,8 @@ Modules 5.6.0 (not yet released)
   :mconfig:`spider_output` and :mconfig:`spider_terse_output` configuration
   options. When set, it is equivalent to use :option:`--all` option: hidden
   modules are show.
+* Produce a single output for multi pattern :subcmd:`avail` search rather than
+  a separate output for each submitted pattern.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
