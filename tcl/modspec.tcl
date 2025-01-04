@@ -1146,6 +1146,17 @@ proc modEqProcIcaseExtdfl {pattern mod {test equal} {trspec 1} {ismodlo 0}\
    return $ret
 }
 
+proc modEqAny {pattern_list mod {test equal} {trspec 1} {ismodlo 0} {vrcmp 0}\
+   {modvrlist 0} {psuf {}}} {
+   foreach pattern $pattern_list {
+      if {[modEq $pattern $mod $test $trspec $ismodlo $vrcmp $modvrlist\
+         $psuf]} {
+         return 1
+      }
+   }
+   return 0
+}
+
 # analyze module version specified within module specification
 proc parseModuleVersionSpecifier {modspec} {
    set invalidversspec 0
