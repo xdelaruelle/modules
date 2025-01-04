@@ -215,13 +215,10 @@ proc cmdModulePath {mod} {
    }
 }
 
-proc cmdModuleWhatis {args} {
-   cmdModuleSearch $args {}
-}
+proc cmdModuleSearch {args} {
+   # disable error report to avoid modulefile errors to mix with valid results
+   set mod_pattern_list [lassign $args search]
 
-proc cmdModuleSearch {{mod_pattern_list {}} {search {}}} {
-   # disable error reporting to avoid modulefile errors
-   # to mix with valid search results
    inhibitErrorReport
 
    set json [isStateEqual report_format json]
