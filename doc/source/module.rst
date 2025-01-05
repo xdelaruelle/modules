@@ -2942,6 +2942,10 @@ Module Sub-Commands
        *pattern* may include variant specification or extra specifier to
        filter results
 
+    .. versionchanged:: 5.6
+       Results from a multi *pattern* search are consolidated under a single
+       output
+
 
 Modulefiles
 ^^^^^^^^^^^
