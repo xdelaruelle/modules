@@ -134,7 +134,7 @@ unsetenv_var TESTSUITE_VARIANT
 # when advanced_version_spec is disabled, variant spec are considered as modulefile spec
 setenv_var MODULES_ADVANCED_VERSION_SPEC 0
 setenv_var TESTSUITE_VARIANT 1
-set tserr "$modlin $mpre $modlin\n\\s+variant/6.0: variant/6.0\n\n$modlin $mpre $modlin\n\\s+var=val: var=val"
+set tserr "$modlin $mpre $modlin\n\\s+var=val: var=val\n\\s+variant/6.0: variant/6.0"
 testouterr_cmd_re sh {whatis variant/6.0 var=val} OK $tserr
 
 
