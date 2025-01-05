@@ -71,7 +71,7 @@ lappend ans [list set LOADEDMODULES "$module/try-load"]
 testouterr_cmd "sh" "load $module/try-load" $ans {}
 
 # for some module commands, error is not fatal and modulefile is loaded
-foreach cmd [list display test] {
+foreach cmd [list display test whatis] {
     set ans [list]
     lappend ans [list set _LMFILES_ "$modulepath/$module/$cmd"]
     lappend ans [list set LOADEDMODULES "$module/$cmd"]
@@ -95,15 +95,12 @@ foreach cmd [list save restore saveshow saverm] {
     testouterr_cmd "sh" "load $module/$cmd" "ERR" [msg_load $module/$cmd [msg_moderr $msg_collnameempty "module $cmd {}" $modulepath/$module/$cmd 27]]
 }
 
-# empty string currently understood like wildcard
-foreach cmd [list whatis apropos] {
-    set ans [list]
-    lappend ans [list set _LMFILES_ "$modulepath/$module/$cmd"]
-    lappend ans [list set LOADEDMODULES "$module/$cmd"]
-    # other evaluated modulefiles lead to an error result on stdout
-    lappend ans [list ERR]
-    testouterr_cmd_re "sh" "load $module/$cmd" $ans {.+}
-}
+set ans [list]
+lappend ans [list set _LMFILES_ "$modulepath/$module/apropos"]
+lappend ans [list set LOADEDMODULES "$module/apropos"]
+# other evaluated modulefiles lead to an error result on stdout
+lappend ans [list ERR]
+testouterr_cmd_re "sh" "load $module/apropos" $ans {.+}
 set ans [list]
 lappend ans [list set _LMFILES_ "$modulepath/$module/avail"]
 lappend ans [list set LOADEDMODULES "$module/avail"]
@@ -138,7 +135,7 @@ foreach cmd [list load load-any try-load unload] {
 }
 
 # for some module commands, error is not fatal and modulefile is unloaded
-foreach cmd [list display test] {
+foreach cmd [list display test whatis] {
     setenv_loaded_module "$module/$cmd" "$modulepath/$module/$cmd"
     set ans [list]
     lappend ans [list unset _LMFILES_]
@@ -168,16 +165,13 @@ foreach cmd [list save restore saveshow saverm] {
     testouterr_cmd "sh" "unload $module/$cmd" "ERR" [msg_unload $module/$cmd [msg_moderr $msg_collnameempty "module $cmd {}" $modulepath/$module/$cmd 27]]
 }
 
-# empty string currently understood like wildcard
-foreach cmd [list whatis apropos] {
-    setenv_loaded_module "$module/$cmd" "$modulepath/$module/$cmd"
-    set ans [list]
-    lappend ans [list unset _LMFILES_]
-    lappend ans [list unset LOADEDMODULES]
-    # other evaluated modulefiles lead to an error result on stdout
-    lappend ans [list ERR]
-    testouterr_cmd_re "sh" "unload $module/$cmd" $ans {.+}
-}
+setenv_loaded_module "$module/apropos" "$modulepath/$module/apropos"
+set ans [list]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+# other evaluated modulefiles lead to an error result on stdout
+lappend ans [list ERR]
+testouterr_cmd_re "sh" "unload $module/apropos" $ans {.+}
 setenv_loaded_module "$module/avail" "$modulepath/$module/avail"
 set ans [list]
 lappend ans [list unset _LMFILES_]

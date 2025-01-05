@@ -46,7 +46,7 @@ foreach cmd [list purge reload aliases autoinit] {
 
 
 # on most commands, empty arg leads to error
-foreach cmd [list "load" "unload" "display" "help" "test"] {
+foreach cmd [list load unload display help test whatis] {
     testouterr_cmd "sh" "$cmd " "ERR" $err_emptymodname
 }
 foreach cmd [list "save" "restore" "saveshow" "saverm" "is-saved"] {
@@ -95,12 +95,9 @@ testouterr_cmd "sh" "remove-path FOO " $ans ""
 # restore MODULEPATH
 setenv_path_var MODULEPATH $modpath
 
-# empty string currently understood like wildcard
-foreach cmd [list whatis apropos] {
-    # error rendered as some evaluated modules produce error
-    testouterr_cmd_re "sh" "$cmd " "ERR" ".+"
-}
-testouterr_cmd_re "sh" "avail " "" ".+"
+# error rendered as some evaluated modules produce error
+testouterr_cmd_re sh {apropos } ERR .+
+testouterr_cmd_re sh {avail } OK .+
 testouterr_cmd_re sh {list } OK .+
 testouterr_cmd_re sh {savelist } OK [msg_no_named_coll]
 # except for non-wild search like paths sub-command
