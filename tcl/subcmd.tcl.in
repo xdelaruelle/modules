@@ -219,10 +219,7 @@ proc cmdModuleSearch {args} {
    # disable error report to avoid modulefile errors to mix with valid results
    set mod_pattern_list [lassign $args search]
 
-   inhibitErrorReport
-
    set json [isStateEqual report_format json]
-
    set icase [isIcase]
    defineModEqProc $icase [getConf extended_default]
 
@@ -230,7 +227,17 @@ proc cmdModuleSearch {args} {
    if {![llength $mod_pattern_list]} {
       lappend mod_pattern_list {}
       lappend searchmod wild
+   } else {
+      foreach mod_pattern $mod_pattern_list {
+         if {![string length $mod_pattern]} {
+            reportError [getEmptyNameMsg module]
+            return
+         }
+      }
    }
+
+   inhibitErrorReport
+
    set foundmod 0
    lappendState mode whatis
    set dir_list [getModulePathList exiterronundef]
@@ -413,7 +420,7 @@ proc cmdModuleSearch {args} {
    setState inhibit_errreport 0
 
    # report errors if a modulefile was searched but not found
-   if {[string length [lindex $mod_pattern_list 0]] && !$foundmod} {
+   if {{wild} ni $searchmod && !$foundmod} {
       # no error registered means nothing was found to match search
       if {![array exists err_list]} {
          foreach mod_pattern $mod_pattern_list {
