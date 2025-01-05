@@ -79,7 +79,7 @@ set test_post "$modlin"
 set disp_pre "$modlin"
 set disp_wi "module-whatis\\s+"
 set disp_post "$modlin"
-set whatis_pre "$modlin $modpathre $modlin\n"
+set whatis_pre "$modlin $modpathre $modlin"
 
 
 #
@@ -145,11 +145,7 @@ proc multi_test_case {args} {
         if {[info exists "::whatis_${m}"]} {
             set modwhatis [set "::whatis_${m}"]
             append disp "$::disp_wi{$modwhatis}\n"
-
-            if {[info exists whatis]} {
-                append whatis "\n\n"
-            }
-            append whatis "$::whatis_pre\\s+$mod: $modwhatis"
+            set whatis_mod($mod) $modwhatis
 
         }
         if {[info exists "::errdi_${m}"]} {
@@ -165,6 +161,12 @@ proc multi_test_case {args} {
         append help "$::help_post"
         append test "$::test_post"
 
+    }
+    set whatis $::whatis_pre
+    foreach mod [lsort $modsym] {
+        if {[info exists whatis_mod($mod)]} {
+            append whatis "\n\\s+$mod: $whatis_mod($mod)"
+        }
     }
 
     # setup clean environment
