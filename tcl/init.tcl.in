@@ -826,7 +826,7 @@ proc initConfVariantShortcut {envvar value validvallist intvallist} {
    # ignore shortcut if not equal to one character or if set on alphanum char
    # or on char with special meaning
    foreach {vr sc} [split $value {:=}] {
-      if {[string length $sc] == 1 && ![string match {[a-zA-Z0-9+~/@=-]}\
+      if {[string length $sc] == 1 && ![string match {[a-zA-Z0-9+~/@=-,:]}\
          $sc]} {
          # remove duplicate shortcut or variant definition
          if {[info exists ::g_variantShortcut($vr)]} {
