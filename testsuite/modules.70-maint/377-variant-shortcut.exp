@@ -76,7 +76,7 @@ variant_shortcut          foo=% \\(env-var\\)"
 testouterr_cmd_re sh {config variant_shortcut} OK $tserr
 
 # forbidden shortcut character
-setenv_var MODULES_VARIANT_SHORTCUT {bar=a:foo=2:baz=@}
+setenv_var MODULES_VARIANT_SHORTCUT {bar=a:foo=2:baz=@:qux=,}
 set tserr "$vers_reportre
 
 - Config. name $modlin.- Value \\(set by if default overridden\\) $modlin

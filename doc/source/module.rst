@@ -3062,6 +3062,10 @@ to variant name. With a shortcut defined, variant could be specified with the
 shortcut for variant ``foo``, the ``%value`` syntax is equivalent to the
 ``foo=value`` syntax.
 
+A variant shortcut must be of one character length and must avoid characters
+used for other concerns or in module names or version specifications (i.e.,
+*[-+~/@=:,a-zA-Z0-9]*).
+
 Variant *name* should only be composed of characters part of the
 ``A-Za-z0-9_-`` range. Also, a variant name cannot start with ``-`` (minus)
 character and the overall name cannot just be a number.
@@ -5600,7 +5604,8 @@ ENVIRONMENT
  (e.g., *variantname=shortcutchar*).
 
  A variant shortcut must be of one character length and must avoid characters
- used for other concerns or in module names (i.e., *[-+~/@=a-zA-Z0-9]*).
+ used for other concerns or in module names or version specifications (i.e.,
+ *[-+~/@=:,a-zA-Z0-9]*).
 
  If a shortcut is associated to an empty string or an invalid character, this
  shortcut definition will be ignored.
