@@ -602,7 +602,7 @@ Variant shortcut
 - shortcut must be:
 
   - a single character
-  - excluding characters already used for other concerns or in module names (*-*, *+*, *~*, */*, *@*, *=*, *[a-zA-Z0-9]*)
+  - excluding characters already used for other concerns or in module names or version specifications (*-*, *+*, *~*, */*, *@*, *=*, *:*, *,*, *[a-zA-Z0-9]*)
   - when set through ``config`` sub-command or ``--with-variant-shortcut`` installation option: an error is raised when a shortcut is badly specified
   - if a badly specified shortcut ends up in modulecmd configuration, it is purely ignored
 

@@ -92,6 +92,8 @@ Modules 5.6.0 (not yet released)
   a separate output for each submitted pattern.
 * Produce a single output for multi pattern :subcmd:`whatis` search rather
   than a separate output for each submitted pattern.
+* Doc: clarify that character used in version specification like *,* and *:*
+  cannot be used as variant shortcut.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
