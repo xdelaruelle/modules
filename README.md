@@ -87,8 +87,8 @@ License
 -------
 
 Modules is distributed under the GNU General Public License, either version 2
-or (at your option) any later version (GPL v2+). Read the file `COPYING.GPLv2`
-for details.
+or (at your option) any later version (`GPL-2.0-or-later`). Read the file
+`COPYING.GPLv2` for details.
 
 
 Documentation
