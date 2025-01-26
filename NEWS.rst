@@ -25,6 +25,7 @@ Modules 5.6.0 (not yet released)
   development how-to guides.
 * Doc: add :ref:`acknowledgments` page in the documentation.
 * Doc: describe :ref:`GOVERNANCE`.
+* Doc: add :ref:`CHARTER`.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 
