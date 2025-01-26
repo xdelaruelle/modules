@@ -6,17 +6,17 @@ Modules Governance
 This document describes the governance model of Modules project with the
 following roles defined:
 
-* *Project Leads*: form the Technical Steering Committee of Modules project
+* *Maintainers*: form the Technical Steering Committee of Modules project
 * *Collaborators*: irregular contributors to Modules project
 * *Former Members*: former notable contributors and project leads
 
-Project Leads
--------------
+Maintainers
+-----------
 
 Role
 ~~~~
 
-* Merge contributions
+* Review and merge contributions
 * Set project's technical direction
 * Create Modules releases
 * Do administrative operations
@@ -25,6 +25,9 @@ Current Roster
 ~~~~~~~~~~~~~~
 
 * Xavier Delaruelle (`@xdelaruelle`_)
+
+.. note::
+   Modules project is currently looking for additional Maintainers.
 
 .. _@xdelaruelle: https://github.com/xdelaruelle
 
