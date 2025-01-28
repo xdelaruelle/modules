@@ -38,15 +38,15 @@ Quick examples
 
 Here is an example of loading a module on a Linux machine under bash.
 
-    $ module load gcc/9.4.0
+    $ module load gcc/12.4.0
     $ which gcc
-    $ /usr/local/gcc/9.4.0/linux-x86_64/bin/gcc
+    $ /usr/local/gcc/12.4.0/linux-x86_64/bin/gcc
 
 Now we'll switch to a different version of the module
 
-    $ module switch gcc gcc/10
+    $ module switch gcc/14
     $ which gcc
-    /usr/local/gcc/10.3.0/linux-x86_64/bin/gcc
+    /usr/local/gcc/14.2.0/linux-x86_64/bin/gcc
 
 And now we'll unload the module altogether
 
@@ -56,9 +56,9 @@ And now we'll unload the module altogether
 
 Now we'll log into a different machine, using a different shell (tcsh).
 
-    % module load gcc/10.3
+    % module load gcc/14.2
     % which gcc
-    /usr/local/gcc/10.3.0/linux-aarch64/bin/gcc
+    /usr/local/gcc/14.2.0/linux-aarch64/bin/gcc
 
 Note that the command line is exactly the same, but the path has
 automatically configured to the correct architecture.
