@@ -19,17 +19,20 @@ defines its governance model, decision-making process, and long-term vision.
 Support questions
 -----------------
 
-Please use the `modules-interest mailing list`_ for questions. Do not use the
+Please use the `modules-interest mailing list`_
+(``modules-interest@lists.sourceforge.net``) or the `Modules chat room`_
+(``#modules:matrix.org``) for questions. Do not use the
 issue tracker for this.
 
 .. _modules-interest mailing list: https://sourceforge.net/projects/modules/lists/modules-interest
+.. _Modules chat room: https://matrix.to/#/#modules:matrix.org
 
 Asking for new features
 -----------------------
 
 Please submit your new feature wishes first to the `modules-interest mailing
-list`_. Discussion will help to clarify your needs and sometimes the wanted
-feature may already be available.
+list`_ or `Modules chat room`_. Discussion will help to clarify your needs and
+sometimes the wanted feature may already be available.
 
 Reporting issues
 ----------------

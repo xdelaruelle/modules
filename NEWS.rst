@@ -29,8 +29,11 @@ Modules 5.6.0 (not yet released)
 * Escape square brackets (``[]``) used in values within produced shell code as
   these characters may have special meaning on some shells (like *csh*). (fix
   issue #565)
+* Doc: advertise the `Modules chat room`_ (``#modules:matrix.org``) to discuss
+  with the community.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
+.. _Modules chat room: https://matrix.to/#/#modules:matrix.org
 
 
 .. _5.5 release notes:

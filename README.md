@@ -142,14 +142,17 @@ Community
 ---------
 
 Modules is an open source project. Questions, discussion, and contributions
-are welcome. You can get in contact with the Modules community via the
-[modules-interest mailing list][6].
+are welcome. You can get in contact with the Modules community via:
+
+* the [modules-interest mailing list][6]
+  (`modules-interest@lists.sourceforge.net`)
+* the [Modules chat room][7] (`#modules:matrix.org`)
 
 The project is also present on several social media platforms:
 
-* X/Twitter: [@EnvModules][7]
-* Mastodon: [@EnvModules@mast.hpc.social][8]
-* Bluesky: [@EnvModules.bsky.social][9]
+* X/Twitter: [@EnvModules][8]
+* Mastodon: [@EnvModules@mast.hpc.social][9]
+* Bluesky: [@EnvModules.bsky.social][10]
 
 
 Contributing
@@ -157,14 +160,14 @@ Contributing
 
 Modules project welcomes contributions of all kinds! Before submitting an
 issue or pull request, please take a moment to review our [Contributing
-guide][10]. It includes important information about issue reporting, coding
+guide][11]. It includes important information about issue reporting, coding
 standards, etc.
 
-Please note that Modules project has a [Code of conduct][11]. It ensures a
+Please note that Modules project has a [Code of conduct][12]. It ensures a
 respectful and inclusive environment for all contributors. By participating in
 the Modules community, you agree to abide by its rules.
 
-This project also adheres to a [Technical charter][12], which defines its
+This project also adheres to a [Technical charter][13], which defines its
 governance model, decision-making process, and long-term vision.
 
 
@@ -174,13 +177,13 @@ Authors
 Modules current core developer and maintainer is Xavier Delaruelle,
 xavier.delaruelle@cea.fr
 
-Many thanks go to the [contributors][13] of the Modules project.
+Many thanks go to the [contributors][14] of the Modules project.
 
 
 Acknowledgments
 ---------------
 
-We would like to express our gratitude to [CEA][14] for the resources and
+We would like to express our gratitude to [CEA][15] for the resources and
 funding provided to the project over the recent years.
 
 The following people have notably contributed to Modules and Modules would not
@@ -203,11 +206,12 @@ be what it is without their contributions:
 [4]: https://modules.readthedocs.io/en/stable/NEWS.html
 [5]: https://modules.readthedocs.io/en/stable/changes.html
 [6]: https://sourceforge.net/projects/modules/lists/modules-interest
-[7]: https://x.com/EnvModules
-[8]: https://mast.hpc.social/@EnvModules
-[9]: https://bsky.app/profile/envmodules.bsky.social
-[10]: https://modules.readthedocs.io/en/latest/CONTRIBUTING.html
-[11]: CODE_OF_CONDUCT.md
-[12]: https://modules.readthedocs.io/en/latest/CHARTER.html
-[13]: https://github.com/envmodules/modules/graphs/contributors
-[14]: https://www.cea.fr/english
+[7]: https://matrix.to/#/#modules:matrix.org
+[8]: https://x.com/EnvModules
+[9]: https://mast.hpc.social/@EnvModules
+[10]: https://bsky.app/profile/envmodules.bsky.social
+[11]: https://modules.readthedocs.io/en/latest/CONTRIBUTING.html
+[12]: CODE_OF_CONDUCT.md
+[13]: https://modules.readthedocs.io/en/latest/CHARTER.html
+[14]: https://github.com/envmodules/modules/graphs/contributors
+[15]: https://www.cea.fr/english

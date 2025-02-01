@@ -157,8 +157,11 @@ Community
 ---------
 
 Modules is an open source project. Questions, discussion, and contributions
-are welcome. You can get in contact with the Modules community via the
-`modules-interest mailing list`_.
+are welcome. You can get in contact with the Modules community via:
+
+* the `modules-interest mailing list`_
+  (``modules-interest@lists.sourceforge.net``)
+* the `Modules chat room`_ (``#modules:matrix.org``)
 
 The project is also present on several social media platforms:
 
@@ -167,6 +170,7 @@ The project is also present on several social media platforms:
 * Bluesky: `@EnvModules.bsky.social`_
 
 .. _modules-interest mailing list: https://sourceforge.net/projects/modules/lists/modules-interest
+.. _Modules chat room: https://matrix.to/#/#modules:matrix.org
 .. _@EnvModules: https://x.com/EnvModules
 .. _@EnvModules@mast.hpc.social: https://mast.hpc.social/@EnvModules
 .. _@EnvModules.bsky.social: https://bsky.app/profile/envmodules.bsky.social
