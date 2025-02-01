@@ -6,6 +6,16 @@ Contributing
 Thank you for considering contributing to Modules! Modules is an open source
 project. Questions, discussion, and contributions are welcome.
 
+By contributing to this project, you agree to follow our `Code of conduct`_,
+which ensures a respectful and inclusive environment for all contributors.
+Please review it before participating in discussions or submitting
+contributions.
+
+.. _Code of conduct: https://github.com/envmodules/modules?tab=coc-ov-file#readme
+
+This project also adheres to a :ref:`Technical charter<CHARTER>`, which
+defines its governance model, decision-making process, and long-term vision.
+
 Support questions
 -----------------
 
