@@ -171,6 +171,23 @@ The project is also present on several social media platforms:
 .. _@EnvModules@mast.hpc.social: https://mast.hpc.social/@EnvModules
 .. _@EnvModules.bsky.social: https://bsky.app/profile/envmodules.bsky.social
 
+Contributing
+------------
+
+Modules project welcomes contributions of all kinds! Before submitting an
+issue or pull request, please take a moment to review our :ref:`Contributing
+guide<CONTRIBUTING>`. It includes important information about issue reporting,
+coding standards, etc.
+
+Please note that Modules project has a `Code of conduct`_. It ensures a
+respectful and inclusive environment for all contributors. By participating in
+the Modules community, you agree to abide by its rules.
+
+This project also adheres to a :ref:`Technical charter<CHARTER>`, which
+defines its governance model, decision-making process, and long-term vision.
+
+.. _Code of conduct: https://github.com/envmodules/modules?tab=coc-ov-file#readme
+
 License
 -------
 
