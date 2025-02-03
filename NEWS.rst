@@ -33,6 +33,7 @@ Modules 5.6.0 (not yet released)
   with the community.
 * Doc: describe the :ref:`developer-certificate-of-origin` process now applied
   on contributions.
+* Doc: add :ref:`add-new-maintainer` guide
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
