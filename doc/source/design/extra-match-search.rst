@@ -499,4 +499,9 @@ Specific impact
 
   - FUTURE: there may have room for optimization here
 
+* As environment variable defined by modulefile commands like ``setenv`` are
+  set to an empty value during scan evaluation, if a modulepath entry contains
+  a reference to such environment variable, it will not match its expecting
+  value.
+
 .. vim:set tabstop=2 shiftwidth=2 expandtab autoindent:
