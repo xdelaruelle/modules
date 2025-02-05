@@ -182,6 +182,62 @@ moda/2"
 }
 
 
+# modulepath entry with environment variable reference
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_append_modpath_extref1
+
+set tserr "$modpath.spider1:
+moda/1
+moda/2
+
+$modpath.spider2:
+modb/1
+modb/2
+
+$modpath.spider3:
+modc/1
+modc/2"
+set tserr_unkref "$modpath.spider1:
+moda/1
+moda/2"
+
+setenv_var TESTSUITE_SPIDER_EXTREF er2
+testouterr_cmd sh {spider -t} OK $tserr
+setenv_var TESTSUITE_SPIDER_EXTREF bad
+testouterr_cmd sh {spider -t} OK $tserr_unkref
+unsetenv_var TESTSUITE_SPIDER_EXTREF
+testouterr_cmd sh {spider -t} OK $tserr_unkref
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_append_modpath_inref1
+testouterr_cmd sh {spider -t} OK $tserr_unkref
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_append_modpath_inref2
+# setenv is not performed on env variable during scan evaluation
+testouterr_cmd sh {spider -t} OK $tserr_unkref
+
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 prepend_modpath_extref1
+setenv_var TESTSUITE_SPIDER_EXTREF er2
+testouterr_cmd sh {spider -t} OK $tserr
+setenv_var TESTSUITE_SPIDER_EXTREF bad
+testouterr_cmd sh {spider -t} OK $tserr_unkref
+unsetenv_var TESTSUITE_SPIDER_EXTREF
+testouterr_cmd sh {spider -t} OK $tserr_unkref
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 prepend_modpath_inref1
+testouterr_cmd sh {spider -t} OK $tserr_unkref
+setenv_var TESTSUITE_SPIDER_MODPATH1 prepend_modpath_inref2
+# setenv is not performed on env variable during scan evaluation
+testouterr_cmd sh {spider -t} OK $tserr_unkref
+
+setenv_var MODULEPATH $modpath.spid\$TESTSUITE_SPIDER_EXTREF
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_append_modpath2
+setenv_var TESTSUITE_SPIDER_EXTREF er1
+testouterr_cmd sh {spider -t} OK $tserr
+setenv_var TESTSUITE_SPIDER_EXTREF bad
+testouterr_cmd sh {spider -t} OK {}
+unsetenv_var TESTSUITE_SPIDER_EXTREF
+testouterr_cmd sh {spider -t} OK {}
+
+
 #
 #  Cleanup
 #
