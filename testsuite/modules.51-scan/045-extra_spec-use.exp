@@ -78,6 +78,21 @@ setenv_var TESTSUITE_EXTRA use_opt3
 testouterr_cmd sh {avail -t extra use:/path/to/dir1} OK {}
 testouterr_cmd sh {avail -t extra use:--other} OK {}
 
+# environment variable reference
+setenv_var TESTSUITE_EXTRA use_extref1
+testouterr_cmd sh {avail -t extra use:/path/to/dir1} OK {}
+setenv_var TESTSUITE_EXTRA_EXTREF unk
+testouterr_cmd sh {avail -t extra use:/path/to/dir1} OK {}
+setenv_var TESTSUITE_EXTRA_EXTREF ir1
+testouterr_cmd sh {avail -t extra use:/path/to/dir1} OK $tserr
+unsetenv_var TESTSUITE_EXTRA_EXTREF
+setenv_var TESTSUITE_EXTRA use_inref1
+testouterr_cmd sh {avail -t extra use:/path/to/dunk} OK {}
+testouterr_cmd sh {avail -t extra use:/path/to/d} OK $tserr
+setenv_var TESTSUITE_EXTRA use_inref2
+testouterr_cmd sh {avail -t extra use:/path/to/dir2} OK {}
+testouterr_cmd sh {avail -t extra use:/path/to/d} OK $tserr
+
 
 #
 # append-path
@@ -118,6 +133,22 @@ setenv_var TESTSUITE_EXTRA use_append_opt3
 
 testouterr_cmd sh {avail -t extra use:/path/to/dir1} OK {}
 testouterr_cmd sh {avail -t extra use:--other} OK {}
+
+
+# environment variable reference
+setenv_var TESTSUITE_EXTRA use_append_extref1
+testouterr_cmd sh {avail -t extra use:/path/to/dir1} OK {}
+setenv_var TESTSUITE_EXTRA_EXTREF unk
+testouterr_cmd sh {avail -t extra use:/path/to/dir1} OK {}
+setenv_var TESTSUITE_EXTRA_EXTREF ir1
+testouterr_cmd sh {avail -t extra use:/path/to/dir1} OK $tserr
+unsetenv_var TESTSUITE_EXTRA_EXTREF
+setenv_var TESTSUITE_EXTRA use_append_inref1
+testouterr_cmd sh {avail -t extra use:/path/to/dunk} OK {}
+testouterr_cmd sh {avail -t extra use:/path/to/d} OK $tserr
+setenv_var TESTSUITE_EXTRA use_append_inref2
+testouterr_cmd sh {avail -t extra use:/path/to/dir2} OK {}
+testouterr_cmd sh {avail -t extra use:/path/to/d} OK $tserr
 
 
 #

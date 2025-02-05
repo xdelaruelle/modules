@@ -308,5 +308,27 @@ if {[info exists env(TESTSUITE_EXTRA)]} {
         depends-on-any1 {
             depends-on-any xtfoo
         }
+        use_extref1 {
+            module use /path/to/d\$TESTSUITE_EXTRA_EXTREF
+        }
+        use_inref1 {
+            setenv TESTSUITE_EXTRA_INREF unk
+            module use /path/to/d\$TESTSUITE_EXTRA_INREF
+        }
+        use_inref2 {
+            setenv TESTSUITE_EXTRA_INREF ir2
+            module use /path/to/d\$TESTSUITE_EXTRA_INREF
+        }
+        use_append_extref1 {
+            append-path MODULEPATH /path/to/d\$TESTSUITE_EXTRA_EXTREF
+        }
+        use_append_inref1 {
+            setenv TESTSUITE_EXTRA_INREF unk
+            append-path MODULEPATH /path/to/d\$TESTSUITE_EXTRA_INREF
+        }
+        use_append_inref2 {
+            setenv TESTSUITE_EXTRA_INREF ir2
+            append-path MODULEPATH /path/to/d\$TESTSUITE_EXTRA_INREF
+        }
     }
 }
