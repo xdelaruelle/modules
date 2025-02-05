@@ -3122,11 +3122,8 @@ proc cmdModuleSpider {show_oneperline show_mtime show_filter search_filter\
       set modpath [lindex $modpath_list $i]
       getModules $modpath $use_xt_query
       foreach {new_modpath from_mod_list} [getScanModuleElt $modpath use] {
-         set resolved_new_modpath [getAbsolutePath [resolvStringWithEnv\
-            $new_modpath]]
-         if {[string length $resolved_new_modpath] && $resolved_new_modpath\
-            ni $modpath_list} {
-            lappend modpath_list $resolved_new_modpath
+         if {[string length $new_modpath] && $new_modpath ni $modpath_list} {
+            lappend modpath_list $new_modpath
          }
       }
    }

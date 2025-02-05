@@ -256,8 +256,8 @@ switched-off module is added to relative specifiers.
 Change on the ``MODULEPATH`` environment variable either through
 ``module use``, ``append-path`` or ``prepend-path`` may be queried with
 ``use`` extra specifier. Modulepath are translated to their absolute path form
-to be recorded. Symbolic links are recorded as is (they are not translated
-into their target)
+to be recorded. Variable reference are resolved at record time. Symbolic links
+are recorded as is (they are not translated into their target)
 
 Recording extra specifier specification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

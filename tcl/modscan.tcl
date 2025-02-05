@@ -61,9 +61,7 @@ proc edit-path-sc {cmd args} {
 
    # record MODULEPATH edition as "module use" command
    if {$var eq {MODULEPATH} && $cmd in {append-path prepend-path}} {
-      foreach path $path_list {
-         recordScanModuleElt [getAbsolutePath $path] use
-      }
+      recordScanModuleUsePathList $path_list
    }
 
    setEnvVarIfUndefined $var {}
@@ -197,9 +195,7 @@ proc module-sc {command args} {
             }
          }
       } elseif {$command eq {use}} {
-         foreach path $modspeclist {
-            recordScanModuleElt [getAbsolutePath $path] use
-         }
+         recordScanModuleUsePathList $modspeclist
       } else {
          set xtalias [expr {$command eq {unload} ? $xtaliasinc : $xtaliasreq}]
          # record each module spec
@@ -207,6 +203,13 @@ proc module-sc {command args} {
             recordScanModuleElt $modspec $command {*}$xtalias
          }
       }
+   }
+}
+
+proc recordScanModuleUsePathList {path_list} {
+   foreach path $path_list {
+      set resolved_abs_path [getAbsolutePath [resolvStringWithEnv $path]]
+      recordScanModuleElt $resolved_abs_path use
    }
 }
 
