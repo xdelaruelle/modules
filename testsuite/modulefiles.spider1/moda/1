@@ -19,5 +19,27 @@ if {[info exists env(TESTSUITE_SPIDER_MODPATH1)]} {
         remove_modpath2 {
             remove-path MODULEPATH $env(TESTSUITEDIR)/modulefiles.spider2
         }
+        use_append_modpath_extref1 {
+            module use -a $env(TESTSUITEDIR)/modulefiles.spid\$TESTSUITE_SPIDER_EXTREF
+        }
+        use_append_modpath_inref1 {
+            setenv TESTSUITE_SPIDER_INREF unk
+            module use -a $env(TESTSUITEDIR)/modulefiles.spid\$TESTSUITE_SPIDER_INREF
+        }
+        use_append_modpath_inref2 {
+            setenv TESTSUITE_SPIDER_INREF er2
+            module use -a $env(TESTSUITEDIR)/modulefiles.spid\$TESTSUITE_SPIDER_INREF
+        }
+        prepend_modpath_extref1 {
+            prepend-path MODULEPATH $env(TESTSUITEDIR)/modulefiles.spid\$TESTSUITE_SPIDER_EXTREF
+        }
+        prepend_modpath_inref1 {
+            setenv TESTSUITE_SPIDER_INREF unk
+            prepend-path MODULEPATH $env(TESTSUITEDIR)/modulefiles.spid\$TESTSUITE_SPIDER_INREF
+        }
+        prepend_modpath_inref2 {
+            setenv TESTSUITE_SPIDER_INREF er2
+            prepend-path MODULEPATH $env(TESTSUITEDIR)/modulefiles.spid\$TESTSUITE_SPIDER_INREF
+        }
     }
 }
