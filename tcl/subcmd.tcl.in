@@ -3118,9 +3118,14 @@ proc cmdModuleSpider {show_oneperline show_mtime show_filter search_filter\
    defineParseModuleSpecificationProc 1
    set modpath_list [getModulePathList exiterronundef]
    set use_xt_query [parseModuleSpecification 0 1 1 0 use:*]
-   for {set i 0} {$i < [llength $modpath_list]} {incr i} {
-      set modpath [lindex $modpath_list $i]
-      getModules $modpath $use_xt_query
+   for {set i -1} {$i < [llength $modpath_list]} {incr i} {
+      if {$i < 0} {
+         set modpath {}
+         getModules $modpath $use_xt_query 0 {rc_alias_only}
+      } else {
+         set modpath [lindex $modpath_list $i]
+         getModules $modpath $use_xt_query
+      }
       foreach {new_modpath from_mod_list} [getScanModuleElt $modpath use] {
          if {[string length $new_modpath] && $new_modpath ni $modpath_list} {
             lappend modpath_list $new_modpath
