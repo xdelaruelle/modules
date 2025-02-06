@@ -2534,10 +2534,11 @@ Module Sub-Commands
  directory arguments set to the :mfcmd:`module use<module>`,
  :mfcmd:`append-path MODULEPATH<append-path>` or :mfcmd:`prepend-path
  MODULEPATH<prepend-path>` modulefile commands. Collecting modulepaths is
- first achieved in the modulepaths defined in :envvar:`MODULEPATH` then in
- each modulepath collected from modulefiles, and so on. As collecting
- modulepaths implies evaluating every available modulefiles, it is advised to
- build and use :ref:`Module cache` to improve search speed.
+ first achieved in the global/user rc section and modulepaths defined in
+ :envvar:`MODULEPATH` then in each modulepath collected from modulefiles, and
+ so on. As collecting modulepaths implies evaluating every available
+ modulefiles, it is advised to build and use :ref:`Module cache` to improve
+ search speed.
 
  Once modulepaths are gathered, :subcmd:`spider` proceeds and reports like
  :subcmd:`avail` sub-command. The same set of options are supported.

@@ -1,0 +1,14 @@
+#%Module
+if {[info exists env(TESTSUITE_SPIDER_GLOBALRC)]} {
+    switch -- $env(TESTSUITE_SPIDER_GLOBALRC) {
+        virtual1 {
+            module-virtual modd/1 ../modulefiles.spider2/modb/1
+        }
+        alias1 {
+            module-alias modd/1 modb/1
+        }
+        symbol1 {
+            module-version modb/1 sym
+        }
+    }
+}

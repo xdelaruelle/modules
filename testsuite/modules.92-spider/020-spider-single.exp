@@ -80,9 +80,7 @@ testouterr_cmd_re "csh" "spider $module3/$symbol3" OK "$ts_csh\\s+\n\n$key_sym"
 
 setenv_loaded_module [list foo bar] "/path/to/foo"
 
-# FIXME: bad environment state should not affect result of spider command
-#   like avail sub-command in 90/020
-testouterr_cmd_re "csh" "spider $module3/$symbol3" ERR "$ts_csh\\s+\n\n$key_sym"
+testouterr_cmd_re "csh" "spider $module3/$symbol3" OK "$ts_csh\\s+\n\n$key_sym"
 
 
 #

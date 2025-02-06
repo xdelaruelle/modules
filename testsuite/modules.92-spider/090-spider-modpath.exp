@@ -238,6 +238,64 @@ unsetenv_var TESTSUITE_SPIDER_EXTREF
 testouterr_cmd sh {spider -t} OK {}
 
 
+# global modules defining new modulepath entries
+setenv_var MODULERCFILE $env(TESTSUITEDIR)/etc/modulerc.spider
+setenv_var MODULEPATH $modpath.spider1
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_modpath3
+setenv_var TESTSUITE_SPIDER_MODPATH3 use_modpath1
+
+setenv_var TESTSUITE_SPIDER_GLOBALRC virtual1
+set tserr "global/user modulerc:
+modd/1
+
+$modpath.spider1:
+moda/1
+moda/2
+
+$modpath.spider3:
+modc/1
+modc/2
+
+$modpath.spider2:
+modb/1
+modb/2"
+testouterr_cmd sh {spider -t} OK $tserr
+
+setenv_var TESTSUITE_SPIDER_GLOBALRC alias1
+set tserr "global/user modulerc:
+modd/1(@)
+
+$modpath.spider1:
+moda/1
+moda/2
+
+$modpath.spider2:
+modb/1
+modb/2
+
+$modpath.spider3:
+modc/1
+modc/2"
+testouterr_cmd sh {spider -t} OK $tserr
+
+setenv_var TESTSUITE_SPIDER_GLOBALRC symbol1
+set tserr "$modpath.spider1:
+moda/1
+moda/2
+
+$modpath.spider2:
+modb/1(sym)
+modb/2
+
+$modpath.spider3:
+modc/1
+modc/2"
+testouterr_cmd sh {spider -t} OK $tserr
+
+setenv_var MODULERCFILE $ORIG_MODULERCFILE
+
+
 #
 #  Cleanup
 #
