@@ -56,6 +56,7 @@ set modulefile9 "$path1/$module9"
 #  The tests (use)
 #
 
+lappend ans [list set __MODULES_LMUSE $module1&$path2]
 lappend ans [list set __MODULES_LMALTNAME "$module1&use/default&use"]
 lappend ans [list set _LMFILES_ $modulefile1]
 lappend ans [list set LOADEDMODULES $module1]
@@ -70,6 +71,7 @@ skip_if_quick_mode
 #
 
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module2&$path2]
 lappend ans [list set _LMFILES_ $modulefile2]
 lappend ans [list set LOADEDMODULES $module2]
 lappend ans [list set MODULEPATH "$path1:$path2"]
@@ -81,6 +83,7 @@ test_cmd_re "ALL" "load $module2" $ans
 #
 
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module3&$path2]
 lappend ans [list set _LMFILES_ $modulefile3]
 lappend ans [list set LOADEDMODULES $module3]
 lappend ans [list set MODULEPATH "$path1:$path2"]
@@ -93,6 +96,7 @@ test_cmd_re "ALL" "load $module3" $ans
 #
 
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module4&$path2]
 lappend ans [list set _LMFILES_ $modulefile4]
 lappend ans [list set LOADEDMODULES $module4]
 lappend ans [list set MODULEPATH "$path1:$path2"]
@@ -104,6 +108,7 @@ test_cmd_re "ALL" "load $module4" $ans
 #
 
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module5&$path2]
 lappend ans [list set _LMFILES_ $modulefile5]
 lappend ans [list set LOADEDMODULES $module5]
 lappend ans [list set MODULEPATH "$path2:$path1"]
@@ -115,6 +120,7 @@ test_cmd_re "ALL" "load $module5" $ans
 #
 
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module6&$path2]
 lappend ans [list set _LMFILES_ $modulefile6]
 lappend ans [list set LOADEDMODULES $module6]
 lappend ans [list set MODULEPATH "$path2:$path1"]
@@ -127,6 +133,7 @@ test_cmd_re "ALL" "load $module6" $ans
 #
 
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module7&$path2]
 lappend ans [list set _LMFILES_ $modulefile7]
 lappend ans [list set LOADEDMODULES $module7]
 lappend ans [list set MODULEPATH "$path2:$path1"]
@@ -151,6 +158,7 @@ testouterr_cmd_re "ALL" "load $module8" $ans [msg_load $module8 $err_msg]
 #
 
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module9&$path2]
 lappend ans [list set _LMFILES_ $modulefile9]
 lappend ans [list set LOADEDMODULES $module9]
 lappend ans [list set MODULEPATH "$path2:$path1"]
@@ -165,6 +173,7 @@ test_cmd_re "sh" "load $module9" $ans
 setenv_path_var MODULEPATH $path1 $path2
 
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module2&$path2]
 lappend ans [list set _LMFILES_ $modulefile2]
 lappend ans [list set LOADEDMODULES $module2]
 lappend ans [list set __MODULES_SHARE_MODULEPATH $path2:2]
@@ -173,6 +182,7 @@ testouterr_cmd sh "load $module2" $ans {}
 
 setenv_var TESTSUITE_REFCOUNT usemulti1
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module2&$path2&/foo&/bar]
 lappend ans [list set _LMFILES_ $modulefile2]
 lappend ans [list set LOADEDMODULES $module2]
 lappend ans [list set __MODULES_SHARE_MODULEPATH $path2:2]
@@ -185,6 +195,7 @@ unsetenv_var TESTSUITE_REFCOUNT
 # erroneous __MODULES_SHARE_ ref counter variable is fixed
 setenv_var __MODULES_SHARE_MODULEPATH $path2:1
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module2&$path2]
 lappend ans [list set _LMFILES_ $modulefile2]
 lappend ans [list set LOADEDMODULES $module2]
 lappend ans [list set __MODULES_SHARE_MODULEPATH $path2:2]
@@ -193,6 +204,7 @@ testouterr_cmd sh "load $module2" $ans {}
 
 setenv_var TESTSUITE_REFCOUNT usemulti1
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module2&$path2&/foo&/bar]
 lappend ans [list set _LMFILES_ $modulefile2]
 lappend ans [list set LOADEDMODULES $module2]
 lappend ans [list set __MODULES_SHARE_MODULEPATH $path2:2]
@@ -205,6 +217,7 @@ unsetenv_var TESTSUITE_REFCOUNT
 # erroneous __MODULES_SHARE_ ref counter variable is fixed
 setenv_var __MODULES_SHARE_MODULEPATH $path2:0
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module2&$path2]
 lappend ans [list set _LMFILES_ $modulefile2]
 lappend ans [list set LOADEDMODULES $module2]
 lappend ans [list set __MODULES_SHARE_MODULEPATH $path2:2]
@@ -213,6 +226,7 @@ testouterr_cmd sh "load $module2" $ans {}
 
 setenv_var TESTSUITE_REFCOUNT usemulti1
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module2&$path2&/foo&/bar]
 lappend ans [list set _LMFILES_ $modulefile2]
 lappend ans [list set LOADEDMODULES $module2]
 lappend ans [list set __MODULES_SHARE_MODULEPATH $path2:2]
@@ -225,6 +239,7 @@ unsetenv_var TESTSUITE_REFCOUNT
 # __MODULES_SHARE_ ref counter variable is updated
 setenv_var __MODULES_SHARE_MODULEPATH $path2:2
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module2&$path2]
 lappend ans [list set _LMFILES_ $modulefile2]
 lappend ans [list set LOADEDMODULES $module2]
 lappend ans [list set __MODULES_SHARE_MODULEPATH $path2:3]
@@ -233,6 +248,7 @@ testouterr_cmd sh "load $module2" $ans {}
 
 setenv_var TESTSUITE_REFCOUNT usemulti1
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $module2&$path2&/foo&/bar]
 lappend ans [list set _LMFILES_ $modulefile2]
 lappend ans [list set LOADEDMODULES $module2]
 lappend ans [list set __MODULES_SHARE_MODULEPATH $path2:3]
