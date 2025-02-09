@@ -1829,6 +1829,10 @@ proc add-path {cmd mode dflbhv args} {
       setReferenceCountRecordValue $sharevar [array get countarr]
    }
 
+   if {$var eq {MODULEPATH}} {
+      registerCurrentModuleUse {*}$path_list
+   }
+
    return {}
 }
 

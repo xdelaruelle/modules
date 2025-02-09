@@ -1841,6 +1841,22 @@ proc getAndParseModuleWithVariant {mod vr_list} {
    return $mod_vr
 }
 
+proc setLoadedUse {mod args} {
+   appendNoDupToList ::g_loadedModuleUse($mod) {*}$args
+}
+
+proc unsetLoadedUse {mod} {
+   if {[info exists ::g_loadedModuleUse($mod)]} {
+      unset ::g_loadedModuleUse($mod)
+   }
+}
+
+proc getLoadedUse {mod} {
+   if {[info exists ::g_loadedModuleUse($mod)]} {
+      return $::g_loadedModuleUse($mod)
+   }
+}
+
 proc unsetEnvLoadedModuleProperty {mod_name prop} {
    set prop_env_var [getLoadedModulePropertyEnvVarName $prop]
    set env_loaded_prop_list [getEnvLoadedModulePropertyList $prop]
@@ -1873,7 +1889,7 @@ proc getEnvLoadedModulePropertyStructDepth {prop} {
       file - init - modulepath - name - refresh {
          return 0Lvl
       }
-      conflict - extratag - tag {
+      conflict - extratag - tag - use {
          return 1Lvl
       }
       altname - prereq - prereqpath - sourcesh - stickyrule - variant {
@@ -2439,6 +2455,10 @@ proc cacheCurrentModules {{exitonerr 1}} {
          foreach modpre_path [getEnvLoadedModulePropertyParsedList\
             prereqpath] {
             setLoadedPrereqPath {*}$modpre_path
+         }
+
+         foreach moduse [getEnvLoadedModulePropertyParsedList use] {
+            setLoadedUse {*}$moduse
          }
 
          foreach mod $modlist {
