@@ -38,26 +38,17 @@ catch {unset env(MODULEPATH)}
 catch {unset env(LOADEDMODULES)}
 catch {unset env(_LMFILES_)}
 
-catch {unset env(__MODULES_LMCONFLICT)}
-catch {unset env(__MODULES_LMPREREQ)}
-catch {unset env(__MODULES_LMALTNAME)}
-catch {unset env(__MODULES_LMTAG)}
-catch {unset env(__MODULES_LMEXTRATAG)}
-catch {unset env(__MODULES_LMVARIANT)}
-catch {unset env(__MODULES_LMINIT)}
-
 catch {unset env(MODULECONTACT)}
 
 catch {unset env(MODULES_RUN_QUARANTINE)}
 unsetenv_var MODULES_QUARANTINE_SUPPORT
 
 foreach var [array names env] {
-    if {[string match __MODULES_SHARE_* $var] \
-        || [string match __MODULES_PUSHENV_* $var] \
-        || [string match __MODULES_QUAR_* $var] \
-        || [string match MODULES_FAMILY_* $var] \
-        || [string match MODULES_RUNENV_* $var]} {
-        catch {unset env($var)}
+    switch -glob $var {
+        __MODULES_SHARE_* - __MODULES_PUSHENV_* - __MODULES_QUAR_* - \
+        MODULES_FAMILY_* - MODULES_RUNENV_* - __MODULES_LM* {
+            unsetenv_var $var
+        }
     }
 }
 
