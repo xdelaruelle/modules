@@ -79,6 +79,14 @@ skip_if_quick_mode
 #
 
 setenv_loaded_module $module2 $modulefile2
+setenv_var __MODULES_LMUSE $module2&$path2
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH $path1]
+
 
 #
 #  The tests (use --append)
@@ -91,6 +99,7 @@ test_cmd "ALL" "unload $module2" $ans
 #
 
 setenv_loaded_module $module3 $modulefile3
+setenv_var __MODULES_LMUSE $module3&$path2
 
 #
 #  The tests (use -a)
@@ -103,6 +112,7 @@ test_cmd "ALL" "unload $module3" $ans
 #
 
 setenv_loaded_module $module4 $modulefile4
+setenv_var __MODULES_LMUSE $module4&$path2
 
 #
 #  The tests (use -append)
@@ -116,6 +126,7 @@ test_cmd "ALL" "unload $module4" $ans
 #
 
 setenv_loaded_module $module5 $modulefile5
+setenv_var __MODULES_LMUSE $module5&$path2
 
 #
 #  The tests (use --prepend)
@@ -128,6 +139,7 @@ test_cmd "ALL" "unload $module5" $ans
 #
 
 setenv_loaded_module $module6 $modulefile6
+setenv_var __MODULES_LMUSE $module6&$path2
 
 #
 #  The tests (use -p)
@@ -140,6 +152,7 @@ test_cmd "ALL" "unload $module6" $ans
 #
 
 setenv_loaded_module $module7 $modulefile7
+setenv_var __MODULES_LMUSE $module7&$path2
 
 #
 #  The tests (use -prepend)
@@ -153,6 +166,7 @@ test_cmd "ALL" "unload $module7" $ans
 #
 
 setenv_loaded_module $module9 $modulefile9
+setenv_var __MODULES_LMUSE $module9&$path2
 
 #
 #  The tests (use relative paths)
@@ -165,6 +179,7 @@ test_cmd "sh" "unload $module9" $ans
 #
 
 setenv_loaded_module $module8 $modulefile8
+unsetenv_var __MODULES_LMUSE
 
 set ans [list]
 lappend ans [list unset _LMFILES_]
@@ -184,8 +199,10 @@ testouterr_cmd "ALL" "unload $module8" $ans [msg_unload $module8 $err_emptydirna
 
 setenv_loaded_module $module2 $modulefile2
 setenv_path_var MODULEPATH $path1 $path2
+setenv_var __MODULES_LMUSE $module2&$path2
 
 set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list set MODULEPATH $path1]
@@ -193,6 +210,7 @@ testouterr_cmd sh "unload $module2" $ans {}
 
 setenv_var TESTSUITE_REFCOUNT usemulti1
 set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list set MODULEPATH $path1]
@@ -204,6 +222,7 @@ unsetenv_var TESTSUITE_REFCOUNT
 # erroneous __MODULES_SHARE_ ref counter variable is fixed
 setenv_var __MODULES_SHARE_MODULEPATH $path2:1
 set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list unset __MODULES_SHARE_MODULEPATH]
@@ -212,6 +231,7 @@ testouterr_cmd sh "unload $module2" $ans {}
 
 setenv_var TESTSUITE_REFCOUNT usemulti1
 set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list unset __MODULES_SHARE_MODULEPATH]
@@ -224,6 +244,7 @@ unsetenv_var TESTSUITE_REFCOUNT
 # erroneous __MODULES_SHARE_ ref counter variable is fixed
 setenv_var __MODULES_SHARE_MODULEPATH $path2:0
 set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list unset __MODULES_SHARE_MODULEPATH]
@@ -232,6 +253,7 @@ testouterr_cmd sh "unload $module2" $ans {}
 
 setenv_var TESTSUITE_REFCOUNT usemulti1
 set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list unset __MODULES_SHARE_MODULEPATH]
@@ -244,6 +266,7 @@ unsetenv_var TESTSUITE_REFCOUNT
 # __MODULES_SHARE_ ref counter variable is updated
 setenv_var __MODULES_SHARE_MODULEPATH $path2:2
 set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list unset __MODULES_SHARE_MODULEPATH]
@@ -252,6 +275,7 @@ testouterr_cmd sh "unload $module2" $ans {}
 
 setenv_var TESTSUITE_REFCOUNT usemulti1
 set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list unset __MODULES_SHARE_MODULEPATH]
@@ -264,6 +288,7 @@ unsetenv_var TESTSUITE_REFCOUNT
 # __MODULES_SHARE_ ref counter variable is updated
 setenv_var __MODULES_SHARE_MODULEPATH $path2:3
 set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list set __MODULES_SHARE_MODULEPATH $path2:2]
@@ -272,6 +297,7 @@ testouterr_cmd sh "unload $module2" $ans {}
 
 setenv_var TESTSUITE_REFCOUNT usemulti1
 set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list set __MODULES_SHARE_MODULEPATH $path2:2]

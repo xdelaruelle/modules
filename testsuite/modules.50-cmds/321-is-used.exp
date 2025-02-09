@@ -30,6 +30,7 @@ set modulefile "$modpath/$module"
 #  The tests
 #
 
+lappend ans [list set __MODULES_LMUSE $module&$modpath.2]
 lappend ans [list set testsuite6 1]
 lappend ans [list set testsuite2 0]
 lappend ans [list set testsuite3 0]
@@ -46,6 +47,7 @@ testouterr_cmd "ALL" "load $module" $ans ""
 unsetenv_path_var MODULEPATH
 
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $modulefile&$modpath.2]
 lappend ans [list set testsuite6 1]
 lappend ans [list set testsuite2 0]
 lappend ans [list set testsuite3 0]

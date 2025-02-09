@@ -525,6 +525,7 @@ setenv_loaded_module [split $cdlm ":"] [split $cdlmf ":"]
 unsetenv_var MODULES_COLLECTION_TARGET
 
 set ans [list]
+lappend ans [list set __MODULES_LMUSE $modpath.2/restore&$modpath.2]
 lappend ans [list set _LMFILES_ $c2lmf:$modpath.2/restore]
 lappend ans [list set LOADEDMODULES $c2lm:$modpath.2/restore]
 lappend ans [list set MODULEPATH $modpath:$modpath.2]
