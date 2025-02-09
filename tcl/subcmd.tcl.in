@@ -3134,6 +3134,7 @@ proc cmdModuleSpider {show_oneperline show_mtime show_filter search_filter\
       foreach {new_modpath from_mod_list} [getScanModuleElt $modpath use] {
          if {[string length $new_modpath] && $new_modpath ni $modpath_list} {
             lappend modpath_list $new_modpath
+            setLoadedUse [lindex $from_mod_list 0] $new_modpath
          }
       }
    }
