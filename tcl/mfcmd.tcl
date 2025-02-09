@@ -2298,6 +2298,12 @@ proc lsb-release {what} {
    }]
 }
 
+proc registerCurrentModuleUse {args} {
+   if {[string length [currentState modulename]]} {
+      setLoadedUse [currentState modulename] {*}$args
+   }
+}
+
 # ;;; Local Variables: ***
 # ;;; mode:tcl ***
 # ;;; End: ***
