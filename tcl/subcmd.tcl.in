@@ -1313,6 +1313,8 @@ proc cmdModuleLoad {context uasked tryload loadany tag_list modulepath_list\
          setEnvLoadedModuleProperty $modname prereqpath [getLoadedPrereqPath\
             $modname]
 
+         setEnvLoadedModuleProperty $modname use [getLoadedUse $modname]
+
          # declare the alternative names of this module
          setEnvLoadedModuleProperty $modname altname [getLoadedAltname\
             $modname {sym alias autosym} 1]
@@ -1689,6 +1691,9 @@ proc cmdModuleUnload {context match auto force onlyureq args} {
          unsetLoadedPrereq $modname
          unsetEnvLoadedModuleProperty $modname prereqpath
          unsetLoadedPrereqPath $modname
+
+         unsetEnvLoadedModuleProperty $modname use
+         unsetLoadedUse $modname
 
          # unset alternative names declared for this module
          unsetEnvLoadedModuleProperty $modname altname
