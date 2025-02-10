@@ -1598,9 +1598,11 @@ proc reportModules {search_queries header hsgrkey hstyle show_mtime show_idx\
       displayTableHeader {*}$theader_cols
    }
 
+   set via [getViaModuleForModulepath $header]
+
    # output formatted elements
    displayElementList $header $hsgrkey $hstyle $one_per_line $show_idx 1\
-      $display_list $len_list $max_len
+      $display_list $len_list $max_len $via
 }
 
 proc showModulePath {} {
@@ -1626,7 +1628,7 @@ proc displayTableHeader {sgrkey args} {
    report [join $col_list .]
 }
 
-proc displaySeparatorLine {{title {}} {sgrkey {}}} {
+proc displaySeparatorLine {{title {}} {sgrkey {}} {extra {}}} {
    set tty_cols [getState term_columns]
    if {$title eq {}} {
       # adapt length if screen width is very small
@@ -1634,22 +1636,22 @@ proc displaySeparatorLine {{title {}} {sgrkey {}}} {
       set rep [expr {$tty_cols > $max_rep ? $max_rep : $tty_cols}]
       report [string repeat - $rep]
    } else {
-      set len [string length $title]
+      set len [string length $title$extra]
       set lrep [tcl::mathfunc::max [expr {($tty_cols - $len - 2)/2}] 1]
       set rrep [tcl::mathfunc::max [expr {$tty_cols - $len - 2 - $lrep}] 1]
-      report "[string repeat - $lrep] [sgr $sgrkey $title] [string repeat -\
-         $rrep]"
+      report "[string repeat - $lrep] [sgr $sgrkey $title]$extra [string\
+         repeat - $rrep]"
    }
 }
 
 # get a list of elements and print them in a column or in a
 # one-per-line fashion
 proc displayElementList {header sgrkey hstyle one_per_line display_idx\
-   start_idx display_list {len_list {}} {max_len 0}} {
+   start_idx display_list {len_list {}} {max_len 0} {via {}}} {
    set elt_cnt [llength $display_list]
    reportDebug "header=$header, sgrkey=$sgrkey, hstyle=$hstyle,\
       elt_cnt=$elt_cnt, max_len=$max_len, one_per_line=$one_per_line,\
-      display_idx=$display_idx, start_idx=$start_idx"
+      display_idx=$display_idx, start_idx=$start_idx, via=$via"
 
    # end proc if no element are to print
    if {$elt_cnt == 0} {
@@ -1664,7 +1666,8 @@ proc displayElementList {header sgrkey hstyle one_per_line display_idx\
       if {$json} {
          report "\"$header\": \{"
       } elseif {$hstyle eq {sepline}} {
-         displaySeparatorLine $header $sgrkey
+         set extra [expr {[string length $via] ? " (via $via)" : {}}]
+         displaySeparatorLine $header $sgrkey $extra
       } else {
          report [sgr $sgrkey $header]:
       }
