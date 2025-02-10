@@ -1857,6 +1857,30 @@ proc getLoadedUse {mod} {
    }
 }
 
+proc getViaModuleForModulepath {modpath} {
+   set via [getLoadedModuleUsingModulepath $modpath]
+   if {![string length $via] && $modpath ni [getModulePathList]} {
+      set via [getModuleUsingModulepath $modpath]
+   }
+   return $via
+}
+
+proc getModuleUsingModulepath {modpath} {
+   foreach mod [array names ::g_loadedModuleUse] {
+      if {$modpath in $::g_loadedModuleUse($mod)} {
+         return $mod
+      }
+   }
+}
+
+proc getLoadedModuleUsingModulepath {modpath} {
+   foreach mod [getEnvLoadedModulePropertyParsedList name] {
+      if {$modpath in [getLoadedUse $mod]} {
+         return $mod
+      }
+   }
+}
+
 proc unsetEnvLoadedModuleProperty {mod_name prop} {
    set prop_env_var [getLoadedModulePropertyEnvVarName $prop]
    set env_loaded_prop_list [getEnvLoadedModulePropertyList $prop]
