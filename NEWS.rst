@@ -94,6 +94,8 @@ Modules 5.6.0 (not yet released)
   than a separate output for each submitted pattern.
 * Doc: clarify that character used in version specification like *,* and *:*
   cannot be used as variant shortcut.
+* Introduce :envvar:`__MODULES_LMUSE` environment variable to keep track of
+  the loaded modules that enable modulepaths.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

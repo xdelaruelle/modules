@@ -4163,6 +4163,23 @@ ENVIRONMENT
     .. versionchanged:: 5.0
        Variable renamed from ``MODULES_LMTAG`` to ``__MODULES_LMTAG``
 
+.. envvar:: __MODULES_LMUSE
+
+ A colon separated list of the modulepaths enabled by all loaded
+ *modulefiles*. Each element in this list starts by the name of the loaded
+ *modulefile* enabling modulepath followed by all modulepaths it enables.
+ These loaded modulefiles and enabled modulepaths are separated by the
+ ampersand character.
+
+ This environment variable is intended for :command:`module` command internal
+ use to get knowledge of the modulepath enabled by the loaded *modulefiles*
+ in order to keep environment consistent when unloading these modules whereas
+ modulefiles from the enabled modulepaths are loaded.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. envvar:: __MODULES_LMVARIANT
 
  A colon separated list of the variant instantiated through :mfcmd:`variant`
