@@ -80,7 +80,7 @@ task:
   env:
     MAKE: gmake
   freebsd_instance:
-    image_family: freebsd-14-1
+    image_family: freebsd-14-2
     cpu: 1
     memory: 2G
   reqinstall_script: pkg install -y bash wget gmake dejagnu py311-sphinx gzip tcl86 tcl-wrapper autoconf ksh93 zsh fish perl5 python311 ruby cmake R readline
