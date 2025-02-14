@@ -122,7 +122,7 @@ task:
     EXTRATEST_SOURCESH: y
     TESTSUITE_ENABLE_MODULECACHE: 1
   container:
-    image: ubuntu:jammy
+    image: ubuntu:noble
     cpu: 1
     memory: 2G
   reqinstall_script: |
@@ -154,7 +154,7 @@ task:
     LANG: C
     LC_ALL: C
   container:
-    image: ubuntu:noble
+    image: ubuntu:jammy
     cpu: 1
     memory: 2G
   reqinstall_script: |
