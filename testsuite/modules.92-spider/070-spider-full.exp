@@ -51,7 +51,7 @@ set ts_key_small "Key:
 set len  [string length $modpath]
 set lrep [expr {($test_cols - $len - 2)/2}]
 set rrep [expr {$test_cols - $len - 2 - $lrep}]
-set len2  [string length $modpath.2]
+set len2  [string length "$modpath.2 (via use/2.0)"]
 set lrep2 [expr {($test_cols - $len2 - 2)/2}]
 set rrep2 [expr {$test_cols - $len2 - 2 - $lrep2}]
 set ts_sh "[string repeat {-} $lrep] $modpath [string repeat {-} $rrep]
@@ -144,7 +144,7 @@ info/mode6          loc_sym/1.0                     modbad/is-saved             
 info/name           loc_sym/alias1                  modbad/is-used                                                       spread/2.0           
 info/others         loc_sym/alias2                  modbad/path                                                          spread/3.0           
 
-[string repeat {-} $lrep2] $modpath.2 [string repeat {-} $rrep2]
+[string repeat {-} $lrep2] $modpath.2 (via use/2.0) [string repeat {-} $rrep2]
 1.1/version         advvers5/3.3     advvers7/8.1.2          deepvirt1/dir3/1.0(@)          extdfl7/7.0                  icase/isloaded        restore                                         
 1.2/version         advvers5/4.0     advvers7/8.2.1          deepvirt1/dir3/2.0             extdfl7/7.1                  icase/load            setenv/0.1                                      
 1.3/version         advvers5/4.1     advvers7/8.2.2          deepvirt1/dir4/1.0             extdfl7/8.1(@)               icase/loadi           source-sh/1                                     

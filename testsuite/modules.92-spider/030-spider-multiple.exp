@@ -121,7 +121,7 @@ testouterr_cmd_re "csh" "spider $module4 $module4" "OK" "$ts_csh\n\n$key_al_sym"
 
 set ts_csh "$header$module5/$mod5vers1\\($mod5sym1\\)\\s+$module5/$mod5vers2\\s+${module5}2/$mod5vers3\\s+${module5}2/$mod5vers4\\s+
 
-$modlin $modpathre.2 $modlin
+$modlin $modpathre.2 \\(via use/2.0\\) $modlin
 bad3/bodyfor\\s+bad3/bodyif\\s+bad3/bodyproc\\s+bad3/bodysource\\s+bad3/bodywhile\\s+bad3/proc2\\s+bad3/proc3\\s+bad3/procproc\\s+bad3/procsource\\s+badrc3/1\\s+"
 
 testouterr_cmd_re "csh" "spider $module5" "OK" "$ts_csh\n\n$key_sym"

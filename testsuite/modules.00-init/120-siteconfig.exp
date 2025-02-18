@@ -680,14 +680,14 @@ lappend ans {      while executing}
 lappend ans {  "tcl::mathfunc::max [expr {($tty_cols - $len - 2)/2}] 1"}
 lappend ans {      (procedure "displaySeparatorLine" line 10)}
 lappend ans {      invoked from within}
-lappend ans {  "displaySeparatorLine $header $sgrkey"}
-lappend ans {      (procedure "displayElementList" line 17)}
+lappend ans {  "displaySeparatorLine $header $sgrkey $extra"}
+lappend ans {      (procedure "displayElementList" line 19)}
 lappend ans {      invoked from within}
-lappend ans {  "displayElementList $header $hsgrkey $hstyle $one_per_line $show_idx 1 $display_list $len_list $max_len"}
-lappend ans {      (procedure "reportModules" line 151)}
+lappend ans {  "displayElementList $header $hsgrkey $hstyle $one_per_line $show_idx 1 $display_list $len_list $max_len $via"}
+lappend ans {      (procedure "reportModules" line 153)}
 lappend ans {      invoked from within}
-lappend ans {  "reportModules $args $modpath_label mp $hstyle $show_mtime 0 $one_per_line $theader_cols hidden-loaded"}
-lappend ans {      (procedure "cmdModuleAvail" line 44)}
+lappend ans {  "reportModules $args $dir mp $hstyle $show_mtime 0 $one_per_line $theader_cols hidden-loaded"}
+lappend ans {      (procedure "cmdModuleAvail" line 43)}
 lappend ans {      invoked from within}
 lappend ans {  "$cmdprocname {*}$cmdopts {*}$parsed_args"}
 lappend ans {      (procedure "module" line 190)}
