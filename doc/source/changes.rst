@@ -1196,6 +1196,11 @@ The following modulefile Tcl commands appeared on Modules 5.
  :mconfig:`auto_handling` configuration options are enabled, all matching
  loaded modules are unloaded.
 
+:mfcmd:`modulepath-label`
+
+ Starting version 5.6, label is also used on :subcmd:`whatis` and
+ :subcmd:`search` sub-command output.
+
 Modules Variables
 """""""""""""""""
 

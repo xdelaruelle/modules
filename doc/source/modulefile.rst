@@ -1026,7 +1026,8 @@ the *modulefile* is being loaded.
 .. mfcmd:: modulepath-label directory label
 
  Assigns *label* string to modulepath *directory*. This *label* is used on
- :subcmd:`avail` and :subcmd:`spider` output to refer to the modulepath.
+ :subcmd:`avail`, :subcmd:`whatis`, :subcmd:`search` and :subcmd:`spider`
+ output to refer to the modulepath.
 
  The parameter *directory* corresponds to a fully or partially qualified
  modulepath. If *directory* is ``.`` (dot) then the current directory of the
@@ -1035,6 +1036,9 @@ the *modulefile* is being loaded.
  .. only:: html
 
     .. versionadded:: 5.4
+
+    .. versionchanged:: 5.6
+       Label also applied on :subcmd:`whatis` and :subcmd:`search` output
 
 .. mfcmd:: prepend-path [-d C|--delim C|--delim=C] [--duplicates] variable value...
 

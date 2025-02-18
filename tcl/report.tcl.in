@@ -1660,6 +1660,7 @@ proc displayElementList {header sgrkey hstyle one_per_line display_idx\
 
    # display header if any provided
    if {$header ne {noheader}} {
+      set header [getModulepathLabel $header]
       if {$json} {
          report "\"$header\": \{"
       } elseif {$hstyle eq {sepline}} {
