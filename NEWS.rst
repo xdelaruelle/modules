@@ -96,6 +96,8 @@ Modules 5.6.0 (not yet released)
   cannot be used as variant shortcut.
 * Introduce :envvar:`__MODULES_LMUSE` environment variable to keep track of
   the loaded modules that enable modulepaths.
+* Apply modulepath label defined with :mfcmd:`modulepath-label` also on output
+  of :subcmd:`whatis` and :subcmd:`search` sub-commands.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

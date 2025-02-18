@@ -6,4 +6,5 @@ if {[info exists env(TESTSUITE_MODULEPATH_LABEL)]} {
             modulepath-label .. {Modulefile label}
         }
     }
+    module-whatis [module-info name]
 }

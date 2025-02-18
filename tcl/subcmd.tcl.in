@@ -1909,9 +1909,8 @@ proc cmdModuleAvail {show_oneperline show_mtime show_filter search_filter\
       if {$report_modulepath} {
          array unset mod_list
          array set mod_list $dir_mod_list
-         set modpath_label [getModulepathLabel $dir]
-         reportModules $args $modpath_label mp $hstyle $show_mtime 0\
-            $one_per_line $theader_cols hidden-loaded
+         reportModules $args $dir mp $hstyle $show_mtime 0 $one_per_line\
+            $theader_cols hidden-loaded
       } else {
          # add result if not already added from an upper priority modpath
          foreach {elt props} $dir_mod_list {
