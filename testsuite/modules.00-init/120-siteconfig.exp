@@ -684,7 +684,7 @@ lappend ans {  "displaySeparatorLine $header $sgrkey $extra"}
 lappend ans {      (procedure "displayElementList" line 19)}
 lappend ans {      invoked from within}
 lappend ans {  "displayElementList $header $hsgrkey $hstyle $one_per_line $show_idx 1 $display_list $len_list $max_len $via"}
-lappend ans {      (procedure "reportModules" line 153)}
+lappend ans {      (procedure "reportModules" line 155)}
 lappend ans {      invoked from within}
 lappend ans {  "reportModules $args $dir mp $hstyle $show_mtime 0 $one_per_line $theader_cols hidden-loaded"}
 lappend ans {      (procedure "cmdModuleAvail" line 43)}
