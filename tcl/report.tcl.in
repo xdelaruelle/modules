@@ -1467,6 +1467,7 @@ proc reportModules {search_queries header hsgrkey hstyle show_mtime show_idx\
       himatcharrvrmap himatcharrvrvalmap
    set clean_list {}
    set vr_list {}
+   set via [getViaModuleForModulepath $header]
 
    # treat elements in specified order if any
    ##nagelfar ignore #2 Badly formed if statement
@@ -1490,8 +1491,9 @@ proc reportModules {search_queries header hsgrkey hstyle show_mtime show_idx\
       switch -- [lindex $mod_list($elt) 0] {
          directory {
             if {$json} {
+               ##nagelfar ignore +2 Found constant
                set dispsgr [formatListEltToJsonDisplay $elt type s directory\
-                  1 symbols a $sym_list 1]
+                  1 symbols a $sym_list 1 via s $via 1]
             } elseif {$show_mtime} {
                # append / char after name to clearly indicate this is a dir
                lassign [formatListEltToLongDisplay $elt di / $sym_list sy {}\
@@ -1504,9 +1506,11 @@ proc reportModules {search_queries header hsgrkey hstyle show_mtime show_idx\
          }
          modulefile - virtual {
             if {$json} {
+               ##nagelfar ignore +4 Found constant
                set dispsgr [formatListEltToJsonDisplay $elt type s modulefile\
                   1 variants o $vr_list $report_variant symbols a $sym_list 1\
-                  tags a $tag_list 1 pathname s [lindex $mod_list($elt) 2] 1]
+                  tags a $tag_list 1 pathname s [lindex $mod_list($elt) 2] 1\
+                  via s $via 1]
             } elseif {$show_mtime} {
                set clock_mtime [expr {[lindex $mod_list($elt) 1] ne {} ?\
                   [clock format [lindex $mod_list($elt) 1] -format {%Y/%m/%d\
@@ -1525,9 +1529,10 @@ proc reportModules {search_queries header hsgrkey hstyle show_mtime show_idx\
          }
          alias {
             if {$json} {
+               ##nagelfar ignore +3 Found constant
                set dispsgr [formatListEltToJsonDisplay $elt type s alias 1\
                   symbols a $sym_list 1 tags a $tag_list 1 target s [lindex\
-                  $mod_list($elt) 1] 1]
+                  $mod_list($elt) 1] 1 via s $via 1]
             } elseif {$show_mtime} {
                lassign [formatListEltToLongDisplay $elt al " -> [lindex\
                   $mod_list($elt) 1]" $sym_list sy {} $default_colored\
@@ -1597,8 +1602,6 @@ proc reportModules {search_queries header hsgrkey hstyle show_mtime show_idx\
       setState theader_shown 1
       displayTableHeader {*}$theader_cols
    }
-
-   set via [getViaModuleForModulepath $header]
 
    # output formatted elements
    displayElementList $header $hsgrkey $hstyle $one_per_line $show_idx 1\
