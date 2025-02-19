@@ -107,7 +107,7 @@ testouterr_cmd_re sh {spider -t foo/1.0} OK "$mpre:\nfoo/1.0"
 set tserr_spider_long "- Package/Alias $modlin.- Versions $modlin.- Last mod. $modlin\n$mpre:\nfoo/1.0\\s+bar\\s+\[0-9:\/ ]*"
 testouterr_cmd_re sh {spider -l foo/1.0} OK $tserr_spider_long
 set tserr_spider_json "{\"$mp\": {
-\"foo/1.0\": { \"name\": \"foo/1.0\", \"type\": \"modulefile\", \"symbols\": \[ \"bar\" \], \"tags\": \[\], \"pathname\": \"$mp/foo/1.0\"}
+\"foo/1.0\": { \"name\": \"foo/1.0\", \"type\": \"modulefile\", \"symbols\": \[ \"bar\" \], \"tags\": \[\], \"pathname\": \"$mp/foo/1.0\", \"via\": \"\"}
 }}"
 testouterr_cmd sh {spider -j foo/1.0} OK $tserr_spider_json
 
