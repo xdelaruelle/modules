@@ -98,6 +98,10 @@ Modules 5.6.0 (not yet released)
   the loaded modules that enable modulepaths.
 * Apply modulepath label defined with :mfcmd:`modulepath-label` also on output
   of :subcmd:`whatis` and :subcmd:`search` sub-commands.
+* Report *via* information for each module entry on JSON output of
+  :subcmd:`avail` and :subcmd:`spider` sub-commands. *Via* information is the
+  name of the loaded or interpreted module that enables the modulepath in
+  which reported modules are stored.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
