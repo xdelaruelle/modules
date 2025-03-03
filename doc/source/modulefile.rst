@@ -525,7 +525,7 @@ the *modulefile* is being loaded.
 
     .. versionchanged:: 5.1
        Options ``--remove-on-unload``, ``--noop-on-unload``,
-       ``--append-on-unload`` and ``--prepend-on-unload`` added for ``use``
+       ``--append-on-unload`` and ``--prepend-on-unload`` added for ``unuse``
        sub-command
 
     .. versionchanged:: 5.1
