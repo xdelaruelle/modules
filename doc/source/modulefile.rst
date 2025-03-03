@@ -582,16 +582,16 @@ the *modulefile* is being loaded.
  If ``--not-user`` option is set, forbidding is not applied if the username of
  the user currently running :file:`modulecmd.tcl` is part of the list of
  username specified. Following the same approach, if ``--not-group`` option is
- set, forbidding is not applied if current user is member of one the group
+ set, forbidding is not applied if current user is member of one of the groups
  specified. When both options are set, forbidding is not applied if a match is
  found for ``--not-user`` or ``--not-group``.
 
  If ``--user`` option is set, forbidding is applied only if the username of
  the user currently running :file:`modulecmd.tcl` is part of the list of
  username specified. Following the same approach, if ``--group`` option is
- set, forbidding is applied only if current user is member of one the group
- specified. When both options are set, forbidding is applied if a match is
- found for ``--user`` or ``--group``. These two options prevail over
+ set, forbidding is applied only if current user is member of one of the
+ groups specified. When both options are set, forbidding is applied if a match
+ is found for ``--user`` or ``--group``. These two options prevail over
  ``--not-user`` and ``--not-group`` options.
 
  Error message returned when trying to evaluate a forbidden module can be
@@ -677,16 +677,16 @@ the *modulefile* is being loaded.
  If ``--not-user`` option is set, hiding is not applied if the username of the
  user currently running :file:`modulecmd.tcl` is part of the list of username
  specified. Following the same approach, if ``--not-group`` option is set,
- hiding is not applied if current user is member of one the group specified.
- When both options are set, hiding is not applied if a match is found for
- ``--not-user`` or ``--not-group``.
+ hiding is not applied if current user is member of one of the groups
+ specified. When both options are set, hiding is not applied if a match is
+ found for ``--not-user`` or ``--not-group``.
 
  If ``--user`` option is set, hiding is applied only if the username of the
  user currently running :file:`modulecmd.tcl` is part of the list of username
  specified. Following the same approach, if ``--group`` option is set, hiding
- is applied only if current user is member of one the group specified. When
- both options are set, hiding is applied if a match is found for ``--user`` or
- ``--group``. These two options prevail over ``--not-user`` and
+ is applied only if current user is member of one of the groups specified.
+ When both options are set, hiding is applied if a match is found for
+ ``--user`` or ``--group``. These two options prevail over ``--not-user`` and
  ``--not-group`` options.
 
  If the :option:`--all` option is set on :subcmd:`avail`, :subcmd:`aliases`,
@@ -915,16 +915,16 @@ the *modulefile* is being loaded.
  If ``--not-user`` option is set, the tag is not applied if the username of
  the user currently running :file:`modulecmd.tcl` is part of the list of
  username specified. Following the same approach, if ``--not-group`` option is
- set, the tag is not applied if current user is member of one the group
+ set, the tag is not applied if current user is member of one of the groups
  specified. When both options are set, the tag is not applied if a match is
  found for ``--not-user`` or ``--not-group``.
 
  If ``--user`` option is set, the tag is applied only if the username of the
  user currently running :file:`modulecmd.tcl` is part of the list of username
  specified. Following the same approach, if ``--group`` option is set, the tag
- is applied only if current user is member of one the group specified. When
- both options are set, the tag is applied if a match is found for ``--user``
- or ``--group``. These two options prevail over ``--not-user`` and
+ is applied only if current user is member of one of the groups specified.
+ When both options are set, the tag is applied if a match is found for
+ ``--user`` or ``--group``. These two options prevail over ``--not-user`` and
  ``--not-group`` options.
 
  The parameter *modulefile* may also be a symbolic modulefile name or a
