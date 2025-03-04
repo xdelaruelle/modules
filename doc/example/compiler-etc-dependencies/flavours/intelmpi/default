@@ -6,7 +6,7 @@
 #
 #
 # This is really a placeholder modulefile, does not define anything
-# though we must iniitial flavours and do a cleanup to properly
+# though we must initial flavours and do a cleanup to properly
 # support switching of modules depending on this module
 
 # Initialise "flavours"

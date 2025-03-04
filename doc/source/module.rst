@@ -2982,7 +2982,7 @@ or consequence of a module action. The inherited tags are:
   the result of an :subcmd:`avail` sub-command.
 * ``hidden-loaded``: module has been set *hidden once loaded* through the use
   of the :mfcmd:`module-hide --hidden-loaded<module-hide>` command thus it is
-  not reported bu default among the result of a :subcmd:`list` sub-command.
+  not reported by default among the result of a :subcmd:`list` sub-command.
 * ``loaded``: module is currently loaded
 * ``nearly-forbidden``: module will soon be *forbidden*, which has been set
   through the use of the :mfcmd:`module-forbid` command. Thus this module

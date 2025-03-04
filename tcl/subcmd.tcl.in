@@ -622,7 +622,7 @@ proc cmdModuleSwitch {uasked tag_list old {new {}}} {
 proc cmdModuleSave {{coll default}} {
    if {![areModuleConstraintsSatisfied]} {
       reportErrorAndExit {Cannot save collection, some module constraints are\
-         not satistied}
+         not satisfied}
    }
 
    # format collection content, version number of modulefile are saved if
@@ -1805,7 +1805,7 @@ proc cmdModuleReload {} {
    # no reload of all loaded modules attempt if constraints are violated
    if {![areModuleConstraintsSatisfied]} {
       reportError {Cannot reload modules, some of their constraints are not\
-         satistied}
+         satisfied}
    } else {
       pushSettings
       if {[set errCode [catch {

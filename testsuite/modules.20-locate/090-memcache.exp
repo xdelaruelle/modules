@@ -82,7 +82,7 @@ DEBUG getModules: use cache entry .*
 (.*)+"
 testouterr_cmd_re sh {avail -D -t foo foo} OK $tserr
 
-# test situations where cache should or should not be re-used depending
+# test situations where cache should or should not be reused depending
 # on consecutive similar queries
 
 set tserr "(.*)+

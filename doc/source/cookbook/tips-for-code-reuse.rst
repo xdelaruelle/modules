@@ -239,7 +239,7 @@ this is done by:
 
 The above was only a simple example of what could be done, but it shows how
 modulefiles can leverage the fact that the modulefiles are evaluated in a
-full programming language to increase the amount of code re-use, which should
+full programming language to increase the amount of code reuse, which should
 reduce errors, improve consistency, and in general make things more manageable
 over the long run.
 

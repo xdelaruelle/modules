@@ -159,7 +159,7 @@ for line in fin:
 
         # Assemble the actual commit message line(s) and limit the line length
         # to 80 characters.
-        # Avoid printing same (or equivalen) filename lists twice, if commit
+        # Avoid printing same (or equivalent) filename lists twice, if commit
         # message starts with them.
         if message.startswith(files + ":"):
             commitLine = "* " + message

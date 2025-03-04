@@ -623,7 +623,7 @@ setenv_loaded_module [list f20 f21 f18 f19] [list "$mp/f20" "$mp/f21" "$mp/f18" 
 setenv_var __MODULES_LMPREREQ "f20&f18&f19"
 setenv_var __MODULES_LMCONFLICT "f20&f17&f21:f21&f20:f18&f21:f19&f21"
 
-# check module loaded order is preserved between f18 and f19 (prereq definition order should not interfer)
+# check module loaded order is preserved between f18 and f19 (prereq definition order should not interfere)
 set ans [list]
 lappend ans [list set __MODULES_LMCONFLICT "f18&f21:f19&f21:f20&f17&f21"]
 lappend ans [list set __MODULES_LMPREREQ "f20&f18&f19"]

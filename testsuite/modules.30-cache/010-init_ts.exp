@@ -43,7 +43,7 @@ if {[is-loaded bar]} {
     prereq bar
 }
 }
-# uncompatible header modulefile
+# incompatible header modulefile
 set mod3 foo/3.0
 set mod3c {#%Module99
 module-whatis "foo"
@@ -151,7 +151,7 @@ if {[is-loaded bar]} {
     module-alias quxa/1.0 bar
 }
 }
-# uncompatible header modulerc
+# incompatible header modulerc
 set modrc3 quxb/.modulerc
 set modrc3c {#%Module99
 module-version quxb/1.0 default

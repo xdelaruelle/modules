@@ -20,7 +20,7 @@
 #		}R%
 #   Comment:	%C{
 #           Test the correct handling of module alias whose name
-#           superseeds an existing directory name
+#           supersedes an existing directory name
 #		}C%
 #
 ##############################################################################

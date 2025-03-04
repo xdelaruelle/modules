@@ -47,7 +47,7 @@ Please unload the MPI library and try again."
 
    # If no MPI is loaded, then load it if $loadIt (this is valid even
    # in edge cases of nompi or intelmpi), prereq it if $requireIt,
-   # abd return
+   # and return
    if { $loaded eq {} } {
       if { $loadIt } {
          RequireMPI $wanted $noLoadIntel

@@ -116,7 +116,7 @@ testouterr_cmd_re sh "search $modname" ERR $tserr
 
 
 #
-# modulefile with uncompatible magic cookie
+# modulefile with incompatible magic cookie
 #
 
 set modname mcookie

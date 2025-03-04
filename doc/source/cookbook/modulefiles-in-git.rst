@@ -67,7 +67,7 @@ First convert the existing Modulefiles into a git repo at
     cd /home/modules/modulefiles
     git init
     git add .
-    git commit -m 'Initial checkin of existing Modulefiles'
+    git commit -m 'Initial checking of existing Modulefiles'
     # Enable updates when receiving pushes:
     git config --local receive.denyCurrentBranch updateInstead
 

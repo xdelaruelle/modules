@@ -321,7 +321,7 @@ access entries are tested if they match search query. Test is done through
 ``findModulesFromDirsAndFiles`` procedure which corresponds to the walk down
 code extracted from ``findModules``.
 
-This specific interpreter is re-used between different cache file evaluations.
+This specific interpreter is reused between different cache file evaluations.
 As for modulefile interpreter, a consistency check is performed before each
 reuse to test that the cache file-specific commands have not be rewritten
 during previous cache file evaluation.
