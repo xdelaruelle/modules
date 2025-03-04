@@ -1486,7 +1486,7 @@ proc execShAndGetEnv {elt_ignored_list shell script args} {
             shell $shdesc] 2>&1; or exit \$status; echo '$sep'; set -xgL;\
             echo '$sep'; $getfunc; string split \$funcout; echo '$sep';\
             string split \$funcout; echo '$sep'; complete; echo '$sep'; pwd"
-         set varre {^(\S+?\M) ?'?(.*?)'?$}
+         set varre {^(\S+?\M) ?['"]?(.*?)['"]?$}
          # exclude alias from function list
          set funcre "^function (\\S+?)(?: \[^\\n\]*?--description\
             (?!'?alias)\[^\\n\]+)?\\n(.+?)?\\s*\\nend\\n$subsep\$"

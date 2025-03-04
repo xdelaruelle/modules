@@ -226,9 +226,15 @@ set tscomp_tcsh "complete\ttcsh cmd {'n/-h/n/' 'n/--help/n/' 'n/-V/n/' 'n/--vers
 complete\ttcsh mycmd {'n/help/`_module_avail`/' 'n/add/`_module_not_yet_loaded; echo \"--auto --no-auto --force -f --icase -i --tag --tag=\"`/'}
 complete\ttcsh othercmd 'n/--help/n/'"
 if {[info exists fish_version_ge31] && $fish_version_ge31} {
+    if {[info exists fish_version_ge40] && $fish_version_ge40} {
+set tscomp_alias_fish "complete\tfish alcb --wraps\\ 'echo\\ f\\\\\\\\\\\{o'
+complete\tfish alfoo {--wraps 'echo (grep \"report .Modules \" ../../modulecmd.tcl | tr -d \\\\\\\\ 2>/dev/null | awk \\'{print \$3}\\')'}
+complete\tfish alsp {--wraps 'echo f\\\\\"o; echo b\\\\\\\\\\\\\"r; echo f\\\\\\'o'}"
+    } else {
 set tscomp_alias_fish "complete\tfish alcb {--wraps echo\\ f\\\\\\\{o}
 complete\tfish alfoo {--wraps echo\\ \\(grep\\ \\\"report\\ .Modules\\ \\\"\\ ../../modulecmd.tcl\\ \\|\\ tr\\ -d\\ \\\\\\\\\\ 2\\>/dev/null\\ \\|\\ awk\\ \\'\\{print\\ \\\$3\\}\\'\\)}
 complete\tfish alsp {--wraps echo\\ f\\\\\\\"o\\;\\ echo\\ b\\\\\\\\\\\\\\\"r\\;\\ echo\\ f\\\\\\'o}"
+    }
 set tscomp_fish "complete\tfish cmd {-l help -d 'Command help'}
 complete\tfish cmd {-l version -d 'Command version'}
 complete\tfish cmd {-s h -d 'Command help'}
