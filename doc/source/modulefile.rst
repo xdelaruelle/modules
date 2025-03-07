@@ -591,8 +591,10 @@ the *modulefile* is being loaded.
  username specified. Following the same approach, if ``--group`` option is
  set, forbidding is applied only if current user is member of one of the
  groups specified. When both options are set, forbidding is applied if a match
- is found for ``--user`` or ``--group``. These two options prevail over
- ``--not-user`` and ``--not-group`` options.
+ is found for ``--user`` or ``--group``. If the same user name is set on both
+ ``--user`` and ``--not-user`` options, ``--user`` prevails over
+ ``--not-user``. If the same group name is set on both ``--group`` and
+ ``--not-group``, ``--group`` prevails over ``--not-group``.
 
  Error message returned when trying to evaluate a forbidden module can be
  supplemented with the *text message* set through ``--message`` option.
@@ -686,8 +688,10 @@ the *modulefile* is being loaded.
  specified. Following the same approach, if ``--group`` option is set, hiding
  is applied only if current user is member of one of the groups specified.
  When both options are set, hiding is applied if a match is found for
- ``--user`` or ``--group``. These two options prevail over ``--not-user`` and
- ``--not-group`` options.
+ ``--user`` or ``--group``. If the same user name is set on both ``--user``
+ and ``--not-user`` options, ``--user`` prevails over ``--not-user``. If the
+ same group name is set on both ``--group`` and ``--not-group``, ``--group``
+ prevails over ``--not-group``.
 
  If the :option:`--all` option is set on :subcmd:`avail`, :subcmd:`aliases`,
  :subcmd:`whatis` or :subcmd:`search` sub-commands, hiding is disabled thus
@@ -924,8 +928,10 @@ the *modulefile* is being loaded.
  specified. Following the same approach, if ``--group`` option is set, the tag
  is applied only if current user is member of one of the groups specified.
  When both options are set, the tag is applied if a match is found for
- ``--user`` or ``--group``. These two options prevail over ``--not-user`` and
- ``--not-group`` options.
+ ``--user`` or ``--group``. If the same user name is set on both ``--user``
+ and ``--not-user`` options, ``--user`` prevails over ``--not-user``. If the
+ same group name is set on both ``--group`` and ``--not-group``, ``--group``
+ prevails over ``--not-group``.
 
  The parameter *modulefile* may also be a symbolic modulefile name or a
  modulefile alias. It may also leverage a specific syntax to finely select
