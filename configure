@@ -423,9 +423,9 @@ Optional Packages:
                           specify content to report on avail sub-command
                           regular output. elements accepted in LIST are:
                           \`modulepath', \`alias', \`dirwsym', \`indesym',
-                          \`sym', \`tag', \`key', \`hidden', \`variant' and
-                          \`variantifspec' (elements in LIST are separated by
-                          \`:') [$availoutput]
+                          \`sym', \`tag', \`key', \`hidden', \`variant',
+                          \`variantifspec' and \`via' (elements in LIST are
+                          separated by \`:') [$availoutput]
   --with-avail-terse-output=LIST
                           specify content to report on avail sub-command
                           terse output. elements accepted in LIST are:
@@ -449,9 +449,9 @@ Optional Packages:
                           specify content to report on spider sub-command
                           regular output. elements accepted in LIST are:
                           \`modulepath', \`alias', \`dirwsym', \`indesym',
-                          \`sym', \`tag', \`key', \`hidden', \`variant' and
-                          \`variantifspec' (elements in LIST are separated by
-                          \`:') [$spideroutput]
+                          \`sym', \`tag', \`key', \`hidden', \`variant',
+                          \`variantifspec' and \`via' (elements in LIST are
+                          separated by \`:') [$spideroutput]
   --with-spider-terse-output=LIST
                           specify content to report on spider sub-command
                           terse output. elements accepted in LIST are:
@@ -855,7 +855,7 @@ for arg in "$@"; do
       allowedval=" load ml mod-to-sh purge reload switch switch_unload try-load unload " ;
       check_and_get_package_value_list "abortonerror" "$arg" "$allowedval" "" ;;
    --with-avail-output=*|--without-avail-output)
-      allowedval=" modulepath alias dirwsym indesym sym tag key hidden variant variantifspec " ;
+      allowedval=" modulepath alias dirwsym indesym sym tag key hidden variant variantifspec via " ;
       check_and_get_package_value_list "availoutput" "$arg" "$allowedval" "" ;;
    --with-avail-terse-output=*|--without-avail-terse-output)
       allowedval=" modulepath alias dirwsym indesym sym tag key hidden variant variantifspec " ;
@@ -867,7 +867,7 @@ for arg in "$@"; do
       allowedval=" header idx variant alias indesym sym tag hidden key " ;
       check_and_get_package_value_list "listterseoutput" "$arg" "$allowedval" "" ;;
    --with-spider-output=*|--without-spider-output)
-      allowedval=" modulepath alias dirwsym indesym sym tag key hidden variant variantifspec " ;
+      allowedval=" modulepath alias dirwsym indesym sym tag key hidden variant variantifspec via " ;
       check_and_get_package_value_list "spideroutput" "$arg" "$allowedval" "" ;;
    --with-spider-terse-output=*|--without-spider-terse-output)
       allowedval=" modulepath alias dirwsym indesym sym tag key hidden variant variantifspec " ;
