@@ -488,7 +488,8 @@ switches are accepted:
 
  Accepted elements in *LIST* for :subcmd:`avail` and :subcmd:`spider`
  sub-command are: *modulepath*, *alias*, *dirwsym*, *indesym*, *sym*, *tag*,
- *key*, *hidden*, *variant* and *variantifspec*.
+ *key*, *hidden*, *variant*, *variantifspec* and *via*. *via* element is not
+ accepted on terse output mode.
 
  Accepted elements in *LIST* for :subcmd:`list` sub-command are: *header*,
  *idx*, *variant*, *alias*, *indesym*, *sym*, *tag*, *hidden* and *key*.
@@ -528,6 +529,10 @@ switches are accepted:
     .. versionchanged:: 5.6
        Element *hidden* added for :subcmd:`avail`, :subcmd:`list` and
        :subcmd:`spider` sub-commands
+
+    .. versionchanged:: 5.6
+       Element *via* added for :subcmd:`avail` and :subcmd:`spider`
+       sub-commands
 
 .. option:: --paginate
 
@@ -4521,6 +4526,8 @@ ENVIRONMENT
    modules.
  * ``variantifspec``: like ``variant`` but only if a variant has been
    specified in search query.
+ * ``via``: mention next to modulepath name which loaded module enables it if
+   any.
 
  The order of the elements in the list does not matter. Module names are the
  only content reported when *LIST* is set to an empty value.
@@ -4548,7 +4555,7 @@ ENVIRONMENT
        Element ``indesym`` added
 
     .. versionchanged:: 5.6
-       Element ``hidden`` added
+       Elements ``hidden`` and ``via`` added
 
 .. envvar:: MODULES_AVAIL_TERSE_OUTPUT
 
@@ -4556,7 +4563,8 @@ ENVIRONMENT
  on :subcmd:`avail` sub-command terse output mode.
 
  See :envvar:`MODULES_AVAIL_OUTPUT` to get the accepted elements that can be
- set in value list.
+ set in value list. Exception for ``via`` element which is not accepted for
+ terse output mode.
 
  The order of the elements in the list does not matter. Module names are the
  only content reported when *LIST* is set to an empty value.
@@ -5447,6 +5455,7 @@ ENVIRONMENT
    modules.
  * ``variantifspec``: like ``variant`` but only if a variant has been
    specified in search query.
+ * ``via``: mention next to modulepath name which module enables it if any.
 
  The order of the elements in the list does not matter. Module names are the
  only content reported when *LIST* is set to an empty value.
@@ -5473,7 +5482,8 @@ ENVIRONMENT
  on :subcmd:`spider` sub-command terse output mode.
 
  See :envvar:`MODULES_SPIDER_OUTPUT` to get the accepted elements that can be
- set in value list.
+ set in value list. Exception for ``via`` element which is not accepted for
+ terse output mode.
 
  The order of the elements in the list does not matter. Module names are the
  only content reported when *LIST* is set to an empty value.

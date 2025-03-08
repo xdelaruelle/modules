@@ -61,11 +61,11 @@ Specification
 - Accepted elements in value lists are:
 
   - For ``avail`` options: modulepath, alias, dirwsym, indesym, sym, tag, key,
-    variant, variantifspec, hidden
+    variant, variantifspec, hidden, via (only on regular output)
   - For ``list`` options: header, idx, variant, alias, indesym, sym, tag, key,
     hidden
   - For ``spider`` options: modulepath, alias, dirwsym, indesym, sym, tag,
-    key, variant, variantifspec, hidden
+    key, variant, variantifspec, hidden, via (only on regular output)
 
 - If the ``-o``/``--output`` options are wrongly specified
 
