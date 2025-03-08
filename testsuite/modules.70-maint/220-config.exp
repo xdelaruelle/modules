@@ -189,7 +189,7 @@ array set configvalid [list\
     advanced_version_spec     {0 1}\
     auto_handling             {0 1}\
     avail_indepth             {0 1}\
-    avail_output              {modulepath alias dirwsym indesym sym tag key hidden variant variantifspec}\
+    avail_output              {modulepath alias dirwsym indesym sym tag key hidden variant variantifspec via}\
     avail_terse_output        {modulepath alias dirwsym indesym sym tag key hidden variant variantifspec}\
     cache_buffer_bytes        {4096 1000000}\
     cache_expiry_secs         {0 31536000}\
@@ -219,7 +219,7 @@ array set configvalid [list\
     silent_shell_debug        {0 1}\
     source_cache              {0 1}\
     spider_indepth            {0 1}\
-    spider_output             {modulepath alias dirwsym indesym sym tag key hidden variant variantifspec}\
+    spider_output             {modulepath alias dirwsym indesym sym tag key hidden variant variantifspec via}\
     spider_terse_output       {modulepath alias dirwsym indesym sym tag key hidden variant variantifspec}\
     sticky_purge              {error warning silent}\
     term_background           {dark light}\
