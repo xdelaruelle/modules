@@ -939,10 +939,10 @@ Module Sub-Commands
   Content to report in addition to module names on :subcmd:`avail` sub-command
   regular output mode.
 
-  Default value is ``modulepath:alias:dirwsym:sym:tag:key``. It can be changed
-  at installation time with :instopt:`--with-avail-output` option. The
-  :envvar:`MODULES_AVAIL_OUTPUT` environment variable is defined by
-  :subcmd:`config` sub-command when changing this configuration option from
+  Default value is ``modulepath:alias:dirwsym:sym:tag:variantifspec:key``. It
+  can be changed at installation time with :instopt:`--with-avail-output`
+  option. The :envvar:`MODULES_AVAIL_OUTPUT` environment variable is defined
+  by :subcmd:`config` sub-command when changing this configuration option from
   its default value. The :option:`--output`/:option:`-o` command line switches
   change the value of this configuration option. See
   :envvar:`MODULES_AVAIL_OUTPUT` description for details.
@@ -956,12 +956,12 @@ Module Sub-Commands
   Content to report in addition to module names on :subcmd:`avail` sub-command
   terse output mode.
 
-  Default value is ``modulepath:alias:dirwsym:sym:tag``. It can be changed at
-  installation time with :instopt:`--with-avail-terse-output` option. The
-  :envvar:`MODULES_AVAIL_TERSE_OUTPUT` environment variable is defined by
-  :subcmd:`config` sub-command when changing this configuration option from
-  its default value. The :option:`--output`/:option:`-o` command line switches
-  change the value of this configuration option. See
+  Default value is ``modulepath:alias:dirwsym:sym:tag:variantifspec``. It can
+  be changed at installation time with :instopt:`--with-avail-terse-output`
+  option. The :envvar:`MODULES_AVAIL_TERSE_OUTPUT` environment variable is
+  defined by :subcmd:`config` sub-command when changing this configuration
+  option from its default value. The :option:`--output`/:option:`-o` command
+  line switches change the value of this configuration option. See
   :envvar:`MODULES_AVAIL_TERSE_OUTPUT` description for details.
 
   .. only:: html
@@ -1544,10 +1544,10 @@ Module Sub-Commands
   Content to report in addition to module names on :subcmd:`spider`
   sub-command regular output mode.
 
-  Default value is ``modulepath:alias:dirwsym:sym:tag:key``. It can be changed
-  at installation time with :instopt:`--with-spider-output` option. The
-  :envvar:`MODULES_SPIDER_OUTPUT` environment variable is defined by
-  :subcmd:`config` sub-command when changing this configuration option from
+  Default value is ``modulepath:alias:dirwsym:sym:tag:variantifspec:via:key``.
+  It can be changed at installation time with :instopt:`--with-spider-output`
+  option. The :envvar:`MODULES_SPIDER_OUTPUT` environment variable is defined
+  by :subcmd:`config` sub-command when changing this configuration option from
   its default value. The :option:`--output`/:option:`-o` command line switches
   change the value of this configuration option. See
   :envvar:`MODULES_SPIDER_OUTPUT` description for details.
@@ -1561,12 +1561,12 @@ Module Sub-Commands
   Content to report in addition to module names on :subcmd:`spider`
   sub-command terse output mode.
 
-  Default value is ``modulepath:alias:dirwsym:sym:tag``. It can be changed at
-  installation time with :instopt:`--with-spider-terse-output` option. The
-  :envvar:`MODULES_SPIDER_TERSE_OUTPUT` environment variable is defined by
-  :subcmd:`config` sub-command when changing this configuration option from
-  its default value. The :option:`--output`/:option:`-o` command line switches
-  change the value of this configuration option. See
+  Default value is ``modulepath:alias:dirwsym:sym:tag:variantifspec``. It can
+  be changed at installation time with :instopt:`--with-spider-terse-output`
+  option. The :envvar:`MODULES_SPIDER_TERSE_OUTPUT` environment variable is
+  defined by :subcmd:`config` sub-command when changing this configuration
+  option from its default value. The :option:`--output`/:option:`-o` command
+  line switches change the value of this configuration option. See
   :envvar:`MODULES_SPIDER_TERSE_OUTPUT` description for details.
 
   .. only:: html
