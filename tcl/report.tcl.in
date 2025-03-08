@@ -1467,7 +1467,8 @@ proc reportModules {search_queries header hsgrkey hstyle show_mtime show_idx\
       himatcharrvrmap himatcharrvrvalmap
    set clean_list {}
    set vr_list {}
-   set via [getViaModuleForModulepath $header]
+   set via [expr {[isEltInReport via] ? [getViaModuleForModulepath $header] :\
+      {}}]
 
    # treat elements in specified order if any
    ##nagelfar ignore #2 Badly formed if statement

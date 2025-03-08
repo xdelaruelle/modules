@@ -78,7 +78,7 @@ array set g_config_defs [list\
    auto_handling {MODULES_AUTO_HANDLING @autohandling@ 0 b {0 1}}\
    avail_indepth {MODULES_AVAIL_INDEPTH @availindepth@ 0 b {0 1}}\
    avail_output {MODULES_AVAIL_OUTPUT {@availoutput@} 0 l {modulepath alias\
-      dirwsym indesym sym tag key hidden variant variantifspec} {} {}\
+      dirwsym indesym sym tag key hidden variant variantifspec via} {} {}\
       eltlist}\
    avail_terse_output {MODULES_AVAIL_TERSE_OUTPUT {@availterseoutput@} 0 l\
       {modulepath alias dirwsym indesym sym tag key hidden variant\
@@ -134,8 +134,8 @@ array set g_config_defs [list\
    siteconfig {{} {@etcdir@/siteconfig.tcl} 0 s}\
    spider_indepth {MODULES_SPIDER_INDEPTH @spiderindepth@ 0 b {0 1}}\
    spider_output {MODULES_SPIDER_OUTPUT {@spideroutput@} 0 l {modulepath\
-      alias dirwsym indesym sym tag key hidden variant variantifspec} {} {}\
-      eltlist}\
+      alias dirwsym indesym sym tag key hidden variant variantifspec via} {}\
+      {} eltlist}\
    spider_terse_output {MODULES_SPIDER_TERSE_OUTPUT {@spiderterseoutput@} 0 l\
       {modulepath alias dirwsym indesym sym tag key hidden variant\
       variantifspec} {} {} eltlist}\
