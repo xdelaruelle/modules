@@ -102,6 +102,11 @@ Modules 5.6.0 (not yet released)
   :subcmd:`avail` and :subcmd:`spider` sub-commands. *Via* information is the
   name of the loaded or interpreted module that enables the modulepath in
   which reported modules are stored.
+* Add the ``via`` element in the allowed value list of the
+  :mconfig:`avail_output` and :mconfig:`spider_output` configuration options.
+  When set, if a modulepath is enabled by a module, this module name is
+  reported next to the modulepath name. ``via`` element is not available for
+  terse output mode.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
