@@ -39,7 +39,7 @@ Specification
   - ``avail_terse_output``: ``modulepath:alias:dirwsym:sym:tag:variantifspec``
   - ``list_output``: ``header:idx:variant:sym:tag:key``
   - ``list_terse_output``: ``header``
-  - ``spider_output``: ``modulepath:alias:dirwsym:sym:tag:variantifspec:key``
+  - ``spider_output``: ``modulepath:alias:dirwsym:sym:tag:variantifspec:via:key``
   - ``spider_terse_output``: ``modulepath:alias:dirwsym:sym:tag:variantifspec``
 
 - The above default value could be superseded:

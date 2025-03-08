@@ -1292,7 +1292,8 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
  ``modulepath``, ``alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``,
  ``key``, ``hidden``, ``variant``, ``variantifspec`` and ``via`` (elements in
  LIST are separated by ``:``). The order of the elements in LIST does not
- matter. (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec:key``)
+ matter.
+ (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec:via:key``)
 
  This installation option defines the default value of the
  :mconfig:`spider_output` configuration option which could be changed after
@@ -1648,7 +1649,7 @@ installation.
 |                                   |                                              | :option:`--indepth`, :option:`--no-indepth`  |              |           |
 +-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
 | :mconfig:`spider_output`          | modulepath:alias:dirwsym:sym:tag:\           | :instopt:`--with-spider-output`,             |              |           |
-|                                   | variantifspec:key                            | :envvar:`MODULES_SPIDER_OUTPUT`,             |              |           |
+|                                   | variantifspec:via:key                        | :envvar:`MODULES_SPIDER_OUTPUT`,             |              |           |
 |                                   |                                              | :option:`--output`                           |              |           |
 +-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
 | :mconfig:`spider_terse_output`    | modulepath:alias:dirwsym:sym:tag:\           | :instopt:`--with-spider-terse-output`,       |              |           |

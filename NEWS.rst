@@ -106,7 +106,8 @@ Modules 5.6.0 (not yet released)
   :mconfig:`avail_output` and :mconfig:`spider_output` configuration options.
   When set, if a modulepath is enabled by a module, this module name is
   reported next to the modulepath name. ``via`` element is not available for
-  terse output mode.
+  terse output mode. ``via`` is set by default in :mconfig:`spider_output`
+  configuration option.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
