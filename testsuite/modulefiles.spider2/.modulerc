@@ -1,0 +1,8 @@
+#%Module
+if {[info exists env(TESTSUITE_VIA)]} {
+    switch -- $env(TESTSUITE_VIA) {
+        modulepath_label1 {
+            modulepath-label . {My label spider2}
+        }
+    }
+}

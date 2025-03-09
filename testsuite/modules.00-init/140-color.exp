@@ -410,6 +410,13 @@ colorset_test_case {avail loc_tr} [list mp $modpathre] ".*- $modpathre -.*"
 colorset_test_case {avail -t --no-indepth loc_tr} [list mp $modpathre] ".*$modpathre:.*"
 colorset_test_case {avail -l --no-indepth loc_tr} [list mp $modpathre] ".*$modpathre:.*"
 
+# modulepath (mp) and via
+setenv_var __MODULES_LMUSE loc_tr/1.0&$modpath
+setenv_loaded_module [list loc_tr/1.0] [list $modpath/loc_tr/1.0]
+colorset_test_case {avail -o +via loc_tr} [list mp $modpathre] ".*- $modpathre \\(via loc_tr/1.0\\) -.*"
+unsetenv_var __MODULES_LMUSE
+unsetenv_loaded_module
+
 # tag separator (se) / module symbolic version (sy)
 colorset_test_case {avail loc_tr} [list se \\( se \\) se : sy reg sy cur sy stable] ".*loc_tr.*/\\(reg\\).*loc_tr.*/1.0\\(cur:stable\\).*"
 colorset_test_case {avail -t loc_tr} [list se \\( se \\) se : sy reg sy cur sy stable] ".*loc_tr.*/\\(reg\\).*loc_tr.*/1.0\\(cur:stable\\).*"

@@ -380,6 +380,120 @@ foo/0.prereq"
 
 
 #
+# via test
+#
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_modpath3
+setenv_path_var MODULEPATH $modpath.spider1
+setenv_var MODULES_AVAIL_OUTPUT sym:tag:modulepath:via
+testouterr_cmd_re sh {avail mod} OK "$modlin $modpathre.spider1 $modlin
+moda/1  moda/2  "
+
+# no modulepath label set, no using module loaded
+setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
+testouterr_cmd_re sh {avail mod} OK "$modlin $modpathre.spider2 $modlin
+modb/1  modb/2  
+
+$modlin $modpathre.spider1 $modlin
+moda/1  moda/2  "
+
+# modulepath label set, no using module loaded
+setenv_var TESTSUITE_VIA modulepath_label1
+testouterr_cmd_re sh {avail mod} OK "$modlin My label spider2 $modlin
+modb/1  modb/2  
+
+$modlin My label spider1 $modlin
+moda/1  moda/2  "
+
+# no modulepath label set, using module loaded
+unsetenv_var TESTSUITE_VIA
+setenv_loaded_module [list moda/1] [list $modpath.spider1/moda/1]
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2
+testouterr_cmd_re sh {avail mod} OK "$modlin $modpathre.spider2 \\(via moda/1\\) $modlin
+modb/1  modb/2  
+
+$modlin $modpathre.spider1 $modlin
+moda/1 <L>  moda/2  "
+
+# modulepath label set, using module loaded
+setenv_var TESTSUITE_VIA modulepath_label1
+testouterr_cmd_re sh {avail mod} OK "$modlin My label spider2 \\(via moda/1\\) $modlin
+modb/1  modb/2  
+
+$modlin My label spider1 $modlin
+moda/1 <L>  moda/2  "
+
+# no modulepath label set, using module loaded, but added modulepath unused
+unsetenv_var TESTSUITE_VIA
+setenv_path_var MODULEPATH $modpath.spider1
+testouterr_cmd_re sh {avail mod} OK "$modlin $modpathre.spider1 $modlin
+moda/1 <L>  moda/2  "
+
+# modulepath label set, using module loaded, but added modulepath unused
+setenv_var TESTSUITE_VIA modulepath_label1
+testouterr_cmd_re sh {avail mod} OK "$modlin My label spider1 $modlin
+moda/1 <L>  moda/2  "
+
+# no modulepath label set, using module loaded, but primary modulepath unused
+unsetenv_var TESTSUITE_VIA
+setenv_path_var MODULEPATH $modpath.spider2
+testouterr_cmd_re sh {avail mod} OK "$modlin $modpathre.spider2 \\(via moda/1\\) $modlin
+modb/1  modb/2  "
+
+# modulepath label set, using module loaded, but primary modulepath unused
+setenv_var TESTSUITE_VIA modulepath_label1
+testouterr_cmd_re sh {avail mod} OK "$modlin My label spider2 \\(via moda/1\\) $modlin
+modb/1  modb/2  "
+
+# several loaded modules using same modulepath
+unsetenv_var TESTSUITE_VIA
+setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
+setenv_loaded_module [list moda/1 moda/2] [list $modpath.spider1/moda/1 $modpath.spider2/moda/2]
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:moda/2&$modpath.spider2
+testouterr_cmd_re sh {avail mod} OK "$modlin $modpathre.spider2 \\(via moda/1\\) $modlin
+modb/1  modb/2  
+
+$modlin $modpathre.spider1 $modlin
+moda/1 <L>  moda/2 <L>  "
+
+# no modulepath reported but via set
+setenv_loaded_module [list moda/1] [list $modpath.spider1/moda/1]
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2
+setenv_var MODULES_AVAIL_OUTPUT sym:tag:via
+testouterr_cmd sh {avail mod} OK "moda/1 <L>  moda/2  modb/1  modb/2  "
+
+# via not supported on terse output mode
+setenv_var MODULES_AVAIL_TERSE_OUTPUT sym:tag:modulepath:via
+set tserr "$modpath.spider2:
+modb/1
+modb/2
+
+$modpath.spider1:
+moda/1 <L>
+moda/2"
+testouterr_cmd sh {avail -t mod} OK $tserr
+testouterr_cmd sh {avail -t -o +via mod} ERR "$error_msgs: Invalid element in value list for '-o' option on avail sub-command\n  Allowed elements are: modulepath alias dirwsym indesym sym tag key hidden variant variantifspec (separated by ':')"
+
+# same module in different modulepath, one of them loaded
+setenv_var MODULES_AVAIL_OUTPUT sym:tag:modulepath:via
+setenv_loaded_module [list foo/0.2] [list $modpath.2/foo/0.2]
+setenv_var __MODULES_LMUSE foo/0.2&$modpath.3
+setenv_path_var MODULEPATH $modpath.3:$modpath.2
+# FIXME: only foo/0.2 from modpath.2 should appear with L tag
+testouterr_cmd_re sh {avail foo/0} OK "$modlin $modpathre.3 \\(via foo/0.2\\) $modlin
+foo/0.2\\(sym\\) <L:tag>  foo/0.err  foo/0.load  foo/0.prereq  
+
+$modlin $modpathre.2 $modlin
+foo/0.1  foo/0.2\\(sym\\) <L:tag>  "
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMUSE
+unsetenv_var TESTSUITE_SPIDER_MODPATH1
+unsetenv_var TESTSUITE_SPIDER_MODPATH2
+
+
+#
 # hidden test
 #
 
