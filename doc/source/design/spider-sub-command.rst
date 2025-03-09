@@ -65,6 +65,52 @@ for ``spider`` than for ``avail``:
 * :mconfig:`spider_indepth` configuration option to enable or disable indepth
   module search result.
 
+Reporting
+---------
+
+With the introduction of the ``spider`` sub-command comes the *via* concept.
+When a modulepath is enabled by a given module, it is said that modulepath is
+available *via* this module.
+
+This information is reported on regular output next to the modulepath name. If
+a module enables a modulepath, the mention *(via module/version)* is added.
+Via information is reported if ``via`` element is set on the corresponding
+output configuration option. ``via`` is not supported on terse output mode, to
+avoid breaking parsing of such output. ``via`` is set by default on
+``spider_output`` configuration option. Via information is not reported if
+modulepath is not reported.
+
+During a ``spider`` processing the *via* information is collected from the
+extra specifier *use* employed by modules. First evaluated module that enable
+the modulepath will be the one reported.
+
+When loading a module that enable a modulepath, this information is stored in
+the loaded environment through the :envvar:`__MODULES_LMUSE` environment
+variable. This information is used to report the *via* information on
+``avail`` and ``spider`` output. With that, the *via* information is
+consistently available to user, whether the modulepath is already enabled or
+can be through the addition of another module. This *via* information stored
+in ``__MODULES_LMUSE`` is also used to establish a dependency link between the
+modulepath and the loaded module.
+
+Note that a path added with ``module use`` is converted in its absolute path
+form whereas with ``append-path`` and ``prepend-path`` the entry is set as-is.
+This is reflected in the path entry recorded in ``__MODULES_LMUSE``. Which
+means users should carefully define path in their absolute form when set to
+``MODULEPATH`` with ``append-path`` or ``prepend-path``.
+
+When path entry contains an environment variable reference, this reference is
+recorded as is in ``MODULEPATH`` and relative entry in ``__MODULES_LMUSE``.
+Path pointed by this entry evolves with changes made to referred environment
+variable.
+
+The *via* information is always reported on the JSON output. A ``via`` key is
+added on each module reported. If module is part of a modulepath that is
+enabled by another module, the value of the ``via`` key is set to the name
+and version of this module. As modulepaths are just keys in the JSON document
+produced, the via information is stored in each module JSON object rather once
+next to the modulepath information.
+
 Specific impact
 ---------------
 
@@ -74,5 +120,15 @@ Specific impact
 
 * A bad environment state (like inconsistent loaded environment variables)
   produces an error exit code on ``spider``
+
+Corner cases
+------------
+
+* If a modulepath is used by a module but this module also unuse it thereafter
+  this modulepath is kept recorded in the ``__MODULES_LMUSE`` tracking
+  environment variable.
+
+* On :subcmd:`list` sub-command JSON output, ``via`` information is currently
+  always empty. Could be improved in the future.
 
 .. vim:set tabstop=2 shiftwidth=2 expandtab autoindent:
