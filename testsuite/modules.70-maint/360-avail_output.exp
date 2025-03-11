@@ -457,6 +457,24 @@ modb/1  modb/2
 $modlin $modpathre.spider1 $modlin
 moda/1 <L>  moda/2 <L>  "
 
+# whatis/search report (no effect)
+testouterr_cmd_re sh {whatis modb} OK "$modlin $modpathre.spider2 $modlin
+\\s+modb/1: module description"
+testouterr_cmd_re sh {search description} OK "$modlin $modpathre.spider2 $modlin
+\\s+modb/1: module description
+
+$modlin $modpathre.spider1 $modlin
+\\s+moda/1: module description"
+setenv_var TESTSUITE_VIA modulepath_label1
+testouterr_cmd_re sh {whatis modb} OK "$modlin My label spider2 $modlin
+\\s+modb/1: module description"
+testouterr_cmd_re sh {search description} OK "$modlin My label spider2 $modlin
+\\s+modb/1: module description
+
+$modlin My label spider1 $modlin
+\\s+moda/1: module description"
+unsetenv_var TESTSUITE_VIA
+
 # no modulepath reported but via set
 setenv_loaded_module [list moda/1] [list $modpath.spider1/moda/1]
 setenv_var __MODULES_LMUSE moda/1&$modpath.spider2

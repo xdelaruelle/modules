@@ -1,5 +1,6 @@
 #%Module
 if {[info exists env(TESTSUITE_SPIDER_MODPATH2)]} {
+    module-whatis {module description}
     switch -- $env(TESTSUITE_SPIDER_MODPATH2) {
         use_modpath3 {
             module use ../../modulefiles.spider3
