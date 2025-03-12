@@ -1,0 +1,228 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:		modules.50-cmds/%M%
+#   Revision:		%I%
+#   First Edition:	2025/03/12
+#   Last Mod.:		%U%, %G%
+#
+#   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:	Testuite testsequence
+#   Command:		load, unload
+#   Modulefiles:    modulepath
+#   Sub-Command:
+#
+#   Comment:	%C{
+#         Test MODULEPATH change by modulefiles
+#		}C%
+#
+##############################################################################
+
+skip_if_quick_mode
+
+set mp $modpath.4
+setenv_var MODULEPATH $mp
+
+
+#
+# load tests
+#
+
+setenv_var TESTSUITE_USE_MODULEPATH several_uses
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH /path/to/dir2:/path/to/dir1:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_uses2
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_uses1
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH /path/to/dir1:$mp:/path/to/dir2]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_uses3
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH /path/to/dir2:$mp:/path/to/dir1]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH one_use_several_paths
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir2&/path/to/dir1]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH /path/to/dir1:/path/to/dir2:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_use_several_paths
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir2&/path/to/dir1&/path/to/dir3]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH /path/to/dir3:/path/to/dir1:/path/to/dir2:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH one_use_several_same_paths
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set __MODULES_SHARE_MODULEPATH /path/to/dir1:2]
+lappend ans [list set MODULEPATH /path/to/dir2:/path/to/dir1:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_use_same_path
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir2&/path/to/dir1]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set __MODULES_SHARE_MODULEPATH /path/to/dir1:2]
+lappend ans [list set MODULEPATH /path/to/dir1:/path/to/dir2:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_use_same_path
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set __MODULES_SHARE_MODULEPATH /path/to/dir1:2]
+lappend ans [list set MODULEPATH /path/to/dir2:$mp:/path/to/dir1]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+
+# unuse tests
+setenv_var MODULEPATH /path/to/dir1:$mp
+
+setenv_var TESTSUITE_USE_MODULEPATH several_unuse
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH $mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH use_then_unuse
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir2]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH /path/to/dir1:$mp]
+# used path stays recorded in LMUSE even if unused right after (such use case does not exist AFAIK)
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH append_then_unuse
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH use_then_remove
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH prepend_then_remove
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH unuse_then_use
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir2]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH /path/to/dir2:/path/to/dir1:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+
+#
+# unload tests
+#
+
+# consistent unload tests
+setenv_loaded_module [list modulepath/1] [list $mp/modulepath/1]
+
+setenv_var TESTSUITE_USE_MODULEPATH several_uses
+setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2
+setenv_var MODULEPATH /path/to/dir2:/path/to/dir1:$mp
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH $mp]
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_uses1
+setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2
+setenv_var MODULEPATH /path/to/dir1:$mp:/path/to/dir2
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_uses3
+setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2
+setenv_var MODULEPATH /path/to/dir2:$mp:/path/to/dir1
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH one_use_several_same_paths
+setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2
+setenv_var __MODULES_SHARE_MODULEPATH /path/to/dir1:2
+setenv_var MODULEPATH /path/to/dir2:/path/to/dir1:$mp
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list unset __MODULES_SHARE_MODULEPATH]
+lappend ans [list set MODULEPATH $mp]
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_use_same_path
+setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir2&/path/to/dir1
+setenv_var __MODULES_SHARE_MODULEPATH /path/to/dir1:2
+setenv_var MODULEPATH /path/to/dir1:/path/to/dir2:$mp
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_use_same_path
+setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2
+setenv_var __MODULES_SHARE_MODULEPATH /path/to/dir1:2
+setenv_var MODULEPATH /path/to/dir2:$mp:/path/to/dir1
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH use_then_unuse
+setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir2
+unsetenv_var __MODULES_SHARE_MODULEPATH
+setenv_var MODULEPATH /path/to/dir1:$mp
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH /path/to/dir1:$mp]
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH prepend_then_remove
+setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir2
+setenv_var MODULEPATH /path/to/dir1:$mp
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+
+# inconsistent unload tests
+# no unset of what is set (dir3 in MODULEPATH and LMUSE and not used in modulefile)
+# and unset of what is not set (dir1 in MODULEPATH, not LMUSE and used in modulefile)
+# and unset of what is not set (dir2 not in MODULEPATH but in LMUSE and used in modulefile)
+setenv_var TESTSUITE_USE_MODULEPATH several_uses
+setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir3&/path/to/dir2
+setenv_var MODULEPATH /path/to/dir1:$mp:/path/to/dir3
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH $mp:/path/to/dir3]
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+
+#
+#  Cleanup
+#
+
+reset_test_env

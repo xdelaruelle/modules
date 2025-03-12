@@ -270,6 +270,15 @@ testouterr_cmd sh {prepend-path --glob FOO /tmp*} $ans $tserr
 
 
 #
+# test change to MODULEPATH
+#
+
+set ans [list]
+lappend ans [list set MODULEPATH /path/to/dir:$modpath]
+testouterr_cmd sh {prepend-path MODULEPATH /path/to/dir} $ans {}
+
+
+#
 #  Cleanup
 #
 
