@@ -345,6 +345,16 @@ testouterr_cmd_re sh {remove-path --glob FOO /da*} $ans {}
 
 
 #
+# test change to MODULEPATH
+#
+
+setenv_var MODULEPATH $modpath:/path/to/dir
+set ans [list]
+lappend ans [list set MODULEPATH $modpath]
+testouterr_cmd sh {remove-path MODULEPATH /path/to/dir} $ans {}
+
+
+#
 #  Cleanup
 #
 

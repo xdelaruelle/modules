@@ -177,6 +177,15 @@ testouterr_cmd sh {append-path --glob FOO /tmp*} $ans $tserr
 
 
 #
+# test change to MODULEPATH
+#
+
+set ans [list]
+lappend ans [list set MODULEPATH $modpath:/path/to/dir]
+testouterr_cmd sh {append-path MODULEPATH /path/to/dir} $ans {}
+
+
+#
 #  Cleanup
 #
 

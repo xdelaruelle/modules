@@ -1,0 +1,63 @@
+#%Module
+if {[info exists env(TESTSUITE_USE_MODULEPATH)]} {
+    switch -- $env(TESTSUITE_USE_MODULEPATH) {
+        several_uses {
+            module use /path/to/dir1
+            module use /path/to/dir2
+        }
+        several_mixed_uses1 {
+            module use /path/to/dir1
+            append-path MODULEPATH /path/to/dir2
+        }
+        several_mixed_uses2 {
+            prepend-path MODULEPATH /path/to/dir1
+            module use /path/to/dir2
+        }
+        several_mixed_uses3 {
+            append-path MODULEPATH /path/to/dir1
+            prepend-path MODULEPATH /path/to/dir2
+        }
+        one_use_several_paths {
+            module use /path/to/dir1 /path/to/dir2
+        }
+        several_use_several_paths {
+            module use /path/to/dir1 /path/to/dir2
+            module use /path/to/dir3
+        }
+        one_use_several_same_paths {
+            module use /path/to/dir1 /path/to/dir2 /path/to/dir1
+        }
+        several_use_same_path {
+            module use /path/to/dir1 /path/to/dir2
+            module use /path/to/dir1
+        }
+        several_mixed_use_same_path {
+            append-path MODULEPATH /path/to/dir1
+            module use /path/to/dir1 /path/to/dir2
+        }
+        several_unuse {
+            module unuse /path/to/dir1
+            module unuse /path/to/dir2
+        }
+        use_then_unuse {
+            module use /path/to/dir2
+            module unuse /path/to/dir2
+        }
+        append_then_unuse {
+            append-path MODULEPATH /path/to/dir2
+            module unuse /path/to/dir2
+        }
+        use_then_remove {
+            module use /path/to/dir2
+            remove-path MODULEPATH /path/to/dir2
+        }
+        prepend_then_remove {
+            prepend-path MODULEPATH /path/to/dir2
+            remove-path MODULEPATH /path/to/dir2
+        }
+        unuse_then_use {
+            module unuse /path/to/dir2
+            module use /path/to/dir2
+        }
+    }
+}
