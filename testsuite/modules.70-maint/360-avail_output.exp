@@ -505,10 +505,60 @@ foo/0.2\\(sym\\) <L:tag>  foo/0.err  foo/0.load  foo/0.prereq
 $modlin $modpathre.2 $modlin
 foo/0.1  foo/0.2\\(sym\\) <L:tag>  "
 
+
+# variable reference in modulepath
+setenv_loaded_module [list modulepath/1] [list $modpath.4/modulepath/1]
+setenv_var MODULES_AVAIL_OUTPUT sym:tag:modulepath:via
+setenv_var TESTSUITE_USE_MODULEPATH use_with_var_ref_and_setenv
+setenv_var __MODULES_LMUSE modulepath/1&$modpath.spider\$FOO_VAR_REF
+setenv_var MODULEPATH $modpath.spider\$FOO_VAR_REF:$modpath.4
+
+setenv_var FOO_VAR_REF 3
+set tserr "$modlin $modpathre.spider3 \\(via modulepath/1\\) $modlin
+modc/1  modc/2  
+
+$modlin $modpathre.4 $modlin
+modulepath-opt/1  modulepath-opt/2  modulepath/1 <L>  modulepath/2  "
+testouterr_cmd_re sh {avail mod} OK $tserr
+
+setenv_var FOO_VAR_REF 2
+set tserr "$modlin $modpathre.spider2 \\(via modulepath/1\\) $modlin
+modb/1  modb/2  
+
+$modlin $modpathre.4 $modlin
+modulepath-opt/1  modulepath-opt/2  modulepath/1 <L>  modulepath/2  "
+testouterr_cmd_re sh {avail mod} OK $tserr
+
+unsetenv_var FOO_VAR_REF
+set tserr "$modlin $modpathre.4 $modlin
+modulepath-opt/1  modulepath-opt/2  modulepath/1 <L>  modulepath/2  "
+testouterr_cmd_re sh {avail mod} OK $tserr
+
+
+# relative path in modulepath
+setenv_var TESTSUITE_USE_MODULEPATH use_rel_path
+setenv_var __MODULES_LMUSE modulepath/1&$modpath.spider3
+setenv_var MODULEPATH $modpath.spider3:$modpath.4
+set tserr "$modlin $modpathre.spider3 \\(via modulepath/1\\) $modlin
+modc/1  modc/2  
+
+$modlin $modpathre.4 $modlin
+modulepath-opt/1  modulepath-opt/2  modulepath/1 <L>  modulepath/2  "
+testouterr_cmd_re sh {avail mod} OK $tserr
+
+setenv_var TESTSUITE_USE_MODULEPATH prepend_rel_path
+setenv_var __MODULES_LMUSE modulepath/1&../../../testsuite/modulefiles.spider3
+setenv_var MODULEPATH ../../../testsuite/modulefiles.spider3:$modpath.4
+set tserr "$modlin $modpathre.4 $modlin
+modulepath-opt/1  modulepath-opt/2  modulepath/1 <L>  modulepath/2  "
+testouterr_cmd_re sh {avail mod} OK $tserr
+
+
 unsetenv_loaded_module
 unsetenv_var __MODULES_LMUSE
 unsetenv_var TESTSUITE_SPIDER_MODPATH1
 unsetenv_var TESTSUITE_SPIDER_MODPATH2
+unsetenv_var TESTSUITE_USE_MODULEPATH
 
 
 #

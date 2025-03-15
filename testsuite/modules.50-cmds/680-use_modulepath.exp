@@ -138,6 +138,61 @@ lappend ans [list set MODULEPATH /path/to/dir2:/path/to/dir1:$mp]
 testouterr_cmd bash {load modulepath/1} $ans {}
 
 
+# variable reference in modulepath
+unsetenv_var FOO_VAR_REF
+setenv_var MODULEPATH $mp
+setenv_var TESTSUITE_USE_MODULEPATH use_with_var_ref_and_setenv
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&$modpath.spider\$FOO_VAR_REF]
+lappend ans [list set FOO_VAR_REF 3]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH $modpath.spider\$FOO_VAR_REF:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH append_with_var_ref_and_setenv
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&$modpath.spider\$FOO_VAR_REF]
+lappend ans [list set FOO_VAR_REF 3]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH $mp:$modpath.spider\$FOO_VAR_REF]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var FOO_VAR_REF 2
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH use_with_var_ref_no_setenv
+unsetenv_var FOO_VAR_REF
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&$modpath.spider\$FOO_VAR_REF]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH $modpath.spider\$FOO_VAR_REF:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var FOO_VAR_REF 2
+testouterr_cmd bash {load modulepath/1} $ans {}
+unsetenv_var FOO_VAR_REF
+
+# relative path in modulepath
+setenv_var TESTSUITE_USE_MODULEPATH use_rel_path
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&$modpath.spider3]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH prepend_rel_path
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&../../../testsuite/modulefiles.spider3]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set MODULEPATH ../../../testsuite/modulefiles.spider3:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+
 #
 # unload tests
 #
@@ -218,6 +273,63 @@ lappend ans [list unset __MODULES_LMUSE]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 lappend ans [list set MODULEPATH $mp:/path/to/dir3]
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+
+# variable reference in modulepath
+setenv_var TESTSUITE_USE_MODULEPATH use_with_var_ref_and_setenv
+setenv_var FOO_VAR_REF 3
+setenv_var __MODULES_LMUSE modulepath/1&$modpath.spider\$FOO_VAR_REF
+setenv_var MODULEPATH $modpath.spider\$FOO_VAR_REF:$mp
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset FOO_VAR_REF]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH $mp]
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var FOO_VAR_REF 2
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+unsetenv_var FOO_VAR_REF
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH append_with_var_ref_and_setenv
+setenv_var FOO_VAR_REF 3
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var FOO_VAR_REF 2
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+unsetenv_var FOO_VAR_REF
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH use_with_var_ref_no_setenv
+setenv_var FOO_VAR_REF 3
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH $mp]
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var FOO_VAR_REF 2
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+unsetenv_var FOO_VAR_REF
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+
+# relative path in modulepath
+setenv_var TESTSUITE_USE_MODULEPATH use_rel_path
+setenv_var __MODULES_LMUSE modulepath/1&$modpath.spider3
+setenv_var MODULEPATH $modpath.spider3:$mp
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH prepend_rel_path
+setenv_var __MODULES_LMUSE modulepath/1&../../../testsuite/modulefiles.spider3
+setenv_var MODULEPATH ../../../testsuite/modulefiles.spider3:$mp
 testouterr_cmd bash {unload modulepath/1} $ans {}
 
 
