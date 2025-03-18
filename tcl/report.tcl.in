@@ -988,15 +988,15 @@ proc getErrPrereqMsg {prelist {load 1} {is_path_specific 0}} {
       foreach pre $prelist {
          lappend predesiglist [getModuleDesignation spec $pre]
       }
-      lassign [list {} missing [getHintLoFirstMsg $predesiglist]] un mis\
+      lassign [list {} missing [getHintLoFirstMsg $predesiglist]] un miss\
          hintmsg
    } else {
       ##nagelfar ignore Found constant
-      lassign [list un a [getHintUnFirstMsg $prelist]] un mis hintmsg
+      lassign [list un a [getHintUnFirstMsg $prelist]] un miss hintmsg
    }
    set path_specific_msg [expr {$is_path_specific ? [getSpecificPathMsg] :\
       {}}]
-   return "Module cannot be ${un}loaded due to $mis\
+   return "Module cannot be ${un}loaded due to $miss\
       prereq$path_specific_msg.\n$hintmsg"
 }
 

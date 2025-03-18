@@ -7,6 +7,8 @@
 ignore-words-list = ans,ot,ue,fo,haa,varius,tthe,tbe,nin,desig,matchin,compre,invers,compiletime,seh,lod,nd,uncomplete
 # skip git repository internal content
 # skip generated content: ChangeLog.gz, doc/build, modulecmd*.tcl, modules.sum
-#   modules.log, lib/config.sub, lib/config.guess
+#   modules.log, lib/config.sub, lib/config.guess, lib/config.status, lib/configure,
+#   lib/autom4te.cache/*
 # skip retrieved content: icdiff, lib/tcl.m4, tcl8.3.5, spack, miniconda3, OpenFOAM-dev
-skip = .git,ChangeLog.gz,modulecmd*.tcl,*doc/build,icdiff,*lib/tcl.m4,tcl8.3.5,spack,miniconda3,OpenFOAM-dev,modules.sum,modules.log,*lib/config.sub,*lib/config.guess
+# skip pdf papers: doc/paper/*.pdf
+skip = .git,ChangeLog.gz,modulecmd*.tcl,*doc/build,icdiff,*lib/tcl.m4,tcl8.3.5,spack,miniconda3,OpenFOAM-dev,modules.sum,modules.log,*lib/config.sub,*lib/config.guess,*lib/config.status,*lib/configure,*lib/autom4te.cache/*,*doc/paper/*.pdf
