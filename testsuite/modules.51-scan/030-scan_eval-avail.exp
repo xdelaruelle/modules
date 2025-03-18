@@ -436,7 +436,7 @@ setenv_path_var MODULEPATH $modpath.3
 set tserr variant/
 testouterr_cmd sh {avail -t --no-indepth foo=anything} OK $tserr
 testouterr_cmd sh {avail -t --no-indepth variant foo=anything} OK $tserr
-testouterr_cmd sh {avail -t --no-indepth varian foo=anything} OK $tserr
+testouterr_cmd sh {avail -t --no-indepth varian foo=anything} OK $tserr ;# codespell:ignore varian
 
 set tserr "variant/1.0{foo=*}
 variant/6.0{foo=*}"
