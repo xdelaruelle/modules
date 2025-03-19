@@ -47,6 +47,15 @@ proc resolvStringWithEnv {0str} {
    return ${0res}
 }
 
+# in each string of a list, convert their variable reference into actual value
+proc resolvStringListWithEnv {str_list} {
+   set res_list {}
+   foreach str $str_list {
+      lappend res_list [resolvStringWithEnv $str]
+   }
+   return $res_list
+}
+
 # deduce modulepath from modulefile and module name
 proc getModulepathFromModuleName {modfile modname} {
    return [string range $modfile 0 end-[string length /$modname]]
@@ -1860,6 +1869,7 @@ proc getLoadedUse {mod} {
 proc getViaModuleForModulepath {modpath} {
    set via [getLoadedModuleUsingModulepath $modpath]
    if {![string length $via] && $modpath ni [getModulePathList]} {
+      # get via information collected from spider processing
       set via [getModuleUsingModulepath $modpath]
    }
    return $via
@@ -1867,6 +1877,9 @@ proc getViaModuleForModulepath {modpath} {
 
 proc getModuleUsingModulepath {modpath} {
    foreach mod [array names ::g_loadedModuleUse] {
+      # no need to resolve variable reference in used path as this resolution
+      # as already been performed when recording in global structure during
+      # spider processing
       if {$modpath in $::g_loadedModuleUse($mod)} {
          return $mod
       }
@@ -1875,7 +1888,7 @@ proc getModuleUsingModulepath {modpath} {
 
 proc getLoadedModuleUsingModulepath {modpath} {
    foreach mod [getEnvLoadedModulePropertyParsedList name] {
-      if {$modpath in [getLoadedUse $mod]} {
+      if {$modpath in [resolvStringListWithEnv [getLoadedUse $mod]]} {
          return $mod
       }
    }
