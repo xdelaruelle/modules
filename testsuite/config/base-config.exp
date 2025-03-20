@@ -852,8 +852,14 @@ proc _test_err_json {test_shell cmd answer failcmd} {
         $answer_last_entry end-2 end]} {
         set errdiff 1
     }
-    set comp_last_entry [string replace $comp_last_entry end-1 end ,]
-    set answer_last_entry [string replace $answer_last_entry end-1 end ,]
+    # make last content line with same structure as other lines (finishing by "\},")
+    if {[string index $comp_last_entry end] eq "\}"} {
+        append comp_last_entry ,
+        append answer_last_entry ,
+    } else {
+        set comp_last_entry [string replace $comp_last_entry end-1 end ,]
+        set answer_last_entry [string replace $answer_last_entry end-1 end ,]
+    }
     set comp_error_list [lreplace $comp_error_list end-2 end-2 $comp_last_entry]
     set answer_list [lreplace $answer_list end-2 end-2 $answer_last_entry]
 
