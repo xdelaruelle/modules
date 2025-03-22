@@ -56,6 +56,16 @@ proc resolvStringListWithEnv {str_list} {
    return $res_list
 }
 
+# Return first string in list matching given resolved string. Strings in list
+# are resolved to help comparison in case they contain an env variable ref.
+proc getStringFromListMatchingResString {str_list resolved_str} {
+   foreach str $str_list {
+      if {$resolved_str eq [resolvStringWithEnv $str]} {
+         return $str
+      }
+   }
+}
+
 # deduce modulepath from modulefile and module name
 proc getModulepathFromModuleName {modfile modname} {
    return [string range $modfile 0 end-[string length /$modname]]
@@ -1886,11 +1896,25 @@ proc getModuleUsingModulepath {modpath} {
    }
 }
 
+# Return first loaded module that enables given modulepath. Reference counter
+# is checked to detect if modulepath was enabled prior loading the module in
+# which case modulepath is considered not enabled by loaded module.
 proc getLoadedModuleUsingModulepath {modpath} {
+   set ref_count [getPathReferenceCount MODULEPATH $modpath [getState\
+      path_separator] 1]
    foreach mod [getEnvLoadedModulePropertyParsedList name] {
       if {$modpath in [resolvStringListWithEnv [getLoadedUse $mod]]} {
-         return $mod
+         if {![info exists first_using_mod]} {
+            set first_using_mod $mod
+         }
+         incr ref_count -1
+         if {!$ref_count} {
+            break
+         }
       }
+   }
+   if {[info exists first_using_mod] && !$ref_count} {
+      return $first_using_mod
    }
 }
 

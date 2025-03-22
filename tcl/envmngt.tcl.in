@@ -1601,9 +1601,21 @@ proc getReferenceCountArray {var separator} {
    return $count_list
 }
 
-proc isReferenceCountPathDefined {var path separator} {
+proc getPathReferenceCount {var path separator {resolv 0}} {
    array set ref_count_arr [getReferenceCountArray $var $separator]
-   return [info exists ref_count_arr($path)]
+   if {[info exists ref_count_arr($path)]} {
+      set ref_count $ref_count_arr($path)
+   } else {
+      set ref_count 0
+      if {$resolv} {
+         set matching_path [getStringFromListMatchingResString [array names\
+            ref_count_arr] $path]
+         if {[string length $matching_path]} {
+            set ref_count $ref_count_arr($matching_path)
+         }
+      }
+   }
+   return $ref_count
 }
 
 # generate reference count value to export in user environment
@@ -2002,7 +2014,7 @@ proc parsePathCommandArgs {cmd mode dflbhv args} {
          if {[llength $val_raw_list] > 1 || [get-env $var] ne {}} {
             lappend val_list {}
          # make separator string appear once in resulting value
-         } elseif {[isReferenceCountPathDefined $var {} $delim]} {
+         } elseif {[getPathReferenceCount $var {} $delim]} {
             lappend val_list {}
             set allow_dup 1
          } else {
