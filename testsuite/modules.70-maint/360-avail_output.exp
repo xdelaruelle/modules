@@ -416,6 +416,15 @@ modb/1  modb/2
 $modlin $modpathre.spider1 $modlin
 moda/1 <L>  moda/2  "
 
+# no modulepath label set, using module loaded, used path was there before
+setenv_var __MODULES_SHARE_MODULEPATH $modpath.spider2:2
+testouterr_cmd_re sh {avail mod} OK "$modlin $modpathre.spider2 $modlin
+modb/1  modb/2  
+
+$modlin $modpathre.spider1 $modlin
+moda/1 <L>  moda/2  "
+unsetenv_var __MODULES_SHARE_MODULEPATH
+
 # modulepath label set, using module loaded
 setenv_var TESTSUITE_VIA modulepath_label1
 testouterr_cmd_re sh {avail mod} OK "$modlin My label spider2 \\(via moda/1\\) $modlin
@@ -423,6 +432,15 @@ modb/1  modb/2
 
 $modlin My label spider1 $modlin
 moda/1 <L>  moda/2  "
+
+# modulepath label set, using module loaded, used path was there before
+setenv_var __MODULES_SHARE_MODULEPATH $modpath.spider2:2
+testouterr_cmd_re sh {avail mod} OK "$modlin My label spider2 $modlin
+modb/1  modb/2  
+
+$modlin My label spider1 $modlin
+moda/1 <L>  moda/2  "
+unsetenv_var __MODULES_SHARE_MODULEPATH
 
 # no modulepath label set, using module loaded, but added modulepath unused
 unsetenv_var TESTSUITE_VIA
@@ -451,11 +469,23 @@ unsetenv_var TESTSUITE_VIA
 setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
 setenv_loaded_module [list moda/1 moda/2] [list $modpath.spider1/moda/1 $modpath.spider2/moda/2]
 setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:moda/2&$modpath.spider2
-testouterr_cmd_re sh {avail mod} OK "$modlin $modpathre.spider2 \\(via moda/1\\) $modlin
+set tserr "$modlin $modpathre.spider2 \\(via moda/1\\) $modlin
 modb/1  modb/2  
 
 $modlin $modpathre.spider1 $modlin
 moda/1 <L>  moda/2 <L>  "
+testouterr_cmd_re sh {avail mod} OK $tserr
+
+setenv_var __MODULES_SHARE_MODULEPATH $modpath.spider2:2
+testouterr_cmd_re sh {avail mod} OK $tserr
+
+setenv_var __MODULES_SHARE_MODULEPATH $modpath.spider2:3
+set tserr "$modlin $modpathre.spider2 $modlin
+modb/1  modb/2  
+
+$modlin $modpathre.spider1 $modlin
+moda/1 <L>  moda/2 <L>  "
+unsetenv_var __MODULES_SHARE_MODULEPATH
 
 # whatis/search report (no effect)
 testouterr_cmd_re sh {whatis modb} OK "$modlin $modpathre.spider2 $modlin
