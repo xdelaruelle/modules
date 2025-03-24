@@ -18,8 +18,8 @@ positions) and other participants in the Project (collectively,
 1. **Mission and Scope of the Project**
 
    a. The mission of the Project is to enable dynamic shell environment
-      management by users. Allowing a simplified access and use of software
-      stacks and environment configurations.
+      management by users with the goal of simplifying access and use of
+      software stacks and environment configurations.
 
    b. The scope of the Project includes collaborative development under the
       Project License (as defined herein) supporting the mission, including
