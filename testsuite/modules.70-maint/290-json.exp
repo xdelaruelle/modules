@@ -353,6 +353,30 @@ testouterr_cmd sh {spider mod --json} OK "{\"My label spider2\": {
 \"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"}
 }}"
 
+# modulepath label set, using module loaded, used path was there before
+setenv_var __MODULES_SHARE_MODULEPATH $modpath.spider2:2
+testouterr_cmd sh {avail mod --json} OK "{\"My label spider2\": {
+\"modb/1\": { \"name\": \"modb/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider2/modb/1\", \"via\": \"\"},
+\"modb/2\": { \"name\": \"modb/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider2/modb/2\", \"via\": \"\"}
+},
+\"My label spider1\": {
+\"moda/1\": { \"name\": \"moda/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.spider1/moda/1\", \"via\": \"\"},
+\"moda/2\": { \"name\": \"moda/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider1/moda/2\", \"via\": \"\"}
+}}"
+testouterr_cmd sh {spider mod --json} OK "{\"My label spider2\": {
+\"modb/1\": { \"name\": \"modb/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider2/modb/1\", \"via\": \"\"},
+\"modb/2\": { \"name\": \"modb/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider2/modb/2\", \"via\": \"\"}
+},
+\"My label spider1\": {
+\"moda/1\": { \"name\": \"moda/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.spider1/moda/1\", \"via\": \"\"},
+\"moda/2\": { \"name\": \"moda/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider1/moda/2\", \"via\": \"\"}
+},
+\"$modpath.spider3\": {
+\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"},
+\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"}
+}}"
+unsetenv_var __MODULES_SHARE_MODULEPATH
+
 # list one module loaded
 testouterr_cmd sh {list --json} OK "{\"moda/1\": { \"name\": \"moda/1\", \"type\": \"modulefile\", \"variants\": {}, \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider1/moda/1\", \"via\": \"\"}}"
 # list two modules loaded, one using the other, 2 modulepath used

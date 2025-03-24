@@ -10,7 +10,7 @@
 #   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
 #
 #   Description:	Testuite testsequence
-#   Command:		load, unload
+#   Command:		load, unload, use
 #   Modulefiles:    modulepath
 #   Sub-Command:
 #
@@ -99,6 +99,50 @@ lappend ans [list set LOADEDMODULES modulepath/1]
 lappend ans [list set __MODULES_SHARE_MODULEPATH /path/to/dir1:2]
 lappend ans [list set MODULEPATH /path/to/dir2:$mp:/path/to/dir1]
 testouterr_cmd bash {load modulepath/1} $ans {}
+
+
+# path already set in MODULEPATH (ref counter should be updated)
+setenv_var MODULEPATH /path/to/dir1:$mp
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_uses1
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set __MODULES_SHARE_MODULEPATH /path/to/dir1:2]
+lappend ans [list set MODULEPATH /path/to/dir1:$mp:/path/to/dir2]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_uses2
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set __MODULES_SHARE_MODULEPATH /path/to/dir1:2]
+lappend ans [list set MODULEPATH /path/to/dir2:/path/to/dir1:$mp]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_uses3
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+set ans [list]
+lappend ans [list set MODULEPATH /path/to/dir1:$mp]
+testouterr_cmd bash {use /path/to/dir1} $ans {}
+
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_uses1
+setenv_var __MODULES_SHARE_MODULEPATH /path/to/dir1:2
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2]
+lappend ans [list set _LMFILES_ $mp/modulepath/1]
+lappend ans [list set LOADEDMODULES modulepath/1]
+lappend ans [list set __MODULES_SHARE_MODULEPATH /path/to/dir1:3]
+lappend ans [list set MODULEPATH /path/to/dir1:$mp:/path/to/dir2]
+testouterr_cmd bash {load modulepath/1} $ans {}
+
+set ans [list]
+lappend ans [list set __MODULES_SHARE_MODULEPATH /path/to/dir1:2]
+lappend ans [list set MODULEPATH /path/to/dir1:$mp]
+testouterr_cmd bash {use /path/to/dir1} $ans {}
+unsetenv_var __MODULES_SHARE_MODULEPATH
 
 
 # unuse tests
@@ -259,6 +303,40 @@ setenv_var TESTSUITE_USE_MODULEPATH prepend_then_remove
 setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir2
 setenv_var MODULEPATH /path/to/dir1:$mp
 testouterr_cmd bash {unload modulepath/1} $ans {}
+
+
+# path already set in MODULEPATH (ref counter should be updated)
+setenv_var __MODULES_LMUSE modulepath/1&/path/to/dir1&/path/to/dir2
+setenv_var __MODULES_SHARE_MODULEPATH /path/to/dir1:2
+setenv_var MODULEPATH /path/to/dir1:$mp:/path/to/dir2
+setenv_var TESTSUITE_USE_MODULEPATH several_mixed_uses1
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list unset __MODULES_SHARE_MODULEPATH]
+lappend ans [list set MODULEPATH /path/to/dir1:$mp]
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+set ans [list]
+lappend ans [list unset __MODULES_SHARE_MODULEPATH]
+lappend ans [list set MODULEPATH $mp:/path/to/dir2]
+testouterr_cmd bash {unuse /path/to/dir1} $ans {}
+
+setenv_var __MODULES_SHARE_MODULEPATH /path/to/dir1:3
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set __MODULES_SHARE_MODULEPATH /path/to/dir1:2]
+lappend ans [list set MODULEPATH /path/to/dir1:$mp]
+testouterr_cmd bash {unload modulepath/1} $ans {}
+
+set ans [list]
+lappend ans [list unset __MODULES_SHARE_MODULEPATH]
+lappend ans [list set MODULEPATH $mp:/path/to/dir2]
+testouterr_cmd bash {unuse /path/to/dir1} $ans {}
+unsetenv_var __MODULES_SHARE_MODULEPATH
 
 
 # inconsistent unload tests
