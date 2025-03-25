@@ -39,8 +39,8 @@ set modulefile "$modpath/$module"
 #
 
 regsub -all \# $u_version {\\\#} u_version
-switch -- $tcl_platform(os) {
-    {Darwin} {
+switch -- $os_name {
+    {darwin} {
         regsub -all {;} $u_version {\\\;} u_version
     }
 }

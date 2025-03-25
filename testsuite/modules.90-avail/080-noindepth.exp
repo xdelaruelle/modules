@@ -264,7 +264,7 @@ testouterr_cmd sh {avail -t space\ ya} OK "$mp:\n'space ya'/"
 set mp "$modpath wspac "
 # create modulepath finishing by space on the file (it crashes git checkout on Windows if saved in repo)
 # MSYS environment does not support anymore such test
-if {!$is_symlink_supported || [string match MSYS_NT* $tcl_platform(os)] || [catch {file link -symbolic $mp modulefiles.2}]} {
+if {!$is_symlink_supported || $os_name eq {msys} || [catch {file link -symbolic $mp modulefiles.2}]} {
     send_user "\tskipping tests over '$mp' modulepath as symbolic links are not supported on filesystem or cannot be created\n"
 } else {
 

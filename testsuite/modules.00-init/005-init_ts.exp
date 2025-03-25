@@ -36,12 +36,15 @@ if {[file type /bin/sh] eq {link}} {
    set sh_kind sh
 }
 
+# extract and format os name
+set os_name [string tolower [lindex [split $tcl_platform(os) _] 0]]
+
 # get current terminal width
 proc getTtyCols {} {
     set nbcols {}
 
-    switch -- $::tcl_platform(os) {
-        {SunOS} {
+    switch -- $::os_name {
+        {sunos} {
             catch {regexp {columns = (\d+);} [exec stty] match nbcols} errMsg
         }
         default {
@@ -85,7 +88,7 @@ proc find_bin {name} {
 }
 
 # check SIP is enabled or not on OS X
-if {$tcl_platform(os) eq "Darwin"} {
+if {$os_name eq "darwin"} {
     catch {
         regexp {System Integrity Protection status: enabled.} [exec csrutil status] csrutil_enabled
     } errMsg
@@ -294,7 +297,8 @@ proc cmpversion {str1 str2} {
 
 # report current system information
 send_user "\tMachine hardware name is '$tcl_platform(machine)'\n"
-send_user "\tOS name is '$tcl_platform(os)'\n"
+send_user "\tOS code name is '$tcl_platform(os)'\n"
+send_user "\tOS cleaned name is '$os_name'\n"
 send_user "\tOS version is '$tcl_platform(osVersion)'\n"
 send_user "\tPlatform name is '$tcl_platform(platform)'\n"
 

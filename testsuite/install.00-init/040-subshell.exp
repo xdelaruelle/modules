@@ -26,7 +26,7 @@ set zsh_nf "command not found: module"
 set zsh_nf_ml "command not found: ml"
 set tcsh_nf "module: Command not found."
 set tcsh_nf_ml "ml: Command not found."
-if {$tcl_platform(os) eq "SunOS"} {
+if {$os_name eq "sunos"} {
    set csh_nf "module: Command not found"
    set csh_nf_ml "ml: Command not found"
 } else {
@@ -35,10 +35,10 @@ if {$tcl_platform(os) eq "SunOS"} {
 }
 set fish_nf "fish: Unknown command:? '?module"
 set fish_nf_ml "fish: Unknown command:? '?ml"
-if {$tcl_platform(os) eq "SunOS"} {
+if {$os_name eq "sunos"} {
    set sh_nf "module: not found \\\[No such file or directory\\\]"
    set sh_nf_ml "ml: not found \\\[No such file or directory\\\]"
-} elseif {$tcl_platform(os) eq "FreeBSD"} {
+} elseif {$os_name eq "freebsd"} {
    set sh_nf "eval: module: not found"
    set sh_nf_ml "eval: ml: not found"
 } else {

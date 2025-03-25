@@ -29,8 +29,8 @@ skip_if_quick_mode
 # - when running on Cygwin/MinGW/MSYS which are unaffected by cwd removal
 # - when running on Tcl 8.5 where test outputs are saved in files located in
 #   current working directory
-if {![info exists env(COVERAGE)] && ![regexp {^(CYGWIN|MINGW|MSYS_NT).*}\
-    $tcl_platform(os)] && [cmpversion $tclsh_version 8.6] > -1} {
+if {![info exists env(COVERAGE)] && $os_name ni {cygwin mingw msys}\
+    && [cmpversion $tclsh_version 8.6] > -1} {
 
     # change MODULECMD for the test to make it an absolute path name
     set MODULECMD $env(TESTSUITEDIR)/../$MODULECMD

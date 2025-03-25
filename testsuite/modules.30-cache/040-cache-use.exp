@@ -284,7 +284,7 @@ file delete $mp2
 
 # test over a modulepath containing a space character
 # skip test on MSYS platform or if symlink creation is not supported
-if {$is_symlink_supported && ![regexp {^MSYS_NT.*} $tcl_platform(os)]} {
+if {$is_symlink_supported && $os_name ne {msys}} {
 set mpws "$env(HOME)/mp ws"
 set mpwscache $mpws/.modulecache
 file link -symbolic $mpws $mp1

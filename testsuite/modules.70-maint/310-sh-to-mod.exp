@@ -55,7 +55,7 @@ foreach sh $shtomod_supported_shells {
     set shbin [lindex [auto_execok $sh] 0]
     # mksh flavor of ksh is not supported
     # sh from FreeBSD is not supported too
-    if {$shbin ne {} && ($sh ne {ksh} || !$ksh_is_mksh) && ($sh ne {sh} || $tcl_platform(os) ne {FreeBSD})} {
+    if {$shbin ne {} && ($sh ne {ksh} || !$ksh_is_mksh) && ($sh ne {sh} || $os_name ne {freebsd})} {
         lappend shtomod_avail_shells $sh
         set shell_pathname($sh) $shbin
     }
@@ -809,7 +809,7 @@ if {$is_modules_defined} {
 } else {
     set extratserr {}
 }
-if {$is_modules_defined_fish && ![string match "CYGWIN*" $tcl_platform(os)]} {
+if {$is_modules_defined_fish && $os_name ne {cygwin}} {
     set extratserr_fish "\nunset-function\tml\nunset-function\tmodule"
     if {$is_mogui_defined} {
         append extratserr_fish "\nunset-function\tmogui"

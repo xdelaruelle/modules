@@ -23,9 +23,9 @@
 set bad_cmd "$error_msgs: Invalid command 'foo'"
 
 set bash_nf "(.*: )?module: command not found"
-if {$tcl_platform(os) eq "SunOS"} {
+if {$os_name eq "sunos"} {
    set cmd_nf "module: not found \\\[No such file or directory\\\]"
-} elseif {$tcl_platform(os) eq "FreeBSD"} {
+} elseif {$os_name eq "freebsd"} {
    set cmd_nf "eval: module: not found"
 } elseif {$sh_kind eq "dash"} {
    set cmd_nf "(.*: )?module: not found"
@@ -36,7 +36,7 @@ if {$tcl_platform(os) eq "SunOS"} {
 set ksh_nf "(.*: )?module: (inaccessible or )?not found( \\\[No such file or directory\\\])?"
 set zsh_nf "(\\\(eval\\\):1: )?command not found: module"
 set tcsh_nf "module: Command not found."
-if {$tcl_platform(os) eq "SunOS"} {
+if {$os_name eq "sunos"} {
    set csh_nf "module: Command not found"
 } else {
    set csh_nf $tcsh_nf
@@ -75,7 +75,7 @@ foreach subshell $shell_list {
                }
                ksh {
                   # sh is a ksh on Solaris
-                  if {$tcl_platform(os) eq "SunOS"} {
+                  if {$os_name eq "sunos"} {
                      testall_cmd_re "$shell" "module --version" "" "^Modules Release \\S+ (\\S+)" 0
                   } else {
                      testall_cmd_re "$shell" "module --version" "" "$cmd_nf" 127
@@ -129,7 +129,7 @@ foreach subshell $shell_list {
                }
                ksh {
                   # sh is a ksh on Solaris
-                  if {$tcl_platform(os) eq "SunOS"} {
+                  if {$os_name eq "sunos"} {
                      testall_cmd_re "$shell" "module --version" "" "^Modules Release \\S+ (\\S+)" 0
                   } else {
                      testall_cmd_re "$shell" "module --version" "" "$cmd_nf" 127

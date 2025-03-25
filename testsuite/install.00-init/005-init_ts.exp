@@ -53,12 +53,11 @@ if {$sh_kind eq {sh} && ![catch {exec /bin/sh -c {echo $BASH_VERSION}} errMsg] &
 }
 send_user "\tsh_kind is '$sh_kind'\n"
 
+# extract and format os name
+set os_name [string tolower [lindex [split $tcl_platform(os) _] 0]]
+
 # determine if sh-shell is a strict sh implementation
-if {$sh_kind eq "dash" || ($tcl_platform(os) ne "Linux"\
-   && $tcl_platform(os) ne "Darwin"\
-   && ![string match "CYGWIN*" $tcl_platform(os)]\
-   && ![string match "MINGW*" $tcl_platform(os)]\
-   && ![string match "MSYS_NT*" $tcl_platform(os)])} {
+if {$sh_kind eq "dash" || $os_name ni {linux darwin cygwin mingw msys}} {
    set sh_strict 1
 } else {
    set sh_strict 0
@@ -74,7 +73,7 @@ if {$bashbin ne {}} {
 }
 
 # check SIP is enabled or not on OS X
-if {$tcl_platform(os) eq "Darwin"} {
+if {$os_name eq "darwin"} {
     catch {
         regexp {System Integrity Protection status: enabled.} [exec csrutil status] csrutil_enabled
     } errMsg
@@ -131,7 +130,7 @@ foreach shell [list sh bash basheu ksh zsh csh tcsh fish tcl perl python ruby cm
       }
       pwsh {
          # Don't test pwsh in cygwin or msys (pwsh.exe won't work properly)
-         if {![regexp "(CYGWIN|MINGW|MSYS_NT).*" $tcl_platform(os)]} {
+         if {$os_name ni {cygwin mingw msys}} {
             set shellbin [find_bin pwsh]
          } else {
             set shellbin ""
