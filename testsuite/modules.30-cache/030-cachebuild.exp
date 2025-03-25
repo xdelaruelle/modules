@@ -20,6 +20,9 @@
 #
 ##############################################################################
 
+# filesystem on Cygwin platform is responding in an unexpected way
+# skip these tests on this platform for now
+skip_if_os_in cygwin
 
 # no modulepath defined
 unsetenv_path_var MODULEPATH

@@ -1474,3 +1474,11 @@ proc skip_if_quick_mode {} {
         return -code 0 -level 2 0
     }
 }
+
+proc skip_if_os_in {args} {
+    if {$::os_name in $args} {
+        send_user "\tSkipping tests for '$::os_name' OS\n"
+        reset_test_env
+        return -code 0 -level 2 0
+    }
+}

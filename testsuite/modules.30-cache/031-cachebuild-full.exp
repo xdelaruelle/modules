@@ -20,6 +20,10 @@
 #
 ##############################################################################
 
+# filesystem on Cygwin platform is responding in an unexpected way
+# skip these tests on this platform for now
+skip_if_os_in cygwin
+
 skip_if_quick_mode
 
 # ensure avail tests are made using in depth mode
