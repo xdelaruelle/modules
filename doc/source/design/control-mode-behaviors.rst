@@ -171,4 +171,7 @@ Misc
   - ``module use`` may also be interesting for ``module load``
   - ``module unuse`` may also be interesting for ``module unload``
 
+- See also :ref:`mode-select` design which corresponds to a different approach
+  to the same kind of feature
+
 .. vim:set tabstop=2 shiftwidth=2 expandtab autoindent:

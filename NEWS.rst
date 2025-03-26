@@ -38,6 +38,7 @@ Modules 5.6.0 (not yet released)
   evaluations when variable initial value is an invalid list. (fix issue #570)
 * Fix :mfcmd:`source-sh` and :subcmd:`sh-to-mod` shell translation when used
   with new *fish* shell version (4.0).
+* Doc: add :ref:`mode-select` design notes.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
