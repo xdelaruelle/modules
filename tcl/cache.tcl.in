@@ -186,7 +186,7 @@ proc formatModuleCacheContent {modpath} {
 
    # prepend header if some content has been generated
    if {[string length $content]} {
-      regexp {^\d+\.\d+} {@MODULES_RELEASE@} majmin
+      regexp {^\d+\.\d+} [getState modules_release] majmin
       set content "#%Module$majmin$content"
    }
 
@@ -219,7 +219,7 @@ proc readCacheContent {cachefile} {
          reportInternalBug {Modules version requirement missing} $cachefile\
             {Cache ERROR}
       # check if min version requirement is met
-      } elseif {[versioncmp {@MODULES_RELEASE@} $fhvers] <0} {
+      } elseif {[versioncmp [getState modules_release] $fhvers] <0} {
          reportDebug "Cache file $cachefile requires at least Modules version\
             $fhvers"
       } else {

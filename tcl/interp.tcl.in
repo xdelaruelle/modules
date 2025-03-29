@@ -254,7 +254,7 @@ proc execute-modulefile {modfile modname modnamevrvar modspec requested\
    if {![info exists ::g_modfileBaseVars]} {
       # record module tool properties
       set ::g_modfileBaseVars [list ModuleTool Modules ModuleToolVersion\
-         {@MODULES_RELEASE@}]
+         [getState modules_release]]
 
       if {[info exists ::modulefile_extra_vars]} {
          if {([llength $::modulefile_extra_vars] % 2) != 0} {
@@ -575,7 +575,7 @@ proc execute-modulerc {modfile modname modspec} {
 
       # variable to define in modulerc interp
       set ::g_modrcBaseVars [list ModuleTool Modules ModuleToolVersion\
-         {@MODULES_RELEASE@}]
+         [getState modules_release]]
 
       if {[info exists ::modulerc_extra_vars]} {
          if {([llength $::modulerc_extra_vars] % 2) != 0} {

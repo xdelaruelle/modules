@@ -200,8 +200,8 @@ proc checkValidColl {collfile {report_issue 0}} {
       # collection without magic cookie are valid
       # check if min version requirement is met
       if {[string equal -length 8 $fh {#%Module}] && [string length $fh] \
-         > 8 && [versioncmp {@MODULES_RELEASE@} [string range $fh 8 end]] \
-         < 0} {
+         > 8 && [versioncmp [getState modules_release] [string range $fh 8\
+         end]] < 0} {
          if {$report_issue} {
             reportErrorAndExit "Collection $collfile requires at least\
                Modules version [string range $fh 8 end]"

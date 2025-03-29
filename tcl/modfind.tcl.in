@@ -2651,7 +2651,8 @@ proc getModuleHeaderValidity {header} {
       set valid invalid
    # check if specified min version requirement is met
    } elseif {[string length $header] > 8 && [getConf mcookie_version_check]\
-      && [versioncmp {@MODULES_RELEASE@} [string range $header 8 end]] <0} {
+      && [versioncmp [getState modules_release] [string range $header 8 end]]\
+      < 0} {
       set msg "Modulefile requires at least Modules version [string range\
          $header 8 end]"
       set valid invalid

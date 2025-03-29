@@ -22,7 +22,7 @@
 
 # Runtime state properties (default value, proc to call to initialize state
 # value?)
-##nagelfar ignore +36 Found constant
+##nagelfar ignore +37 Found constant
 array set g_state_defs [list\
    autoinit {0}\
    clock_seconds {<undef> initStateClockSeconds}\
@@ -45,6 +45,7 @@ array set g_state_defs [list\
    lsb_id {<undef> {runCommand lsb_release -s -i}}\
    lsb_release {<undef> {runCommand lsb_release -s -r}}\
    machine [list $::tcl_platform(machine)]\
+   modules_release {@MODULES_RELEASE@}\
    nodename {<undef> {runCommand uname -n}}\
    os [list $::tcl_platform(os)]\
    osversion [list $::tcl_platform(osVersion)]\
