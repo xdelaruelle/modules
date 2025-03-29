@@ -1,6 +1,6 @@
 #
 # SYNTAXDB_MODULEFILE.tcl, Nagelfar syntax database to lint modulefiles
-# Copyright (C) 2022-2024 Xavier Delaruelle
+# Copyright (C) 2022-2025 Xavier Delaruelle
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ lsb-release
 module
 module-alias
 module-forbid
+module-help
 module-hide
 module-info
 module-tag
@@ -146,6 +147,7 @@ set {::syntax(module whatis)} x*
 set ::syntax(module-alias) 2
 # module-forbid accepts option at any position
 set ::syntax(module-forbid) {p* x p* x* p*}
+set ::syntax(module-help) 1
 # module-hide accepts option at any position
 set ::syntax(module-hide) {o* x o* x* o*}
 set ::syntax(module-info) {s x?}
