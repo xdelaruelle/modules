@@ -108,6 +108,8 @@ Modules 5.6.0 (not yet released)
   reported next to the modulepath name. ``via`` element is not available for
   terse output mode. ``via`` is set by default in :mconfig:`spider_output`
   configuration option.
+* Add ``modules_release`` internal state. It will help to know the current
+  version of Modules within :file:`siteconfig.tcl` script.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

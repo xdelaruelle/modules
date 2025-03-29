@@ -678,5 +678,12 @@ if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_EXTRA_VALNOTALIST)]} {
     }
 }
 
+if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_UNKNOWNSTATE)]} {
+    report [string length [getState unknown_state]]
+}
+
+if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_RELEASESTATE)]} {
+    report [getState modules_release]
+}
 
 }
