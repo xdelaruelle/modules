@@ -146,10 +146,8 @@ the *modulefile* is being loaded.
 
       #%Module
 
-      proc ModulesHelp {} {
-          puts stderr {This module does nothing but alert the user}
-          puts stderr "that the [module-info name] module is not available"
-      }
+      module-help {This module does nothing but alert the user}
+      module-help "that the [module-info name] module is not available"
 
       module-whatis {Notifies user that module is not available.}
 
@@ -641,6 +639,24 @@ the *modulefile* is being loaded.
 
     .. versionchanged:: 5.4
        Options ``--user`` and ``--group`` added
+
+.. mfcmd:: module-help string
+
+ Defines a string which is displayed in case of the invocation of the
+ :subcmd:`module help<help>` command. This command takes no action on non-help
+ *modulefile* evaluation.
+
+ Multi-word *string* should be enclosed in curly-braces or double-quotes.
+ There may be more than one :mfcmd:`module-help` command call in a
+ *modulefile*. In which case each command call is reported as a separate line.
+
+ If a *modulefile* also defines a ``ModulesHelp`` procedure, the text defined
+ with :mfcmd:`module-help` is printed before running this procedure on
+ ``help`` evaluation mode.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
 
 .. mfcmd:: module-hide [options] modulefile...
 
@@ -2068,6 +2084,10 @@ Users can request help about a specific *modulefile* through the
 start help oriented programs by defining a ``ModulesHelp`` subroutine. The
 subroutine will be called when the :subcmd:`module help modulefile<help>`
 command is used.
+
+Help text may also be defined within *modulefile* with :mfcmd:`module-help`
+command. Text defined such way is printed before evaluation of ``ModulesHelp``
+subroutine if any.
 
 
 Modulefile Specific Test

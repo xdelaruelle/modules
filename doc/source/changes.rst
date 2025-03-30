@@ -1078,7 +1078,7 @@ The following modulefile Tcl commands appeared on Modules 5.
 | 5.5        | :mfcmd:`hide-modulefile`, :mfcmd:`hide-version`,                |
 |            | :mfcmd:`lsb-release`                                            |
 +------------+-----------------------------------------------------------------+
-| 5.6        | :mfcmd:`depends-on-any`                                         |
+| 5.6        | :mfcmd:`depends-on-any`, :mfcmd:`module-help`                   |
 +------------+-----------------------------------------------------------------+
 
 :mfcmd:`system`, :mfcmd:`is-used`
