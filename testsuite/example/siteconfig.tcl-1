@@ -686,4 +686,8 @@ if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_RELEASESTATE)]} {
     report [getState modules_release]
 }
 
+if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_GETHELPLINES)]} {
+    report [string length [getModuleHelpLines]]
+}
+
 }

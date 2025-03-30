@@ -1,0 +1,50 @@
+#%Module
+if {[info exists env(TESTSUITE_HELP)]} {
+    switch -- $env(TESTSUITE_HELP) {
+        one_string {
+            module-help {multi word string}
+        }
+        multi_arg {
+            module-help multi word string
+        }
+        multi_cmd1 {
+            module-help {one help line}
+            module-help {another help line}
+        }
+        multi_cmd2 {
+            module-help {one help line}
+            module-help {}
+            module-help {another help line}
+            module-help {}
+        }
+        empty_line {
+            module-help {}
+        }
+        multi_empty_line {
+            module-help {}
+            module-help {}
+        }
+        with_help_proc1 {
+            module-help {one help line}
+            module-help {another help line}
+            proc ModulesHelp {} {
+                puts stderr {help line from proc}
+            }
+        }
+        with_help_proc2 {
+            proc ModulesHelp {} {
+                puts stderr {help line from proc}
+            }
+            module-help {one help line}
+            module-help {another help line}
+        }
+        get_help_lines1 {
+            module-help {one help line}
+            module-help {another help line}
+            puts stderr [join [getModuleHelpLines]]
+        }
+        get_help_lines2 {
+            puts stderr [join [getModuleHelpLines]]
+        }
+    }
+}

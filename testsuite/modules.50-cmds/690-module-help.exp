@@ -1,0 +1,127 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:		modules.50-cmds/%M%
+#   Revision:		%I%
+#   First Edition:	2025/03/30
+#   Last Mod.:		%U%, %G%
+#
+#   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:	Testuite testsequence
+#   Command:		help, load, display
+#   Modulefiles:    help
+#   Sub-Command:
+#
+#   Comment:	%C{
+#         Test module-help command
+#		}C%
+#
+##############################################################################
+
+set mp $modpath.4
+setenv_var MODULEPATH $mp
+
+
+setenv_var TESTSUITE_HELP one_string
+set tserr "$modlin
+Module Specific Help for $modpathre.4/help/1:
+
+multi word string
+$modlin"
+testouterr_cmd_re bash {help help/1} OK $tserr
+
+setenv_var TESTSUITE_HELP multi_arg
+testouterr_cmd_re bash {help help/1} OK $tserr
+
+setenv_var TESTSUITE_HELP multi_cmd1
+set tserr "$modlin
+Module Specific Help for $modpathre.4/help/1:
+
+one help line
+another help line
+$modlin"
+testouterr_cmd_re bash {help help/1} OK $tserr
+
+skip_if_quick_mode
+
+setenv_var TESTSUITE_HELP multi_cmd2
+set tserr "$modlin
+Module Specific Help for $modpathre.4/help/1:
+
+one help line
+
+another help line
+
+$modlin"
+testouterr_cmd_re bash {help help/1} OK $tserr
+
+set tserr "$modlin
+$modpathre.4/help/1:
+
+module-help\t{one help line}
+module-help\t{}
+module-help\t{another help line}
+module-help\t{}
+$modlin"
+testouterr_cmd_re bash {display help/1} OK $tserr
+
+setenv_var TESTSUITE_HELP empty_line
+set tserr "$modlin
+Module Specific Help for $modpathre.4/help/1:
+
+
+$modlin"
+testouterr_cmd_re bash {help help/1} OK $tserr
+
+setenv_var TESTSUITE_HELP multi_empty_line
+set tserr "$modlin
+Module Specific Help for $modpathre.4/help/1:
+
+
+
+$modlin"
+testouterr_cmd_re bash {help help/1} OK $tserr
+
+setenv_var TESTSUITE_HELP with_help_proc1
+set tserr "$modlin
+Module Specific Help for $modpathre.4/help/1:
+
+one help line
+another help line
+help line from proc
+$modlin"
+testouterr_cmd_re bash {help help/1} OK $tserr
+
+setenv_var TESTSUITE_HELP with_help_proc2
+testouterr_cmd_re bash {help help/1} OK $tserr
+
+setenv_var TESTSUITE_HELP get_help_lines1
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/help/1]
+lappend ans [list set LOADEDMODULES help/1]
+set tserr "
+"
+testouterr_cmd_re bash {load help/1} $ans $tserr
+
+set tserr "$modlin
+Module Specific Help for $modpathre.4/help/1:
+
+one help line another help line
+one help line
+another help line
+$modlin"
+testouterr_cmd_re bash {help help/1} OK $tserr
+
+setenv_var TESTSUITE_HELP get_help_lines2
+set tserr "
+"
+testouterr_cmd_re bash {load help/1} $ans $tserr
+
+
+#
+#  Cleanup
+#
+
+reset_test_env
