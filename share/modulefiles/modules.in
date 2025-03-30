@@ -1,19 +1,13 @@
 #%Module
 
-proc ModulesHelp {} {
-    puts stderr {    modules - loads the modules software & application environment}
-    puts stderr "    This adds $::prefix/* to several of the environment variables."
-    puts stderr "    Version $::version"
-    puts stderr {}
-}
+module-help {    modules - loads the modules software & application environment}
+module-help {    This adds @prefix@/* to several of the environment variables.}
+module-help {    Version @VERSION@}
+module-help {}
 
 module-whatis {loads the modules environment}
 
-# for Tcl script use only
-set version @VERSION@
-set prefix {@prefix@}
-
-setenv MODULESHOME $prefix
+setenv MODULESHOME @prefix@
 prepend-path PATH {@bindir@}
 prepend-path MANPATH {@mandir@}
 

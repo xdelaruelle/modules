@@ -1,12 +1,10 @@
 #%Module
 
-proc ModulesHelp {} {
-    puts stderr {    use.own - adds $HOME/privatemodules to the list of directories}
-    puts stderr {    that the module command will search for modules. Place your}
-    puts stderr {    own module files here. This module, when loaded, will create}
-    puts stderr {    this directory if necessary.}
-    puts stderr {}
-}
+module-help {    use.own - adds $HOME/privatemodules to the list of directories}
+module-help {    that the module command will search for modules. Place your}
+module-help {    own module files here. This module, when loaded, will create}
+module-help {    this directory if necessary.}
+module-help {}
 
 module-whatis {adds your own modulefiles directory to MODULEPATH}
 
@@ -20,11 +18,9 @@ if {[module-info mode load]} {
         set null [open $ownmoddir/null w]
         puts $null {#%Module}
         puts $null {}
-        puts $null "proc ModulesHelp {} {"
-        puts $null {    puts stderr {    null - does absolutely nothing. It is simply meant as a place}}
-        puts $null {    puts stderr {    holder in your dot file initialization.}}
-        puts $null {    puts stderr {}}
-        puts $null "}"
+        puts $null {module-help {    null - does absolutely nothing. It is simply meant as a place}}
+        puts $null {module-help {    holder in your dot file initialization.}}
+        puts $null {module-help {}}
         puts $null {}
         puts $null {module-whatis {does absolutely nothing}}
         close $null

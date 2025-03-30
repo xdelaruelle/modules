@@ -1,10 +1,8 @@
 #%Module
 
-proc ModulesHelp {} {
-    puts stderr {    version - initializes new version of the module command.}
-    puts stderr "    Version $::version"
-    puts stderr {}
-}
+module-help {    version - initializes new version of the module command.}
+module-help "    Version $::version"
+module-help {}
 
 module-whatis {initializes new version of the module command}
 

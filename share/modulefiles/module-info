@@ -1,10 +1,8 @@
 #%Module
 
-proc ModulesHelp {} {
-    puts stderr {    module-info - returns all the various modulefile information}
-    puts stderr {    values in whatever mode you use (except in `whatis' mode).}
-    puts stderr {}
-}
+module-help {    module-info - returns all the various modulefile information}
+module-help {    values in whatever mode you use (except in `whatis' mode).}
+module-help {}
 
 module-whatis {returns all various module-info values}
 
