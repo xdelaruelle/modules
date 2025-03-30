@@ -2304,6 +2304,16 @@ proc registerCurrentModuleUse {args} {
    }
 }
 
+proc module-help {args} {
+   lappend ::g_help_lines [join $args]
+}
+
+proc getModuleHelpLines {} {
+   if {[info exists ::g_help_lines]} {
+      return $::g_help_lines
+   }
+}
+
 # ;;; Local Variables: ***
 # ;;; mode:tcl ***
 # ;;; End: ***

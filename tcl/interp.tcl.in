@@ -90,7 +90,7 @@ proc initModfileModeAliases {mode auto aliasesVN aliasesPassArgVN\
          reportCmdTrace reportWarning reportWarning reportError reportError\
          incrErrorCount incrErrorCount report report isWin initStateIsWin\
          puts putsModfileCmd getModuleContent getModuleContent lsb-release\
-         lsb-release]
+         lsb-release getModuleHelpLines getModuleHelpLines]
 
       if {[getConf source_cache]} {
          lappend ::g_modfileBaseAliases source sourceModfileCmd
@@ -100,7 +100,7 @@ proc initModfileModeAliases {mode auto aliasesVN aliasesPassArgVN\
       # the evaluation mode
       set ::g_modfileEvalModes {load unload display help test whatis refresh\
          scan}
-      ##nagelfar ignore #45 Too long line
+      ##nagelfar ignore #46 Too long line
       array set g_modfilePerModeAliases {
 add-property   {nop            nop            nop            nop            nop            nop            nop          nop         }
 always-load    {always-load    nop            reportCmd      nop            nop            nop            nop          always-load-sc}
@@ -123,6 +123,7 @@ module-verbosity {nimp         nimp           reportCmd      nop            nop 
 module-version {module-version module-version module-version module-version module-version module-version nop          nop         }
 module-virtual {module-virtual module-virtual module-virtual module-virtual module-virtual module-virtual nop          nop         }
 module-forbid  {module-forbid  module-forbid  module-forbid  module-forbid  module-forbid  module-forbid  nop          nop         }
+module-help    {nop            nop            reportCmd      module-help    nop            nop            nop          nop         }
 module-hide    {module-hide    module-hide    module-hide    module-hide    module-hide    module-hide    nop          nop         }
 module-tag     {module-tag     module-tag     module-tag     module-tag     module-tag     module-tag     nop          nop         }
 module-whatis  {nop            nop            reportCmd      nop            nop            module-whatis  nop          nop         }
@@ -210,6 +211,9 @@ proc execute-modulefile {modfile modname modnamevrvar modspec requested\
    }
 
    reportTrace "'$modfile' as '$modname'" {Evaluate modulefile}
+
+   # reset modulefile-specific information
+   set ::g_help_lines {}
 
    # gather all tags of evaluated modulefile
    if {$fetch_tags} {
@@ -401,9 +405,12 @@ proc evaluateModulefile {itrp mod_file vr_spec_list} {
 
       switch -- [module-info mode] {
          help {
+            foreach help_line [getModuleHelpLines] {
+               report $help_line
+            }
             if {[info procs ModulesHelp] eq {ModulesHelp}} {
                ModulesHelp
-            } else {
+            } elseif {![llength [getModuleHelpLines]]} {
                reportWarning "Unable to find ModulesHelp in\
                   $::ModulesCurrentModulefile."
             }
