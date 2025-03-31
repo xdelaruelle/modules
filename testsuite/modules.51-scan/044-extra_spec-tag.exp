@@ -97,6 +97,18 @@ set tserr {extra/1.0 <xtfoo>}
 testouterr_cmd sh {avail -t extra tag:xtfoo} OK $tserr
 
 
+setenv_var TESTSUITE_EXTRA tag5
+
+# tag defined in modulefiles are not found currently
+testouterr_cmd sh {avail -t extra tag:xtfoo} OK {}
+
+
+setenv_var TESTSUITE_EXTRA tag6
+
+# tag defined in modulefiles are not found currently
+testouterr_cmd sh {avail -t extra tag:xtfoo} OK {}
+
+
 #
 #  Cleanup
 #

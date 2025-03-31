@@ -330,5 +330,11 @@ if {[info exists env(TESTSUITE_EXTRA)]} {
             setenv TESTSUITE_EXTRA_INREF ir2
             append-path MODULEPATH /path/to/d\$TESTSUITE_EXTRA_INREF
         }
+        tag5 {
+            module-tag xtfoo [module-info name]
+        }
+        tag6 {
+            add-property name xtfoo
+        }
     }
 }
