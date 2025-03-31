@@ -14,8 +14,8 @@ runtime syntax/tcl.vim
 syn iskeyword @,48-57,_,192-255,-
 
 " Modulefile commands
-syn keyword modCommand  always-load append-path chdir complete conflict depends-on
-syn keyword modCommand  depends-on-any family getenv getvariant hide-modulefile
+syn keyword modCommand  add-property always-load append-path chdir complete conflict
+syn keyword modCommand  depends-on depends-on-any family getenv getvariant hide-modulefile
 syn keyword modCommand  hide-version is-avail is-loaded is-saved is-used lsb-release
 syn keyword modCommand  module module-alias module-forbid module-help module-hide
 syn keyword modCommand  module-info module-tag module-version module-virtual
