@@ -16,6 +16,19 @@ if {[info exists env(TESTSUITE_LCOMPAT)]} {
         addprop4 {
             add-property
         }
+        addprop5 {
+            add-property key {}
+        }
+        addprop6 {
+            add-property key loaded
+        }
+        addprop7 {
+            add-property key value:another:again
+        }
+        addprop8 {
+            add-property key value
+            remove-property key value
+        }
     }
 }
 

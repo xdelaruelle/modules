@@ -37,20 +37,24 @@ setenv_var TESTSUITE_LCOMPAT addprop1
 set ans [list]
 lappend ans [list set _LMFILES_ $modfile]
 lappend ans [list set LOADEDMODULES $mod]
+lappend ans [list set __MODULES_LMTAG $mod&value]
 testouterr_cmd sh "load $mod" $ans {}
 
 setenv_loaded_module [list $mod] [list $modfile]
+setenv_var __MODULES_LMTAG $mod&value
 
 # unload
 set ans [list]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
+lappend ans [list unset __MODULES_LMTAG]
 testouterr_cmd sh "unload $mod" $ans {}
 
 # refresh
 testouterr_cmd sh {refresh} OK {}
 
 unsetenv_loaded_module
+unsetenv_var __MODULES_LMTAG
 
 # whatis
 set tserr "$modlin $mpre $modlin
@@ -85,25 +89,53 @@ testouterr_cmd_re sh "test $mod" OK $tserr
 
 setenv_var TESTSUITE_LCOMPAT addprop2
 
-set ans [list]
-lappend ans [list set _LMFILES_ $modfile]
-lappend ans [list set LOADEDMODULES $mod]
-testouterr_cmd sh "load $mod" $ans {}
+set ln [expr {[cmpversion $tclsh_version 8.6] == -1 ? 5 : 11}]
+set tserr [escre [msg_load $mod [msg_moderr {wrong # args: should be "add-property name value"} {add-property key value val2<EXM>} $mp/lcompat/1.0 $ln {} {} {} {} {invoked from within}]]]
+testouterr_cmd_re sh "load $mod" ERR $tserr
 
 
 setenv_var TESTSUITE_LCOMPAT addprop3
 
+set ln [expr {[cmpversion $tclsh_version 8.6] == -1 ? 5 : 14}]
+set tserr [escre [msg_load $mod [msg_moderr {wrong # args: should be "add-property name value"} {add-property key<EXM>} $mp/lcompat/1.0 $ln {} {} {} {} {invoked from within}]]]
+testouterr_cmd_re sh "load $mod" ERR $tserr
+
+
+setenv_var TESTSUITE_LCOMPAT addprop4
+
+set ln [expr {[cmpversion $tclsh_version 8.6] == -1 ? 5 : 17}]
+set tserr [escre [msg_load $mod [msg_moderr {wrong # args: should be "add-property name value"} {add-property<EXM>} $mp/lcompat/1.0 $ln {} {} {} {} {invoked from within}]]]
+testouterr_cmd_re sh "load $mod" ERR $tserr
+
+setenv_var TESTSUITE_LCOMPAT addprop5
+
+# empty tag name is ignored (no tag set)
 set ans [list]
 lappend ans [list set _LMFILES_ $modfile]
 lappend ans [list set LOADEDMODULES $mod]
 testouterr_cmd sh "load $mod" $ans {}
 
+setenv_var TESTSUITE_LCOMPAT addprop6
 
-setenv_var TESTSUITE_LCOMPAT addprop4
+set ln [expr {[cmpversion $tclsh_version 8.6] == -1 ? 5 : 23}]
+set tserr [escre [msg_load $mod [msg_moderr {'loaded' is a reserved tag name and cannot be set} {module-tag $tag $mod<EXM>} $mp/lcompat/1.0 $ln]]]
+testouterr_cmd_re sh "load $mod" ERR $tserr
+
+setenv_var TESTSUITE_LCOMPAT addprop7
 
 set ans [list]
 lappend ans [list set _LMFILES_ $modfile]
 lappend ans [list set LOADEDMODULES $mod]
+lappend ans [list set __MODULES_LMTAG $mod&value&another&again]
+testouterr_cmd sh "load $mod" $ans {}
+
+setenv_var TESTSUITE_LCOMPAT addprop8
+
+# remove-property is no-op
+set ans [list]
+lappend ans [list set _LMFILES_ $modfile]
+lappend ans [list set LOADEDMODULES $mod]
+lappend ans [list set __MODULES_LMTAG $mod&value]
 testouterr_cmd sh "load $mod" $ans {}
 
 
