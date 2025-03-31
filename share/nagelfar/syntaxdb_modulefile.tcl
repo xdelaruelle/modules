@@ -25,6 +25,7 @@ ModuleVariant
 }
 
 lappend ::knownCommands {*}{
+add-property
 always-load
 append-path
 chdir
@@ -73,7 +74,6 @@ unsetenv
 variant
 versioncmp
 x-resource
-add-property
 extensions
 remove-property
 module-log
@@ -83,6 +83,7 @@ module-verbosity
 }
 
 # syntax
+set ::syntax(add-property) 2
 set ::syntax(always-load) {o* x x*}
 set ::syntax(append-path) {o* x x x*}
 set ::syntax(chdir) 1
@@ -202,7 +203,6 @@ set ::syntax(variant) {o* x x*}
 set ::syntax(versioncmp) 2
 set ::syntax(x-resource) 1
 # not implemented commands
-set ::syntax(add-property) 2
 set ::syntax(remove-property) 2
 set ::syntax(extensions) {x x*}
 set {::syntax(module-info flags)} 0
