@@ -66,6 +66,16 @@ the Module commands return the empty string. Some commands behave differently
 when a *modulefile* is loaded or unloaded. The command descriptions assume
 the *modulefile* is being loaded.
 
+.. mfcmd:: add-property name value
+
+ Associate module tag *value* to currently loading *modulefile*. Argument
+ *name* is ignored. See :mfcmd:`module-tag` command for more information on
+ tags.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. mfcmd:: always-load [options] modulefile...
 
  Load *modulefile* and apply the ``keep-loaded`` tag to it in order to avoid

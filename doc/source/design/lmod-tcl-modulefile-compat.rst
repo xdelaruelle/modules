@@ -41,7 +41,8 @@ Lmod Tcl modulefile compatibility
   - Could be unset with ``remove-property``
   - Defined as a key-value
 
-- These commands will be first implemented as a no-operation command (``nop``)
+- As of Modules version 5.1, these commands are implemented as a no-operation
+  command (``nop``)
 
   - No error raised if used
   - And no warning message to avoid polluting output
@@ -49,8 +50,18 @@ Lmod Tcl modulefile compatibility
 - These commands are intended for use only within modulefile evaluation
   context (not within modulerc)
 
-- *FUTURE*: it could be interesting to map some properties on tags like the
-  ``lmod:sticky`` property which corresponds to the ``sticky`` tag
+- An update is made on Modules version 5.6: argument *value* of
+  mfcmd:`add-property` is converted to :mfcmd:`module-tag` onto loading
+  modulefile
+
+  - Argument *name* is ignored as it seems *value* is the deterministic
+    information (can be understood just by itself)
+  - Argument *value* is split as sometimes multiple values are aggregated with
+    ``:`` separator
+  - ``remove-property`` stays as a no-op operation as Modules does not have
+    a tag-withdrawn mechanism (and it does not seem useful)
+  - ``add-property`` is no-op during scan evaluation mode as module tags
+    search does not currently trigger an extra match search
 
 
 ``extensions``

@@ -112,6 +112,8 @@ Modules 5.6.0 (not yet released)
   version of Modules within :file:`siteconfig.tcl` script.
 * Introduce :mfcmd:`module-help` modulefile command which defines help text to
   print when modulefile is evaluated in ``help`` mode.
+* Update :mfcmd:`add-property` modulefile command to use its *value* argument
+  to define tag on currently loading module.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
