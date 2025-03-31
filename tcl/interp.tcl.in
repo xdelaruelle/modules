@@ -102,7 +102,7 @@ proc initModfileModeAliases {mode auto aliasesVN aliasesPassArgVN\
          scan}
       ##nagelfar ignore #46 Too long line
       array set g_modfilePerModeAliases {
-add-property   {nop            nop            nop            nop            nop            nop            nop          nop         }
+add-property   {add-property   nop            reportCmd      nop            nop            nop            nop          nop}
 always-load    {always-load    nop            reportCmd      nop            nop            nop            nop          always-load-sc}
 append-path    {append-path    append-path-un append-path    append-path    append-path    edit-path-wh   nop          edit-path-sc}
 chdir          {chdir          nop            reportCmd      nop            nop            nop            nop          chdir-sc    }

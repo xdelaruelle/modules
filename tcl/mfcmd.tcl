@@ -2314,6 +2314,15 @@ proc getModuleHelpLines {} {
    }
 }
 
+# convert property value as module tag (property name is ignored)
+proc add-property {name value} {
+   set tag_list [split $value :]
+   set mod [currentState modulename]
+   foreach tag $tag_list {
+      module-tag $tag $mod
+   }
+}
+
 # ;;; Local Variables: ***
 # ;;; mode:tcl ***
 # ;;; End: ***
