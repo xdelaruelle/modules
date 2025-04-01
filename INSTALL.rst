@@ -1345,7 +1345,7 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
  Define the abbreviation to use when reporting each module tag. Each element
  in ABBRVLIST is a tag name associated to an abbreviation string (elements in
  ABBRVLIST are separated by ``:``).
- (default=\ ``auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF:sticky=S:super-sticky=sS:keep-loaded=kL``)
+ (default=\ ``auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF:sticky=S:super-sticky=sS:keep-loaded=kL:warning=W``)
 
  This installation option defines the default value of the
  :mconfig:`tag_abbrev` configuration option which could be changed after
@@ -1357,6 +1357,9 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
     .. versionchanged:: 5.1
        Abbreviation for ``keep-loaded`` tag added
+
+    .. versionchanged:: 5.6
+       Abbreviation for ``warning`` tag added
 
 .. instopt:: --with-tag-color-name=TAGLIST
 
@@ -1668,7 +1671,7 @@ installation.
 | :mconfig:`tag_abbrev`             | auto-loaded=aL:loaded=L:hidden=H:\           | :instopt:`--with-tag-abbrev`,                |              |           |
 |                                   | hidden-loaded=H:forbidden=F:nearly-\         | :envvar:`MODULES_TAG_ABBREV`                 |              |           |
 |                                   | forbidden=nF:sticky=S:super-sticky=sS:\      |                                              |              |           |
-|                                   | keep-loaded=kL                               |                                              |              |           |
+|                                   | keep-loaded=kL:warning=W                     |                                              |              |           |
 +-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
 | :mconfig:`tag_color_name`         | *Empty by default*                           | :instopt:`--with-tag-color-name`,            |              |           |
 |                                   |                                              | :envvar:`MODULES_TAG_COLOR_NAME`             |              |           |

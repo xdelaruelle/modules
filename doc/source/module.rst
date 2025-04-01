@@ -1593,7 +1593,7 @@ Module Sub-Commands
 
   Abbreviations to use to report module tags.
 
-  Default value is ``auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF:sticky=S:super-sticky=sS:keep-loaded=kL``.
+  Default value is ``auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF:sticky=S:super-sticky=sS:keep-loaded=kL:warning=W``.
   It can be changed at installation time with :instopt:`--with-tag-abbrev`
   option. The :envvar:`MODULES_TAG_ABBREV` environment variable is defined by
   :subcmd:`config` sub-command when changing this configuration option from
