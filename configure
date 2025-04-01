@@ -125,7 +125,7 @@ moduleshome=
 modulepath=
 windowssupport=n
 nearlyforbiddendays=14
-tagabbrev='auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF:sticky=S:super-sticky=sS:keep-loaded=kL'
+tagabbrev='auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF:sticky=S:super-sticky=sS:keep-loaded=kL:warning=W'
 tagcolorname=
 stickypurge=error
 abortonerror='ml:reload:switch_unload'
