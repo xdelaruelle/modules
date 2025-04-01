@@ -114,6 +114,7 @@ Modules 5.6.0 (not yet released)
   print when modulefile is evaluated in ``help`` mode.
 * Update :mfcmd:`add-property` modulefile command to use its *value* argument
   to define tag on currently loading module.
+* Doc: add :ref:`module-warn` design notes.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

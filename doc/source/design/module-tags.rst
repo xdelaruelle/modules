@@ -48,6 +48,7 @@ Specification
   - ``nearly-forbidden``: module that soon cannot be loaded (tag acquired through ``module-forbid``)
   - ``loaded``: loaded module
   - ``auto-loaded``: module automatically loaded by another module
+  - ``warning``: warning message reported on load (tag acquired through ``module-warn``)
 
 - Tags set with ``module-tag`` or ``--tag`` option associated to a specific behavior:
 
@@ -250,7 +251,7 @@ Abbreviations
 
 - The :mconfig:`tag_abbrev` configuration defines the abbreviations to apply to each tag
 
-  - Set by default at configure time to ``auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF:sticky=S:super-sticky=sS:keep-loaded=kL``
+  - Set by default at configure time to ``auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF:sticky=S:super-sticky=sS:keep-loaded=kL:warning=W``
 
     - Note that by default, *hidden* and *hidden-loaded* tags share the same abbreviation, as they operate on separate contexts (respectively avail and list contexts)
 
