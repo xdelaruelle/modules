@@ -941,12 +941,12 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
  this abbreviation to get a graphical rendering. Each basic tag has by default
  a key set in the color palette, based on its abbreviated string: auto-loaded
  (``aL``), forbidden (``F``), hidden and hidden-loaded (``H``), loaded
- (``L``), nearly-forbidden (``nF``), sticky (``S``), super-sticky (``sS``) and
- keep-loaded (``kL``).
+ (``L``), nearly-forbidden (``nF``), sticky (``S``), super-sticky (``sS``),
+ keep-loaded (``kL``) and warning (``W``).
 
  For a complete SGR code reference, see
  https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters.
- (default=\ ``hi=1:db=2:tr=2:se=2:er=91:wa=93:me=95:in=94:mp=1;94:di=94:al=96:va=93:sy=95:de=4:cm=92:aL=100:L=90;47:H=2:F=41:nF=43:S=46:sS=44:kL=30;48;5;109``)
+ (default=\ ``hi=1:db=2:tr=2:se=2:er=91:wa=93:me=95:in=94:mp=1;94:di=94:al=96:va=93:sy=95:de=4:cm=92:aL=100:L=90;47:H=2:F=41:nF=43:S=46:sS=44:kL=30;48;5;109:W=30;43``)
 
  This installation option defines the default value of the :mconfig:`colors`
  configuration option when :mconfig:`term_background` configuration option
@@ -970,6 +970,9 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
     .. versionchanged:: 5.1
        Output item for keep-loaded module tag (``kL``) added
+
+    .. versionchanged:: 5.6
+       Output item for warning module tag (``W``) added
 
 .. instopt:: --with-editor=BIN
 
@@ -1031,7 +1034,7 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
  Default color set to apply if terminal background color is defined to
  ``light``. Expect the same syntax than described for
  :instopt:`--with-dark-background-colors`.
- (default=\ ``hi=1:db=2:tr=2:se=2:er=31:wa=33:me=35:in=34:mp=1;34:di=34:al=36:va=33:sy=35:de=4:cm=32:aL=107:L=47:H=2:F=101:nF=103:S=106:sS=104:kL=48;5;109``)
+ (default=\ ``hi=1:db=2:tr=2:se=2:er=31:wa=33:me=35:in=34:mp=1;34:di=34:al=36:va=33:sy=35:de=4:cm=32:aL=107:L=47:H=2:F=101:nF=103:S=106:sS=104:kL=48;5;109:W=103``)
 
  This installation option defines the default value of the :mconfig:`colors`
  configuration option when :mconfig:`term_background` configuration option
@@ -1055,6 +1058,9 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
     .. versionchanged:: 5.1
        Output item for keep-loaded module tag (``kL``) added
+
+    .. versionchanged:: 5.6
+       Output item for warning module tag (``W``) added
 
 .. instopt:: --with-list-output=LIST
 
@@ -1537,7 +1543,7 @@ installation.
 | :mconfig:`colors`                 | hi=1:db=2:tr=2:se=2:er=91:wa=93:\            | :instopt:`--with-dark-background-colors`,    |              |           |
 |                                   | me=95:in=94:mp=1;94:di=94:al=96:va=93:sy=95\ | :instopt:`--with-light-background-colors`,   |              |           |
 |                                   | :de=4:cm=92:aL=100:L=90;47:H=2:F=41:nF=43:\  | :envvar:`MODULES_COLORS`                     |              |           |
-|                                   | S=46:sS=44:kL=30;48;5;109                    |                                              |              |           |
+|                                   | S=46:sS=44:kL=30;48;5;109:W=30;43            |                                              |              |           |
 +-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
 | :mconfig:`conflict_unload`        | ``0``                                        | :instopt:`--enable-conflict-unload`,         |              |           |
 |                                   |                                              | :envvar:`MODULES_CONFLICT_UNLOAD`            |              |           |
