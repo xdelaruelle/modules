@@ -50,6 +50,7 @@ module-info
 module-tag
 module-version
 module-virtual
+module-warn
 module-whatis
 modulepath-label
 prepend-path
@@ -170,6 +171,8 @@ set {::syntax(module-info version)} 1
 set ::syntax(module-tag) {p* x p* x p* x* p*}
 set ::syntax(module-version) {x x x*}
 set ::syntax(module-virtual) 2
+# module-warn accepts option at any position
+set ::syntax(module-warn) {p* x p* x* p*}
 set ::syntax(module-whatis) 1
 set ::syntax(modulepath-label) 2
 set ::syntax(prepend-path) {o* x x x*}
@@ -294,6 +297,14 @@ set {::option(module-tag --user)} 1
 set {::option(module-tag --group)} 1
 set {::option(module-tag --not-user)} 1
 set {::option(module-tag --not-group)} 1
+set ::option(module-warn) {--user --group --not-user --not-group --after\
+   --before --message}
+set {::option(module-warn --user)} 1
+set {::option(module-warn --group)} 1
+set {::option(module-warn --not-user)} 1
+set {::option(module-warn --not-group)} 1
+set {::option(module-warn --after)} 1
+set {::option(module-warn --before)} 1
 set ::option(prepend-path) {-d --delim --duplicates --ignore-refcount}
 set {::option(prepend-path -d)} 1
 set {::option(prepend-path --delim)} 1

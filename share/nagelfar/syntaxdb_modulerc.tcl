@@ -1,6 +1,6 @@
 #
 # SYNTAXDB_MODULERC.tcl, Nagelfar syntax database to lint modulercs
-# Copyright (C) 2022-2024 Xavier Delaruelle
+# Copyright (C) 2022-2025 Xavier Delaruelle
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ module-info
 module-tag
 module-version
 module-virtual
+module-warn
 modulepath-label
 system
 uname
@@ -72,6 +73,8 @@ set {::syntax(module-info version)} 1
 set ::syntax(module-tag) {p* x p* x p* x* p*}
 set ::syntax(module-version) {x x x*}
 set ::syntax(module-virtual) 2
+# module-warn accepts option at any position
+set ::syntax(module-warn) {p* x p* x* p*}
 set ::syntax(modulepath-label) 2
 set ::syntax(system) {x x*}
 set ::syntax(uname) s
@@ -118,5 +121,13 @@ set {::option(module-tag --user)} 1
 set {::option(module-tag --group)} 1
 set {::option(module-tag --not-user)} 1
 set {::option(module-tag --not-group)} 1
+set ::option(module-warn) {--user --group --not-user --not-group --after\
+   --before --message}
+set {::option(module-warn --user)} 1
+set {::option(module-warn --group)} 1
+set {::option(module-warn --not-user)} 1
+set {::option(module-warn --not-group)} 1
+set {::option(module-warn --after)} 1
+set {::option(module-warn --before)} 1
 
 # vim:set tabstop=3 shiftwidth=3 expandtab autoindent:
