@@ -526,7 +526,7 @@ proc module-tag {args} {
       knerror {No module specified in argument}
    }
    if {$tag in [list loaded auto-loaded forbidden nearly-forbidden hidden\
-      hidden-loaded]} {
+      hidden-loaded warning]} {
       knerror "'$tag' is a reserved tag name and cannot be set"
    }
 
@@ -1143,7 +1143,7 @@ proc parsePrereqCommandArgs {cmd args} {
 
    foreach tag $tag_list {
       if {$tag in [list loaded auto-loaded forbidden nearly-forbidden\
-         hidden]} {
+         hidden warning]} {
          knerror "Tag '$tag' cannot be manually set"
       }
    }
@@ -2320,6 +2320,55 @@ proc add-property {name value} {
    set mod [currentState modulename]
    foreach tag $tag_list {
       module-tag $tag $mod
+   }
+}
+
+proc module-warn {args} {
+   # parse application criteria arguments to determine if command apply
+   lassign [parseApplicationCriteriaArgs 1 0 {*}$args] apply isnearly after\
+      otherargs
+
+   # parse remaining argument list, do it even if command does not apply to
+   # raise any command specification error
+   foreach arg $otherargs {
+      if {[info exists nextargisval]} {
+         ##nagelfar vartype nextargisval varName
+         set $nextargisval $arg
+         unset nextargisval
+      } else {
+         switch -glob -- $arg {
+            --message {
+               set nextargisval message
+            }
+            -* {
+               knerror "Invalid option '$arg'"
+            }
+            default {
+               lappend modarglist $arg
+            }
+         }
+         set prevarg $arg
+      }
+   }
+
+   if {[info exists nextargisval]} {
+      knerror "Missing value for '$prevarg' option"
+   }
+   if {![info exists message]} {
+      knerror {No message specified in argument}
+   }
+   if {![info exists modarglist]} {
+      knerror {No module specified in argument}
+   }
+
+   # skip tag record if application criteria are not met
+   if {$apply} {
+      ##nagelfar ignore Found constant
+      set proplist [list message $message]
+      # record each hide spec after parsing them
+      foreach modarg [parseModuleSpecification 0 0 0 0 {*}$modarglist] {
+         setModspecTag $modarg warning $proplist
+      }
    }
 }
 

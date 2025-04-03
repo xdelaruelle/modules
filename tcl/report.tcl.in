@@ -1085,6 +1085,10 @@ proc getNearlyForbiddenMsg {mod fpmod} {
    return $msg
 }
 
+proc getWarningMsg {mod fpmod} {
+   return [getModuleTagProp $mod $fpmod warning message]
+}
+
 proc getStickyUnloadMsg {{tag sticky}} {
    return "Unload of $tag module skipped"
 }

@@ -295,7 +295,7 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
 
    foreach tag $tag_list {
       if {$tag in [list loaded auto-loaded forbidden nearly-forbidden\
-         hidden]} {
+         hidden warning]} {
          knerror "Tag '$tag' cannot be manually set"
       }
    }
