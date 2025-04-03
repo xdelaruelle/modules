@@ -1042,7 +1042,7 @@ Module Sub-Commands
 
   Chosen colors to highlight output items.
 
-  Default value is ``hi=1:db=2:tr=2:se=2:er=91:wa=93:me=95:in=94:mp=1;94:di=94:al=96:va=93:sy=95:de=4:cm=92:aL=100:L=90;47:H=2:F=41:nF=43:S=46:sS=44:kL=30;48;5;109:W=30;43``.
+  Default value is ``hi=1:db=2:tr=2:se=2:er=91:wa=93:me=95:in=94:mp=1;94:di=94:al=96:va=93:sy=95:de=4:cm=92:aL=100:L=90;47:H=2:F=41:nF=31;43:S=46:sS=44:kL=30;48;5;109:W=30;43``.
   It can be changed at installation time with
   :instopt:`--with-dark-background-colors` or
   :instopt:`--with-light-background-colors` options in conjunction with
