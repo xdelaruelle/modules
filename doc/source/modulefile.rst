@@ -978,7 +978,7 @@ the *modulefile* is being loaded.
  Tags inherited from other modulefile commands or module states cannot be set
  with :mfcmd:`module-tag`. Otherwise an error is returned. Those special tags
  are: ``auto-loaded``, ``forbidden``, ``hidden``, ``hidden-loaded``,
- ``loaded`` and ``nearly-forbidden``.
+ ``loaded``, ``nearly-forbidden`` and ``warning``.
 
  When *tag* equals ``sticky`` or ``super-sticky``, designated *modulefile* is
  defined :ref:`Sticky modules`.
@@ -1036,6 +1036,59 @@ the *modulefile* is being loaded.
  .. only:: html
 
     .. versionadded:: 4.1
+
+.. mfcmd:: module-warn [options] --message {text message} modulefile...
+
+ Print warning message when evaluating *modulefile*. This command could be
+ placed in one of the :file:`modulecmd.tcl` rc files or within *modulefiles*.
+ Warning is emitted when *modulefile* is evaluated in ``load``, ``display``,
+ ``test``, ``help``.
+
+ :mfcmd:`module-warn` command accepts the following options:
+
+ * ``--after datetime``
+ * ``--before datetime``
+ * ``--not-user {user...}``
+ * ``--not-group {group...}``
+ * ``--user {user...}``
+ * ``--group {group...}``
+
+ If ``--after`` option is set, warning is only effective after specified date
+ time. Following the same principle, if ``--before`` option is set, warning is
+ only effective before specified date time. Accepted date time format is
+ ``YYYY-MM-DD[THH:MM]``. If no time (``HH:MM``) is specified, ``00:00`` is
+ assumed. ``--after`` and ``--before`` options are not supported on Tcl
+ versions prior to 8.5.
+
+ If ``--not-user`` option is set, warning is not applied if the username of
+ the user currently running :file:`modulecmd.tcl` is part of the list of
+ username specified. Following the same approach, if ``--not-group`` option is
+ set, warning is not applied if current user is member of one of the groups
+ specified. When both options are set, warning is not applied if a match is
+ found for ``--not-user`` or ``--not-group``.
+
+ If ``--user`` option is set, warning is applied only if the username of the
+ user currently running :file:`modulecmd.tcl` is part of the list of username
+ specified. Following the same approach, if ``--group`` option is set, warning
+ is applied only if current user is member of one of the groups specified.
+ When both options are set, warning is applied if a match is found for
+ ``--user`` or ``--group``. If the same user name is set on both ``--user``
+ and ``--not-user`` options, ``--user`` prevails over ``--not-user``. If the
+ same group name is set on both ``--group`` and ``--not-group``, ``--group``
+ prevails over ``--not-group``.
+
+ Modules in warning included in the result of :subcmd:`avail`, :subcmd:`list`
+ or :subcmd:`spider` sub-commands are reported with a ``warning`` tag applied
+ to them. See :ref:`Module tags` section in :ref:`module(1)`.
+
+ The parameter *modulefile* may leverage a specific syntax to finely select
+ module version (see `Advanced module version specifiers`_ section below). It
+ may also be a full path file name to precisely designate one module in a
+ specific modulepath.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
 
 .. mfcmd:: module-whatis string
 
@@ -1640,9 +1693,9 @@ for each interpretation context.
 |                           | :mfcmd:`module-forbid`, :mfcmd:`module-hide`,       |
 |                           | :mfcmd:`module-info`, :mfcmd:`module-tag`,          |
 |                           | :mfcmd:`module-version`, :mfcmd:`module-virtual`,   |
-|                           | :mfcmd:`modulepath-label`, :mfcmd:`system`,         |
-|                           | :mfcmd:`uname`, :mfcmd:`versioncmp` and standard    |
-|                           | Tcl commands                                        |
+|                           | :mfcmd:`module-warn`, :mfcmd:`modulepath-label`,    |
+|                           | :mfcmd:`system`, :mfcmd:`uname`,                    |
+|                           | :mfcmd:`versioncmp` and standard Tcl commands       |
 +---------------------------+-----------------------------------------------------+
 
 .. note:: Global and user run-command files are interpreted like modulefiles

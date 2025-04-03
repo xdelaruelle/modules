@@ -3213,6 +3213,8 @@ or consequence of a module action. The inherited tags are:
 * ``nearly-forbidden``: module will soon be *forbidden*, which has been set
   through the use of the :mfcmd:`module-forbid` command. Thus this module
   will soon not be able to load anymore.
+* ``warning``: a warning message for the use of the module is set through the
+  use of the :mfcmd:`module-warn` command.
 
 Tags may also be associated to modules by using the :mfcmd:`module-tag`
 modulefile command. Among tags that could be set this way, some have a special
@@ -3279,6 +3281,9 @@ Module tags cannot be used in search query to designate a modulefile.
 
    .. versionchanged:: 5.6
       Support for :subcmd:`spider` sub-command added
+
+   .. versionchanged:: 5.6
+      Tag ``warning`` added
 
 .. _Sticky modules:
 
