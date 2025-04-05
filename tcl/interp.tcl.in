@@ -222,13 +222,6 @@ proc execute-modulefile {modfile modname modnamevrvar modspec requested\
       collectModuleTags $modnamevr
    }
 
-   # inform that access to module will be soon denied
-   if {$mode ne {unload} && [isModuleTagged $modnamevr nearly-forbidden 1\
-      $modfile]} {
-      reportWarning [getNearlyForbiddenMsg $modnamevr $modfile]
-      set nearlyforbidwarn 1
-   }
-
    if {![info exists ::g_modfileUntrackVars]} {
       # list variable that should not be tracked for saving
       array set ::g_modfileUntrackVars [list ModulesCurrentModulefile 1 env 1]
@@ -347,8 +340,7 @@ proc execute-modulefile {modfile modname modnamevrvar modspec requested\
       }
    }
    if {$mode ni {unload refresh scan whatis}} {
-      if {![info exists nearlyforbidwarn] && [isModuleTagged $modnamevr\
-         nearly-forbidden 1 $modfile]} {
+      if {[isModuleTagged $modnamevr nearly-forbidden 1 $modfile]} {
          reportWarning [getNearlyForbiddenMsg $modnamevr $modfile]
       }
       if {[isModuleTagged $modnamevr warning 1 $modfile]} {
