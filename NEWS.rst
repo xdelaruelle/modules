@@ -115,6 +115,18 @@ Modules 5.6.0 (not yet released)
 * Update :mfcmd:`add-property` modulefile command to use its *value* argument
   to define tag on currently loading module.
 * Doc: add :ref:`module-warn` design notes.
+* Add :mfcmd:`module-warn` modulerc and modulefile command which prints a
+  warning message when designated modulefile is evaluated. This command
+  accepts options to emit the warning only for specific users, groups or
+  times.
+* Introduce the ``warning`` informational :ref:`module tag<Module tags>` on
+  modulefiles targeted by :mfcmd:`module-warn` command. Update default
+  :mconfig:`tag_abbrev` configuration option to add an abbreviation for the
+  new tag (``W``) and default light and dark color palettes.
+* Change light and dark color palettes for ``nearly-forbidden`` tag (red text
+  with yellow background), to make it look closer to ``forbidden`` tag (red
+  background) and distinguish it from new ``warning`` tag (black text and
+  yellow background).
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
