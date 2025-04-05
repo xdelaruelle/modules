@@ -344,12 +344,13 @@ proc execute-modulefile {modfile modname modnamevrvar modspec requested\
       if {[isModuleTagged $modnamevr forbidden 1 $modfile]} {
          set eval_return_code 1
          reportError [getForbiddenMsg $modnamevr $modfile]
-      } elseif {![info exists nearlyforbidwarn] && [isModuleTagged $modnamevr\
-         nearly-forbidden 1 $modfile]} {
-         reportWarning [getNearlyForbiddenMsg $modnamevr $modfile]
       }
    }
    if {$mode ni {unload refresh scan whatis}} {
+      if {![info exists nearlyforbidwarn] && [isModuleTagged $modnamevr\
+         nearly-forbidden 1 $modfile]} {
+         reportWarning [getNearlyForbiddenMsg $modnamevr $modfile]
+      }
       if {[isModuleTagged $modnamevr warning 1 $modfile]} {
          reportWarning [getWarningMsg $modnamevr $modfile]
       }
