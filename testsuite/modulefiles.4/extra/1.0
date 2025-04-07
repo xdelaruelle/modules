@@ -336,5 +336,8 @@ if {[info exists env(TESTSUITE_EXTRA)]} {
         tag6 {
             add-property name xtfoo
         }
+        tag8 {
+            module-warn --message {warning text} extra/1.0
+        }
     }
 }

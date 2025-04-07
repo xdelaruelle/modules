@@ -1,0 +1,50 @@
+#%Module
+if {[info exists env(TESTSUITE_WARN)]} {
+    switch -- $env(TESTSUITE_WARN) {
+        rc_simple {
+            module-warn --message {Warning text printed} warn/1
+        }
+        rc_other_warning {
+            module-warn --message {Warning text printed} warn/1
+        }
+        rc_with_forbidden {
+            module-forbid warn/1
+            module-warn --message {Warning text printed} warn/1
+        }
+        rc_with_nearly_forbidden {
+            set tomorrow [clock format [expr {[clock seconds]+86400}] -format %Y-%m-%d]
+            module-forbid --after $tomorrow warn/1
+            module-warn --message {Warning text printed} warn/1
+        }
+        rc_bad1 {
+            module-warn
+        }
+        rc_bad2 {
+            module-warn warn/1
+        }
+        rc_bad3 {
+            module-warn --message text
+        }
+        rc_bad4 {
+           module-warn --message text --unk warn/1
+        }
+        user1 {
+           module-warn --message text --user [module-info username] warn/1
+        }
+        user2 {
+           module-warn --message text --not-user [module-info username] warn/1
+        }
+        time1 {
+           module-warn --message text --after 2099-12-31 warn/1
+        }
+        time2 {
+           module-warn --message text --before 2099-12-31 warn/1
+        }
+        long_text {
+           module-warn --message {long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long} warn/1
+        }
+        new_line {
+           module-warn --message "long long long long\nlong long long" warn/1
+        }
+    }
+}

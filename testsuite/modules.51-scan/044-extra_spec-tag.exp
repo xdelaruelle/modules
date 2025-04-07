@@ -109,6 +109,17 @@ setenv_var TESTSUITE_EXTRA tag6
 testouterr_cmd sh {avail -t extra tag:xtfoo} OK {}
 
 
+setenv_var TESTSUITE_EXTRA tag7
+
+set tserr {extra/1.0 <W>}
+testouterr_cmd sh {avail -t extra tag:warning} OK $tserr
+
+
+setenv_var TESTSUITE_EXTRA tag8
+
+testouterr_cmd sh {avail -t extra tag:warning} OK {}
+
+
 #
 #  Cleanup
 #

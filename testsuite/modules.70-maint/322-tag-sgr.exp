@@ -269,6 +269,17 @@ setenv_var MODULES_TAG_COLOR_NAME I:D:IiI
 testerr_cmd_re sh {avail -t} ".*[sgr {41}]t[sgr {0;42}]a[sgr {0;43}]g[sgr {0;45}]/[sgr {0;46}]t[sgr {0;47}]a[sgr {0;101}]g[sgr {0;103}]t[sgr {0;104}]ag[sgr {0}] <[sgr {44}]D[sgr {0}]:[sgr {102}]IiI[sgr {0}]>.*"
 unsetenv_var TESTSUITE_MODULE_TAG_SET11
 
+# test warning sgr on avail
+setenv_path_var MODULEPATH $modpath.4
+setenv_var TESTSUITE_WARN rc_simple
+setenv_var MODULES_TAG_ABBREV warning=W
+setenv_var MODULES_COLORS {aL=100:al=96:de=4:W=30;43}
+testerr_cmd_re sh {avail -t warn/1} "$modpathre.4:
+[sgr {30;43}]warn/1[sgr 0]"
+setenv_path_var MODULEPATH $mp
+unsetenv_var TESTSUITE_WARN
+
+
 # test hidden-loaded sgr on list
 setenv_loaded_module [list tag/5.0] [list $mp/tag/5.0]
 setenv_var __MODULES_LMTAG tag/5.0&hidden-loaded
@@ -279,6 +290,19 @@ testouterr_cmd_re sh {list -a} OK "$cur_loaded
 
 Key:
 [sgr 2]hidden-loaded[sgr 22]  "
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMTAG
+
+# test warning sgr on list
+setenv_loaded_module [list warn/1] [list $modpath.4/warn/1]
+setenv_var __MODULES_LMTAG warn/1&warning
+setenv_var MODULES_TAG_ABBREV warning=W
+setenv_var MODULES_COLORS {aL=100:al=96:de=4:W=30;43}
+testouterr_cmd_re sh {list} OK "$cur_loaded
+ 1\\\) [sgr {30;43}]warn/1[sgr 0]  
+
+Key:
+[sgr {30;43}]warning[sgr 0]  "
 unsetenv_loaded_module
 unsetenv_var __MODULES_LMTAG
 

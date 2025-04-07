@@ -18,5 +18,8 @@ if {[info exists env(TESTSUITE_EXTRA)]} {
         tag4 {
             module-tag xtfoo [file dirname $ModulesCurrentModulefile]/1.0
         }
+        tag7 {
+            module-warn --message {warning text} extra/1.0
+        }
     }
 }

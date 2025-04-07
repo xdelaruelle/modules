@@ -1,0 +1,291 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:		modules.50-cmds/%M%
+#   Revision:		%I%
+#   First Edition:	2025/04/06
+#   Last Mod.:		%U%, %G%
+#
+#   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:	Testuite testsequence
+#   Command:		load, unload, display, help, show, test,
+#                   refresh, whatis
+#   Modulefiles:    warn
+#   Sub-Command:
+#
+#   Comment:	%C{
+#         Test module-warn command
+#		}C%
+#
+##############################################################################
+
+set mp $modpath.4
+setenv_var MODULEPATH $mp
+
+setenv_var MODULES_TAG_ABBREV auto-loaded=aL:loaded=L:hidden=H:hidden-loaded=H:forbidden=F:nearly-forbidden=nF:sticky=S:super-sticky=sS:keep-loaded=kL:warning=W
+
+setenv_var TESTSUITE_WARN rc_simple
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/warn/1]
+lappend ans [list set LOADEDMODULES warn/1]
+lappend ans [list set __MODULES_LMTAG warn/1&warning]
+set tserr [msg_load {warn/1 <W>} "$warn_msgs: Warning text printed"] 
+testouterr_cmd bash {load warn/1} $ans $tserr
+
+setenv_var TESTSUITE_WARN mf_simple
+testouterr_cmd bash {load warn/1} $ans $tserr
+
+skip_if_quick_mode
+
+
+# display
+
+setenv_var TESTSUITE_WARN rc_simple
+set tserr "$modlin
+$modpathre.4/warn/1:
+
+module-whatis\twarn/1
+module-help\thelp
+$warn_msgs: Warning text printed
+$modlin"
+testouterr_cmd_re bash {display warn/1} OK $tserr
+
+setenv_var TESTSUITE_WARN mf_simple
+set tserr "$modlin
+$modpathre.4/warn/1:
+
+module-whatis\twarn/1
+module-help\thelp
+module-warn\t--message {Warning text printed} warn/1
+$warn_msgs: Warning text printed
+$modlin"
+testouterr_cmd_re bash {display warn/1} OK $tserr
+
+
+# help
+
+setenv_var TESTSUITE_WARN rc_simple
+set tserr "$modlin
+Module Specific Help for $modpathre.4/warn/1:
+
+help
+$warn_msgs: Warning text printed
+$modlin"
+testouterr_cmd_re bash {help warn/1} OK $tserr
+
+setenv_var TESTSUITE_WARN mf_simple
+set tserr "$modlin
+Module Specific Help for $modpathre.4/warn/1:
+
+help
+$warn_msgs: Warning text printed
+$modlin"
+testouterr_cmd_re bash {help warn/1} OK $tserr
+
+
+# test
+
+setenv_var TESTSUITE_WARN rc_simple
+set tserr "$modlin
+Module Specific Test for $modpathre.4/warn/1:
+
+$warn_msgs: Unable to find ModulesTest in $modpathre.4/warn/1.
+$warn_msgs: Warning text printed
+$modlin"
+testouterr_cmd_re bash {test warn/1} OK $tserr
+
+setenv_var TESTSUITE_WARN mf_simple
+set tserr "$modlin
+Module Specific Test for $modpathre.4/warn/1:
+
+$warn_msgs: Unable to find ModulesTest in $modpathre.4/warn/1.
+$warn_msgs: Warning text printed
+$modlin"
+testouterr_cmd_re bash {test warn/1} OK $tserr
+
+
+# whatis
+
+setenv_var TESTSUITE_WARN rc_simple
+set tserr "$modlin $modpathre.4 $modlin
+\\s+warn/1: warn/1"
+testouterr_cmd_re bash {whatis warn/1} OK $tserr
+
+setenv_var TESTSUITE_WARN mf_simple
+testouterr_cmd_re bash {whatis warn/1} OK $tserr
+
+
+# unload
+
+setenv_loaded_module [list warn/1] [list $mp/warn/1]
+setenv_var __MODULES_LMTAG warn/1&warning
+
+set ans [list]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list unset __MODULES_LMTAG]
+testouterr_cmd bash {unload warn/1} $ans {}
+
+
+# refresh
+
+setenv_var __MODULES_LMREFRESH warn/1
+
+set ans [list]
+testouterr_cmd bash {refresh} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMTAG
+unsetenv_var __MODULES_LMREFRESH
+
+
+# other warning in modulefile
+
+setenv_var TESTSUITE_WARN rc_other_warning
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/warn/1]
+lappend ans [list set LOADEDMODULES warn/1]
+lappend ans [list set __MODULES_LMTAG warn/1&warning]
+set tserr [msg_load {warn/1 <W>} "$warn_msgs: other warning message" "$warn_msgs: Warning text printed"] 
+testouterr_cmd bash {load warn/1} $ans $tserr
+
+setenv_var TESTSUITE_WARN mf_other_warning
+testouterr_cmd bash {load warn/1} $ans $tserr
+
+
+# mix with forbidden tag
+
+setenv_var TESTSUITE_WARN rc_with_forbidden
+
+set tserr [err_accessdenied warn/1]
+testouterr_cmd bash {load warn/1} ERR $tserr
+
+testouterr_cmd bash {display warn/1} ERR $tserr
+
+
+# mix with nearly-forbidden tag
+
+setenv_var TESTSUITE_WARN rc_with_nearly_forbidden
+set tomorrow [clock format [expr {[clock seconds]+86400}] -format %Y-%m-%d]
+
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/warn/1]
+lappend ans [list set LOADEDMODULES warn/1]
+lappend ans [list set __MODULES_LMTAG warn/1&nearly-forbidden&warning]
+set tserr [msg_load {warn/1 <nF:W>} [err_accessnearlydenied $tomorrow] "$warn_msgs: Warning text printed"] 
+testouterr_cmd bash {load warn/1} $ans $tserr
+
+set tserr "$modlin
+$modpathre.4/warn/1:
+
+module-whatis\twarn/1
+module-help\thelp
+[err_accessnearlydenied $tomorrow]
+$warn_msgs: Warning text printed
+$modlin"
+testouterr_cmd_re bash {display warn/1} OK $tserr
+
+
+# bad usages
+
+setenv_var TESTSUITE_WARN rc_bad1
+
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/warn/1]
+lappend ans [list set LOADEDMODULES warn/1]
+lappend ans [list ERR]
+set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 2 : 20}]
+set tserr [escre [msg_moderr {No message specified in argument} {module-warn<EXM>} $mp/warn/.modulerc $line_num {  }]]
+testouterr_cmd_re bash {load warn/1} $ans $tserr
+
+setenv_var TESTSUITE_WARN rc_bad2
+
+set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 2 : 23}]
+set tserr [escre [msg_moderr {No message specified in argument} {module-warn warn/1<EXM>} $mp/warn/.modulerc $line_num {  }]]
+testouterr_cmd_re bash {load warn/1} $ans $tserr
+
+setenv_var TESTSUITE_WARN rc_bad3
+
+set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 2 : 26}]
+set tserr [escre [msg_moderr {No module specified in argument} {module-warn --message text<EXM>} $mp/warn/.modulerc $line_num {  }]]
+testouterr_cmd_re bash {load warn/1} $ans $tserr
+
+setenv_var TESTSUITE_WARN rc_bad4
+
+set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 2 : 29}]
+set tserr [escre [msg_moderr {Invalid option '--unk'} {module-warn --message text --unk warn/1<EXM>} $mp/warn/.modulerc $line_num {  }]]
+testouterr_cmd_re bash {load warn/1} $ans $tserr
+
+setenv_var TESTSUITE_WARN mf_bad1
+set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 4 : 17}]
+set tserr [escre [msg_load warn/1 [msg_moderr {No message specified in argument} {module-warn<EXM>} $mp/warn/1 $line_num]]]
+testouterr_cmd_re bash {load warn/1} ERR $tserr
+
+setenv_var TESTSUITE_WARN mf_bad2
+set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 4 : 20}]
+set tserr [escre [msg_load warn/1 [msg_moderr {No message specified in argument} {module-warn warn/1<EXM>} $mp/warn/1 $line_num]]]
+testouterr_cmd_re bash {load warn/1} ERR $tserr
+
+setenv_var TESTSUITE_WARN mf_bad3
+set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 4 : 23}]
+set tserr [escre [msg_load warn/1 [msg_moderr {No module specified in argument} {module-warn --message text<EXM>} $mp/warn/1 $line_num]]]
+testouterr_cmd_re bash {load warn/1} ERR $tserr
+
+setenv_var TESTSUITE_WARN mf_bad4
+set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 4 : 26}]
+set tserr [escre [msg_load warn/1 [msg_moderr {Invalid option '--unk'} {module-warn --message text --unk warn/1<EXM>} $mp/warn/1 $line_num]]]
+testouterr_cmd_re bash {load warn/1} ERR $tserr
+
+
+# user/time selection
+
+setenv_var TESTSUITE_WARN user1
+
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/warn/1]
+lappend ans [list set LOADEDMODULES warn/1]
+lappend ans [list set __MODULES_LMTAG warn/1&warning]
+set tserr [msg_load {warn/1 <W>} "$warn_msgs: text"] 
+testouterr_cmd bash {load warn/1} $ans $tserr
+
+setenv_var TESTSUITE_WARN time2
+testouterr_cmd bash {load warn/1} $ans $tserr
+
+setenv_var TESTSUITE_WARN user2
+
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/warn/1]
+lappend ans [list set LOADEDMODULES warn/1]
+testouterr_cmd bash {load warn/1} $ans {}
+
+setenv_var TESTSUITE_WARN time1
+testouterr_cmd bash {load warn/1} $ans {}
+
+
+# long text
+
+setenv_var TESTSUITE_WARN long_text
+
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/warn/1]
+lappend ans [list set LOADEDMODULES warn/1]
+lappend ans [list set __MODULES_LMTAG warn/1&warning]
+set tserr [msg_load {warn/1 <W>} "$warn_msgs: long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long"] 
+testouterr_cmd bash {load warn/1} $ans $tserr
+
+
+# text with newline
+
+setenv_var TESTSUITE_WARN new_line
+
+set tserr [msg_load {warn/1 <W>} "$warn_msgs: long long long long\nlong long long"] 
+testouterr_cmd bash {load warn/1} $ans $tserr
+
+
+#
+#  Cleanup
+#
+
+reset_test_env

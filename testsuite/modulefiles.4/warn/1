@@ -1,0 +1,29 @@
+#%Module
+module-whatis warn/1
+module-help help
+if {[info exists env(TESTSUITE_WARN)]} {
+    switch -- $env(TESTSUITE_WARN) {
+        mf_simple {
+            module-warn --message {Warning text printed} warn/1
+        }
+        mf_other_warning {
+            module-warn --message {Warning text printed} warn/1
+            reportWarning {other warning message}
+        }
+        rc_other_warning {
+            reportWarning {other warning message}
+        }
+        mf_bad1 {
+            module-warn
+        }
+        mf_bad2 {
+            module-warn warn/1
+        }
+        mf_bad3 {
+            module-warn --message text
+        }
+        mf_bad4 {
+            module-warn --message text --unk warn/1
+        }
+    }
+}
