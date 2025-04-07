@@ -69,12 +69,12 @@ skip_if_quick_mode
 set tserr "$modlin
 $mpre/info/tags:
 
-[err_accessnearlydenied $tomorrow]
 setenv\t\tTS1 nearly-forbidden
 setenv\t\tTS2 0
 setenv\t\tTS3 0
 setenv\t\tTS4 0
 setenv\t\tTS5 1
+[err_accessnearlydenied $tomorrow]
 $modlin"
 testouterr_cmd_re sh {show info/tags} OK $tserr
 
@@ -133,12 +133,12 @@ setenv_var __MODULES_LMTAG info/tags&nearly-forbidden&foo&auto-loaded
 set tserr "$modlin
 $mpre/info/tags:
 
-[err_accessnearlydenied {}]
 setenv\t\tTS1 {auto-loaded foo nearly-forbidden}
 setenv\t\tTS2 1
 setenv\t\tTS3 0
 setenv\t\tTS4 1
 setenv\t\tTS5 1
+[err_accessnearlydenied {}]
 $modlin"
 testouterr_cmd_re sh {show info/tags} OK $tserr
 
