@@ -127,6 +127,11 @@ Modules 5.6.0 (not yet released)
   with yellow background), to make it look closer to ``forbidden`` tag (red
   background) and distinguish it from new ``warning`` tag (black text and
   yellow background).
+* No raise of *nearly-forbidden* warning when affected modulefile is evaluated
+  in ``refresh`` mode.
+* Issue the *nearly-forbidden* warning at the end of the affected modulefile
+  evaluation, ensuring it is always reported at the same stage regardless of
+  where it is defined.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
