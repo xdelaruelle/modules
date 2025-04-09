@@ -730,9 +730,6 @@ lappend ans [list set __MODULES_LMALTNAME hide1/5.0&as|hide1/latest]
 lappend ans [list set _LMFILES_ $mp/hide1/5.0]
 lappend ans [list set LOADEDMODULES hide1/5.0]
 lappend ans [list set __MODULES_LMTAG hide1/5.0&nearly-forbidden]
-set ans2 [list]
-lappend ans2 [list unset _LMFILES_]
-lappend ans2 [list unset LOADEDMODULES]
 set tomorrow [clock format [expr {[clock seconds]+86400}] -format %Y-%m-%d]
 if {$install_nearlyforbiddendays >= 1} {
     testouterr_cmd sh {load hide1/5.0} $ans [msg_load {hide1/5.0 <nF>} [err_accessnearlydenied $tomorrow]]
@@ -743,8 +740,17 @@ testouterr_cmd_re sh {display hide1/5.0} OK "$modlin\n$mpre/hide1/5.0:\n\nmodule
 testouterr_cmd_re sh {whatis hide1/5.0} OK "$modlin $mpre $modlin\n\\s+hide1/5.0: hide1/5.0"
 testouterr_cmd sh {avail -t hide1/5.0} OK "$mp:\nhide1/5.0 <nF>"
 setenv_loaded_module [list hide1/5.0] [list $mp/hide1/5.0]
+setenv_var __MODULES_LMTAG hide1/5.0&nearly-forbidden
+set ans2 [list]
+lappend ans2 [list unset _LMFILES_]
+lappend ans2 [list unset LOADEDMODULES]
+lappend ans2 [list unset __MODULES_LMTAG]
 testouterr_cmd sh {unload hide1/5.0} $ans2 {}
+setenv_var __MODULES_LMREFRESH hide1/5.0
+testouterr_cmd sh {refresh} OK {}
 unsetenv_loaded_module
+unsetenv_var __MODULES_LMTAG
+unsetenv_var __MODULES_LMREFRESH
 setenv_var MODULES_NEARLY_FORBIDDEN_DAYS 0
 set ans [list]
 lappend ans [list set __MODULES_LMALTNAME hide1/5.0&as|hide1/latest]
@@ -755,6 +761,9 @@ testouterr_cmd_re sh {display hide1/5.0} OK "$modlin\n$mpre/hide1/5.0:\n\nmodule
 testouterr_cmd_re sh {whatis hide1/5.0} OK "$modlin $mpre $modlin\n\\s+hide1/5.0: hide1/5.0"
 testouterr_cmd sh {avail -t hide1/5.0} OK "$mp:\nhide1/5.0"
 setenv_loaded_module [list hide1/5.0] [list $mp/hide1/5.0]
+set ans2 [list]
+lappend ans2 [list unset _LMFILES_]
+lappend ans2 [list unset LOADEDMODULES]
 testouterr_cmd sh {unload hide1/5.0} $ans2 {}
 unsetenv_loaded_module
 unsetenv_var TESTSUITE_FORBID1_NEARLY_SET1
