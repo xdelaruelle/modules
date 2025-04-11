@@ -273,15 +273,15 @@ proc renderSettings {} {
                   lappend g_shcode_out "set $var=$val"
                }
                perl {
-                  set val [charEscaped $::env($var) \']
+                  set val [charEscaped $::env($var) ']
                   lappend g_shcode_out "\$ENV{'$var'} = '$val';"
                }
                python {
-                  set val [charEscaped $::env($var) \']
+                  set val [charEscaped $::env($var) ']
                   lappend g_shcode_out "os.environ\['$var'\] = '$val'"
                }
                ruby {
-                  set val [charEscaped $::env($var) \']
+                  set val [charEscaped $::env($var) ']
                   lappend g_shcode_out "ENV\['$var'\] = '$val'"
                }
                lisp {
@@ -297,7 +297,7 @@ proc renderSettings {} {
                   lappend g_shcode_out "Sys.setenv('$var'='$val')"
                }
                pwsh {
-                  set val [charEscaped $::env($var) \']
+                  set val [charEscaped $::env($var) ']
                   lappend g_shcode_out "\$env:$var = '$val'"
                }
             }
@@ -519,12 +519,12 @@ proc renderSettings {} {
                   lappend g_shcode_out "system(\"$xrdb -merge $var\");"
                }
                python {
-                  set var [charEscaped $var \']
+                  set var [charEscaped $var ']
                   lappend g_shcode_out "subprocess.Popen(\['$xrdb',\
                      '-merge', '$var'\])"
                }
                ruby {
-                  set var [charEscaped $var \']
+                  set var [charEscaped $var ']
                   lappend g_shcode_out "Open3.popen2('$xrdb -merge $var')"
                }
                lisp {
@@ -564,16 +564,16 @@ proc renderSettings {} {
                   lappend g_shcode_out {close XRDBPIPE;}
                }
                python {
-                  set var [charEscaped $var \']
-                  set val [charEscaped $val \']
+                  set var [charEscaped $var ']
+                  set val [charEscaped $val ']
                   lappend g_shcode_out "subprocess.Popen(\['$xrdb',\
                      '-merge'\],\
                      stdin=subprocess.PIPE).communicate(input='$var:\
                      $val\\n')"
                }
                ruby {
-                  set var [charEscaped $var \']
-                  set val [charEscaped $val \']
+                  set var [charEscaped $var ']
+                  set val [charEscaped $val ']
                   lappend g_shcode_out "Open3.popen2('$xrdb -merge') {|i,o,t|\
                      i.puts '$var: $val'}"
                }
@@ -643,14 +643,14 @@ proc renderSettings {} {
          }
          python {
             foreach var $xres_to_del {
-               set var [charEscaped $var \']
+               set var [charEscaped $var ']
                lappend g_shcode_out "subprocess.Popen(\['$xrdb', '-merge'\],\
                   stdin=subprocess.PIPE).communicate(input='$var:\\n')"
             }
          }
          ruby {
             foreach var $xres_to_del {
-               set var [charEscaped $var \']
+               set var [charEscaped $var ']
                lappend g_shcode_out "Open3.popen2('$xrdb -merge') {|i,o,t|\
                   i.puts '$var:'}"
             }

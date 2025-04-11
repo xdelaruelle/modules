@@ -2910,7 +2910,7 @@ proc cmdModuleModToSh {shell args} {
 
    # set shell and shellType states to mod-to-sh target value
    if {$shell ni [getState supported_shells]} {
-      reportErrorAndExit "Unsupported shell type \'$shell\'"
+      reportErrorAndExit "Unsupported shell type '$shell'"
    }
    ##nagelfar ignore Found constant
    setState shell $shell

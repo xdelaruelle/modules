@@ -685,7 +685,7 @@ if {[catch {
    # Parse shell
    setState shell [lindex $argv 0]
    if {[getState shell] ni [getState supported_shells]} {
-      reportErrorAndExit "Unknown shell type \'([getState shell])\'"
+      reportErrorAndExit "Unknown shell type '([getState shell])'"
    }
 
    # extract options and command switches from other args
