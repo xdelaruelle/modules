@@ -232,7 +232,11 @@ proc renderSettings {} {
          new {
             switch -- [getState shelltype] {
                csh {
-                  set val [charEscaped $::env($var)]
+                  # cannot handle newline character in env var value with csh
+                  # shells: chop newline character in value (as done on
+                  # Modules v3 for all shells)
+                  set val [string map {\n {}} $::env($var)]
+                  set val [charEscaped $val]
                   # csh barfs on long env vars
                   if {[getState shell] eq {csh} && [string length $val] >\
                      [getConf csh_limit]} {
@@ -251,18 +255,18 @@ proc renderSettings {} {
                   lappend g_shcode_out "setenv $var $val;"
                }
                sh {
-                  lappend g_shcode_out "$var=[charEscaped $::env($var)];\
-                     export $var;"
+                  set val [string map {' '\\''} $::env($var)]
+                  lappend g_shcode_out "$var='$val'; export $var;"
                }
                fish {
-                  set val [charEscaped $::env($var)]
+                  set val [charEscaped $::env($var) ']
                   # fish shell has special treatment for PATH variable
                   # so its value should be provided as a list separated
                   # by spaces not by semi-colons
                   if {$var eq {PATH}} {
-                     regsub -all : $val { } val
+                     set val [join [split $val :] {' '}]
                   }
-                  lappend g_shcode_out "set -xg $var $val;"
+                  lappend g_shcode_out "set -xg $var '$val';"
                }
                tcl {
                   set val $::env($var)
