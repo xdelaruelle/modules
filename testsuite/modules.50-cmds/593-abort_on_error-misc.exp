@@ -71,8 +71,8 @@ testouterr_cmd bash {restore testsuite/home/coll-error-on-load} $ans_continue $t
 
 # mod-to-sh command (abort_on_error has an impact)
 set ts_mod_to_sh_continue "all-pre-out
-TSPATH=dir1; export TSPATH;
-TS=ok; export TS;
+TSPATH='dir1'; export TSPATH;
+TS='ok'; export TS;
 alias alall=value;
 funcall () { value; };
 cd '/tmp';

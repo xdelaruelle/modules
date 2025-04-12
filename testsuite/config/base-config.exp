@@ -224,16 +224,22 @@ proc shell_text {test_shell val {re_mode 0}} {
     return $answer
 }
 
-proc shell_val {test_shell val {re_mode 0}} {
+proc shell_val {test_shell val {re_mode 0} {alias_val 0}} {
     if {$val ne "(.*)"} {
+        if {$alias_val && $test_shell in {sh bash ksh zsh fish}} {
+            set test_shell a-$test_shell
+        }
         switch -- $test_shell {
-            {sh} - {bash} - {ksh} - {zsh} - {csh} - {tcsh} - {fish} {
+            {a-sh} - {a-bash} - {csh} - {tcsh} - {a-ksh} - {a-zsh} - {a-fish} {
                 set val [regsub -all {([\\"'$|<>{}`*? ()!&;\[\]])} $val {\\\1}]
             }
             {lisp} - {cmake} {
                 set val [regsub -all {(["])} $val {\\\1}]
             }
-            {perl} - {python} - {ruby} {
+            {sh} - {bash} - {ksh} - {zsh} {
+                set val [string map {' '\\''} $val]
+            }
+            {fish} - {perl} - {python} - {ruby} {
                 set val [regsub -all {(['])} $val {\\\1}]
             }
             {r} {
@@ -263,16 +269,16 @@ proc shell_set {test_shell var val {re_mode 0} {escval 1}} {
 
     switch -- $test_shell {
         {sh} - {bash} - {ksh} - {zsh} {
-            set answer "$var=$val; export $var;"
+            set answer "$var='$val'; export $var;"
         }
         {csh} - {tcsh} {
             set answer "setenv $var $val;"
         }
         {fish} {
             if {$var eq "PATH"} {
-                regsub -all ":" $val " " val
+                set val [join [split $val :] {' '}]
             }
-            set answer "set -xg $var $val;"
+            set answer "set -xg $var '$val';"
         }
         {tcl} {
             set answer "set ::env${esc}($var${esc}) ${esc}{$val${esc}};"
@@ -364,7 +370,7 @@ proc shell_unset {test_shell var {re_mode 0}} {
 
 proc shell_alias {test_shell var val {re_mode 0} {escval 1}} {
     if {$escval} {
-        set val [shell_val $test_shell $val $re_mode]
+        set val [shell_val $test_shell $val $re_mode 1]
     }
 
     switch -- $test_shell {

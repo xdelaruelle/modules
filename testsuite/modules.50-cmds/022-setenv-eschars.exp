@@ -39,9 +39,17 @@ set modulefile "$modpath/$module"
 #  For the different shells ...
 #
 
-lappend ans [list set pathelogical "abc\\ :\\	\\{\\}\\|\\<\\>\\!\\#\\$\\^\\&\\'\\\"\\(\\)@x%y\\\\z:sh\\*" noescval]
-lappend ans [list set _LMFILES_ $modulefile]
-lappend ans [list set LOADEDMODULES $module]
+lappend ans_csh [list set pathelogical "abc\\ :\\	\\{\\}\\|\\<\\>\\!\\#\\$\\^\\&\\'\\\"\\(\\)@x%y\\\\z:sh\\*" noescval]
+lappend ans_csh [list set _LMFILES_ $modulefile]
+lappend ans_csh [list set LOADEDMODULES $module]
+
+lappend ans_sh [list set pathelogical "abc :	{}|<>!#$^&'\\''\"()@x%y\\z:sh*" noescval]
+lappend ans_sh [list set _LMFILES_ $modulefile]
+lappend ans_sh [list set LOADEDMODULES $module]
+
+lappend ans_fish [list set pathelogical "abc :	{}|<>!#$^&\\'\"()@x%y\\z:sh*" noescval]
+lappend ans_fish [list set _LMFILES_ $modulefile]
+lappend ans_fish [list set LOADEDMODULES $module]
 
 lappend ans2 [list set pathelogical "abc :	{}|<>!#$^&'\"()@x%y\\z:sh*"]
 lappend ans2 [list set _LMFILES_ $modulefile]
@@ -56,12 +64,22 @@ lappend ans_pwsh [list set LOADEDMODULES $module]
 #
 
 foreach sh $supported_shells {
-    if {[lsearch -exact $real_shells $sh] >= 0} {
-        test_cmd "$sh" "load $module" $ans
-    } elseif {$sh == "pwsh"} {
-        test_cmd "$sh" "load $module" $ans_pwsh
-    } else {
-        test_cmd "$sh" "load $module" $ans2
+    switch -- $sh {
+        sh - bash - ksh - zsh {
+            test_cmd $sh "load $module" $ans_sh
+        }
+        fish {
+            test_cmd $sh "load $module" $ans_fish
+        }
+        csh - tcsh {
+            test_cmd $sh "load $module" $ans_csh
+        }
+        pwsh {
+            test_cmd $sh "load $module" $ans_pwsh
+        }
+        default {
+            test_cmd $sh "load $module" $ans2
+        }
     }
 }
 
