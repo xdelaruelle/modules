@@ -225,12 +225,6 @@ proc shell_text {test_shell val {re_mode 0}} {
 }
 
 proc shell_val {test_shell val {re_mode 0}} {
-    if {$re_mode} {
-        set esc "\\"
-    } else {
-        set esc ""
-    }
-
     if {$val ne "(.*)"} {
         switch -- $test_shell {
             {sh} - {bash} - {ksh} - {zsh} - {csh} - {tcsh} - {fish} {
@@ -369,12 +363,6 @@ proc shell_unset {test_shell var {re_mode 0}} {
 }
 
 proc shell_alias {test_shell var val {re_mode 0} {escval 1}} {
-    if {$re_mode} {
-        set esc "\\"
-    } else {
-        set esc ""
-    }
-
     if {$escval} {
         set val [shell_val $test_shell $val $re_mode]
     }
@@ -401,12 +389,6 @@ proc shell_alias {test_shell var val {re_mode 0} {escval 1}} {
 }
 
 proc shell_unalias {test_shell var {re_mode 0}} {
-    if {$re_mode} {
-        set esc "\\"
-    } else {
-        set esc ""
-    }
-
     switch -- $test_shell {
         {sh} - {bash} - {ksh} - {zsh} {
             set answer "unalias $var 2>/dev/null || true;"
