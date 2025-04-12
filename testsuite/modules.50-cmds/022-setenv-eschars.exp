@@ -43,19 +43,19 @@ lappend ans_csh [list set pathelogical "abc\\ :\\	\\{\\}\\|\\<\\>\\!\\#\\$\\^\\&
 lappend ans_csh [list set _LMFILES_ $modulefile]
 lappend ans_csh [list set LOADEDMODULES $module]
 
-lappend ans_sh [list set pathelogical "abc :	{}|<>!#$^&'\\''\"()@x%y\\z:sh*" noescval]
+lappend ans_sh [list set pathelogical "abc :	{}|<>!#$^&'\\''\"()@x%y\\z:sh*\n" noescval]
 lappend ans_sh [list set _LMFILES_ $modulefile]
 lappend ans_sh [list set LOADEDMODULES $module]
 
-lappend ans_fish [list set pathelogical "abc :	{}|<>!#$^&\\'\"()@x%y\\z:sh*" noescval]
+lappend ans_fish [list set pathelogical "abc :	{}|<>!#$^&\\'\"()@x%y\\z:sh*\n" noescval]
 lappend ans_fish [list set _LMFILES_ $modulefile]
 lappend ans_fish [list set LOADEDMODULES $module]
 
-lappend ans2 [list set pathelogical "abc :	{}|<>!#$^&'\"()@x%y\\z:sh*"]
+lappend ans2 [list set pathelogical "abc :	{}|<>!#$^&'\"()@x%y\\z:sh*\n"]
 lappend ans2 [list set _LMFILES_ $modulefile]
 lappend ans2 [list set LOADEDMODULES $module]
 
-lappend ans_pwsh [list set pathelogical "abc :	{}|<>!#$^&\\'\"()@x%y\\z:sh*"]
+lappend ans_pwsh [list set pathelogical "abc :	{}|<>!#$^&\\'\"()@x%y\\z:sh*\n"]
 lappend ans_pwsh [list set _LMFILES_ $modulefile]
 lappend ans_pwsh [list set LOADEDMODULES $module]
 

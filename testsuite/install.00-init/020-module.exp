@@ -177,6 +177,21 @@ foreach shell $shell_list {
 unsetenv_var TESTSUITE_UNSET
 
 
+# test special characters in environment variable
+foreach shell $shell_list {
+   if {$shell in {csh tcsh}} {
+      if {$install_wa277 eq {y}} {
+         set tsout "abc : \\|<>!#$^&'\"()@x%y\\z:sh* -"
+      } else {
+         set tsout "abc :	{}|<>!#$^&'\"()@x%y\\z:sh* -"
+      }
+   } else {
+      set tsout "abc :	{}|<>!#$^&'\"()@x%y\\z:sh*\n -"
+   }
+   testouterr_cmd $shell "module use \"$testsuite_modpath\"\; module load eschars/1.0\; echo \"\$pathelogical -\"" $tsout {}
+}
+
+
 #
 #  Clean up variables used in this test case
 #
