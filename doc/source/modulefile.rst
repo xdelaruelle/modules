@@ -1452,10 +1452,15 @@ the *modulefile* is being loaded.
  When the ``--set-if-undef`` option is set, environment variable is defined
  when *modulefile* is loaded only if not yet defined.
 
+ Any newline character in *value* is chopped if using *csh* or *tcsh* shells.
+
  .. only:: html
 
     .. versionchanged:: 5.1
        Option ``--set-if-undef`` added
+
+    .. versionchanged:: 5.6
+       Newline character in value supported except for *csh* and *tcsh* shells
 
 .. mfcmd:: source-sh [--ignore eltlist] shell script [arg...]
 

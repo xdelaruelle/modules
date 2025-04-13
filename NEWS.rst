@@ -132,6 +132,12 @@ Modules 5.6.0 (not yet released)
 * Issue the *nearly-forbidden* warning at the end of the affected modulefile
   evaluation, ensuring it is always reported at the same stage regardless of
   where it is defined.
+* Change underlying shell code to set environment variable on *sh*, *bash*,
+  *ksh*, *zsh* and *fish* shells: enclose value within single quotes rather
+  escaping each special characters.
+* :mfcmd:`setenv` modulefile command now supports environment variable value
+  containing newline character. Exception is made for *csh* and *tcsh* shells
+  where newline characters are chopped from value. (fix issue #557)
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

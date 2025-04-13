@@ -1151,6 +1151,9 @@ The following modulefile Tcl commands appeared on Modules 5.
  Starting with version ``5.1``, the ``--set-if-undef`` option is added to set
  environment variable when modulefile is loaded only if not yet defined.
 
+ Starting with version ``5.6``, value set can contain newline character.
+ Exception for csh shell family where such character is chopped from value.
+
 :mfcmd:`source-sh`
 
  Starting Modules ``5.1``, this modulefile command also tracks shell
