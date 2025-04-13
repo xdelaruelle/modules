@@ -166,7 +166,7 @@ if {$install_libtclenvmodules eq {y}} {
 set test_perms_dir "$env(TESTSUITEDIR)/etc"
 set test_perms_file "$test_perms_dir/modulerc"
 set orig_perms [file attributes $test_perms_dir -permissions]
-file attributes $test_perms_dir -permissions "ugo-rx"
+catch {file attributes $test_perms_dir -permissions "ugo-rx"}
 set new_perms [file attributes $test_perms_dir -permissions]
 if {$new_perms eq $orig_perms} {
     set is_file_perms_editable 0
