@@ -39,14 +39,14 @@ setenv_path_var MODULEPATH $mp
 # check json output on supported sub-commands over the different module kinds
 # (modulefile, symbols, alias, directory, virtual modules)
 testouterr_cmd sh {avail nocase/ --json} OK "{\"$mp\": {
-\"nocase/deep/3\": { \"name\": \"nocase/deep/3\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/nocase/deep/3\", \"via\": \"\"},
 \"nocase/1\": { \"name\": \"nocase/1\", \"type\": \"modulefile\", \"symbols\": \[ \"vers\" \], \"tags\": \[\], \"pathname\": \"$mp/nocase/1\", \"via\": \"\"},
 \"nocase/alias\": { \"name\": \"nocase/alias\", \"type\": \"alias\", \"symbols\": \[\], \"tags\": \[\], \"target\": \"nocase/1\", \"via\": \"\"},
-\"nocase/ialias\": { \"name\": \"nocase/ialias\", \"type\": \"alias\", \"symbols\": \[\], \"tags\": \[\], \"target\": \"Nocase/Virt\", \"via\": \"\"},
-\"nocase/virt\": { \"name\": \"nocase/virt\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/nocase/1\", \"via\": \"\"},
 \"nocase/deep\": { \"name\": \"nocase/deep\", \"type\": \"directory\", \"symbols\": \[ \"dirsym\" \], \"via\": \"\"},
+\"nocase/deep/2\": { \"name\": \"nocase/deep/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/nocase/deep/2\", \"via\": \"\"},
+\"nocase/deep/3\": { \"name\": \"nocase/deep/3\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/nocase/deep/3\", \"via\": \"\"},
+\"nocase/ialias\": { \"name\": \"nocase/ialias\", \"type\": \"alias\", \"symbols\": \[\], \"tags\": \[\], \"target\": \"Nocase/Virt\", \"via\": \"\"},
 \"nocase/regular\": { \"name\": \"nocase/regular\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/nocase/regular\", \"via\": \"\"},
-\"nocase/deep/2\": { \"name\": \"nocase/deep/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/nocase/deep/2\", \"via\": \"\"}
+\"nocase/virt\": { \"name\": \"nocase/virt\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/nocase/1\", \"via\": \"\"}
 }}"
 testouterr_cmd sh {whatis nocase/ --json} OK "{\"$mp\": {
 \"nocase/1\": { \"name\": \"nocase/1\", \"whatis\": \[ \"nocase/1\" \]},
@@ -162,24 +162,24 @@ testouterr_cmd sh {whatis --json NaN} OK "{\"$mp\": {
 # result from multiple paths (including "global/user modulerc")
 setenv_var MODULERCFILE $env(TESTSUITEDIR)/etc/rc
 setenv_path_var MODULEPATH $modpath:$mp
-testouterrjson_cmd sh {avail -j -C *foo} OK "{\"global/user modulerc\": {
+testouterr_cmd sh {avail -j -C *foo} OK "{\"global/user modulerc\": {
 \"sym_foo\": { \"name\": \"sym_foo\", \"type\": \"alias\", \"symbols\": \[ \"special2\" \], \"tags\": \[\], \"target\": \"loc_rc2/foo\", \"via\": \"\"}
 },
 \"$modpath\": {
+\"info/specified\": { \"name\": \"info/specified\", \"type\": \"modulefile\", \"symbols\": \[ \"foo\" \], \"tags\": \[\], \"pathname\": \"$modpath/info/specified\", \"via\": \"\"},
+\"inforc/foo\": { \"name\": \"inforc/foo\", \"type\": \"alias\", \"symbols\": \[\], \"tags\": \[\], \"target\": \"inforc/1.0\", \"via\": \"\"},
 \"loc_rc1/1.0\": { \"name\": \"loc_rc1/1.0\", \"type\": \"modulefile\", \"symbols\": \[ \"foo\" \], \"tags\": \[\], \"pathname\": \"$modpath/loc_rc1/1.0\", \"via\": \"\"},
 \"loc_rc2/1.0\": { \"name\": \"loc_rc2/1.0\", \"type\": \"modulefile\", \"symbols\": \[ \"bar\", \"blah\", \"foo\", \"special2\" \], \"tags\": \[\], \"pathname\": \"$modpath/loc_rc2/1.0\", \"via\": \"\"},
 \"loc_tr/3.0\": { \"name\": \"loc_tr/3.0\", \"type\": \"modulefile\", \"symbols\": \[ \"bar\", \"default\", \"exp\", \"foo\", \"reg\", \"tr2bar\", \"tr2exp\", \"trbar\", \"trexp\", \"trreg\" \], \"tags\": \[\], \"pathname\": \"$modpath/loc_tr/3.0\", \"via\": \"\"},
-\"info/specified\": { \"name\": \"info/specified\", \"type\": \"modulefile\", \"symbols\": \[ \"foo\" \], \"tags\": \[\], \"pathname\": \"$modpath/info/specified\", \"via\": \"\"},
-\"modbad/foo\": { \"name\": \"modbad/foo\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath/modbad/foo\", \"via\": \"\"},
-\"inforc/foo\": { \"name\": \"inforc/foo\", \"type\": \"alias\", \"symbols\": \[\], \"tags\": \[\], \"target\": \"inforc/1.0\", \"via\": \"\"}
+\"modbad/foo\": { \"name\": \"modbad/foo\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath/modbad/foo\", \"via\": \"\"}
 },
 \"$mp\": {
-\"foo/1\": { \"name\": \"foo/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/foo/1\", \"via\": \"\"},
-\"nanfoo/1\": { \"name\": \"nanfoo/1\", \"type\": \"modulefile\", \"symbols\": \[ \"nan\" \], \"tags\": \[\], \"pathname\": \"$mp/nanfoo/1\", \"via\": \"\"},
-\"foo/2\": { \"name\": \"foo/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/foo/2\", \"via\": \"\"},
 \"extdfl7/10foo\": { \"name\": \"extdfl7/10foo\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/extdfl7/10foo\", \"via\": \"\"},
 \"foo/0.1\": { \"name\": \"foo/0.1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/foo/0.1\", \"via\": \"\"},
-\"foo/0.2\": { \"name\": \"foo/0.2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/foo/0.2\", \"via\": \"\"}
+\"foo/0.2\": { \"name\": \"foo/0.2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/foo/0.2\", \"via\": \"\"},
+\"foo/1\": { \"name\": \"foo/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/foo/1\", \"via\": \"\"},
+\"foo/2\": { \"name\": \"foo/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$mp/foo/2\", \"via\": \"\"},
+\"nanfoo/1\": { \"name\": \"nanfoo/1\", \"type\": \"modulefile\", \"symbols\": \[ \"nan\" \], \"tags\": \[\], \"pathname\": \"$mp/nanfoo/1\", \"via\": \"\"}
 }}"
 
 testouterr_cmd sh {whatis -j *foo} ERR "{\"$modpath\": {
@@ -246,12 +246,12 @@ if {$is_file_perms_editable && $tcl_platform(user) ne {root} && !$is_locked_dir_
 	change_file_perms $mp/iCaSe/1 ugo-rx
 	change_file_perms $mp/icASE/1 ugo-rx
 	change_file_perms $mp/icase/1 ugo-rx
-	testouterrjson_cmd sh {whatis --json -i ICASE/1} ERR "{\"errors\": \[
-{ \"severity\": \"ERROR\", \"message\": \[ \"Permission denied on '$mp/icase/1'\" \] },
+	testouterr_cmd sh {whatis --json -i ICASE/1} ERR "{\"errors\": \[
 { \"severity\": \"ERROR\", \"message\": \[ \"Permission denied on '$mp/iCaSe/1'\" \] },
 { \"severity\": \"ERROR\", \"message\": \[ \"Permission denied on '$mp/ICASE/1'\" \] },
+{ \"severity\": \"ERROR\", \"message\": \[ \"Permission denied on '$mp/IcAsE/1'\" \] },
 { \"severity\": \"ERROR\", \"message\": \[ \"Permission denied on '$mp/icASE/1'\" \] },
-{ \"severity\": \"ERROR\", \"message\": \[ \"Permission denied on '$mp/IcAsE/1'\" \] } \]
+{ \"severity\": \"ERROR\", \"message\": \[ \"Permission denied on '$mp/icase/1'\" \] } \]
 }"
 	testouterr_cmd sh {whatis --json -i -s ICASE/1} ERR "{}"
 	restore_file_perms $mp/IcAsE/1
@@ -324,8 +324,8 @@ testouterr_cmd sh {spider mod --json} OK "{\"$modpath.spider2\": {
 \"moda/2\": { \"name\": \"moda/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider1/moda/2\", \"via\": \"\"}
 },
 \"$modpath.spider3\": {
-\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"},
-\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"}
+\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"},
+\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"}
 }}"
 
 # modulepath label set, using module loaded
@@ -349,8 +349,8 @@ testouterr_cmd sh {spider mod --json} OK "{\"My label spider2\": {
 \"moda/2\": { \"name\": \"moda/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider1/moda/2\", \"via\": \"\"}
 },
 \"$modpath.spider3\": {
-\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"},
-\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"}
+\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"},
+\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"}
 }}"
 
 # modulepath label set, using module loaded, used path was there before
@@ -372,8 +372,8 @@ testouterr_cmd sh {spider mod --json} OK "{\"My label spider2\": {
 \"moda/2\": { \"name\": \"moda/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider1/moda/2\", \"via\": \"\"}
 },
 \"$modpath.spider3\": {
-\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"},
-\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"}
+\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"},
+\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"}
 }}"
 unsetenv_var __MODULES_SHARE_MODULEPATH
 
@@ -400,16 +400,16 @@ setenv_var MODULEPATH $modpath.spider\$FOO_VAR_REF:$modpath.4
 
 setenv_var FOO_VAR_REF 3
 set tserr "{\"$modpath.spider3\": {
-\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modulepath/1\"},
-\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modulepath/1\"}
+\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modulepath/1\"},
+\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modulepath/1\"}
 },
 \"$modpath.4\": {
-\"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
-\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"},
 \"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"},
-\"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"}
+\"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
+\"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"},
+\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"}
 }}"
-testouterrjson_cmd sh {avail -j mod} OK $tserr
+testouterr_cmd sh {avail -j mod} OK $tserr
 
 setenv_var FOO_VAR_REF 2
 set tserr "{\"My label spider2\": {
@@ -417,34 +417,34 @@ set tserr "{\"My label spider2\": {
 \"modb/2\": { \"name\": \"modb/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider2/modb/2\", \"via\": \"modulepath/1\"}
 },
 \"$modpath.4\": {
-\"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
-\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"},
 \"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"},
-\"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"}
+\"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
+\"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"},
+\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"}
 }}"
-testouterrjson_cmd sh {avail -j mod} OK $tserr
+testouterr_cmd sh {avail -j mod} OK $tserr
 
 unsetenv_var FOO_VAR_REF
 set tserr "{\"$modpath.4\": {
-\"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
-\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"},
 \"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"},
-\"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"}
+\"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
+\"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"},
+\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"}
 }}"
-testouterrjson_cmd sh {avail -j mod} OK $tserr
+testouterr_cmd sh {avail -j mod} OK $tserr
 
 
 setenv_var FOO_VAR_REF 3
 setenv_var TESTSUITE_USE_MODULEPATH use_with_var_ref_and_setenv
 set tserr "{\"$modpath.spider3\": {
-\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modulepath/1\"},
-\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modulepath/1\"}
+\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modulepath/1\"},
+\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modulepath/1\"}
 },
 \"$modpath.4\": {
-\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"},
+\"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"},
 \"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
 \"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"},
-\"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"}
+\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"}
 }}"
 testouterr_cmd sh {spider -j mod} OK $tserr
 
@@ -455,14 +455,14 @@ set tserr "{\"My label spider2\": {
 \"modb/2\": { \"name\": \"modb/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider2/modb/2\", \"via\": \"modulepath/1\"}
 },
 \"$modpath.4\": {
-\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"},
+\"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"},
 \"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
 \"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"},
-\"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"}
+\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"}
 },
 \"$modpath.spider3\": {
-\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"},
-\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"}
+\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"},
+\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"}
 }}"
 testouterr_cmd sh {spider -j mod} OK $tserr
 setenv_var TESTSUITE_USE_MODULEPATH use_with_var_ref_no_setenv
@@ -472,10 +472,10 @@ unsetenv_var FOO_VAR_REF
 # variable are not set to their value during spider (scan) evaluation
 setenv_var TESTSUITE_USE_MODULEPATH use_with_var_ref_and_setenv
 set tserr "{\"$modpath.4\": {
-\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"},
+\"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"},
 \"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
 \"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[ \"loaded\" \], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"},
-\"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"}
+\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"}
 }}"
 testouterr_cmd sh {spider -j mod} OK $tserr
 # variable are not set to their value during spider (scan) evaluation
@@ -491,18 +491,18 @@ setenv_var MODULEPATH $modpath.4
 setenv_var FOO_VAR_REF 2
 setenv_var TESTSUITE_USE_MODULEPATH append_with_var_ref_and_setenv
 set tserr "{\"$modpath.4\": {
-\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"},
+\"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"},
 \"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
 \"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"},
-\"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"}
+\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"}
 },
 \"My label spider2\": {
 \"modb/1\": { \"name\": \"modb/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider2/modb/1\", \"via\": \"modulepath/1\"},
 \"modb/2\": { \"name\": \"modb/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider2/modb/2\", \"via\": \"modulepath/1\"}
 },
 \"$modpath.spider3\": {
-\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"},
-\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"}
+\"modc/1\": { \"name\": \"modc/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/1\", \"via\": \"modb/1\"},
+\"modc/2\": { \"name\": \"modc/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.spider3/modc/2\", \"via\": \"modb/1\"}
 }}"
 testouterr_cmd sh {spider -j mod} OK $tserr
 setenv_var TESTSUITE_USE_MODULEPATH use_with_var_ref_no_setenv
@@ -512,10 +512,10 @@ unsetenv_var FOO_VAR_REF
 # variable are not set to their value during spider (scan) evaluation
 setenv_var TESTSUITE_USE_MODULEPATH use_with_var_ref_and_setenv
 set tserr "{\"$modpath.4\": {
-\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"},
+\"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"},
 \"modulepath-opt/2\": { \"name\": \"modulepath-opt/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/2\", \"via\": \"\"},
 \"modulepath/1\": { \"name\": \"modulepath/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/1\", \"via\": \"\"},
-\"modulepath-opt/1\": { \"name\": \"modulepath-opt/1\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath-opt/1\", \"via\": \"\"}
+\"modulepath/2\": { \"name\": \"modulepath/2\", \"type\": \"modulefile\", \"symbols\": \[\], \"tags\": \[\], \"pathname\": \"$modpath.4/modulepath/2\", \"via\": \"\"}
 }}"
 testouterr_cmd sh {spider -j mod} OK $tserr
 # variable are not set to their value during spider (scan) evaluation
