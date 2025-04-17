@@ -138,6 +138,7 @@ Modules 5.6.0 (not yet released)
 * :mfcmd:`setenv` modulefile command now supports environment variable value
   containing newline character. Exception is made for *csh* and *tcsh* shells
   where newline characters are chopped from value. (fix issue #557)
+* Sort modules in JSON output as done on regular output.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

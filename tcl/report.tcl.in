@@ -1579,6 +1579,10 @@ proc reportModules {search_queries header hsgrkey hstyle show_mtime show_idx\
 
    set len_list {}
    set max_len 0
+   # dictionary-sort results unless if output order is specified
+   if {![llength $mod_list_order]} {
+      set clean_list [lsort -dictionary $clean_list]
+   }
    if {$json} {
       ##nagelfar ignore Found constant
       upvar 0 clean_list display_list
@@ -1587,10 +1591,6 @@ proc reportModules {search_queries header hsgrkey hstyle show_mtime show_idx\
       }
    } else {
       set display_list {}
-      # dictionary-sort results unless if output order is specified
-      if {![llength $mod_list_order]} {
-         set clean_list [lsort -dictionary $clean_list]
-      }
       foreach disp $clean_list {
          # compute display element length list on sorted result
          lappend display_list $sgrmap($disp)
