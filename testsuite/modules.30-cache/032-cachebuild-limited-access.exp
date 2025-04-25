@@ -36,7 +36,7 @@ array set file_arr [concat $file_list $other_file_list]
 
 
 # expected cache file when no limited access
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 foreach f [lsort [array names file_arr]] {
     set entry {}
     switch -- $f {
@@ -105,7 +105,7 @@ change_file_perms $mp1/quxc/1.0~ $no_arx_perms
 change_file_perms $mp1/.svn $no_arx_perms
 change_file_perms $mp1/.sos/ignmod $no_arx_perms
 
-set tscache1 "#%Module$major_minor_rel"
+set tscache1 "#%Module$cache_mcookie_version"
 foreach f [lsort [concat [array names file_arr] [list foo quux/oth empty anotherempty]]] {
     set entry {}
     switch -glob -- $f {
@@ -157,7 +157,7 @@ change_file_perms $mp1/.version $no_ar_perms
 change_file_perms $mp1/foo/1.0 $no_ar_perms
 change_file_perms $mp1/foo/.modulerc $no_arx_perms
 
-set tscache2 "#%Module$major_minor_rel"
+set tscache2 "#%Module$cache_mcookie_version"
 foreach f [lsort [concat [array names file_arr] [list quux empty anotherempty]]] {
     set entry {}
     switch -glob -- $f {
@@ -297,7 +297,7 @@ change_file_perms $mp1/quxc/1.0~ $no_arx_perms
 change_file_perms $mp1/.svn $no_arx_perms
 change_file_perms $mp1/.sos/ignmod $no_arx_perms
 
-set tscachewin1 "#%Module$major_minor_rel"
+set tscachewin1 "#%Module$cache_mcookie_version"
 foreach f [lsort [concat [array names file_arr] [list foo empty anotherempty]]] {
     set entry {}
     switch -glob -- $f {
@@ -363,7 +363,7 @@ change_file_perms $mp1/quxc/1.0~ $no_orx_perms
 change_file_perms $mp1/.svn $no_orx_perms
 change_file_perms $mp1/.sos/ignmod $no_orx_perms
 
-set tscachewin2 "#%Module$major_minor_rel"
+set tscachewin2 "#%Module$cache_mcookie_version"
 foreach f [lsort [array names file_arr]] {
     set entry {}
     switch -- $f {

@@ -147,7 +147,7 @@ file delete $mp1cache
 
 # tests with a cache containing only few elements
 set fid [open $mp1cache w]
-puts $fid "#%Module$::major_minor_rel
+puts $fid "#%Module$::cache_mcookie_version
 modulefile-content bar/1.0 1664035017 #%Module #%Module"
 close $fid
 testouterr_cmd sh {avail -a -t -o } OK bar/1.0
@@ -228,7 +228,7 @@ file delete $mp1cache
 
 # tests with a cache containing element that does not exists anymore in modulepath
 set fid [open $mp1cache w]
-puts $fid "#%Module$::major_minor_rel
+puts $fid "#%Module$::cache_mcookie_version
 modulefile-content bar/5.0 1664035017 #%Module #%Module"
 close $fid
 testouterr_cmd sh {avail -a -t -o } OK bar/5.0

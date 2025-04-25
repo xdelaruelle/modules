@@ -34,7 +34,7 @@ lassign [create_diverse_module_setup $mp1] dir_list file_list
 array set file_arr $file_list
 
 # expected cache file
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 foreach f [lsort [array names file_arr]] {
     set entry {}
     switch -- $f {
@@ -143,7 +143,7 @@ setenv_path_var MODULEPATH $mp2:$mp1
 # one modulefile not readable
 change_file_perms $mp2/bar/1.0 $noread_perms
 set tserr [msg_create $mp2cache]\n[msg_create $mp1cache]
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 foreach f [lsort [array names other_file_arr]] {
     switch -- $f {
         bar/1.0 {
@@ -166,7 +166,7 @@ restore_file_perms $mp2/bar/1.0
 # one modulerc not readable
 change_file_perms $mp2/foo/.modulerc $noread_perms
 set tserr [msg_create $mp2cache]\n[msg_create $mp1cache]
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 foreach f [lsort [array names other_file_arr]] {
     set entry {}
     switch -- $f {
@@ -192,7 +192,7 @@ restore_file_perms $mp2/foo/.modulerc
 # one directory not readable
 change_file_perms $mp2/foo $noread_perms
 set tserr [msg_create $mp2cache]\n[msg_create $mp1cache]
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 foreach f [lsort [array names other_file_arr]] {
     set entry {}
     switch -- $f {
@@ -223,7 +223,7 @@ if {$is_stderr_tty} {
     # test a modulefile read failure during cache build by faking modulefile is readable
     setenv_var TESTSUITE_ENABLE_SITECONFIG_CACHEBUILD_READ1 1
     set tserr [msg_create $mp2cache]\n[msg_create $mp1cache]
-    set tscache "#%Module$major_minor_rel"
+    set tscache "#%Module$cache_mcookie_version"
     foreach f [lsort [array names other_file_arr]] {
         set entry {}
         switch -- $f {

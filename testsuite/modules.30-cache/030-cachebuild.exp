@@ -49,7 +49,7 @@ file mkdir $mp2
 setenv_path_var MODULEPATH $mp1:$mp2
 create_dummy_modulefile $mp1modfile
 set tserr [msg_create $mp1cache]\n\n[msg_create $mp2cache $warn_cache_nothingtorec]
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 append tscache \n[list modulefile-content foo [file mtime $mp1modfile] #%Module #%Module\n]
 testouterrfile_cmd sh cachebuild OK $tserr $mp1cache $tscache
 file delete $mp1modfile
@@ -58,7 +58,7 @@ file delete $mp1modfile
 create_dummy_modulefile $mp1modfile
 create_dummy_cachefile $mp1
 set tserr [msg_create $mp1cache]\n\n[msg_create $mp2cache $warn_cache_nothingtorec]
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 append tscache \n[list modulefile-content foo [file mtime $mp1modfile] #%Module #%Module\n]
 testouterrfile_cmd sh cachebuild OK $tserr $mp1cache $tscache
 file delete $mp1modfile
@@ -73,7 +73,7 @@ close [open $mpfile w]
 
 # silent mode
 create_dummy_modulefile $mp1modfile
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 append tscache \n[list modulefile-content foo [file mtime $mp1modfile] #%Module #%Module\n]
 append tscache \n[list modulefile-invalid qux invalid {Magic cookie '#%Module' missing}]
 testouterrfile_cmd sh {cachebuild -s} OK {} $mp1cache $tscache
@@ -88,7 +88,7 @@ file delete $mp1cache
 create_dummy_modulefile $mp2modfile
 setenv_path_var MODULEPATH $mpunk:$mp2
 set tserr [msg_create $mpunk/.modulecache "$error_msgs: '$mpunk' is not a directory"]\n\n[msg_create $mp2cache]
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 append tscache \n[list modulefile-content bar [file mtime $mp2modfile] #%Module #%Module\n]
 testouterrfile_cmd sh cachebuild ERR $tserr $mp2cache $tscache
 
@@ -130,7 +130,7 @@ setenv_path_var MODULEPATH $mp1:$mp2
 change_file_perms $mp1 $nowrite_perms
 create_dummy_modulefile $mp2modfile
 set tserr [msg_create $mp1cache $warn_cache_build_nowritable]\n\n[msg_create $mp2cache]
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 append tscache \n[list modulefile-content bar [file mtime $mp2modfile] #%Module #%Module\n]
 testouterrfile_cmd sh cachebuild OK $tserr $mp2cache $tscache
 set tscache [couldnotopen_nofile $mp1cache]
@@ -143,7 +143,7 @@ create_dummy_modulefile $mp1modfile
 create_dummy_modulefile $mp2modfile
 change_file_perms $mp1 $nowrite_perms
 set tserr [msg_create $mp1cache $warn_cache_build_nowritable]\n\n[msg_create $mp2cache]
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 append tscache \n[list modulefile-content bar [file mtime $mp2modfile] #%Module #%Module\n]
 testouterrfile_cmd sh cachebuild OK $tserr $mp2cache $tscache
 set tscache [couldnotopen_nofile $mp1cache]
@@ -200,7 +200,7 @@ change_file_perms $mp2cache $nowrite_perms
 set tserr [msg_create $mp1cache]\n\n[msg_create $mp2cache [err_couldnotopen_permdenied $mp2cache]]
 set tscache [couldnotopen_permdenied $mp1cache]
 testouterrfile_cmd sh cachebuild ERR $tserr $mp1cache $tscache
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 testouterrfile_cmd sh cachebuild ERR $tserr $mp2cache $tscache
 file delete $mp1modfile
 file delete $mp2modfile
@@ -218,7 +218,7 @@ change_file_perms $mp2cache $nowrite_perms
 set tserr [msg_create $mp1cache]\n\n[msg_create $mp2cache [err_couldnotopen_permdenied $mp2cache]]
 set tscache [couldnotopen_permdenied $mp1cache]
 testouterrfile_cmd sh "cachebuild $mp1 $mp2" ERR $tserr $mp1cache $tscache
-set tscache "#%Module$major_minor_rel"
+set tscache "#%Module$cache_mcookie_version"
 set tserr [msg_create $mp2cache [err_couldnotopen_permdenied $mp2cache]]\n\n[msg_create $mp1cache]
 testouterrfile_cmd sh "cachebuild $mp2 $mp1" ERR $tserr $mp2cache $tscache
 file delete $mp1modfile
@@ -236,7 +236,7 @@ if {$is_stderr_tty} {
     create_dummy_modulefile $mp2modfile
     change_file_perms $mp1 $nowrite_perms
     set tserr [msg_create $mp1cache [err_couldnotopen_permdenied $mp1cache]]\n\n[msg_create $mp2cache]
-    set tscache "#%Module$major_minor_rel"
+    set tscache "#%Module$cache_mcookie_version"
     append tscache \n[list modulefile-content bar [file mtime $mp2modfile] #%Module #%Module\n]
     testouterrfile_cmd sh cachebuild ERR $tserr $mp2cache $tscache
     set tscache [couldnotopen_nofile $mp1cache]

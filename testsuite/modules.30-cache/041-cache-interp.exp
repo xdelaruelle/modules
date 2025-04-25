@@ -33,7 +33,7 @@ array set other_file_arr $other_file_list
 
 # create cache file for mp1 that supersedes command definition
 set fid [open $mp1cache w]
-puts $fid "#%Module$major_minor_rel
+puts $fid "#%Module$cache_mcookie_version
 modulefile-content foo/1.0 {} {#%Module} {#%Module}
 modulerc-content foo/.modulerc {#%Module} {#%Module}
 proc modulefile-content {args} {}
@@ -57,12 +57,12 @@ testouterr_cmd sh {avail -t} OK $tserr
 
 # test local variables and procedures are not propagated to the next evaluation
 set fid [open $mp1cache w]
-puts $fid "#%Module$major_minor_rel
+puts $fid "#%Module$cache_mcookie_version
 proc foo {args} {}
 set bar val"
 close $fid
 set fid [open $mp2cache w]
-puts $fid "#%Module$major_minor_rel
+puts $fid "#%Module$cache_mcookie_version
 if {\[llength \[info procs foo\]\]} {
     modulefile-content foo/1.0 {} {#%Module} {#%Module}
 }
@@ -77,7 +77,7 @@ testouterr_cmd sh {avail -t} OK {}
 
 # test a cachefile overriding basic Tcl command
 set fid [open $mp1cache w]
-puts $fid "#%Module$major_minor_rel
+puts $fid "#%Module$cache_mcookie_version
 proc set {args} {}"
 close $fid
 set tserr [msg_create $mp2cache]

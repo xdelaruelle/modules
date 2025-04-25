@@ -39,7 +39,7 @@ setenv_var MODULEPATH $mp1
 
 # cache with an unknown command
 set fid [open $mp1cache w]
-puts $fid "#%Module$major_minor_rel
+puts $fid "#%Module$cache_mcookie_version
 modulefile-content foo/1.0 1000000000 #%Module {#%Module
 module-whatis foo/1.0
 setenv FOO 1}
@@ -83,7 +83,7 @@ testouterr_cmd sh {load bar/2.0} $ans_load2 $cacheerr
 
 # cache with a command with bad args
 set fid [open $mp1cache w]
-puts $fid "#%Module$major_minor_rel
+puts $fid "#%Module$cache_mcookie_version
 modulefile-content foo/1.0 1000000000 #%Module {#%Module
 module-whatis foo/1.0
 setenv FOO 1}
@@ -109,7 +109,7 @@ testouterr_cmd sh {load bar/2.0} $ans_load2 $cacheerr
 
 # cache with unbalanced curly brace
 set fid [open $mp1cache w]
-puts $fid "#%Module$major_minor_rel
+puts $fid "#%Module$cache_mcookie_version
 modulefile-content foo/1.0 1000000000 #%Module {#%Module
 module-whatis foo/1.0
 setenv FOO 1}
@@ -135,7 +135,7 @@ testouterr_cmd_re sh {load bar/2.0} $ans_load2 $cacheerr
 
 # cache with unbalanced quote
 set fid [open $mp1cache w]
-puts $fid "#%Module$major_minor_rel
+puts $fid "#%Module$cache_mcookie_version
 modulefile-content foo/1.0 1000000000 #%Module {#%Module
 module-whatis foo/1.0
 setenv FOO 1}
@@ -162,7 +162,7 @@ testouterr_cmd_re sh {load bar/2.0} $ans_load2 $cacheerr
 
 # duplicate modulefile and modulerc entries
 set fid [open $mp1cache w]
-puts $fid "#%Module$major_minor_rel
+puts $fid "#%Module$cache_mcookie_version
 modulefile-content foo/1.0 1000000000 #%Module {#%Module
 module-whatis foo/1.0
 setenv FOO 1}

@@ -29,6 +29,8 @@ send_user "\tInitializing the testsuite ...\n"
 # Modules release number
 set major_minor_rel [join [lrange [split $install_version .] 0 1] .]
 
+set cache_mcookie_version 5.3
+
 # test kind of sh-shell we have
 if {[file type /bin/sh] eq {link}} {
    set sh_kind [file readlink /bin/sh]
@@ -1191,7 +1193,7 @@ proc create_dummy_cachefile {mp} {
     set cachefile $mp/.modulecache
     send_user "\tCreating dummy cache file $cachefile\n"
     set fid [open $cachefile w]
-    puts $fid "#%Module$::major_minor_rel"
+    puts $fid "#%Module$::cache_mcookie_version"
     close $fid
 }
 
