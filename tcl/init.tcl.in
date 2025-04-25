@@ -22,9 +22,10 @@
 
 # Runtime state properties (default value, proc to call to initialize state
 # value?)
-##nagelfar ignore +37 Found constant
+##nagelfar ignore +38 Found constant
 array set g_state_defs [list\
    autoinit {0}\
+   cache_mcookie_version {5.3}\
    clock_seconds {<undef> initStateClockSeconds}\
    domainname {<undef> {runCommand domainname}}\
    error_count {0}\

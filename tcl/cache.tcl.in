@@ -186,8 +186,8 @@ proc formatModuleCacheContent {modpath} {
 
    # prepend header if some content has been generated
    if {[string length $content]} {
-      regexp {^\d+\.\d+} [getState modules_release] majmin
-      set content "#%Module$majmin$content"
+      set cache_header "#%Module[getState cache_mcookie_version]"
+      set content $cache_header$content
    }
 
    return $content
