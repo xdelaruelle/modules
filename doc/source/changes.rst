@@ -1009,6 +1009,12 @@ The following module sub-commands appeared on Modules 5.
  module specification is provided as argument or if :file:`.modulecache` file
  is specifically linted.
 
+:subcmd:`cachebuild`
+
+ Starting Modules 5.6, the minimal Modules version specified in the cache file
+ header indicates the oldest Modules version compatible with this cache file
+ (5.3), rather than the version that generated the cache file.
+
 Environment
 """""""""""
 

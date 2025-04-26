@@ -139,6 +139,11 @@ Modules 5.6.0 (not yet released)
   containing newline character. Exception is made for *csh* and *tcsh* shells
   where newline characters are chopped from value. (fix issue #557)
 * Sort modules in JSON output as done on regular output.
+* :subcmd:`cachebuild` command now sets the minimal Modules version specified
+  in the cache file magic cookie header to the oldest Modules version
+  compatible with this cache file, rather than the version that generated the
+  cache file. Freshly generated cache files are compatible with Modules 5.3
+  and above.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

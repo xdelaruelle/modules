@@ -183,6 +183,9 @@ used or not if only a subset of elements is recorded.
 Cache validity
 --------------
 
+From Modules 5.3 to 5.5
+^^^^^^^^^^^^^^^^^^^^^^^
+
 Cache file header indicates a Modules version number. It corresponds to the
 Modules version:
 
@@ -196,6 +199,35 @@ upgraded to a newer minor version (for instance from 5.3 to 5.4):
   account, when it is ignored
 * better to ensure cache file is accurate for the Modules version as modulerc
   and modulefile commands may evolve from one version to another
+
+Starting Modules 5.6
+^^^^^^^^^^^^^^^^^^^^
+
+Approach to cache validity is changed on Modules 5.6 to cover use cases where
+different Modules installation uses the same set of modulepaths. This is for
+instance the case when a service provides modulepaths with cache files in them
+and just requires a minimal version of Modules. Or on a computing center, when
+the same modulepaths are used by different supercomputers which may use
+different version of Modules at some point in time.
+
+With this change the cache file header still indicates a Modules version
+number. But this version number now corresponds to the minimal Modules version
+able to use this cache file.
+
+With such change, backward compatibility is expected on module cache Tcl
+commands. Addition of new commands will lead to an increase of the minimal
+version required. Argument change to existing command is not possible, only
+the introduction of optional argument will be ok (with increase of minimal
+version required).
+
+When generating cache file, minimal version required is set back to ``5.3`` as
+no change occurred on the cache file format since the introduction of the
+cache feature.
+
+As minimal Modules version check code is the same for cache file than for
+modulefile since the introduction of the cache feature, cache file has always
+been taken into account as soon as the Modules version matches the minimal
+requirement.
 
 Cache usage
 -----------
