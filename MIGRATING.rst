@@ -59,6 +59,33 @@ before or after a particular date.
 The ``warning`` tag is set on modules targeted by a mfcmd:`module-warn`
 command.
 
+Simplified way to define module help message
+--------------------------------------------
+
+Until now module help message was defined through a specific Tcl procedure
+that outputs text to *stderr* channel:
+
+.. code-block:: tcl
+
+   #%Module
+   proc ModulesHelp {} {
+       puts stderr {Module Name: foo, Version: 1.0}
+       puts stderr {This modulefile does this and that}
+   }
+
+A new modulefile Tcl command is introduced, :mfcmd:`module-help`, to simplify
+a bit the definition of help message:
+
+.. code-block:: tcl
+
+   #%Module
+   module-help {Module Name: foo, Version: 1.0}
+   module-help {This modulefile does this and that}
+
+With this modulefile command there is no need to define the ``ModulesHelp``
+procedure anymore. As :mfcmd:`module-help` is reported on module *display*
+evaluation, help message will also be visible there.
+
 
 v5.5
 ====
