@@ -86,6 +86,33 @@ With this modulefile command there is no need to define the ``ModulesHelp``
 procedure anymore. As :mfcmd:`module-help` is reported on module *display*
 evaluation, help message will also be visible there.
 
+Support for newline character in environment variable value
+-----------------------------------------------------------
+
+It is now possible on *sh*, *bash*, *ksh*, *zsh* and *fish* shells to set
+value for environment variable that contains newline character:
+
+.. parsed-literal::
+
+    :ps:`$` cat /path/to/modulefiles/bar/1.0
+    #%Module
+    setenv BAR "multi\nline\nvalue"
+    :ps:`$` module load bar
+    :ps:`$` echo "$BAR"
+    multi
+    line
+    value
+
+Generated shell code on these shells has been changed to enclose value within
+single quotes rather escaping each special characters:
+
+.. parsed-literal::
+
+    :ps:`$` module mod-to-sh bash bar/1.0
+    BAR='multi
+    line
+    value'; export BAR;
+
 
 v5.5
 ====
