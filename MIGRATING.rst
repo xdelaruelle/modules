@@ -33,6 +33,32 @@ commands (:subcmd:`avail`, :subcmd:`list` and :subcmd:`spider`).
 When set, this is equivalent to always adding the :option:`--all` command-line
 option.
 
+Issue warning upon module evaluation
+------------------------------------
+
+The mfcmd:`module-warn` modulefile Tcl command is introduced to define warning
+message to print when loading specified modulefiles.
+
+.. parsed-literal::
+
+    :ps:`$` cat /path/to/modulefiles/foo/1.0
+    #%Module
+    module-warn --message {Please consider using "bar" module instead} foo
+    :ps:`$` module load foo
+    Loading :sgrhi:`foo/1.0`
+      :sgrwa:`WARNING`: Please consider using "bar" module instead
+
+The warning message is printed when targeted modulefile is evaluated in
+*load*, *display*, *help* or *test* mode.
+
+:mfcmd:`module-warn` supports the same kind of options than
+:mfcmd:`module-tag` or :mfcmd:`module-hide`: it is possible to specify a list
+of affected or unaffected users or groups. Warning may also be only effective
+before or after a particular date.
+
+The ``warning`` tag is set on modules targeted by a mfcmd:`module-warn`
+command.
+
 
 v5.5
 ====

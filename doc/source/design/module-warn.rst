@@ -4,7 +4,7 @@ module-warn modulefile command
 ==============================
 
 This design document describes the :mfcmd:`module-warn` Tcl command that emits
-warning message when targeted module is loaded.
+warning message when targeted module is evaluated.
 
 Need for such command comes from `EESSI`_ software-layer where a warning
 message is printed when loading modules if a file is not found.
