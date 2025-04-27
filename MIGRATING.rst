@@ -8,6 +8,32 @@ Modules. It provides an overview of the new features and changed behaviors
 that will be encountered when upgrading.
 
 
+v5.6 (not yet released)
+=======================
+
+Always see hidden modules
+-------------------------
+
+The ``hidden`` element is a new allowed value for the :mconfig:`avail_output`,
+:mconfig:`avail_terse_output`, :mconfig:`list_output`,
+:mconfig:`list_terse_output`, :mconfig:`spider_output` and
+:mconfig:`spider_terse_output` configuration options. When set into the value
+list of these options hidden modules are shown on the output of corresponding
+commands (:subcmd:`avail`, :subcmd:`list` and :subcmd:`spider`).
+
+.. parsed-literal::
+
+    --------------- :sgrdi:`/path/to/modulefiles` ---------------
+    bar/1.0
+    :ps:`$` module config avail_output +hidden
+    :ps:`$` ml av
+    --------------- :sgrdi:`/path/to/modulefiles` ---------------
+    bar/1.0  foo/1.0 <H>
+
+When set, this is equivalent to always adding the :option:`--all` command-line
+option.
+
+
 v5.5
 ====
 

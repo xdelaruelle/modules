@@ -87,7 +87,7 @@ Modules 5.6.0 (not yet released)
   :mconfig:`list_output`, :mconfig:`list_terse_output`,
   :mconfig:`spider_output` and :mconfig:`spider_terse_output` configuration
   options. When set, it is equivalent to use :option:`--all` option: hidden
-  modules are show.
+  modules are shown.
 * Produce a single output for multi pattern :subcmd:`avail` search rather than
   a separate output for each submitted pattern.
 * Produce a single output for multi pattern :subcmd:`whatis` search rather
