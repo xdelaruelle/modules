@@ -32,6 +32,20 @@ Where the ``modulecmd`` outputs valid shell commands to *stdout* which manipulat
 
      puts stderr "\n\tSome Text to Show\n"
 
+I have installed Modules but I get a ``module: command not found`` error
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This error means the ``module`` shell function or alias is not defined in your
+shell session.
+
+After :ref:`installing Modules<INSTALL>` and depending on the OS distribution
+you use, some additional steps may be necessary to make ``module`` properly
+defined in shell sessions whatever their kind (interactive or
+non-interactive).
+
+Follow the :ref:`enable-modules-in-shells` guidelines to adapt the
+initialization files of the shell you use.
+
 I put the ``module`` command in a script and I run the script... it doesn't change my environment?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

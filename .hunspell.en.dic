@@ -1220,3 +1220,5 @@ syntaxdbs
 spi
 LMUSE
 EESSI
+shopt
+fi

@@ -144,6 +144,55 @@ option available.
    process. On non-Linux systems, the ``gmake`` should be called instead of
    ``make``.
 
+.. _enable-modules-in-shells:
+
+Enable Modules in shells
+------------------------
+
+Shell initialization scripts should be adapted to enable Modules during their
+startup. Enabling Modules means defining the ``module`` shell function and
+applying its configuration.
+
+An easy way to achieve that is to make Modules initialization scripts part of
+the system-wide environment setup in ``/etc/profile.d``.To do so, make a link
+in this directory to the profile scripts that can be found in your Modules
+installation init directory. For instance, if Modules has been installed in
+``/usr/share/modules``:
+
+.. parsed-literal::
+
+    :ps:`$` ln -s /usr/share/modules/init/profile.sh /etc/profile.d/modules.sh
+    :ps:`$` ln -s /usr/share/modules/init/profile.csh /etc/profile.d/modules.csh
+
+These profile scripts will automatically adapt to the kind of ``sh`` or
+``csh`` shell you are running.
+
+Another approach is to get the Modules initialization script sourced from the
+shell configuration startup file. For instance following line could be added
+to the end of the ``~/.bashrc`` file if running Bash shell::
+
+    . /usr/share/modules/init/bash
+
+Beware that shells have multiple ways to initialize depending if they are a
+login shell or not and if they are launched in interactive mode or not.
+
+Depending on your OS distribution system-wide profile scripts may be ignored
+when initializing non-interactive shells. This is for instance the case on
+Debian distribution and its derivatives like Ubuntu. On such system, Modules
+initialization script should be sourced by shell initialization files to get
+``module`` function defined when executing a command through ``ssh`` or
+running a script. Add the following code snippets to the initialization files
+of the shell you use.
+
+* For **Bash**, update either system-wide (``/etc/bash.bashrc`` on Debian-like
+  systems) or personal (``~/.bashrc``) initialization file
+
+  .. code-block:: sh
+
+      # enable module command in non-interactive shells
+      if ! shopt -q login_shell; then
+          . /usr/share/modules/init/bash
+      fi
 
 Configuration
 -------------
@@ -152,31 +201,7 @@ Once installed you should review and adapt the configuration to make it fit
 your needs. The following steps are provided for example. They are not
 necessarily mandatory as it depends of the kind of setup you want to achieve.
 
-1. Enable Modules initialization at shell startup. An easy way to get module
-   function defined and its associated configuration setup at shell startup
-   is to make the initialization scripts part of the system-wide environment
-   setup in ``/etc/profile.d``. To do so, make a link in this directory to the
-   profile scripts that can be found in your Modules installation init
-   directory:
-
-   .. parsed-literal::
-
-       :ps:`$` ln -s PREFIX/init/profile.sh /etc/profile.d/modules.sh
-       :ps:`$` ln -s PREFIX/init/profile.csh /etc/profile.d/modules.csh
-
-   These profile scripts will automatically adapt to the kind of ``sh`` or
-   ``csh`` shell you are running.
-
-   Another approach may be to get the Modules initialization script sourced
-   from the shell configuration startup file. For instance following line
-   could be added to the end of the ``~/.bashrc`` file if running Bash shell::
-
-       source PREFIX/init/bash
-
-   Beware that shells have multiple ways to initialize depending if they are
-   a login shell or not and if they are launched in interactive mode or not.
-
-2. Define module paths to enable by default. Edit :file:`initrc` configuration
+1. Define module paths to enable by default. Edit :file:`initrc` configuration
    file in the directory designated by the :instopt:`--etcdir` option or edit
    :file:`modulespath` in the same directory.
 
@@ -209,7 +234,7 @@ necessarily mandatory as it depends of the kind of setup you want to achieve.
       files :file:`initrc` and :file:`modulespath` are respectively named
       ``modulerc`` and ``.modulespath``.
 
-3. Define modulefiles to load by default. Edit :file:`initrc` configuration
+2. Define modulefiles to load by default. Edit :file:`initrc` configuration
    file. Modulefiles to load cannot be specified in :file:`modulespath` file.
    Add there all the modulefiles you want to load by default at Modules
    initialization time.
@@ -252,14 +277,14 @@ needs. After that you still have to write modulefiles to get something to
 load and unload in your newly configured Modules setup. In case you want to
 achieve a specific setup, some additional steps may be required:
 
-4. In case the configuration you expect cannot be achieved through the
+3. In case the configuration you expect cannot be achieved through the
    :file:`initrc` configuration file, you may review and tune the
    initialization scripts. These files are located in the directory designated
    by the :instopt:`--initdir` option. Beware that these scripts could be
    overwritten when upgrading to a newer version of Modules, so configuration
    should be done through the :file:`initrc` file as far as possible.
 
-5. If you want to alter the way the :file:`modulecmd.tcl` script operates, the
+4. If you want to alter the way the :file:`modulecmd.tcl` script operates, the
    :file:`siteconfig.tcl` script may be used. This Tcl file is located in the
    directory designated by the :instopt:`--etcdir` option. Every time the
    :command:`module` command is called, it executes the :file:`modulecmd.tcl`
@@ -268,7 +293,7 @@ achieve a specific setup, some additional steps may be required:
    default configuration values and more largely could supersede all
    procedures defined in :file:`modulecmd.tcl` to obtain specific behaviors.
 
-6. Prior running the module sub-command specified as argument, the
+5. Prior running the module sub-command specified as argument, the
    :file:`modulecmd.tcl` script evaluates the global run-command files. These
    files are either the :file:`rc` file in the directory designated by the
    :instopt:`--etcdir` option, the file(s) designated in the

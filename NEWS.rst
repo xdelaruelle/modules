@@ -144,6 +144,7 @@ Modules 5.6.0 (not yet released)
   compatible with this cache file, rather than the version that generated the
   cache file. Freshly generated cache files are compatible with Modules 5.3
   and above.
+* Doc: improve :ref:`enable-modules-in-shells` guidelines.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
