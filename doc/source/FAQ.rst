@@ -185,51 +185,51 @@ Otherwise, you can load the TclX library package for your OS and the ``configure
                              (tclExtend.h,...) [[none]]
 
 
-Meta Information
-----------------
+General information
+-------------------
 
-Why does *modules* use Tcl?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Why does Modules use Tcl?
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The first versions of the *Modules* package used shell scripts to do its magic. The original authors then chose to implement the same in C to speed things up and to add features. At the time the only easily embeddable interpreter was Tcl which provided a standard language and the glue. Now that other interpreters are available they could be embedded, but haven't so far. There is also a pure Tcl version available.
+The first versions of the *Modules* package used shell scripts to do its
+magic. The original authors then chose to implement the same in C to speed
+things up and to add features. At the time the only easily embeddable
+interpreter was Tcl which provided a standard language and the glue.
+
+A pure Tcl version of the modulecmd script is available, and starting with
+Modules version 4, it became the default implementation. The use of Tcl for
+both the core commands and modulefile interpretation simplifies the addition
+of new features.
 
 How can I help?
 ^^^^^^^^^^^^^^^
 
-We can use help at various levels. The best way to contribute is to send in a patch file (see the FAQ on how to generate a patch file) with whatever fixes. The patch will be reviewed and tested. If you are a regular contributor then you'll likely be invited to become a developer and to have direct source access, and the fame, power, and prestige that all entails.
+See the :ref:`CONTRIBUTING` documentation. It provides guidelines on how to
+ask questions, report issues, submit patches.
 
 How do I download the source repository?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Anonymously clone the git repository, view the list of branches, and set to a specific branch:
+Anonymously clone the git repository:
 
 .. code-block:: sh
 
-     git clone git://git.code.sf.net/p/modules/git modules-myversion
-     cd modules-myversion
-     git branch -a
-     git checkout modules-3-X-Y
-     git status
+     git clone https://github.com/envmodules/modules.git
 
-How do I generate a patch file?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If you're starting from a tarball
-"""""""""""""""""""""""""""""""""
-
-Unpack the tarball and it should place the sources into a directory named modules-3.X.Y , then rename the directory to modules-3.X.Y-myversion or something like that. Make whatever changes you want, and be sure to test the changes and if you can add tests to identify the bug and the fix... that will endear yourself to the developers.
-
-Once you have the changes in your version, then unpack the original sources from the tarball in a directory side-by-side to the directory with your version, and at that parent level run the following ``diff`` command:
+Then you can create a specific branch and start your local adaptation if any:
 
 .. code-block:: sh
 
-     diff -u -r -P -N modules-3.X.Y modules-3.X.Y-myversion > my.patch
+     cd modules
+     git checkout -b my_work
 
-If you're starting from the git cloned repository:
-""""""""""""""""""""""""""""""""""""""""""""""""""
+I cannot find answer to my question
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-From within the git repositories.
+If your question isn't answered in the :ref:`INSTALL` documentation or the
+:ref:`module(1)` and :ref:`modulefile(5)` man pages, you may also refer to the
+:ref:`cookbook` section, which offers various installation examples.
 
-.. code-block:: sh
-
-     git diff > my.patch
+If you still can't find the information you need, consult the
+:ref:`CONTRIBUTING` documentation to learn how to ask your question within
+the Modules community.
