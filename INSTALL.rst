@@ -216,6 +216,13 @@ of the shell you use.
       # enable module command
       . /usr/share/modules/init/zsh
 
+* For **Ksh**, update personal (``~/.kshrc``) initialization file:
+
+  .. code-block:: sh
+
+      # enable module command
+      . /usr/share/modules/init/ksh
+
 Configuration
 -------------
 
