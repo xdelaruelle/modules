@@ -34,7 +34,7 @@ Proposition is to add a ``--mode`` option on concerned Tcl modulefile
 commands. This ``--mode`` option accepts a Tcl as value, for instance:
 
 * ``--mode load``
-* ``--module {load unload}``
+* ``--mode {load unload}``
 
 Concerned Tcl modulefile commands are:
 
@@ -45,6 +45,9 @@ Concerned Tcl modulefile commands are:
 * ``remove-path``
 * ``pushenv``
 * ``module load``
+* ``module load-any``
+* ``module try-load``
+* ``module unload``
 
 Support in Modules
 ------------------
@@ -54,12 +57,12 @@ if someone shows up and expresses a need.
 
 The implementation of this feature for the ``module load`` command may be
 non-trivial: currently when unloading modules, only modulefile unloads are
-expected.. Dependency resolution mechanism is expecting to have all the
+expected. Dependency resolution mechanism is expecting to have all the
 properties of the system when starting by looking at the loaded environment.
 Adding the ability to throw modulefile loads during this unload process
 requires to revise the current dependency resolution mechanism.
 
 Due to that, implementation if asked may first be done only for modulefile Tcl
-commands others than ``module load``.
+commands others than ``module``.
 
 .. vim:set tabstop=2 shiftwidth=2 expandtab autoindent:
