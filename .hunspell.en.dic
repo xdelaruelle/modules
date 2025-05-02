@@ -1222,3 +1222,5 @@ LMUSE
 EESSI
 shopt
 fi
+loginsh
+endif

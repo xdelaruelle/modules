@@ -185,14 +185,28 @@ running a script. Add the following code snippets to the initialization files
 of the shell you use.
 
 * For **Bash**, update either system-wide (``/etc/bash.bashrc`` on Debian-like
-  systems) or personal (``~/.bashrc``) initialization file
+  systems) or personal (``~/.bashrc``) initialization file:
 
   .. code-block:: sh
 
-      # enable module command in non-interactive shells
+      # enable module command in non-login shells
       if ! shopt -q login_shell; then
           . /usr/share/modules/init/bash
       fi
+
+* For **Csh**/**Tcsh**, add Modules initialization file into Csh rc directory
+  (``/etc/csh/cshrc.d`` on Debian-like systems)::
+
+      ln -s /usr/share/modules/init/csh /etc/csh/cshrc.d/modules
+
+  Or update personal (``~/.cshrc``) initialization file:
+
+  .. code-block:: csh
+
+      # enable module command in non-login shells
+      if (! $?loginsh) then
+          source /usr/share/modules/init/csh
+      endif
 
 Configuration
 -------------
