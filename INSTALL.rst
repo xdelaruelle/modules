@@ -208,6 +208,14 @@ of the shell you use.
           source /usr/share/modules/init/csh
       endif
 
+* For **Zsh**, update either system-wide (``/etc/zsh/zshenv`` on Debian-like
+  systems) or personal (``~/.zshenv``) initialization file:
+
+  .. code-block:: sh
+
+      # enable module command
+      . /usr/share/modules/init/zsh
+
 Configuration
 -------------
 
