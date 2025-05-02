@@ -223,6 +223,15 @@ of the shell you use.
       # enable module command
       . /usr/share/modules/init/ksh
 
+* For **Fish**, add Modules initialization file into Fish system-wide config
+  directory (``/etc/fish/conf.d``)::
+
+      ln -s /usr/share/modules/init/fish /etc/fish/conf.d/modules.fish
+
+  Or into Fish personal config directory (``~/.config/fish/conf.d``)::
+
+      ln -s /usr/share/modules/init/fish ~/.config/fish/conf.d/modules.fish
+
 Configuration
 -------------
 
