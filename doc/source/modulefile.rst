@@ -2190,9 +2190,9 @@ for Lmod, the alternative :command:`module` implementation developed in Lua.
 Such modulefiles can be evaluated by Modules without raising error.
 Differences between the two implementations are listed below.
 
-The ``add-property``, ``remove-property`` and ``extensions`` modulefile
-commands are evaluated as a *no-operation* command. No error is obtained if
-these commands are used in modulefiles but no change occurs.
+The ``remove-property`` and ``extensions`` modulefile commands are evaluated
+as a *no-operation* command. No error is obtained if these commands are used
+in modulefiles but no change occurs.
 
 The :mfcmd:`break` command does not accept any argument. A ``msg`` argument
 can be set on Lmod to provide a customized break error message.
@@ -2241,6 +2241,12 @@ specified is considered an optional pre-requirement. If it is loaded
 afterward and if the :mconfig:`auto_handling` configuration option is enabled,
 the dependent module will get automatically reloaded.
 
+.. only:: html
+
+   .. versionadded:: 5.1
+
+   .. versionchanged:: 5.6
+      Modulefile command :mfcmd:`add-property` implemented
 
 .. _Shell support:
 
