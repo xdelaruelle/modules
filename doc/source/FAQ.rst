@@ -151,6 +151,16 @@ Modules usually uses the the highest lexicographically sorted :ref:`modulefile(5
      #%Module
      set ModulesVersion native
 
+I cannot access regular man pages now I have loaded some module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If your system does not have the :envvar:`MANPATH` environment variable set by
+default, and you load a module that defines it, you must append a colon
+(``:``) to the end of the :envvar:`MANPATH` value. This ensures continued
+access to the system's default man pages.
+
+See :ref:`man-path` cookbook recipe for details.
+
 I don't want a *default* modulefile for the directory?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

@@ -145,6 +145,7 @@ Modules 5.6.0 (not yet released)
   cache file. Freshly generated cache files are compatible with Modules 5.3
   and above.
 * Doc: improve :ref:`enable-modules-in-shells` guidelines.
+* Doc: add :ref:`man-path` cookbook recipe.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
