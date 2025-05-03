@@ -2187,8 +2187,9 @@ Compatibility with Lmod Tcl modulefile
 
 The :file:`modulecmd.tcl` program supports Tcl modulefile or modulerc written
 for Lmod, the alternative :command:`module` implementation developed in Lua.
-Such modulefiles can be evaluated by Modules without raising error.
-Differences between the two implementations are listed below.
+Except for the specific cases listed below, such modulefiles can be evaluated
+by Modules without producing errors. Key differences between the two
+implementations are outlined below.
 
 The ``remove-property`` and ``extensions`` modulefile commands are evaluated
 as a *no-operation* command. No error is obtained if these commands are used
@@ -2196,6 +2197,12 @@ in modulefiles but no change occurs.
 
 The :mfcmd:`break` command does not accept any argument. A ``msg`` argument
 can be set on Lmod to provide a customized break error message.
+
+The :mfcmd:`setenv`, :mfcmd:`unsetenv`, :mfcmd:`prepend-path`,
+:mfcmd:`append-path`, :mfcmd:`remove-path`, :mfcmd:`pushenv` and ``module``
+:mfcmd:`load<module>`, :mfcmd:`load-any<module>`, :mfcmd:`try-load<module>`
+and :mfcmd:`unload<module>` modulefile commands do not support the ``--mode``
+option. An error is raised if this option is used.
 
 Use of :mfcmd:`reportError` command aborts modulefile evaluation on Lmod. This
 command only reports an error message on Modules.

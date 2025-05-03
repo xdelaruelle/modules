@@ -9,9 +9,9 @@ Lmod Tcl modulefile compatibility
   - No evaluation error
   - Be as close as possible to the behavior of Lmod
 
-- As of Modules v5.0, the following Tcl modulefile command of Lmod are not
-  supported. This document is about how supporting these command in Modules
-  v5.1.
+- Starting with Modules v5.1, the following Tcl modulefile commands from Lmod
+  are now supported. This document describes their implementation and behavior
+  in Modules v5.1 and later.
 
   - ``add-property``
   - ``remove-property``
@@ -381,5 +381,28 @@ Lmod Tcl modulefile compatibility
 
 - These commands are intended for use only within modulerc evaluation context
   (not within modulefile)
+
+
+``--mode`` option
+-----------------
+
+Lmod introduced on version ``8.7.60`` the ``--mode`` option (short name
+``-m`` or ``-mode``) for the following modulefile commands:
+
+* ``setenv``
+* ``unsetenv``
+* ``prepend-path``
+* ``append-path``
+* ``remove-path``
+* ``pushenv``
+* ``module load``
+* ``module load-any``
+* ``module try-load``
+* ``module unload``
+
+See :ref:`mode-select` design documentation to learn about this option.
+
+This ``--mode`` option is not supported currently on Modules and an error is
+raised when it is used in modulefiles.
 
 .. vim:set tabstop=2 shiftwidth=2 expandtab autoindent:
