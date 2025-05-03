@@ -1570,8 +1570,8 @@ the *modulefile* is being loaded.
 
  Unsets environment *variable*. When a *modulefile* is unloaded, no operation
  is performed unless if an optional *value* is defined, in which case
- *variable* is to *value*. The :mfcmd:`unsetenv` command changes the process'
- environment like :mfcmd:`setenv`.
+ *variable* is set to *value*. The :mfcmd:`unsetenv` command changes the
+ process' environment like :mfcmd:`setenv`.
 
  If the ``--noop-on-unload`` option is set, no operation is performed when
  *modulefile* is unloaded. If the ``--unset-on-unload`` option is set,
@@ -2203,6 +2203,9 @@ The :mfcmd:`setenv`, :mfcmd:`unsetenv`, :mfcmd:`prepend-path`,
 :mfcmd:`load<module>`, :mfcmd:`load-any<module>`, :mfcmd:`try-load<module>`
 and :mfcmd:`unload<module>` modulefile commands do not support the ``--mode``
 option. An error is raised if this option is used.
+
+The :mfcmd:`setenv` and :mfcmd:`unsetenv` modulefile commands do not support
+the ``--respect`` option. An error is raised if this option is used.
 
 Use of :mfcmd:`reportError` command aborts modulefile evaluation on Lmod. This
 command only reports an error message on Modules.

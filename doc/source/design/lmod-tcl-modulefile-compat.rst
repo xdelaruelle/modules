@@ -405,4 +405,23 @@ See :ref:`mode-select` design documentation to learn about this option.
 This ``--mode`` option is not supported currently on Modules and an error is
 raised when it is used in modulefiles.
 
+
+``--respect`` option
+--------------------
+
+Lmod has the ``--respect`` option (short name ``-r`` or ``-respect``) for the
+following modulefile commands:
+
+* ``setenv``
+* ``unsetenv``
+
+This option on ``setenv`` does not change the environment variable value, if
+this variable is already defined. On ``unsetenv``, environment variable is not
+unset if its current value does not equal the one specified on ``unsetenv``
+command.
+
+This ``--respect`` option is not supported currently on Modules and an error
+is raised when it is used in modulefiles.
+
+
 .. vim:set tabstop=2 shiftwidth=2 expandtab autoindent:
