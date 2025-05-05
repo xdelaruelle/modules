@@ -122,6 +122,8 @@ fixes bugs but also introduces new functionalities that are described in this
 section. See the :ref:`5.5 release notes<5.5 release notes>` for a complete
 list of the changes between Modules v5.4 and v5.5.
 
+.. _Logging activity:
+
 Logging activity
 ----------------
 
@@ -360,6 +362,8 @@ unless asked with :option:`--force` option. As a result an error is obtained
 when trying to reload Dependent Reload modules that conflict with other loaded
 modules. This error may be by-passed with :option:`--force` command-line
 option.
+
+.. _Specific modulepath for requirements:
 
 Specific modulepath for requirements
 ------------------------------------
@@ -615,6 +619,8 @@ amount of I/O operations:
       1.78    0.000027           0        40           fcntl
     ------ ----------- ----------- --------- --------- ----------------
     100.00    0.001520           1       946       137 total
+
+.. _Abort on error:
 
 Abort on error
 --------------
@@ -1331,6 +1337,8 @@ other value corresponds to the name of a collection to restore.
     Unloading bar/1.0
     Unloading foo/1.0
 
+.. _Stashing environment:
+
 Stashing environment
 --------------------
 
@@ -1704,6 +1712,8 @@ Note that when processing a :mfcmd:`family` command, the
 :envvar:`LMOD_FAMILY_\<NAME\>` environment variable is defined by Modules to
 be compatible with existing modulefiles or scripts relying on such variable.
 
+.. _More tagging capabilities:
+
 More tagging capabilities
 -------------------------
 
@@ -2026,6 +2036,8 @@ This new version is backward-compatible with previous version 4 releases. It
 fixes bugs but also introduces new functionalities that are described in this
 section. See the :ref:`4.8 release notes<4.8 release notes>` for a complete
 list of the changes between Modules v4.7 and v4.8.
+
+.. _Editing modulefiles:
 
 Editing modulefiles
 -------------------
@@ -3184,6 +3196,8 @@ A stack trace is also returned when an unknown error occurs in
       "eval $execcmdlist"
       Please report this issue at :noparse:`https://github.com/envmodules/modules/issues`
 
+.. _Automatic default and latest syms:
+
 Automatic default and latest symbolic versions
 ----------------------------------------------
 
@@ -4123,6 +4137,8 @@ fixes bugs but also introduces new functionalities that are described in this
 section. See the :ref:`4.1 release notes<4.1 release notes>` for a complete
 list of the changes between Modules v4.0 and v4.1.
 
+.. _Virtual modules:
+
 Virtual modules
 ---------------
 
@@ -4152,6 +4168,8 @@ beginning of the main procedure code.
 definitions made in ``modulecmd.tcl`` with site-specific code. A module
 sub-command can for instance be redefined to make it fit local needs
 without having to touch the main ``modulecmd.tcl``.
+
+.. _Quarantine mechanism:
 
 Quarantine mechanism to protect module execution
 ------------------------------------------------
@@ -4431,6 +4449,8 @@ Interpretation of modulefiles and modulerc are handled by the minimum
 required Tcl interpreters. Which means a configured Tcl interpreter is
 reused as much as possible between each modulefile interpretation or
 between each modulerc interpretation.
+
+.. _Sourcing modulefiles:
 
 Sourcing modulefiles
 ^^^^^^^^^^^^^^^^^^^^

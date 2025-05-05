@@ -1,0 +1,118 @@
+.. _other-implementations:
+
+Other ``module`` implementations
+================================
+
+Since the inception of the Environment Modules project in 1991, the ``module``
+command has become a de facto standard interface for dynamically modifying a
+user's environment via modulefiles. Over time, several alternative
+implementations of the ``module`` command have been developed.
+
+This document provides an overview of known ``module`` command
+implementations, with a particular focus on Lmod, the most widely adopted
+alternative. The goal is to inform users and developers of the current
+landscape of ``module`` system tools.
+
+Lmod
+----
+
+`Lmod`_ is an implementation of Environment Modules written in Lua. Its
+development started in 2008 and along a years Lmod has introduced many new
+features into the ``module`` world: software hierarchy, cache mechanism, Lua
+modulefile support, ``ml`` command, etc.
+
+Lmod gained popularity in the mid-2010s, during a period when the Modules
+project was largely inactive. It is now widely adopted, particularly in the
+HPC community.
+
+.. _Lmod: https://github.com/TACC/Lmod/
+
+Today, Lmod and Modules offer broadly similar feature sets. The following
+table highlights features that are unique to each implementation.
+
++---------------------------------------------+---------------------------------------------+
+| Lmod (``8.8``)                              | Modules (``5.6``)                           |
++---------------------------------------------+---------------------------------------------+
+| * Integration with *rc* shell and *json*    | * Integration with *cmd* and *pwsh* shells  |
+|   structured output                         |   and *Tcl* language                        |
+| * `Lua modulefile support`_                 | * :envvar:`Automated module handling        |
+| * `Module hierarchy`_                       |   <MODULES_AUTO_HANDLING>`                  |
+| * Save configuration under                  | * :ref:`Advanced module version specifiers` |
+|   :envvar:`XDG_CONFIG_HOME`                 | * :ref:`Module variants`                    |
+| * `i18n`_                                   | * :ref:`Virtual modules`                    |
+| * `Find best module`_                       | * :ref:`Sourcing modulefiles`               |
+| * `Path entry priorities`_                  | * Handle modulefile outside modulepath      |
+|                                             | * :ref:`Quarantine mechanism`               |
+|                                             | * :ref:`Case insensitive module             |
+|                                             |   load<Insensitive case>`                   |
+|                                             | * Automatic ``latest`` and ``loaded``       |
+|                                             |   symbols                                   |
+|                                             | * ``alias``, ``command``, ``loaded``,       |
+|                                             |   ``tags``, ``usergroups`` and ``username`` |
+|                                             |   sub-commands of :mfcmd:`module-info`      |
+|                                             | * :ref:`Super-sticky modules<Sticky         |
+|                                             |   modules>`                                 |
+|                                             | * :option:`Fine-tuned output                |
+|                                             |   configuration<--output>`                  |
+|                                             | * :ref:`Editing modulefiles`                |
+|                                             | * :ref:`Tag when loading module<More        |
+|                                             |   tagging capabilities>`                    |
+|                                             | * :ref:`Stashing environment`               |
+|                                             | * :ref:`Extra specifier`                    |
+|                                             | * Configurable :ref:`Abort on error`        |
+|                                             |   behavior                                  |
+|                                             | * Integration with *bash-eval* and *fish*   |
+|                                             |   shells in :mfcmd:`source-sh`              |
+|                                             | * :ref:`Specific modulepath for             |
+|                                             |   requirements`                             |
+|                                             | * :ref:`Logging activity`                   |
++---------------------------------------------+---------------------------------------------+
+
+.. _Module hierarchy: https://lmod.readthedocs.io/en/latest/080_hierarchy.html
+.. _Lua modulefile support: https://lmod.readthedocs.io/en/latest/050_lua_modulefiles.html
+.. _Find best module: https://lmod.readthedocs.io/en/latest/060_locating.html
+.. _i18n: https://lmod.readthedocs.io/en/latest/185_localization.html
+.. _Path entry priorities: https://lmod.readthedocs.io/en/latest/077_ref_counting.html#specifying-priorities-for-path-entries
+
+Other alternatives
+------------------
+
+This section intends to reference all other existing alternative ``module``
+implementations.
+
+* `Modulecmd.py`_: Environment Modules implementation in Python
+* `Pmodules`_: Environment Modules implementation in Bash
+* `RSModules`_: Environment Modules implementation in Rust
+
+.. _Modulecmd.py: https://github.com/tjfulle/Modulecmd.py
+.. _Pmodules: https://gitlab.psi.ch/Pmodules
+.. _RSModules: https://github.com/fretn/rsmodules
+
+If you know of a ``module`` implementation project that's not listed here,
+please :ref:`let us know<Community>` so we can include it.
+
+Related projects
+----------------
+
+Beyond alternative implementations of the ``module`` command, several projects
+have been developed along the years to extend its functionality or provide
+additional tools that enhance how modulefiles are handled.
+
+* `Devel::IPerl::Plugin::EnvironmentModules`_: interact with Environment
+  Modules in a Jupyter IPerl kernel
+* `Env::Modulecmd`_: interface to ``modulecmd`` from Perl
+* `environmentmodules`_: Python interface for Environment Modules
+* `flavours`_: extension built on top of Modules v3 to provide module auto
+  handling mechanisms
+* `Mii`_: a smart search engine for module environments
+* `RenvModule`_: interface to Environment Modules within the R environment
+
+.. _Devel\:\:IPerl\:\:Plugin\:\:EnvironmentModules: https://github.com/kiwiroy/Devel-IPerl-Plugin-EnvironmentModules
+.. _Env\:\:Modulecmd: https://metacpan.org/pod/Env::Modulecmd
+.. _environmentmodules: https://github.com/ben-albrecht/environmentmodules
+.. _flavours: https://sourceforge.net/projects/flavours/
+.. _Mii: https://github.com/codeandkey/mii
+.. _RenvModule: https://cran.r-project.org/web/packages/RenvModule/index.html
+
+If you're aware of a ``module``-related project missing from this list, feel
+free to :ref:`contact us<Community>` so we can add it.

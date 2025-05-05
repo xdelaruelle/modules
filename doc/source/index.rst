@@ -94,6 +94,7 @@ automatically configured to the correct architecture.
    NEWS
    FAQ
    changes
+   other-implementations
 
 .. toctree::
    :hidden:
@@ -149,6 +150,8 @@ Links
 * Source repository: https://github.com/envmodules/modules
 * Issue tracking system: https://github.com/envmodules/modules/issues
 * Download releases: https://github.com/envmodules/modules/releases
+
+.. _Community:
 
 Community
 ---------
