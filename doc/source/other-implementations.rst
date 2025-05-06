@@ -30,43 +30,40 @@ HPC community.
 Today, Lmod and Modules offer broadly similar feature sets. The following
 table highlights features that are unique to each implementation.
 
-+---------------------------------------------+---------------------------------------------+
-| Lmod (``8.8``)                              | Modules (``5.6``)                           |
-+---------------------------------------------+---------------------------------------------+
-| * Integration with *rc* shell and *json*    | * Integration with *cmd* and *pwsh* shells  |
-|   structured output                         |   and *Tcl* language                        |
-| * `Lua modulefile support`_                 | * :envvar:`Automated module handling        |
-| * `Module hierarchy`_                       |   <MODULES_AUTO_HANDLING>`                  |
-| * Save configuration under                  | * :ref:`Advanced module version specifiers` |
-|   :envvar:`XDG_CONFIG_HOME`                 | * :ref:`Module variants`                    |
-| * `i18n`_                                   | * :ref:`Virtual modules`                    |
-| * `Find best module`_                       | * :ref:`Sourcing modulefiles`               |
-| * `Path entry priorities`_                  | * Handle modulefile outside modulepath      |
-|                                             | * :ref:`Quarantine mechanism`               |
-|                                             | * :ref:`Case insensitive module             |
-|                                             |   load<Insensitive case>`                   |
-|                                             | * Automatic ``latest`` and ``loaded``       |
-|                                             |   symbols                                   |
-|                                             | * ``alias``, ``command``, ``loaded``,       |
-|                                             |   ``tags``, ``usergroups`` and ``username`` |
-|                                             |   sub-commands of :mfcmd:`module-info`      |
-|                                             | * :ref:`Super-sticky modules<Sticky         |
-|                                             |   modules>`                                 |
-|                                             | * :option:`Fine-tuned output                |
-|                                             |   configuration<--output>`                  |
-|                                             | * :ref:`Editing modulefiles`                |
-|                                             | * :ref:`Tag when loading module<More        |
-|                                             |   tagging capabilities>`                    |
-|                                             | * :ref:`Stashing environment`               |
-|                                             | * :ref:`Extra specifier`                    |
-|                                             | * Configurable :ref:`Abort on error`        |
-|                                             |   behavior                                  |
-|                                             | * Integration with *bash-eval* and *fish*   |
-|                                             |   shells in :mfcmd:`source-sh`              |
-|                                             | * :ref:`Specific modulepath for             |
-|                                             |   requirements`                             |
-|                                             | * :ref:`Logging activity`                   |
-+---------------------------------------------+---------------------------------------------+
+.. list-table::
+   :header-rows: 1
+
+   * - Lmod ``8.8``
+     - Modules ``5.6``
+   * - * Integration with *rc* shell and *json* structured output
+       * `Lua modulefile support`_
+       * `Module hierarchy`_
+       * Save configuration under :envvar:`XDG_CONFIG_HOME`
+       * `i18n`_
+       * `Find best module`_
+       * `Path entry priorities`_
+     - * Integration with *cmd* and *pwsh* shells and *Tcl* language
+       * :envvar:`Automated module handling<MODULES_AUTO_HANDLING>`
+       * :ref:`Advanced module version specifiers`
+       * :ref:`Module variants`
+       * :ref:`Virtual modules`
+       * :ref:`Sourcing modulefiles`
+       * Handle modulefile outside modulepath
+       * :ref:`Quarantine mechanism`
+       * :ref:`Case insensitive module load<Insensitive case>`
+       * Automatic ``latest`` and ``loaded`` symbols
+       * ``alias``, ``command``, ``loaded``, ``tags``, ``usergroups`` and
+         ``username`` sub-commands of :mfcmd:`module-info`
+       * :ref:`Super-sticky modules<Sticky modules>`
+       * :option:`Fine-tuned output configuration<--output>`
+       * :ref:`Editing modulefiles`
+       * :ref:`Tag when loading module<More tagging capabilities>`
+       * :ref:`Stashing environment`
+       * :ref:`Extra specifier`
+       * Configurable :ref:`Abort on error` behavior
+       * Integration with *bash-eval* and *fish* shells in :mfcmd:`source-sh`
+       * :ref:`Specific modulepath for requirements`
+       * :ref:`Logging activity`
 
 .. _Module hierarchy: https://lmod.readthedocs.io/en/latest/080_hierarchy.html
 .. _Lua modulefile support: https://lmod.readthedocs.io/en/latest/050_lua_modulefiles.html
