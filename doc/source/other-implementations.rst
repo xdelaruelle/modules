@@ -71,6 +71,53 @@ table highlights features that are unique to each implementation.
 .. _i18n: https://lmod.readthedocs.io/en/latest/185_localization.html
 .. _Path entry priorities: https://lmod.readthedocs.io/en/latest/077_ref_counting.html#specifying-priorities-for-path-entries
 
+The following table highlights ``module`` sub-commands that are exclusive to
+either Lmod or Modules. In some cases, similar functionality exists under
+different sub-command names or mechanisms. A correspondence table is provided
+at the end of this section to map these equivalents.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Lmod ``8.8``
+     - Modules ``5.6``
+   * - ``category``, ``describe``, ``disable``, ``overview``, ``tablelist``,
+       ``update``
+     - :subcmd:`aliases`, :subcmd:`append-path`, :subcmd:`cachebuild`,
+       :subcmd:`cacheclear`, :subcmd:`clear`, :subcmd:`config`,
+       :subcmd:`edit`, :subcmd:`info-loaded`, :subcmd:`initadd`,
+       :subcmd:`initclear`, :subcmd:`initlist`, :subcmd:`initprepend`,
+       :subcmd:`initrm`, :subcmd:`initswitch`, :subcmd:`is-saved`,
+       :subcmd:`is-used`, :subcmd:`lint`, :subcmd:`mod-to-sh`, :subcmd:`path`,
+       :subcmd:`paths`, :subcmd:`prepend-path`, :subcmd:`remove-path`,
+       :subcmd:`saverm`, :subcmd:`saveshow`, :subcmd:`sh-to-mod`,
+       :subcmd:`source`, :subcmd:`stash`, :subcmd:`stashclear`,
+       :subcmd:`stashlist`, :subcmd:`stashpop`, :subcmd:`stashrm`,
+       :subcmd:`stashshow`, :subcmd:`state`, :subcmd:`test`
+
+
+The following table highlights Tcl modulefile commands that are exclusive to
+either Lmod or Modules. In some cases, similar functionality exists under
+different command names or mechanisms. A correspondence table is provided at
+the end of this section to map these equivalents.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Lmod ``8.8``
+     - Modules ``5.6``
+   * - ``extensions``, ``haveDynamicMPATH``, ``remove-property``
+     - :mfcmd:`getvariant`, :mfcmd:`is-saved`, :mfcmd:`is-used`,
+       :mfcmd:`lsb-release`, :mfcmd:`module-help`, :mfcmd:`module-tag`,
+       :mfcmd:`module-virtual`, :mfcmd:`module-warn`,
+       :mfcmd:`modulepath-label`, :mfcmd:`modulepath-label`,
+       :mfcmd:`reportWarning`, :mfcmd:`uncomplete`, :mfcmd:`variant`,
+       :mfcmd:`x-resource`
+
+See the :ref:`Compatibility with Lmod Tcl modulefile` section for details on
+how the implementation of the Tcl modulefile commands differ between Lmod and
+Modules.
+
 Other alternatives
 ------------------
 
