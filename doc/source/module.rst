@@ -4750,7 +4750,7 @@ ENVIRONMENT
  assembling the result into a complete SGR sequence (``\33[...m``). Common
  values to concatenate include ``1`` for bold, ``4`` for underline, ``30`` to
  ``37`` for foreground colors and ``90`` to ``97`` for 16-color mode
- foreground colors. See also https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters
+ foreground colors. See also https://en.wikipedia.org/wiki/ANSI_escape_code#Select_Graphic_Rendition_parameters
  for a complete SGR code reference.
 
  No graphical rendition will be applied to an output item that could normally

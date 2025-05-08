@@ -479,7 +479,7 @@ path does not exist (in this example ``$swroot/openmpi/4.0/1/gnu-8.2.0``) it wil
 abort in this fashion.
 
 In the above, we have explicitly unloaded openmpi, switched the compilers, and
-then reloaded openmpi. A nice feature of `Flavours <Flavours extension>`_ is that it can handle the
+then reloaded openmpi. A nice feature of the `Flavours extension`_ is that it can handle the
 switching out of compilers or other modulefiles which other modulefiles depend on,
 as:
 

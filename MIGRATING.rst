@@ -3356,7 +3356,7 @@ selection of module versions. It copes very well with command-line typing, by
 avoiding characters having a special meaning on shells. Moreover the users of
 Spack that also are users of Modules may already be familiar with this syntax.
 
-.. _version specifier syntax: https://spack.readthedocs.io/en/stable/basic_usage.html#version-specifier
+.. _version specifier syntax: https://spack.readthedocs.io/en/latest/basic_usage.html#version-specifier
 .. _Spack: https://github.com/spack/spack
 
 The mechanism introduced here is called *advanced module version specifier*
@@ -3519,7 +3519,7 @@ options take as value a colon-separated list in the same fashion ``LS_COLORS``
 does. In this list, output item that should be highlighted is designated by
 a key which is associated to a `Select Graphic Rendition (SGR) code`_.
 
-.. _Select Graphic Rendition (SGR) code: https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters
+.. _Select Graphic Rendition (SGR) code: https://en.wikipedia.org/wiki/ANSI_escape_code#Select_Graphic_Rendition_parameters
 
 The ``MODULES_TERM_BACKGROUND`` environment variable and the
 ``--with-terminal-background`` configure option help Modules to determine if

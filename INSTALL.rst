@@ -1008,7 +1008,7 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
  keep-loaded (``kL``) and warning (``W``).
 
  For a complete SGR code reference, see
- https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters.
+ https://en.wikipedia.org/wiki/ANSI_escape_code#Select_Graphic_Rendition_parameters.
  (default=\ ``hi=1:db=2:tr=2:se=2:er=91:wa=93:me=95:in=94:mp=1;94:di=94:al=96:va=93:sy=95:de=4:cm=92:aL=100:L=90;47:H=2:F=41:nF=31;43:S=46:sS=44:kL=30;48;5;109:W=30;43``)
 
  This installation option defines the default value of the :mconfig:`colors`
