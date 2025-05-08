@@ -7,6 +7,10 @@
       white-space: normal !important;
    }
 
+   .wy-table-responsive table td {
+      vertical-align: top !important;
+   }
+
    .wy-table-responsive {
       overflow: visible !important;
    }
