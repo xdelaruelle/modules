@@ -318,6 +318,18 @@ texinfo_documents = [
 ]
 
 
+# -- Options for linkcheck ------------------------------------------------
+
+linkcheck_ignore = [
+    'https://matrix.to/#',
+    'module.html#version-specifiers',
+    'tag:S,F',
+    'tag:sticky',
+]
+linkcheck_timeout = 5
+linkcheck_workers = 1
+
+
 # -- Extension interface --------------------------------------------------
 
 from sphinx import addnodes

@@ -89,6 +89,9 @@ ifneq ($(builddoc),p)
 $(SOURCE_DIR)/version.py: $(SOURCE_DIR)/version.py.in ../version.inc
 	$(translate-in-script)
 
+linkcheck: $(SOURCE_DIR)/version.py
+	$(SPHINXBUILD) $(SPHINXOPTS) -b linkcheck "$(SOURCE_DIR)" "$(BUILD_DIR)"
+
 $(BUILD_DIR)/%.html: $(SOURCE_DIR)/%.rst $(SOURCE_DIR)/version.py
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/*.html
 	$(SPHINXBUILD) $(SPHINXOPTS) -b html "$(SOURCE_DIR)" "$(BUILD_DIR)"
