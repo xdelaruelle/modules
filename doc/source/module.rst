@@ -478,6 +478,8 @@ switches are accepted:
 
     .. versionadded:: 5.1
 
+.. _--output:
+
 .. option:: --output=LIST, -o LIST
 
  Define the content to report in addition to module names. This option is
@@ -4387,6 +4389,8 @@ ENVIRONMENT
  .. only:: html
 
     .. versionadded:: 4.4
+
+.. _MODULES_AUTO_HANDLING:
 
 .. envvar:: MODULES_AUTO_HANDLING
 

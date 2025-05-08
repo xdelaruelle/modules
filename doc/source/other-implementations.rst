@@ -33,8 +33,8 @@ table highlights features that are unique to each implementation.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod ``8.8``
-     - Modules ``5.6``
+   * - Lmod 8.8
+     - Modules 5.6
    * - * Integration with *rc* shell and *json* structured output
        * `Lua modulefile support`_
        * `Module hierarchy`_
@@ -42,8 +42,12 @@ table highlights features that are unique to each implementation.
        * `i18n`_
        * `Find best module`_
        * `Path entry priorities`_
+       * ``--regexp`` search option
+       * `settarg`_
+       * `Hook functions`_
+       * |LMOD_FILE_IGNORE_PATTERNS|_ environment variable
      - * Integration with *cmd* and *pwsh* shells and *Tcl* language
-       * :envvar:`Automated module handling<MODULES_AUTO_HANDLING>`
+       * :ref:`Automated module handling<MODULES_AUTO_HANDLING>`
        * :ref:`Advanced module version specifiers`
        * :ref:`Module variants`
        * :ref:`Virtual modules`
@@ -55,7 +59,7 @@ table highlights features that are unique to each implementation.
        * ``alias``, ``command``, ``loaded``, ``tags``, ``usergroups`` and
          ``username`` sub-commands of :mfcmd:`module-info`
        * :ref:`Super-sticky modules<Sticky modules>`
-       * :option:`Fine-tuned output configuration<--output>`
+       * :ref:`Fine-tuned output configuration<--output>`
        * :ref:`Editing modulefiles`
        * :ref:`Tag when loading module<More tagging capabilities>`
        * :ref:`Stashing environment`
@@ -64,12 +68,17 @@ table highlights features that are unique to each implementation.
        * Integration with *bash-eval* and *fish* shells in :mfcmd:`source-sh`
        * :ref:`Specific modulepath for requirements`
        * :ref:`Logging activity`
+       * :command:`envml` launcher
 
 .. _Module hierarchy: https://lmod.readthedocs.io/en/latest/080_hierarchy.html
 .. _Lua modulefile support: https://lmod.readthedocs.io/en/latest/050_lua_modulefiles.html
 .. _Find best module: https://lmod.readthedocs.io/en/latest/060_locating.html
 .. _i18n: https://lmod.readthedocs.io/en/latest/185_localization.html
 .. _Path entry priorities: https://lmod.readthedocs.io/en/latest/077_ref_counting.html#specifying-priorities-for-path-entries
+.. _settarg: https://lmod.readthedocs.io/en/latest/310_settarg.html
+.. _Hook functions: https://lmod.readthedocs.io/en/latest/170_hooks.html#hook-functions
+.. |LMOD_FILE_IGNORE_PATTERNS| replace:: ``LMOD_FILE_IGNORE_PATTERNS``
+.. _LMOD_FILE_IGNORE_PATTERNS: https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html#setting-environment-variables-or-cosmic-assign-at-startup
 
 The following table highlights ``module`` sub-commands that are exclusive to
 either Lmod or Modules. In some cases, similar functionality exists under
@@ -79,8 +88,8 @@ at the end of this section to map these equivalents.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod ``8.8``
-     - Modules ``5.6``
+   * - Lmod 8.8
+     - Modules 5.6
    * - ``category``, ``describe``, ``disable``, ``overview``, ``tablelist``,
        ``update``
      - :subcmd:`aliases`, :subcmd:`append-path`, :subcmd:`cachebuild`,
@@ -104,8 +113,8 @@ the end of this section to map these equivalents.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod ``8.8``
-     - Modules ``5.6``
+   * - Lmod 8.8
+     - Modules 5.6
    * - ``extensions``, ``haveDynamicMPATH``, ``remove-property``
      - :mfcmd:`getvariant`, :mfcmd:`is-saved`, :mfcmd:`is-used`,
        :mfcmd:`lsb-release`, :mfcmd:`module-help`, :mfcmd:`module-tag`,
