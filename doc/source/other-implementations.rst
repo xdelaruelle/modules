@@ -127,6 +127,120 @@ See the :ref:`Compatibility with Lmod Tcl modulefile` section for details on
 how the implementation of the Tcl modulefile commands differ between Lmod and
 Modules.
 
+The following table provides a correspondence between features in Lmod and
+Modules that offer similar functionality, even if they differ in name or
+implementation.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Lmod 8.8
+     - Modules 5.6
+   * - `Module properties`_
+     - :ref:`Module tags` 
+   * - `One name rule`_
+     - :mconfig:`unique_name_loaded` configuration option
+   * - `Custom labels for avail`_
+     - :mfcmd:`modulepath-label` modulefile command
+   * - `Irreversible module actions`_
+     - :ref:`Change modulefile command behavior`
+   * - `NAG file`_
+     - :mfcmd:`module-forbid`, :mfcmd:`module-warn` modulefile commands
+   * - Lmod + `XALT`_
+     - :ref:`Logging activity`
+   * - `Hook functions`_
+     - :ref:`Override any internal procedures or set trace hook<Site-specific
+       configuration>`
+   * - `Autoswap`_
+     - :ref:`Conflict unload MIGRATING`
+   * - |LMOD_DOWNSTREAM_CONFLICTS|_ environment variable
+     - :ref:`Dependencies between modulefiles`
+   * - |LMOD_QUARANTINE_VARS|_ environment variable
+     - :mconfig:`protected_envvars` configuration option
+   * - |clearLmod|_ shell function
+     - ``module`` :subcmd:`clear`
+   * - |update_lmod_system_cache_files|_ script
+     - ``module`` :subcmd:`cachebuild`
+   * - |sh_to_modulefile|_ script
+     - ``module`` :subcmd:`sh-to-mod`
+   * - |check_module_tree_syntax|_ script
+     - ``module`` :subcmd:`lint`
+   * - ``module --checkSyntax load``
+     - ``module`` :subcmd:`lint`
+   * - ``module --config``
+     - ``module`` :subcmd:`config`
+   * - ``module update``
+     - ``module`` :subcmd:`reload`
+   * - ``$LMOD_CMD bash load``
+     - ``module`` :subcmd:`mod-to-sh` ``bash``
+   * - ``module --raw show`` 
+     - ``EDITOR=cat module`` :subcmd:`edit`
+   * - ``module --location show``
+     - ``module`` :subcmd:`path`
+   * - ``module --mt``
+     - ``module`` :subcmd:`state`
+   * - ``module overview``
+     - ``module avail`` :option:`--no-indepth`
+   * - ``module --regexp avail``
+     - ``module avail`` :option:`--contains`
+   * - ``module --show_hidden avail``
+     - ``module avail`` :option:`--all`
+       or ``module avail`` :option:`--output` ``+hidden``
+   * - ``module --style=<style_name> avail``
+     - ``module avail`` :option:`--output` ``<element_list>``
+   * - ``module category``
+     - ``module`` :subcmd:`search`
+   * - ``module --brief list``
+     - ``module config`` :mconfig:`hide_auto_loaded` ``1``
+   * - ``module tablelist``
+     - ``module list`` :option:`--json`
+   * - ``module describe``
+     - ``module`` :subcmd:`saveshow`
+   * - ``module disable``
+     - ``module`` :subcmd:`saverm`
+   * - ``module --pin_versions restore``
+     - ``module config`` :mconfig:`collection_pin_version` ``1`` +
+       ``module save`` + ``module restore``
+   * - ``module --initial_load restore``
+     - ``module restore`` during :ref:`Modules initialization<Initial
+       environment>`
+   * - ``atleast("foo","5.0")``
+     - |foo@5.0:|_
+   * - ``atmost("foo","5.0")``
+     - |foo@:5.0|_
+   * - ``between("foo","5.0","7.0")``
+     - |foo@5.0:7.0|_
+   * - ``latest("foo")``
+     - |foo@latest|_
+
+.. _Irreversible module actions: https://lmod.readthedocs.io/en/latest/370_irreversible.html
+.. _NAG file: https://lmod.readthedocs.io/en/latest/140_deprecating_modules.html
+.. _Custom labels for avail: https://lmod.readthedocs.io/en/latest/200_avail_custom.html
+.. _Module properties: https://lmod.readthedocs.io/en/latest/145_properties.html
+.. _One name rule: https://lmod.readthedocs.io/en/latest/010_user.html#users-can-only-have-one-version-active-the-one-name-rule
+.. _XALT: https://github.com/xalt/xalt
+.. _Autoswap: https://lmod.readthedocs.io/en/latest/060_locating.html#autoswapping-rules
+.. |LMOD_DOWNSTREAM_CONFLICTS| replace:: ``LMOD_DOWNSTREAM_CONFLICTS``
+.. _LMOD_DOWNSTREAM_CONFLICTS: https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html#configuration-or-cosmic-assign-at-startup
+.. |LMOD_QUARANTINE_VARS| replace:: ``LMOD_QUARANTINE_VARS``
+.. _LMOD_QUARANTINE_VARS: https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html#environment-variables-only
+.. |clearLmod| replace:: ``clearLmod``
+.. _clearLmod: https://lmod.readthedocs.io/en/latest/010_user.html#clearlmod-complete-remove-lmod-setup
+.. |check_module_tree_syntax| replace:: ``check_module_tree_syntax``
+.. _check_module_tree_syntax: https://lmod.readthedocs.io/en/latest/360_check_syntax.html
+.. |update_lmod_system_cache_files| replace:: ``update_lmod_system_cache_files``
+.. _update_lmod_system_cache_files: https://lmod.readthedocs.io/en/latest/130_spider_cache.html
+.. |sh_to_modulefile| replace:: ``sh_to_modulefile``
+.. _sh_to_modulefile: https://lmod.readthedocs.io/en/latest/260_sh_to_modulefile.html#converting-shell-scripts-to-modulefiles
+.. |foo@5.0:| replace:: ``foo@5.0:``
+.. _foo@5.0\:: module.html#version-specifiers
+.. |foo@:5.0| replace:: ``foo@:5.0``
+.. _foo@\:5.0: module.html#version-specifiers
+.. |foo@5.0:7.0| replace:: ``foo@5.0:7.0``
+.. _foo@5.0\:7.0: module.html#version-specifiers
+.. |foo@latest| replace:: ``foo@latest``
+.. _foo@latest: module.html#version-specifiers
+
 Other alternatives
 ------------------
 

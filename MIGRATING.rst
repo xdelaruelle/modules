@@ -233,6 +233,8 @@ reserved keyword on this shell.
 The Windows-specific distribution zipball of Modules has been updated to also
 contain the required files to setup PowerShell support.
 
+.. _Conflict unload MIGRATING:
+
 Conflict unload
 ---------------
 
@@ -1274,6 +1276,8 @@ All shells supported by :file:`modulecmd.tcl` script are supported by
     os.environ['FOO'] = 'value'
     os.environ['BAR'] = 'othervalue'
 
+.. _Initial environment:
+
 Initial environment
 -------------------
 
@@ -1530,6 +1534,8 @@ also added to change the output redirection behavior for a single command:
     :ps:`$` module load unknown --redirect >/dev/null
     :ps:`$` module load unknown --no-redirect >/dev/null
     :sgrer:`ERROR`: Unable to locate a modulefile for 'unknown'
+
+.. _Change modulefile command behavior:
 
 Change modulefile command behavior
 ----------------------------------
