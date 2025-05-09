@@ -71,6 +71,7 @@ complete module 'C,/*,f,' 'C,.*,f,' 'C,~/*,f,' \
         'n/purge/n/' \
         'n/refresh/n/' \
         'n/reload/n/' \
+        'n/update/n/' \
         'n/whatis/`_module_avail; echo "@comp_whatis_opts@"`/' \
         "n/apropos/(@comp_search_opts@)/" \
         "n/search/(@comp_search_opts@)/" \
