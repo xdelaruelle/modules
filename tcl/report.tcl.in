@@ -2079,7 +2079,7 @@ Listing / Searching commands:
 Collection of modules handling commands:
   save            [collection|file] Save current module list to collection
   restore         [collection|file] Restore module list from collection or file
-  saverm          [collection]      Remove saved collection
+  saverm | disable     [collection] Remove saved collection
   saveshow        [collection|file] Display information about collection
   savelist  [-a] [-t|-l|-j] [-S|-C] [collection ...]
                                     List all or matching saved collections

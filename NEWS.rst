@@ -148,6 +148,7 @@ Modules 5.6.0 (not yet released)
 * Doc: add :ref:`man-path` cookbook recipe.
 * Doc: add :ref:`other-implementations` document.
 * Add :subcmd:`update` sub-command, an alias of :subcmd:`reload`
+* Add :subcmd:`disable` sub-command, an alias of :subcmd:`saverm`
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

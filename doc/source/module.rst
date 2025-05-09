@@ -1741,6 +1741,14 @@ Module Sub-Commands
        *Value* prefixes ``+`` and ``-`` added to append and subtract elements
        to list-value options
 
+.. subcmd:: disable [collection]
+
+ See :subcmd:`saverm`.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. subcmd:: display modulefile...
 
  Display information about one or more *modulefiles*. The display sub-command
