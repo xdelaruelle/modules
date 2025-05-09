@@ -61,6 +61,7 @@ complete module 'C,/*,f,' 'C,.*,f,' 'C,~/*,f,' \
         "n/savelist/(@comp_list_opts@)/" \
         'n/saveshow/`_module_savelist`/' \
         'n/saverm/`_module_savelist`/' \
+        'n/disable/`_module_savelist`/' \
         'n/save/`_module_savelist`/' \
         'n/is-saved/`_module_savelist`/' \
         "n/aliases/(@comp_aliases_opts@)/" \
