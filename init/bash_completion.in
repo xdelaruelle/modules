@@ -87,7 +87,7 @@ _module() {
     stashpop|stashshow|stashrm)
                     COMPREPLY=( $(compgen -W "$(_module_stashlist)" -- "$cur") );;
     clear)  COMPREPLY=( $(compgen -W "@comp_clear_opts@" -- "$cur") );;
-    restore|save|saveshow|saverm|disable|is-saved)
+    restore|save|saveshow|describe|saverm|disable|is-saved)
                     COMPREPLY=( $(compgen -W "$(_module_savelist)" -- "$cur") );;
     rm|del|remove|unload)
                     COMPREPLY=( $(compgen -W "@comp_unload_opts@ ${LOADEDMODULES//:/ }" -- "$cur") );;
@@ -150,7 +150,7 @@ if type -t ml >/dev/null; then
         stashpop|stashshow|stashrm)
                     COMPREPLY=( $(compgen -W "$(_module_stashlist)" -- "$cur") );;
         clear)  COMPREPLY=( $(compgen -W "@comp_clear_opts@" -- "$cur") );;
-        restore|save|saveshow|saverm|disable|is-saved)
+        restore|save|saveshow|describe|saverm|disable|is-saved)
                         COMPREPLY=( $(compgen -W "$(_module_savelist)" -- "$cur") );;
         rm|del|remove|unload)
                         COMPREPLY=( $(compgen -W "@comp_unload_opts@ ${LOADEDMODULES//:/ }" -- "$cur") );;

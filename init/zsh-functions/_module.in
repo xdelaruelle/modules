@@ -172,6 +172,7 @@ _module() {
             'saverm:Remove saved collection'
             'disable:Remove saved collection'
             'saveshow:Display information about collection'
+            'describe:Display information about collection'
             'savelist:List all saved collections'
             'is-saved:Test if any of the collection(s) exists'
             'initlist:List all modules loaded from init file'
@@ -301,7 +302,7 @@ _module() {
                _arguments \
                   '(-f --force)'{-f,--force}'[Skip confirmation dialog]' && ret=0
                ;;
-            (restore|save|saveshow|saverm|disable|is-saved)
+            (restore|save|saveshow|describe|saverm|disable|is-saved)
                _alternative 'avail-colls:collections:{_module_saved_colls}' \
                   && ret=0
                ;;
