@@ -836,6 +836,31 @@ proc _test_err_re {test_shell cmd answer force_nl failcmd} {
 	}
 }
 
+proc _test_err_re_sort {test_shell cmd answer failcmd} {
+    global comp_error
+    global verbose
+
+    # newline is expected at end of answer
+    if {$answer ne {} && $answer ne "\n"} {
+        append answer \n
+    }
+
+    set comp_error_sort [join [lsort [split $comp_error \n]] \n]
+    set answer_sort [join [lsort [split $answer \n]] \n]
+    set answer_sort "^$answer_sort\$"
+
+	  if {![regexp -- $answer_sort $comp_error_sort]} {
+        $failcmd "$cmd ($test_shell)"
+        set ol [string length $comp_error_sort]
+        set oe [string length $answer_sort]
+        send_user "ERR\[$ol\]: '$comp_error_sort'#>\n"
+        send_user "EXP\[$oe\]: '$answer_sort'#>\n"
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
 proc _test_out {test_shell cmd answer failcmd} {
 	global comp_output
 	global verbose
@@ -1113,6 +1138,25 @@ proc testouterr_cmd {test_shell cmd answer anserr {failcmd {fail}}} {
         _test_sub $test_shell "$cmd"
         if { [_test_out $test_shell "$cmd" "$answer" $failcmd]
         &&   [_test_err $test_shell "$cmd" "$anserr" $failcmd] } {
+            _test_ok $test_shell "$cmd"
+        }
+    }
+}
+
+#
+# Test procedure for matching with regular expressions in the stdout and sorted stderr
+#
+
+proc testouterr_cmd_re_sort {test_shell cmd answer anserr {failcmd {fail}}} {
+    if {$test_shell eq "ALL"} {
+        global supported_shells
+        foreach shell $supported_shells {
+            testouterr_cmd_re_sort $shell $cmd $answer $anserr
+        }
+    } else {
+        _test_sub $test_shell "$cmd"
+        if { [_test_out_re $test_shell "$cmd" "$answer" $failcmd]
+        &&   [_test_err_re_sort $test_shell "$cmd" "$anserr" $failcmd] } {
             _test_ok $test_shell "$cmd"
         }
     }
