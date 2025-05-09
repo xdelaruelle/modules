@@ -143,6 +143,7 @@ set {::syntax(module savelist)} x*
 set {::syntax(module saverm)} x*
 set {::syntax(module disable)} x*
 set {::syntax(module saveshow)} x*
+set {::syntax(module describe)} x*
 set {::syntax(module apropos)} x*
 set {::syntax(module keyword)} x*
 set {::syntax(module search)} x*
@@ -234,7 +235,7 @@ set ::subCmd(module) {add load add-any load-any swap switch try-add try-load\
    remove rm delete unload unuse use aliases available avail show display\
    initadd initload initclear initlist initprepend initunload initrm\
    initswap initswitch list purge reload restore save savelist saverm disable\
-   saveshow apropos keyword search test update whatis}
+   saveshow describe apropos keyword search test update whatis}
 set ::subCmd(module-info) {alias command loaded mode name shell shelltype\
    specified symbols tags type usergroups username version user trace\
    tracepat flags}
