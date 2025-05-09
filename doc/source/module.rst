@@ -1741,6 +1741,14 @@ Module Sub-Commands
        *Value* prefixes ``+`` and ``-`` added to append and subtract elements
        to list-value options
 
+.. subcmd:: describe [collection]
+
+ See :subcmd:`saveshow`.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. subcmd:: disable [collection]
 
  See :subcmd:`saverm`.

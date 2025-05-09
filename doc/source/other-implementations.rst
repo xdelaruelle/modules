@@ -90,7 +90,7 @@ at the end of this section to map these equivalents.
 
    * - Lmod 8.8
      - Modules 5.6
-   * - ``category``, ``describe``, ``overview``, ``tablelist``
+   * - ``category``, ``overview``, ``tablelist``
      - :subcmd:`aliases`, :subcmd:`append-path`, :subcmd:`cachebuild`,
        :subcmd:`cacheclear`, :subcmd:`clear`, :subcmd:`config`,
        :subcmd:`edit`, :subcmd:`info-loaded`, :subcmd:`initadd`,
@@ -191,8 +191,6 @@ implementation.
      - ``module config`` :mconfig:`hide_auto_loaded` ``1``
    * - ``module tablelist``
      - ``module list`` :option:`--json`
-   * - ``module describe``
-     - ``module`` :subcmd:`saveshow`
    * - ``module --pin_versions restore``
      - ``module config`` :mconfig:`collection_pin_version` ``1`` +
        ``module save`` + ``module restore``

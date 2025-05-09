@@ -2080,7 +2080,7 @@ Collection of modules handling commands:
   save            [collection|file] Save current module list to collection
   restore         [collection|file] Restore module list from collection or file
   saverm | disable     [collection] Remove saved collection
-  saveshow        [collection|file] Display information about collection
+  saveshow | describe   [coll|file] Display information about collection
   savelist  [-a] [-t|-l|-j] [-S|-C] [collection ...]
                                     List all or matching saved collections
   is-saved        [collection ...]  Test if any of the collection(s) exists

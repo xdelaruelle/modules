@@ -903,7 +903,8 @@ The following module sub-commands appeared on Modules 5.
 +------------+-----------------------------------------------------------------+
 | 5.3        | :subcmd:`cachebuild`, :subcmd:`cacheclear`                      |
 +------------+-----------------------------------------------------------------+
-| 5.6        | :subcmd:`spider`, :subcmd:`update`, :subcmd:`disable`           |
+| 5.6        | :subcmd:`spider`, :subcmd:`update`, :subcmd:`disable`,          |
+|            | :subcmd:`describe`                                              |
 +------------+-----------------------------------------------------------------+
 
 :subcmd:`list`
