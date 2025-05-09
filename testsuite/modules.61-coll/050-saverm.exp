@@ -66,7 +66,7 @@ testoutfile_cmd "sh" "saverm $coll1" "OK" "$hometestdotmod/$coll1" "$rmc1errmsg"
 # should raise an error, saverm is not made to delete filepath
 #
 
-testouterr_cmd "ALL" "saverm $coll1fp" "ERR" "$c1fperrmsg"
+testouterr_cmd "ALL" "disable $coll1fp" "ERR" "$c1fperrmsg"
 
 
 #
@@ -99,7 +99,7 @@ if {$verbose} {
 set env(MODULES_COLLECTION_TARGET) "$colltarget"
 
 # test only sh shell as this test does not produce shell output
-testoutfile_cmd "sh" "saverm $coll4" "OK" "$hometestdotmod/$coll4f" "$rmc4ferrmsg"
+testoutfile_cmd "sh" "disa $coll4" "OK" "$hometestdotmod/$coll4f" "$rmc4ferrmsg"
 
 
 #
