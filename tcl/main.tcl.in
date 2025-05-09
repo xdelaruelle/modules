@@ -96,7 +96,7 @@ proc parseModuleCommandName {command defaultcmd} {
             2 list whatis 2 whatis purge 2 purge initadd 5 initadd initload 6\
             initadd initprepend 5 initprepend initswitch 6 initswitch\
             initswap 6 initswitch initunload 8 initrm initlist 5 initlist\
-            spider 3 spider} {
+            spider 3 spider update 2 reload} {
             if {$cmdlen >= $minlen && [string equal -length $cmdlen $command\
                $match]} {
                set command $sccmd
