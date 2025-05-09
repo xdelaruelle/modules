@@ -47,11 +47,13 @@ setenv_loaded_module $module $modulefile
 #
 
 test_cmd "sh" "reload" $ans
+test_cmd "sh" "update" $ans
 
 skip_if_quick_mode
 
 # command nickname tests
 test_cmd "sh" "rel" $ans
+test_cmd "sh" "up" $ans
 
 
 # setup LOADEDMODULES/_LMFILES_ with an empty element

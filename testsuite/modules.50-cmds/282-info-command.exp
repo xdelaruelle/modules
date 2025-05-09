@@ -129,6 +129,7 @@ testouterr_cmd "sh" "purge" $ansun "purge"
 
 # test reloading
 testouterr_cmd "sh" "reload" $ans "reload\nreload"
+testouterr_cmd "sh" "update" $ans "reload\nreload"
 
 # Clean up the just changed environment
 unsetenv_loaded_module
