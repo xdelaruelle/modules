@@ -90,8 +90,7 @@ at the end of this section to map these equivalents.
 
    * - Lmod 8.8
      - Modules 5.6
-   * - ``category``, ``describe``, ``disable``, ``overview``, ``tablelist``,
-       ``update``
+   * - ``category``, ``describe``, ``disable``, ``overview``, ``tablelist``
      - :subcmd:`aliases`, :subcmd:`append-path`, :subcmd:`cachebuild`,
        :subcmd:`cacheclear`, :subcmd:`clear`, :subcmd:`config`,
        :subcmd:`edit`, :subcmd:`info-loaded`, :subcmd:`initadd`,
@@ -169,8 +168,6 @@ implementation.
      - ``module`` :subcmd:`lint`
    * - ``module --config``
      - ``module`` :subcmd:`config`
-   * - ``module update``
-     - ``module`` :subcmd:`reload`
    * - ``$LMOD_CMD bash load``
      - ``module`` :subcmd:`mod-to-sh` ``bash``
    * - ``module --raw show`` 

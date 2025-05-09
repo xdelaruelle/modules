@@ -2055,7 +2055,7 @@ Loading / Unloading commands:
   add-any | load-any modfile [...]  Load first available modulefile in list
   rm | unload     modulefile [...]  Remove modulefile(s)
   purge                             Unload all loaded modulefiles
-  reload                            Unload then load all loaded modulefiles
+  reload | update                   Unload then load all loaded modulefiles
   switch | swap   [mod1] mod2       Unload mod1 and load mod2
   refresh                           Refresh loaded module volatile components
   reset                             Restore initial environment

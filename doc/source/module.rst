@@ -2892,6 +2892,14 @@ Module Sub-Commands
     .. versionchanged:: 5.0
        Accept several modulepaths passed as a single string
 
+.. subcmd:: update [-f]
+
+ See :subcmd:`reload`.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. subcmd:: use [-a|--append] directory...
 
  Prepend one or more *directories* to the :envvar:`MODULEPATH` environment
