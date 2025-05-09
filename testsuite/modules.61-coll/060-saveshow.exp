@@ -45,14 +45,14 @@ testouterr_cmd "ALL" "saveshow $collbadn" "ERR" "$cbadnerrmsg"
 # test showing nonexistent collection specified as a filepath
 #
 
-testouterr_cmd "ALL" "saveshow $collbadfp" "ERR" "$cbadfperrmsg"
+testouterr_cmd "ALL" "describe $collbadfp" "ERR" "$cbadfperrmsg"
 
 
 #
 # test showing existent file which is not a collection
 #
 
-testouterr_cmd "ALL" "saveshow $badcontfp" "ERR" "$badcontfperrmsg"
+testouterr_cmd "ALL" "des $badcontfp" "ERR" "$badcontfperrmsg"
 
 
 #
