@@ -123,6 +123,7 @@ set {::syntax(module initclear)} 0
 set {::syntax(module initlist)} 0
 set {::syntax(module purge)} 0
 set {::syntax(module reload)} 0
+set {::syntax(module update)} 0
 set {::syntax(module use)} x*
 set {::syntax(module available)} x*
 set {::syntax(module avail)} x*
@@ -232,7 +233,7 @@ set ::subCmd(module) {add load add-any load-any swap switch try-add try-load\
    remove rm delete unload unuse use aliases available avail show display\
    initadd initload initclear initlist initprepend initunload initrm\
    initswap initswitch list purge reload restore save savelist saverm\
-   saveshow apropos keyword search test whatis}
+   saveshow apropos keyword search test update whatis}
 set ::subCmd(module-info) {alias command loaded mode name shell shelltype\
    specified symbols tags type usergroups username version user trace\
    tracepat flags}
