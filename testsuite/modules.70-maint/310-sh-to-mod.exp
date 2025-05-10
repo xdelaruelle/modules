@@ -797,7 +797,6 @@ setenv_var TESTSUITE_SHTOMOD_MODULE 1
 # changes made by the script
 setenv_var MODULES_SET_SHELL_STARTUP 0
 setenv_var MODULES_CMD [file normalize $env(TESTSUITEDIR)/../modulecmd.tcl]
-setenv_var TCLSH $TCLSH
 
 # if module was defined in environment prior test, the result of the source-sh evaluation
 # will be the unset of the module functions

@@ -61,26 +61,6 @@ proc default_modulecmd {} {
 
 }
 
-proc default_tclsh {} {
-   global TCLSH
-   global verbose
-   global env
-
-   if ![info exists TCLSH] then {
-      if [info exists env(TCLSH)] {
-         set TCLSH $env(TCLSH)
-      } else {
-	     set TCLSH [which modulecmd]
-	     if ![file exists $TCLSH] then {
-		    fail "No 'tclsh' found"
-		    exit -1
-	     } elseif { $verbose > 1 } {
-		    send_user "using 'tclsh' from search path"
-	     }
-      }
-   }
-}
-
 
 #
 # modulecmd_xxx_ -- run modulecmd
@@ -130,7 +110,6 @@ proc modulecmd_xxx_ {command {input noinput}} {
 	}
 
 	default_modulecmd
-	default_tclsh
 
     set cmdlist [list $TCLSH $MODULECMD $shell]
     # check if asked not to split passed command line
@@ -185,7 +164,6 @@ proc modulecmd_xxx_ {command {input noinput}} {
 	}
 
 	default_modulecmd
-	default_tclsh
 
     set cmdlist [list exec $TCLSH $MODULECMD $shell]
     # check if asked not to split passed command line

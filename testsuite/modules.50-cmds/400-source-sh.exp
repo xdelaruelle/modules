@@ -1600,7 +1600,6 @@ setenv_var TESTSUITE_SHTOMOD_MODULE 1
 # changes made by the script
 setenv_var MODULES_SET_SHELL_STARTUP 0
 setenv_var MODULES_CMD [file normalize $env(TESTSUITEDIR)/../modulecmd.tcl]
-setenv_var TCLSH $TCLSH
 
 set lmsourceshpath {}
 # setup simpler MANPATH value for tests if autoinit adds Modules man location to MANPATH

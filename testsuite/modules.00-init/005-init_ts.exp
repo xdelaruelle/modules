@@ -26,6 +26,11 @@
 
 send_user "\tInitializing the testsuite ...\n"
 
+# excepted information to run the testsuite
+set TCLSH $env(TCLSH)
+send_user "\tTCLSH is '$TCLSH'\n"
+
+
 # Modules release number
 set major_minor_rel [join [lrange [split $install_version .] 0 1] .]
 
@@ -321,7 +326,6 @@ if {![string length $lsb_cmd]} {
 }
 
 # fetch tclsh version used to adapt tests producing different output depending on this version
-default_tclsh
 catch {set tclsh_version [exec $TCLSH << {puts [info tclversion]}]} errMsg
 if {[info exists tclsh_version]} {
     send_user "\ttclsh version is $tclsh_version\n"
