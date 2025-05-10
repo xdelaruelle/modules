@@ -54,9 +54,11 @@ testouterr_cmd sh {-a avail -t hide3/sym} ERR [err_invcmd -a]
 # no effect on selection context
 testouterr_cmd sh {load -a hide2} ERR $err_specmodname'-a'
 testouterr_cmd sh {load hide2@default --all} ERR "$err_path'hide2@default --all'"
+testouterr_cmd sh {load hide2@default --show_hidden} ERR "$err_path'hide2@default --show_hidden'"
 # no effect on is-avail
 testouterr_cmd sh {is-avail -a hide3} ERR $err_specmodname'-a'
 testouterr_cmd sh {is-avail hide3 --all} ERR {}
+testouterr_cmd sh {is-avail hide3 --show_hidden} ERR {}
 
 # test on avail/spider
 testouterr_cmd sh {avail -a -t hide1@2:4} OK "$mp:\nhide1/2.0\nhide1/2.1\nhide1/2.2\nhide1/3.0\nhide1/3.1(default) <H>\nhide1/3.2\nhide1/4.0"
@@ -73,8 +75,8 @@ testouterr_cmd sh {avail --all -t hide3} OK "$mp:\nhide3/1.0 <H>\nhide3/al1(@) <
 testouterr_cmd sh {spider --all -t hide3} OK "$mp:\nhide3/1.0 <H>\nhide3/al1(@) <H>\nhide3/al2(@) <H>\nhide3/sub1/(default)\nhide3/sub1/2.0 <H>\nhide3/sub1/3.0 <H>\nhide3/sub2/(sym)\nhide3/sub2/4.0(default:sym) <H>\nhide3/sub2/5.0(new) <H>"
 testouterr_cmd sh {avail -a -t hide3/sym} OK "$mp:\nhide3/sub2/(sym)\nhide3/sub2/4.0(default:sym) <H>\nhide3/sub2/5.0(new) <H>"
 testouterr_cmd sh {spider -a -t hide3/sym} OK "$mp:\nhide3/sub2/(sym)\nhide3/sub2/4.0(default:sym) <H>\nhide3/sub2/5.0(new) <H>"
-testouterr_cmd sh {avail --all -t hide3/al2} OK "$mp:\nhide3/al2(@) <H>"
-testouterr_cmd sh {spider --all -t hide3/al2} OK "$mp:\nhide3/al2(@) <H>"
+testouterr_cmd sh {avail --show_hidden -t hide3/al2} OK "$mp:\nhide3/al2(@) <H>"
+testouterr_cmd sh {spider --show_hidden -t hide3/al2} OK "$mp:\nhide3/al2(@) <H>"
 testouterr_cmd sh {avail -t hide3/sub2 -a} OK "$mp:\nhide3/sub2/(sym)\nhide3/sub2/4.0(default:sym) <H>\nhide3/sub2/5.0(new) <H>"
 testouterr_cmd sh {spider -t hide3/sub2 -a} OK "$mp:\nhide3/sub2/(sym)\nhide3/sub2/4.0(default:sym) <H>\nhide3/sub2/5.0(new) <H>"
 
@@ -118,6 +120,7 @@ testouterr_cmd_re sh {list -t -a} OK $cur_loaded\nhide3/1.0\nhide3/sub1/3.0
 setenv_loaded_module [list hide3/1.0 hide3/sub1/3.0] [list $mp/hide3/1.0 $mp/hide3/sub1/3.0]
 setenv_var __MODULES_LMTAG hide3/1.0&hidden-loaded
 testouterr_cmd_re sh {list -t --all} OK $cur_loaded\nhide3/1.0\nhide3/sub1/3.0
+testouterr_cmd_re sh {list -t --show_hidden} OK $cur_loaded\nhide3/1.0\nhide3/sub1/3.0
 unsetenv_loaded_module
 unsetenv_var __MODULES_LMTAG
 
@@ -131,6 +134,7 @@ setenv_var __MODULES_LMTAG hide3/1.0&hidden-loaded:hide3/sub1/3.0&hidden-loaded
 testouterr_cmd_re sh {ml -a -t} OK $cur_loaded\nhide3/1.0\nhide3/sub1/3.0
 testouterr_cmd_re sh {ml list -a -t} OK $cur_loaded\nhide3/1.0\nhide3/sub1/3.0
 testouterr_cmd_re sh {ml --all -t} OK $cur_loaded\nhide3/1.0\nhide3/sub1/3.0
+testouterr_cmd_re sh {ml --show_hidden -t} OK $cur_loaded\nhide3/1.0\nhide3/sub1/3.0
 unsetenv_loaded_module
 unsetenv_var __MODULES_LMTAG
 
