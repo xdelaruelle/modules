@@ -22,18 +22,6 @@
 ##############################################################################
 
 #
-# default shell is the bourne shell
-#
-
-proc default_shell {} {
-    global shell
-
-    if ![info exists shell] then {
-	set shell "sh"
-    }
-}
-
-#
 # the default for the modulecmd binary is the one in the upper directory
 # if it doesn't exist, look up the search path in order to locate one.
 #
@@ -141,7 +129,6 @@ proc modulecmd_xxx_ {command {input noinput}} {
 	  unresolved "internal testsuite error: no module command specified"
 	}
 
-	default_shell
 	default_modulecmd
 	default_tclsh
 
@@ -197,7 +184,6 @@ proc modulecmd_xxx_ {command {input noinput}} {
 	  unresolved "internal testsuite error: no module command specified"
 	}
 
-	default_shell
 	default_modulecmd
 	default_tclsh
 
