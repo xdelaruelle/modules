@@ -180,9 +180,6 @@ implementation.
      - ``module avail`` :option:`--no-indepth`
    * - ``module --regexp avail``
      - ``module avail`` :option:`--contains`
-   * - ``module --show_hidden avail``
-     - ``module avail`` :option:`--all`
-       or ``module avail`` :option:`--output` ``+hidden``
    * - ``module --style=<style_name> avail``
      - ``module avail`` :option:`--output` ``<element_list>``
    * - ``module category``
