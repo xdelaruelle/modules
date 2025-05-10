@@ -100,7 +100,7 @@ proc initModfileModeAliases {mode auto aliasesVN aliasesPassArgVN\
       # the evaluation mode
       set ::g_modfileEvalModes {load unload display help test whatis refresh\
          scan}
-      ##nagelfar ignore #47 Too long line
+      ##nagelfar ignore #48 Too long line
       array set g_modfilePerModeAliases {
 add-property   {add-property   nop            reportCmd      nop            nop            nop            nop          nop}
 always-load    {always-load    nop            reportCmd      nop            nop            nop            nop          always-load-sc}
@@ -112,6 +112,7 @@ depends-on     {prereqAllModfileCmd  nop      reportCmd      nop            nop 
 depends-on-any {prereqAnyModfileCmd  nop      reportCmd      nop            nop            nop            nop          prereq-sc   }
 extensions     {nop            nop            nop            nop            nop            nop            nop          nop         }
 family         {family         family-un      reportCmd      nop            nop            nop            nop          family-sc   }
+haveDynamicMPATH {nop          nop            nop            nop            nop            nop            nop          nop         }
 hide-modulefile {hide-modulefile hide-modulefile hide-modulefile hide-modulefile hide-modulefile hide-modulefile nop   nop         }
 hide-version   {hide-modulefile hide-modulefile hide-modulefile hide-modulefile hide-modulefile hide-modulefile nop    nop         }
 module         {module         module         reportCmd      nop            nop            nop            nop          module-sc   }
