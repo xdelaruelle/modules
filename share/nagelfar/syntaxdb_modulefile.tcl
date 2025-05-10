@@ -36,6 +36,7 @@ depends-on-any
 family
 getenv
 getvariant
+haveDynamicMPATH
 is-avail
 is-loaded
 is-saved
@@ -95,6 +96,7 @@ set ::syntax(depends-on-any) {o* x x*}
 set ::syntax(family) 1
 set ::syntax(getenv) {o? x x?}
 set ::syntax(getvariant) {o? x x?}
+set ::syntax(haveDynamicMPATH) 0
 set ::syntax(is-avail) {x x*}
 set ::syntax(is-loaded) x*
 set ::syntax(is-saved) x*
