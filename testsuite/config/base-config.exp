@@ -22,44 +22,6 @@
 ##############################################################################
 
 #
-# some tests only apply if the configure option is enabled or not
-#   look at ./modulecmd --version for examples
-#   (e.g. version_test("XXX=undef") returns 0 or 1 if the string is found)
-# 	if { [ version_test "XXX=1" ] } {
-#	} else {
-#	}
-#
-proc version_test {which} {
-	global comp_output
-	global comp_error
-	global verbose
-
-	if { $verbose > 1 } {
-		send_user "   ...  version_test($which)\n"
-	}
-	set comp_output ""
-	set comp_error ""
-
-	if { ![info exists which] } {
-		unresolved "version_test ($which) internal error"
-	}
-
-	modulecmd__ "--version"
-
-	if { ![regexp -- ".*$which.*" $comp_error] } {
-		if { $verbose > 1 } {
-			send_user "version_test: 0\n"
-		}
-		return 0
-	} else {
-		if { $verbose > 1 } {
-			send_user "version_test: 1\n"
-		}
-		return 1
-	}
-}
-
-#
 # Shell conversion code subprocedures
 #
 

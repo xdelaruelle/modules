@@ -1016,6 +1016,12 @@ The following module sub-commands appeared on Modules 5.
  header indicates the oldest Modules version compatible with this cache file
  (5.3), rather than the version that generated the cache file.
 
+:subcmd:`update`
+
+ This sub-command is reintroduced (was part of Modules v3) as a simple alias
+ of :subcmd:`reload` sub-command. No more support from ``MODULESBEGINENV``,
+ initial environment handling now covers this use case.
+
 Environment
 """""""""""
 

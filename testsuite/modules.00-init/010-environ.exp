@@ -193,5 +193,8 @@ catch {unset env(MODULESHOME)}
 
 set ORIG_PATH $env(PATH)
 
+setenv_var HOME $env(TESTSUITEDIR)
+set ORIG_HOME $env(HOME)
+
 unsetenv_var testsuite
 
