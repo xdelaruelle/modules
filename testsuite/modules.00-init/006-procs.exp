@@ -47,7 +47,7 @@ proc _test_sub {test_shell cmd {input noinput}} {
 	}
 
 	set shell $test_shell
-	modulecmd_start "$cmd" $input
+	modulecmd_xxx_ "$cmd" $input
 
 	if { $verbose > 1 } {
 		set ol [string length $comp_output]
