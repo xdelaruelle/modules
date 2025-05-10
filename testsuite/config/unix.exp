@@ -95,14 +95,6 @@ proc default_tclsh {} {
 
 
 #
-# modulecmd_exit -- cleanup
-#
-
-proc modulecmd_exit {} {
-#not applicable
-}
-
-#
 # modulecmd_start -- start modulecmd running
 # Since modulecmd writes to both streams, stdout and stderr, a catcher
 # has to be installed in order to scan both 
@@ -263,34 +255,6 @@ proc modulecmd_start {command {input noinput}} {
 	set no_verbose 0
 	modulecmd_xxx_ "$command" $input
 	unset no_verbose
-}
-
-#
-# modulecmd_version -- extract and print the version number of modulecmd
-#
-
-proc modulecmd_version {} {
-    global MODULECMD
-    global shell
-    global comp_output
-    global comp_error
-
-    set shell "sh"
-    default_modulecmd
-
-    modulecmd_start help
-    regexp {Modules Release (Tcl [0-9a-zA-Z\.]+)(.*)} \
-	$comp_error version rest
-
-    set comp_output "$version"
-}
-
-#
-# modulecmd_load -- loads the program
-#
-
-proc modulecmd_load { arg } {
-#   not applicable
 }
 
 
