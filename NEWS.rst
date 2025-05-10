@@ -151,6 +151,7 @@ Modules 5.6.0 (not yet released)
 * Add :subcmd:`disable` sub-command, an alias of :subcmd:`saverm`
 * Add :subcmd:`describe` sub-command, an alias of :subcmd:`saveshow`
 * Add ``--show_hidden`` option, an alias of :option:`--all`
+* Add :mfcmd:`haveDynamicMPATH` modulefile command
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

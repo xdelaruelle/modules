@@ -114,7 +114,7 @@ the end of this section to map these equivalents.
 
    * - Lmod 8.8
      - Modules 5.6
-   * - ``extensions``, ``haveDynamicMPATH``, ``remove-property``
+   * - ``extensions``, ``remove-property``
      - :mfcmd:`getvariant`, :mfcmd:`is-saved`, :mfcmd:`is-used`,
        :mfcmd:`lsb-release`, :mfcmd:`module-help`, :mfcmd:`module-tag`,
        :mfcmd:`module-virtual`, :mfcmd:`module-warn`,

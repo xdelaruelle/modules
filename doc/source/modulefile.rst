@@ -351,6 +351,21 @@ the *modulefile* is being loaded.
        Option ``--return-value`` added.
 
 
+.. mfcmd:: haveDynamicMPATH
+
+ :mfcmd:`haveDynamicMPATH` command signals that a modulefile modifies the
+ :envvar:`MODULEPATH` environment variable. It is useful when the modulefile
+ conditionally updates :envvar:`MODULEPATH` and is processed by Lmod tool.
+
+ Here in the Modules tool, this command is implemented as a *no-operation*,
+ since the :subcmd:`spider` sub-command evaluates the modulefile in the
+ context of the current user to determine whether :envvar:`MODULEPATH` is
+ updated.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. mfcmd:: hide-modulefile modulefile
 
  Alias of :mfcmd:`module-hide` command.
@@ -2195,6 +2210,13 @@ The ``remove-property`` and ``extensions`` modulefile commands are evaluated
 as a *no-operation* command. No error is obtained if these commands are used
 in modulefiles but no change occurs.
 
+The :mfcmd:`haveDynamicMPATH` is evaluated as a *no-operation* modulefile
+command. If modulefile conditionally updates :envvar:`MODULEPATH` environment
+variable, this command is needed to help Lmod know that modulefile changes
+:envvar:`MODULEPATH`. :subcmd:`spider` sub-command on Modules does not need
+this information as modulefile is evaluated in the context of the current
+user to determine whether :envvar:`MODULEPATH` is updated.
+
 The :mfcmd:`break` command does not accept any argument. A ``msg`` argument
 can be set on Lmod to provide a customized break error message.
 
@@ -2256,7 +2278,8 @@ the dependent module will get automatically reloaded.
    .. versionadded:: 5.1
 
    .. versionchanged:: 5.6
-      Modulefile command :mfcmd:`add-property` implemented
+      Modulefile commands :mfcmd:`add-property` and :mfcmd:`haveDynamicMPATH`
+      implemented
 
 .. _Shell support:
 
