@@ -29,6 +29,8 @@ send_user "\tInitializing the testsuite ...\n"
 # excepted information to run the testsuite
 set TCLSH $env(TCLSH)
 send_user "\tTCLSH is '$TCLSH'\n"
+set MODULECMD $env(MODULECMD)
+send_user "\tMODULECMD is '$MODULECMD'\n"
 
 
 # Modules release number
@@ -336,9 +338,6 @@ if {[info exists tclsh_version]} {
 
 # does configured pager tool allow for pagination
 set pager_dfl_use [expr {[file tail $install_pager] ni {{} cat}}]
-
-
-default_modulecmd
 
 
 #

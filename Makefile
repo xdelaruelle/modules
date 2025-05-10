@@ -38,6 +38,12 @@ OPENFOAM_REPOURL := https://github.com/OpenFOAM/OpenFOAM-dev.git
 
 # specific modulecmd script for test
 MODULECMDTEST := modulecmd-test.tcl
+# if coverage enabled, run tests on instrumented file to create coverage log
+ifeq ($(COVERAGE),y)
+MODULECMD := $(MODULECMDTEST)_i
+else
+MODULECMD := $(MODULECMDTEST)
+endif
 
 # definitions for enhanced diff tool (to review test results)
 ICDIFF_DLSRC := https://raw.githubusercontent.com/jeffkaufman/icdiff/release-2.0.4/
@@ -51,10 +57,9 @@ include Makefile.inc
 
 INSTALL_PREREQ := modulecmd.tcl ChangeLog.gz README script/add.modules \
 	script/modulecmd
+TEST_PREREQ := $(MODULECMD)
 ifeq ($(COVERAGE),y)
-TEST_PREREQ := $(MODULECMDTEST)_i $(NAGELFAR)
-else
-TEST_PREREQ := $(MODULECMDTEST)
+TEST_PREREQ += $(NAGELFAR)
 endif
 
 ifeq ($(libtclenvmodules),y)
@@ -953,17 +958,13 @@ $(MODULECMDTEST)_i: tcl/cache.tcl_i tcl/coll.tcl_i tcl/envmngt.tcl_i \
 	echo 'source tcl/main.tcl_i' >> $@
 	chmod +x $@
 
-# if coverage enabled, run tests on instrumented file to create coverage log
-ifeq ($(COVERAGE),y)
-export MODULECMD = $(MODULECMDTEST)_i
-endif
-
 # specific target to build test dependencies
 test-deps: $(TEST_PREREQ)
 
 # if coverage enabled create markup file for better read coverage result
 test: $(TEST_PREREQ)
 	TCLSH=$(TCLSH); export TCLSH; \
+	MODULECMD=$(MODULECMD); export MODULECMD; \
 	OBJDIR=`pwd -P`; export OBJDIR; \
 	TESTSUITEDIR=`cd testsuite;pwd -P`; export TESTSUITEDIR; \
 	runtest --srcdir $$TESTSUITEDIR --objdir $$OBJDIR $(RUNTESTFLAGS) --tool modules $(RUNTESTFILES)

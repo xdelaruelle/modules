@@ -196,5 +196,7 @@ set ORIG_PATH $env(PATH)
 setenv_var HOME $env(TESTSUITEDIR)
 set ORIG_HOME $env(HOME)
 
+set ORIG_MODULECMD $MODULECMD
+
 unsetenv_var testsuite
 

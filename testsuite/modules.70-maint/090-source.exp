@@ -83,7 +83,7 @@ if {![info exists env(COVERAGE)] && [cmpversion $tclsh_version 8.6] > -1} {
 
     # move back to testsuite working directory
     cd $ORIG_CWD
-    unset MODULECMD
+    set MODULECMD $ORIG_MODULECMD
 }
 
 # test existing modulefile

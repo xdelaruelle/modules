@@ -22,47 +22,6 @@
 ##############################################################################
 
 #
-# the default for the modulecmd binary is the one in the upper directory
-# if it doesn't exist, look up the search path in order to locate one.
-#
-
-proc default_modulecmd {} {
-    global MODULECMD
-    global verbose
-    global env
-
-    if ![info exists MODULECMD] then {
-    if [info exists env(MODULECMD)] {
-        set MODULECMD $env(MODULECMD)
-	} elseif [file exists ../modulecmd] then {
-	    set MODULECMD "../modulecmd"
-	} elseif [file exists ./modulecmd] then {
-	    set MODULECMD "./modulecmd"
-	# use test-specific modulecmd.tcl script if it exists
-	} elseif [file exists "./modulecmd-test.tcl"] then {
-	  set MODULECMD "./modulecmd-test.tcl"
-	# check for modulecmd.tcl before guessing from path
-	# to give this flavor a chance to be found when modulecmd
-	# binary is also installed in system default paths
-	} elseif [file exists "../modulecmd.tcl"] then {
-	  set MODULECMD "../modulecmd.tcl"
-	} elseif [file exists "./modulecmd.tcl"] then {
-	  set MODULECMD "./modulecmd.tcl"
-	} else {
-	    set MODULECMD [which modulecmd]
-	    if ![file exists $MODULECMD] then {
-		fail "No 'modulecmd' found"
-		exit -1
-	    } elseif { $verbose > 1 } {
-		send_user "using 'modulecmd' from search path"
-	    }
-	}
-    }
-
-}
-
-
-#
 # modulecmd_xxx_ -- run modulecmd
 #
 
@@ -108,8 +67,6 @@ proc modulecmd_xxx_ {command {input noinput}} {
 	if ![info exists command] then {
 	  unresolved "internal testsuite error: no module command specified"
 	}
-
-	default_modulecmd
 
     set cmdlist [list $TCLSH $MODULECMD $shell]
     # check if asked not to split passed command line
@@ -162,8 +119,6 @@ proc modulecmd_xxx_ {command {input noinput}} {
 	if ![info exists command] then {
 	  unresolved "internal testsuite error: no module command specified"
 	}
-
-	default_modulecmd
 
     set cmdlist [list exec $TCLSH $MODULECMD $shell]
     # check if asked not to split passed command line

@@ -45,7 +45,7 @@ if {![info exists env(COVERAGE)] && $os_name ni {cygwin mingw msys}\
 
     # move back to testsuite working directory
     cd $ORIG_CWD
-    unset MODULECMD
+    set MODULECMD $ORIG_MODULECMD
 }
 
 # test pwd error catch in getAbsolutePath for coverage mode by superseding
