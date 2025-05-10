@@ -220,7 +220,7 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
                   lappend otherargs $arg
                }
             }
-            --all {
+            --all - --show_hidden {
                # include hidden modules only on a limited set of command
                if {$cmd in [list avail aliases search whatis ml list lint\
                   savelist spider]} {
@@ -804,7 +804,7 @@ if {[catch {
             -a - --append - -append - --all - -p - --prepend - -prepend -\
             --delim - -delim - --delim=* - -delim=* - --duplicates - --index\
             - --notuasked - --indepth - --no-indepth - --dump-state -\
-            --reset - --tag - --tag=* - --glob {
+            --reset - --tag - --tag=* - --glob - --show_hidden {
                # command-specific switches interpreted later on
                lappend otherargv $arg
             }
