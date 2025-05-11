@@ -89,8 +89,10 @@ time if :command:`mogui-cmd` command is found in :envvar:`PATH`.
 changes performed in the GUI is applied onto the shell session that executed
 :command:`mogui`.
 
-.. versionchanged:: 5.5
-   Definition of :command:`mogui` alias or function added
+.. only:: html
+
+   .. versionchanged:: 5.5
+      Definition of :command:`mogui` alias or function added
 
 
 Examples of initialization
