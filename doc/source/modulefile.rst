@@ -2277,9 +2277,13 @@ the dependent module will get automatically reloaded.
 
    .. versionadded:: 5.1
 
-   .. versionchanged:: 5.6
-      Modulefile commands :mfcmd:`add-property` and :mfcmd:`haveDynamicMPATH`
+   .. versionchanged:: 5.5
+      Modulefile commands :mfcmd:`hide-modulefile` and :mfcmd:`hide-version`
       implemented
+
+   .. versionchanged:: 5.6
+      Modulefile commands :mfcmd:`add-property`, :mfcmd:`depends-on-any` and
+      :mfcmd:`haveDynamicMPATH` implemented
 
 .. _Shell support:
 
