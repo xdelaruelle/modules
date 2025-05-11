@@ -1,0 +1,9 @@
+#%Module
+
+if {[info exists env(TESTSUITE_LCOMPAT)]} {
+    switch -- $env(TESTSUITE_LCOMPAT) {
+        haveDynamicMPATH_rc1 {
+            haveDynamicMPATH
+        }
+    }
+}
