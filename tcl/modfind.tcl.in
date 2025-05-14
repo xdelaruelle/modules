@@ -1316,6 +1316,16 @@ proc getModulefileFromLoadedModule {mod} {
    }
 }
 
+proc getModulepathFromLoadedModule {mod} {
+   set modfile [getModulefileFromLoadedModule $mod]
+   if {[isModuleVirtual $mod $modfile]} {
+      # an empty string is returned if no enabled modulepath matches modfile
+      return [findModulepathFromModulefile $modfile]
+   } else {
+      return [getModulepathFromModuleName $modfile $mod]
+   }
+}
+
 proc isModulefileLoaded {modfile} {
    cacheCurrentModules
 
@@ -1876,6 +1886,16 @@ proc getLoadedUse {mod} {
    }
 }
 
+# return loaded module which is a via requirement for specified loaded mod
+proc getViaPrereqModuleForLoadedModule {mod} {
+   if {[getConf require_via]} {
+      set modpath [getModulepathFromLoadedModule $mod]
+      if {[string length $modpath]} {
+         return [getLoadedModuleUsingModulepath $modpath]
+      }
+   }
+}
+
 proc getViaModuleForModulepath {modpath} {
    set via [getLoadedModuleUsingModulepath $modpath]
    if {![string length $via] && $modpath ni [getModulePathList]} {
@@ -2363,8 +2383,14 @@ proc unsetModuleDependency {mod} {
 # associated to the matching module loaded prior passed mod and loaded after
 proc getLoadedModulePrereqListAndLoadedMatch {mod} {
    set prereq_match_aftmatch_list {}
-
    set prereq_list [getLoadedPrereq $mod]
+
+   # add via module requirement if enabled and if any
+   set via_prereq_mod [getViaPrereqModuleForLoadedModule $mod]
+   if {[string length $via_prereq_mod]} {
+      lappend prereq_list [list $via_prereq_mod]
+   }
+
    # skip processing if no prereq defined
    if {![llength $prereq_list]} {
       return
