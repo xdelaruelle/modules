@@ -2118,54 +2118,31 @@ proc unsetModuleConflictViolation {mod} {
 
 # build dependency chain between loaded modules based on registered prereqs
 proc setModuleDependency {mod} {
-   set modlist [getEnvLoadedModulePropertyParsedList name]
-   defineModEqProc [isIcase] [getConf extended_default] 1
-   # only look at modules loaded prior current one to find requirements,
-   # modules loaded afterward are unmet dependencies as dependents have
-   # not been reloaded after them
-   set modidx [lsearch -exact $modlist $mod]
-   set modnpolist [lrange $modlist $modidx+1 end]
-   set modlist [lrange $modlist 0 $modidx]
-   # reverse list to get closest match if returning lastly loaded module
-   if {[getConf unload_match_order] eq {returnlast}} {
-      set modlist [lreverse $modlist]
-   }
    set deplist {}
    set depnpolist {}
 
-   foreach prereq [getLoadedPrereq $mod] {
-      set prereq_path_list [getLoadedPrereqPath $mod $prereq]
-      # get corresponding loaded module for each element of the prereq order
+   foreach prereq_match_aftmatch [getLoadedModulePrereqListAndLoadedMatch\
+      $mod] {
+      set prereq_item_match_aftmatch_list [lassign $prereq_match_aftmatch\
+         prereq prereq_path_list]
+
       set lmprelist {}
       set lmnpolist {}
-      foreach modpre $prereq {
-         set lmfound {}
-         foreach lmmod $modlist {
-            if {[isLoadedMatchSpecificPath $lmmod $prereq_path_list] &&\
-               [modEq $modpre $lmmod eqstart 1 2 1]} {
-               set lmfound $lmmod
-               break
-            }
-         }
-
-         # register an unmet dependency/requirement if no loaded mod matches
-         if {$lmfound eq {}} {
-            reportDebug "set an unmet requirement on '$modpre' for '$mod'"
-            lappend ::g_moduleUnmetDep($mod) $modpre
-            lappend ::g_unmetDepHash($modpre) $mod $prereq_path_list
-         # add matching mod elsewhere
+      foreach {prereq_mod_item bef_loaded_mod_match aft_loaded_mod_match}\
+         $prereq_item_match_aftmatch_list {
+         if {[string length $bef_loaded_mod_match]} {
+            appendNoDupToList lmprelist $bef_loaded_mod_match
+            appendNoDupToList lmnpolist $bef_loaded_mod_match
          } else {
-            appendNoDupToList lmprelist $lmfound
-            appendNoDupToList lmnpolist $lmfound
+            reportDebug "set an unmet requirement on '$prereq_mod_item' for\
+               '$mod'"
+            lappend ::g_moduleUnmetDep($mod) $prereq_mod_item
+            lappend ::g_unmetDepHash($prereq_mod_item) $mod $prereq_path_list
          }
 
-         # look if requirement can be found in the No Particular Order list
-         foreach lmmod $modnpolist {
-            if {[isLoadedMatchSpecificPath $lmmod $prereq_path_list] &&\
-               [modEq $modpre $lmmod eqstart 1 2 1]} {
-               appendNoDupToList lmnpolist $lmmod
-               break
-            }
+         # is requirement loaded after mod (in *No Particular Order*)
+         if {[string length $aft_loaded_mod_match]} {
+            appendNoDupToList lmnpolist $aft_loaded_mod_match
          }
       }
 
@@ -2378,6 +2355,72 @@ proc unsetModuleDependency {mod} {
          setModuleDependency $lmmod
       }
    }
+}
+
+# return the list of prereqs of a loaded or loading module and the associated
+# loaded module corresponding to these prereq definitions. The list of each
+# prereq is returned, each entry is a list of each prereq item definition
+# associated to the matching module loaded prior passed mod and loaded after
+proc getLoadedModulePrereqListAndLoadedMatch {mod} {
+   set prereq_match_aftmatch_list {}
+
+   set prereq_list [getLoadedPrereq $mod]
+   # skip processing if no prereq defined
+   if {![llength $prereq_list]} {
+      return
+   }
+
+   set loaded_mod_list [getEnvLoadedModulePropertyParsedList name]
+   set mod_load_idx [lsearch -exact $loaded_mod_list $mod]
+   # consider mod as the lastly loaded if not found in module list
+   if {$mod_load_idx == -1} {
+      set mod_load_idx [llength $loaded_mod_list]
+   }
+
+   # distinguish modules loaded before or after passed loaded mod
+   set bef_loaded_mod_list [lrange $loaded_mod_list 0 $mod_load_idx]
+   set aft_loaded_mod_list [lrange $loaded_mod_list $mod_load_idx+1 end]
+   # reverse list to get closest match if returning lastly loaded module
+   if {[getConf unload_match_order] eq {returnlast}} {
+      set bef_loaded_mod_list [lreverse $bef_loaded_mod_list]
+   }
+
+   defineModEqProc [isIcase] [getConf extended_default] 1
+
+   foreach prereq $prereq_list {
+      set prereq_path_list [getLoadedPrereqPath $mod $prereq]
+      set prereq_match_aftmatch [list $prereq $prereq_path_list]
+
+      foreach prereq_mod_item $prereq {
+         # look at modules loaded before to find requirements
+         set bef_loaded_mod_match {}
+         foreach loaded_mod $bef_loaded_mod_list {
+            if {[isLoadedMatchSpecificPath $loaded_mod $prereq_path_list] &&\
+               [modEq $prereq_mod_item $loaded_mod eqstart 1 2 1]} {
+               set bef_loaded_mod_match $loaded_mod
+               break
+            }
+         }
+
+         # modules loaded afterward are unmet dependencies as dependent have
+         # not been reloaded after them
+         set aft_loaded_mod_match {}
+         foreach loaded_mod $aft_loaded_mod_list {
+            if {[isLoadedMatchSpecificPath $loaded_mod $prereq_path_list] &&\
+               [modEq $prereq_mod_item $loaded_mod eqstart 1 2 1]} {
+               set aft_loaded_mod_match $loaded_mod
+               break
+            }
+         }
+
+         lappend prereq_match_aftmatch $prereq_mod_item $bef_loaded_mod_match\
+            $aft_loaded_mod_match
+      }
+
+      lappend prereq_match_aftmatch_list $prereq_match_aftmatch
+   }
+
+   return $prereq_match_aftmatch_list
 }
 
 # returns if any loaded module (if passed mod is empty) or passed mod and all

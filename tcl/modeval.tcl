@@ -438,31 +438,20 @@ proc getDirectDependentList {mod {strong 0} {nporeq 0} {loading 0}\
 
    # take currently loading modules into account if asked
    if {$loading} {
-      set modlist [getEnvLoadedModulePropertyParsedList name]
-      defineModEqProc [isIcase] [getConf extended_default] 1
-      # reverse list to get closest match if returning lastly loaded module
-      if {[getConf unload_match_order] eq {returnlast}} {
-         set modlist [lreverse $modlist]
-      }
-      foreach loadingmod [getLoadingModuleList] {
-         foreach prereq [getLoadedPrereq $loadingmod] {
-            set prereq_path_list [getLoadedPrereqPath $loadingmod $prereq]
+      foreach loading_mod [getLoadingModuleList] {
+         foreach prereq_match [getLoadedModulePrereqListAndLoadedMatch\
+            $loading_mod] {
             set lmprelist {}
-            set moddep 0
-            foreach modpre $prereq {
-               foreach lmmod $modlist {
-                  if {[isLoadedMatchSpecificPath $lmmod $prereq_path_list]\
-                     && [modEq $modpre $lmmod eqstart 1 2 1]} {
-                     lappend lmprelist $lmmod
-                     if {$lmmod eq $mod} {
-                        set moddep 1
-                     }
-                     break
-                  }
+            set item_match_list [lassign $prereq_match prereq\
+               prereq_path_list]
+            foreach {prereq_mod_item loaded_mod_match ign} $item_match_list {
+               if {[string length $loaded_mod_match]} {
+                  lappend lmprelist $loaded_mod_match
                }
             }
-            if {$moddep && (!$strong || [llength $lmprelist] == 1)} {
-               lappend deplist $loadingmod
+            if {$mod in $lmprelist && (!$strong || [llength $lmprelist]\
+               == 1)} {
+               lappend deplist $loading_mod
                break
             }
          }
