@@ -1316,12 +1316,6 @@ proc getModulefileFromLoadedModule {mod} {
    }
 }
 
-proc getModulepathFromLoadedModule {mod} {
-   set modfile [getModulefileFromLoadedModule $mod]
-   # an empty string is returned if no enabled modulepath matches modulefile
-   return [findModulepathFromModulefile $modfile]
-}
-
 proc isModulefileLoaded {modfile} {
    cacheCurrentModules
 
@@ -1882,16 +1876,6 @@ proc getLoadedUse {mod} {
    }
 }
 
-# return loaded module which is a via requirement for specified loaded mod
-proc getViaPrereqModuleForLoadedModule {mod} {
-   if {[getConf require_via]} {
-      set modpath [getModulepathFromLoadedModule $mod]
-      if {[string length $modpath]} {
-         return [getLoadedModuleUsingModulepath $modpath]
-      }
-   }
-}
-
 proc getViaModuleForModulepath {modpath} {
    set via [getLoadedModuleUsingModulepath $modpath]
    if {![string length $via] && $modpath ni [getModulePathList]} {
@@ -2149,15 +2133,7 @@ proc setModuleDependency {mod} {
    set deplist {}
    set depnpolist {}
 
-   set prereq_list [getLoadedPrereq $mod]
-
-   # add via module requirement if enabled and if any
-   set via_prereq_mod [getViaPrereqModuleForLoadedModule $mod]
-   if {[string length $via_prereq_mod]} {
-      lappend prereq_list [list $via_prereq_mod]
-   }
-
-   foreach prereq $prereq_list {
+   foreach prereq [getLoadedPrereq $mod] {
       set prereq_path_list [getLoadedPrereqPath $mod $prereq]
       # get corresponding loaded module for each element of the prereq order
       set lmprelist {}
