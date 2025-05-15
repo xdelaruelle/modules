@@ -472,6 +472,36 @@ proc getDirectDependentList {mod {strong 0} {nporeq 0} {loading 0}\
    return $deplist
 }
 
+# return the list of prereqs of a loaded or loading module and the associated
+# loaded module corresponding to these prereq definitions. The list of each
+# prereq is returned, each entry is a list of the prereq definition, list of
+# matching modules loaded prior passed mod, list of matching modules loaded
+# either before or after mod
+proc getLoadedModulePrereqListAndLoadedMatch {mod} {
+   set prereq_match_npomatch_list {}
+   set prereq_list [getLoadedPrereq $mod]
+   set prereq_path_list [getLoadedPrereqPath $mod $prereq]
+
+   # skip processing if no prereq defined
+   if {![llength $prereq_list]} {
+      return
+   }
+
+   set loaded_mod_list [getEnvLoadedModulePropertyParsedList name]
+   set mod_load_idx [lsearch -exact $loaded_mod_list $mod]
+   # mod MUST have been found in loaded module list
+   # distinguish modules loaded before or after passed loaded mod
+   set bef_loaded_mod_list [lrange $loaded_mod_list 0 $mod_load_idx]
+   set aft_loaded_mod_list [lrange $loaded_mod_list $mod_load_idx+1 end]
+   # reverse list to get closest match if returning lastly loaded module
+   if {[getConf unload_match_order] eq {returnlast}} {
+      set bef_loaded_mod_list [lreverse $bef_loaded_mod_list]
+   }
+
+
+   return $prereq_match_npomatch_list
+}
+
 # gets the list of all loaded modules which are dependent of passed modlist
 # ordered by load position. strong argument controls whether only the active
 # dependent modules should be returned or also those that are optional. direct
