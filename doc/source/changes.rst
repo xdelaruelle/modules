@@ -1131,6 +1131,10 @@ The following modulefile Tcl commands appeared on Modules 5.
  unloaded if both :mconfig:`auto_handling` and :mconfig:`conflict_unload`
  configuration options are enabled.
 
+ Starting version ``5.6`` unloading a module that enables a modulepath unloads
+ all loaded modules stored in this modulepath if :mconfig:`require_via`
+ configuration option is enabled.
+
 :mfcmd:`module unuse<module>`
 
  Starting version ``5.1`` options ``--*-on-unload`` added to the
@@ -1258,7 +1262,7 @@ The following Modules configuration option has been introduced on Modules 5.
 |            | :mconfig:`logged_events`, :mconfig:`conflict_unload`            |
 +------------+-----------------------------------------------------------------+
 | 5.6        | :mconfig:`spider_output`, :mconfig:`spider_terse_output`,       |
-|            | :mconfig:`spider_indepth`                                       |
+|            | :mconfig:`spider_indepth`, :mconfig:`require_via`               |
 +------------+-----------------------------------------------------------------+
 
 :mconfig:`auto_handling`

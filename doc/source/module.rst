@@ -1425,6 +1425,21 @@ Module Sub-Commands
 
      .. versionadded:: 5.1
 
+ .. mconfig:: require_via
+
+  Consider loaded module enabling a modulepath a requirement for loaded
+  modules stored in this modulepath.
+
+  Default value is ``0``. It can be changed at installation time with
+  :instopt:`--enable-require-via` option. The :envvar:`MODULES_REQUIRE_VIA`
+  environment variable is defined by :subcmd:`config` sub-command when
+  changing this configuration option from its default value. See
+  :envvar:`MODULES_REQUIRE_VIA` description for details.
+
+  .. only:: html
+
+     .. versionadded:: 5.6
+
  .. mconfig:: reset_target_state
 
   Control behavior of :subcmd:`reset` sub-command. Whether environment should
