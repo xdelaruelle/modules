@@ -5292,6 +5292,20 @@ ENVIRONMENT
 
     .. versionadded:: 5.1
 
+.. envvar:: MODULES_REQUIRE_VIA
+
+ If set to ``1``, consider loaded module that enables a modulepath a
+ requirement for loaded modules stored in this modulepath. If set to ``0``,
+ no dependency is made between these modules.
+
+ This environment variable value supersedes the default value set in the
+ :mconfig:`require_via` configuration option. It can be defined with the
+ :subcmd:`config` sub-command.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. envvar:: MODULES_RESET_TARGET_STATE
 
  Defines behavior of :subcmd:`reset` sub-command. When set to ``__init__``,

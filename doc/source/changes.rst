@@ -1067,7 +1067,8 @@ The following environment variables appeared on Modules 5.
 | 5.6        | :envvar:`MODULES_SPIDER_OUTPUT`,                                |
 |            | :envvar:`MODULES_SPIDER_TERSE_OUTPUT`,                          |
 |            | :envvar:`MODULES_SPIDER_INDEPTH`,                               |
-|            | :envvar:`__MODULES_LMUSE`                                       |
+|            | :envvar:`__MODULES_LMUSE`,                                      |
+|            | :envvar:`MODULES_REQUIRE_VIA`                                   |
 +------------+-----------------------------------------------------------------+
 
 Modules Specific Tcl Commands
