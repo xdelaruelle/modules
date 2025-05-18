@@ -159,6 +159,8 @@ Modules 5.6.0 (not yet released)
   of these files, which is enabled by default, is controlled by the
   :instopt:`--enable-emacs-addons` and :instopt:`--emacsdatadir` configure
   options. (contribution from Laurent Besson)
+* Install: installation option :instopt:`--enable-new-features` is updated to
+  include :instopt:`--enable-require-via`.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
