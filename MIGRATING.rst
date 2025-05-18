@@ -113,6 +113,13 @@ single quotes rather escaping each special characters:
     line
     value'; export BAR;
 
+.. _Require via MIGRATING:
+
+Require *via* module
+--------------------
+
+FIXME
+
 
 v5.5
 ====
