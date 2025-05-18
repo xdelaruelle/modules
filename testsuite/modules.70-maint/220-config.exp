@@ -97,6 +97,7 @@ array set configdfl [list\
     quarantine_support        [expr {$install_quarantinesupport eq {y}}]\
     rcfile                    <undef>\
     redirect_output           1\
+    require_via               [expr {$install_requirevia eq {y}}]\
     reset_target_state        __init__\
     run_quarantine            <undef>\
     search_match              $install_searchmatch\
@@ -161,6 +162,7 @@ array set configvar [list\
     quarantine_support        MODULES_QUARANTINE_SUPPORT\
     rcfile                    MODULERCFILE\
     redirect_output           MODULES_REDIRECT_OUTPUT\
+    require_via               MODULES_REQUIRE_VIA\
     reset_target_state        MODULES_RESET_TARGET_STATE\
     run_quarantine            MODULES_RUN_QUARANTINE\
     search_match              MODULES_SEARCH_MATCH\
@@ -201,7 +203,7 @@ array set configvalid [list\
     hide_auto_loaded          {0 1}\
     icase                     {never search always}\
     ignore_cache              {0 1}\
-    ignore_user_rc              {0 1}\
+    ignore_user_rc            {0 1}\
     implicit_default          {0 1}\
     implicit_requirement      {0 1}\
     list_output               {header idx variant alias indesym sym tag hidden key}\
@@ -213,6 +215,7 @@ array set configvalid [list\
     nearly_forbidden_days     {0 365}\
     quarantine_support        {0 1}\
     redirect_output           {0 1}\
+    require_via               {0 1}\
     search_match              {starts_with contains}\
     set_shell_startup         {0 1}\
     shells_with_ksh_fpath     {sh bash csh tcsh fish}\

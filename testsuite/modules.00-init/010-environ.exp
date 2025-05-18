@@ -55,6 +55,7 @@ foreach var [array names env] {
 # clean any automated handling mode configuration
 unsetenv_var MODULES_AUTO_HANDLING
 unsetenv_var MODULES_CONFLICT_UNLOAD
+unsetenv_var MODULES_REQUIRE_VIA
 
 # ensure tests are run with implicit requirement enabled
 setenv_var MODULES_IMPLICIT_REQUIREMENT 1
