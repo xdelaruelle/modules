@@ -37,7 +37,7 @@ table highlights features that are unique to each implementation.
      - Modules 5.6
    * - * Integration with *rc* shell and *json* structured output
        * `Lua modulefile support`_
-       * `Module hierarchy`_
+       * `Inactive modules`_
        * Save configuration under :envvar:`XDG_CONFIG_HOME`
        * `i18n`_
        * `Find best module`_
@@ -70,8 +70,8 @@ table highlights features that are unique to each implementation.
        * :ref:`Logging activity`
        * :command:`envml` launcher
 
-.. _Module hierarchy: https://lmod.readthedocs.io/en/latest/080_hierarchy.html
 .. _Lua modulefile support: https://lmod.readthedocs.io/en/latest/050_lua_modulefiles.html
+.. _Inactive modules: https://lmod.readthedocs.io/en/latest/010_user.html#module-hierarchy
 .. _Find best module: https://lmod.readthedocs.io/en/latest/060_locating.html
 .. _i18n: https://lmod.readthedocs.io/en/latest/185_localization.html
 .. _Path entry priorities: https://lmod.readthedocs.io/en/latest/077_ref_counting.html#specifying-priorities-for-path-entries
@@ -150,6 +150,8 @@ implementation.
    * - `Hook functions`_
      - :ref:`Override any internal procedures or set trace hook<Site-specific
        configuration>`
+   * - `Module hierarchy`_
+     - :ref:`Require via MIGRATING`
    * - `Autoswap`_
      - :ref:`Conflict unload MIGRATING`
    * - |LMOD_DOWNSTREAM_CONFLICTS|_ environment variable
@@ -209,6 +211,7 @@ implementation.
 .. _Module properties: https://lmod.readthedocs.io/en/latest/145_properties.html
 .. _One name rule: https://lmod.readthedocs.io/en/latest/010_user.html#users-can-only-have-one-version-active-the-one-name-rule
 .. _XALT: https://github.com/xalt/xalt
+.. _Module hierarchy: https://lmod.readthedocs.io/en/latest/080_hierarchy.html
 .. _Autoswap: https://lmod.readthedocs.io/en/latest/060_locating.html#autoswapping-rules
 .. |LMOD_DOWNSTREAM_CONFLICTS| replace:: ``LMOD_DOWNSTREAM_CONFLICTS``
 .. _LMOD_DOWNSTREAM_CONFLICTS: https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html#configuration-or-cosmic-assign-at-startup
