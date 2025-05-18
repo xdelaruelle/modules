@@ -64,6 +64,7 @@ set install_termbg "@termbg@"
 
 set install_autohandling "@autohandling@"
 set install_conflictunload "@conflictunload@"
+set install_requirevia "@requirevia@"
 
 set install_implicitrequirement "@implicitrequirement@"
 

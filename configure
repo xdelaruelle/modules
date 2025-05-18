@@ -41,7 +41,7 @@ listterseoutput editor variantshortcut bashcompletiondir fishcompletiondir \
 zshcompletiondir tcllinter tcllinteropts nagelfardatadir nagelfaraddons \
 stickypurge uniquenameloaded abortonerror sourcecache logger loggeropts \
 loggedevents conflictunload spideroutput spiderterseoutput spiderindepth \
-emacsdatadir emacsaddons"
+emacsdatadir emacsaddons requirevia"
 libarglist=()
 
 # flags to know if argument has been specified on command-line
@@ -70,6 +70,7 @@ setshellstartup=n
 quarantinesupport=n
 autohandling=y
 conflictunload=n
+requirevia=n
 implicitrequirement=y
 availindepth=y
 spiderindepth=y
@@ -287,6 +288,9 @@ Optional Features:
                           set modulecmd.tcl to automatically unload modules
                           that conflict with modules to load and the dependent
                           of these conflicting modules [no]
+  --enable-require-via    set modulecmd.tcl to consider that a module enabling
+                          a modulepath is a requirement for the loaded modules
+                          stored in this modulepath [no]
   --enable-implicit-requirement
                           implicitly define a requirement toward modules
                           specified on ``module load`` or ``module unload``
@@ -756,6 +760,9 @@ for arg in "$@"; do
    --enable-conflict-unload*|--disable-conflict-unload)
       # shellcheck disable=SC2034
       conflictunload=$(get_feature_value "$arg") ;;
+   --enable-require-via*|--disable-require-via)
+      # shellcheck disable=SC2034
+      requirevia=$(get_feature_value "$arg") ;;
    --enable-implicit-requirement*|--disable-implicit-requirement)
       # shellcheck disable=SC2034
       implicitrequirement=$(get_feature_value "$arg") ;;
@@ -826,6 +833,8 @@ for arg in "$@"; do
          abortonerror='load:ml:reload:switch' ;
          # shellcheck disable=SC2034
          conflictunload=y ;
+         # shellcheck disable=SC2034
+         requirevia=y ;
       fi ;;
    --with-dark-background-colors=*|--without-dark-background-colors)
       darkbgcolors=$(get_package_value "$arg" "") ;;

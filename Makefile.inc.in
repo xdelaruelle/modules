@@ -85,6 +85,7 @@ termbg := @termbg@
 # automated modules handling
 autohandling := @autohandling@
 conflictunload := @conflictunload@
+requirevia := @requirevia@
 
 # implicitly define requirement on module load/module unload modules
 implicitrequirement := @implicitrequirement@
