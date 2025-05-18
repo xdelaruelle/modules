@@ -316,6 +316,12 @@ else
   setconflictunload := 0
 endif
 
+ifeq ($(requirevia),y)
+  setrequirevia := 1
+else
+  setrequirevia := 0
+endif
+
 ifeq ($(implicitrequirement),y)
   setimplicitrequirement := 1
 else
@@ -452,6 +458,7 @@ sed -e 's|@prefix@|$(prefix)|g' \
 	-e 's|@editor@|$(editor)|g' \
 	-e 's|@autohandling@|$(setautohandling)|g' \
 	-e 's|@conflictunload@|$(setconflictunload)|g' \
+	-e 's|@requirevia@|$(setrequirevia)|g' \
 	-e 's|@implicitrequirement@|$(setimplicitrequirement)|g' \
 	-e 's|@availindepth@|$(setavailindepth)|g' \
 	-e 's|@spiderindepth@|$(setspiderindepth)|g' \

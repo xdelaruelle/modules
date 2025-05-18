@@ -125,7 +125,7 @@ array set g_config_defs [list\
    protected_envvars {MODULES_PROTECTED_ENVVARS <undef> 0 l}\
    rcfile {MODULERCFILE <undef> 0 l}\
    redirect_output {MODULES_REDIRECT_OUTPUT 1 0 b {0 1}}\
-   require_via {MODULES_REQUIRE_VIA 0 0 b {0 1}}\
+   require_via {MODULES_REQUIRE_VIA @requirevia@ 0 b {0 1}}\
    reset_target_state {MODULES_RESET_TARGET_STATE __init__ 0 s}\
    quarantine_support {MODULES_QUARANTINE_SUPPORT @quarantinesupport@ 0 b {0\
       1}}\
