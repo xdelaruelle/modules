@@ -724,8 +724,9 @@ instance :instopt:`--disable-set-manpath<--enable-set-manpath>`):
  Enable all new features that are disabled by default due to the substantial
  behavior changes they imply on Modules 5. This option is equivalent to the
  cumulative use of
- :instopt:`--with-abort-on-error=load:ml:reload:switch<--with-abort-on-error>`
- and :instopt:`--enable-conflict-unload`. (default=no)
+ :instopt:`--with-abort-on-error=load:ml:reload:switch<--with-abort-on-error>`,
+ :instopt:`--enable-conflict-unload` and :instopt:`--enable-require-via`.
+ (default=no)
 
  .. only:: html
 
@@ -746,6 +747,9 @@ instance :instopt:`--disable-set-manpath<--enable-set-manpath>`):
     .. versionchanged:: 5.5
        Enables automated *conflict unload* mechanism
 
+    .. versionchanged:: 5.6
+       Enables automated *require via* mechanism
+
 
 .. instopt:: --enable-quarantine-support
 
@@ -762,6 +766,19 @@ instance :instopt:`--disable-set-manpath<--enable-set-manpath>`):
 
     .. versionchanged:: 5.0
        Configuration option default set to ``no``
+
+.. instopt:: --enable-require-via
+
+ Consider loaded module that enables a modulepath, a requirement of loaded
+ modules stored in this modulepath. (default=no)
+
+ This installation option defines the default value of the
+ :mconfig:`require_via` configuration option which could be changed after
+ installation with the :subcmd:`config` sub-command.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
 
 .. instopt:: --enable-set-binpath
 
