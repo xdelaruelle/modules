@@ -1,0 +1,208 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:		modules.50-cmds/%M%
+#   Revision:		%I%
+#   First Edition:	2025/05/18
+#   Last Mod.:		%U%, %G%
+#
+#   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:	Testuite testsequence
+#   Command:		load, unload
+#   Modulefiles:    moda, modb
+#   Sub-Command:
+#
+#   Comment:	%C{
+#         Test require_via mechanism
+#		}C%
+#
+##############################################################################
+
+
+#
+# basic dependency management test with require_via
+#
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_modpath2
+setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2
+setenv_loaded_module [list moda/1 modb/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1]
+
+setenv_var MODULES_REQUIRE_VIA 0
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1]
+lappend ans [list set LOADEDMODULES modb/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1]]
+testouterr_cmd bash {unload --no-auto moda/1} ERR $tserr
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH $modpath.spider1]
+set tserr [msg_top_unload moda/1 modb/1 {} {}]
+testouterr_cmd bash {unload --auto moda/1} $ans $tserr
+
+skip_if_quick_mode
+
+testouterr_cmd bash {unload --force --auto moda/1} $ans $tserr
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1]
+lappend ans [list set LOADEDMODULES modb/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+set tserr [msg_unload moda/1 [err_deplof modb/1]]
+testouterr_cmd bash {unload --force --no-auto moda/1} $ans $tserr
+
+
+#
+# modulepath was enabled prior load of via module
+#
+
+setenv_path_var MODULEPATH $modpath.spider1:$modpath.spider2
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2
+setenv_var __MODULES_SHARE_MODULEPATH $modpath.spider2:2
+setenv_loaded_module [list moda/1 modb/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1]
+
+setenv_var MODULES_REQUIRE_VIA 0
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1]
+lappend ans [list set LOADEDMODULES modb/1]
+lappend ans [list unset __MODULES_SHARE_MODULEPATH]
+lappend ans [list set MODULEPATH $modpath.spider1:$modpath.spider2]
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+# moda/1 not considered via module of modb/1, as modulepath was already enabled
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+
+#
+# dependent still loaded, its modulepath not enabled, then via module loaded again
+#
+
+setenv_path_var MODULEPATH $modpath.spider1
+unsetenv_var __MODULES_LMUSE
+unsetenv_var __MODULES_SHARE_MODULEPATH
+setenv_loaded_module [list modb/1] [list $modpath.spider2/modb/1]
+
+setenv_var MODULES_REQUIRE_VIA 0
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE moda/1&$modpath.spider2]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider1/moda/1]
+lappend ans [list set LOADEDMODULES modb/1:moda/1]
+lappend ans [list set MODULEPATH $modpath.spider2:$modpath.spider1]
+testouterr_cmd bash {load --no-auto moda/1} $ans {}
+testouterr_cmd bash {load --auto moda/1} $ans {}
+
+
+setenv_var MODULES_REQUIRE_VIA 1
+
+# CORNER CASE: modb/1 is not reloaded as it cannot be known that
+# moda/1 is a requirement via module prior its load
+testouterr_cmd bash {load --no-auto moda/1} $ans {}
+testouterr_cmd bash {load --auto moda/1} $ans {}
+
+
+#
+# dependent still loaded, its modulepath enabled, then via module loaded again
+#
+
+setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
+unsetenv_var __MODULES_LMUSE
+setenv_loaded_module [list modb/1] [list $modpath.spider2/modb/1]
+
+setenv_var MODULES_REQUIRE_VIA 0
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE moda/1&$modpath.spider2]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider1/moda/1]
+lappend ans [list set LOADEDMODULES modb/1:moda/1]
+lappend ans [list set __MODULES_SHARE_MODULEPATH $modpath.spider2:2]
+lappend ans [list set MODULEPATH $modpath.spider2:$modpath.spider1]
+testouterr_cmd bash {load --no-auto moda/1} $ans {}
+testouterr_cmd bash {load --auto moda/1} $ans {}
+
+
+setenv_var MODULES_REQUIRE_VIA 1
+
+testouterr_cmd bash {load --no-auto moda/1} $ans {}
+# modb/1 is not reloaded as modulepath was already enabled prior moda/1 load
+testouterr_cmd bash {load --auto moda/1} $ans {}
+lappend ans [list set LOADEDMODULES modb/1]
+
+
+#
+# dependent loaded before its via module that enables its modulepath
+#
+
+setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2
+setenv_loaded_module [list modb/1 moda/1] [list $modpath.spider2/modb/1 $modpath.spider1/moda/1]
+
+setenv_var MODULES_REQUIRE_VIA 0
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1]
+lappend ans [list set LOADEDMODULES modb/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+# no reload of dependent, as requirement was loaded after
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+
+#
+# dependent loaded before its via module and modulepath already enabled before via module load
+#
+
+setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2
+setenv_var __MODULES_SHARE_MODULEPATH $modpath.spider2:2
+setenv_loaded_module [list modb/1 moda/1] [list $modpath.spider2/modb/1 $modpath.spider1/moda/1]
+
+setenv_var MODULES_REQUIRE_VIA 0
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1]
+lappend ans [list set LOADEDMODULES modb/1]
+lappend ans [list unset __MODULES_SHARE_MODULEPATH]
+lappend ans [list set MODULEPATH $modpath.spider2:$modpath.spider1]
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+# moda/1 is not via module of modb/1 as modulepath was already enabled
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+
+#
+#  Cleanup
+#
+
+reset_test_env
