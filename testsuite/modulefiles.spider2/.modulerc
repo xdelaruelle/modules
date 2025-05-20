@@ -4,5 +4,8 @@ if {[info exists env(TESTSUITE_VIA)]} {
         modulepath_label1 {
             modulepath-label . {My label spider2}
         }
+        virtual1 {
+            module-virtual modvi/1 ./modb/1
+        }
     }
 }
