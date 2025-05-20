@@ -202,6 +202,94 @@ testouterr_cmd bash {unload --auto moda/1} $ans {}
 
 
 #
+# unuse of enabled path from command line
+#
+
+setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2
+unsetenv_var __MODULES_SHARE_MODULEPATH
+setenv_loaded_module [list moda/1 modb/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1]
+
+setenv_var MODULES_REQUIRE_VIA 0
+
+set ans [list]
+lappend ans [list set MODULEPATH $modpath.spider1]
+testouterr_cmd bash "unuse $modpath.spider2" $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+
+testouterr_cmd bash "unuse $modpath.spider2" $ans {}
+
+
+# then unload via module
+setenv_path_var MODULEPATH $modpath.spider1
+
+setenv_var MODULES_REQUIRE_VIA 0
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1]
+lappend ans [list set LOADEDMODULES modb/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+
+# dependency with via module is detected even though modulepath is not enabled anymore
+set tserr [msg_unload moda/1 [err_prerequn modb/1]]
+testouterr_cmd bash {unload --no-auto moda/1} ERR $tserr
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH $modpath.spider1]
+set tserr [msg_top_unload moda/1 modb/1 {} {}]
+testouterr_cmd bash {unload --auto moda/1} $ans $tserr
+
+
+# CORNER CASE: dependency with via module cannot be detected with virtual modules
+setenv_var TESTSUITE_VIA virtual1
+setenv_loaded_module [list moda/1 modvi/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1]
+
+setenv_var MODULES_REQUIRE_VIA 0
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1]
+lappend ans [list set LOADEDMODULES modvi/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+# dependency of modvi/1 is not detected
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+
+# via module loaded after dependent and modulepath has been unused
+unsetenv_var TESTSUITE_VIA
+setenv_loaded_module [list modb/1 moda/1] [list $modpath.spider2/modb/1 $modpath.spider1/moda/1]
+
+setenv_var MODULES_REQUIRE_VIA 0
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1]
+lappend ans [list set LOADEDMODULES modb/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+# as it is loaded after moda/1 is not seen as a via requirement
+testouterr_cmd bash {unload --no-auto moda/1} $ans {}
+testouterr_cmd bash {unload --auto moda/1} $ans {}
+
+
+#
 #  Cleanup
 #
 
