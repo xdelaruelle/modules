@@ -1,0 +1,8 @@
+#%Module
+if {[info exists env(TESTSUITE_SPIDER_OTHERMODPATH1)]} {
+    switch -- $env(TESTSUITE_SPIDER_OTHERMODPATH1) {
+        use_modpath2 {
+            module use $env(TESTSUITEDIR)/modulefiles.spider2
+        }
+    }
+}
