@@ -30,7 +30,9 @@ setenv_var MODULEPATH $modpath.spider1
 
 set tserr "$modpath.spider1:
 moda/1
-moda/2"
+moda/2
+othervia/1
+othervia/2"
 testouterr_cmd sh {spider -t} OK $tserr
 
 setenv_var TESTSUITE_SPIDER_MODPATH1 remove_modpath2
@@ -43,6 +45,8 @@ setenv_var TESTSUITE_SPIDER_MODPATH2 use_modpath3
 set tserr "$modpath.spider1:
 moda/1
 moda/2
+othervia/1
+othervia/2
 
 $modpath.spider2:
 modb/1
@@ -159,6 +163,8 @@ moda/2"
     set tserr "$modpath.spider1:
 moda/1
 moda/2
+othervia/1
+othervia/2
 
 $modpath.spider2:
 modb/1
@@ -170,7 +176,9 @@ modc/2
 
 $modpath.link2:
 moda/1
-moda/2"
+moda/2
+othervia/1
+othervia/2"
     testouterr_cmd sh {spider -t} OK $tserr
     setenv_var TESTSUITE_SPIDER_MODPATH3 prepend_link2
     testouterr_cmd sh {spider -t} OK $tserr
@@ -188,6 +196,8 @@ setenv_var TESTSUITE_SPIDER_MODPATH1 use_append_modpath_extref1
 set tserr "$modpath.spider1:
 moda/1
 moda/2
+othervia/1
+othervia/2
 
 $modpath.spider2:
 modb/1
@@ -198,7 +208,9 @@ modc/1
 modc/2"
 set tserr_unkref "$modpath.spider1:
 moda/1
-moda/2"
+moda/2
+othervia/1
+othervia/2"
 
 setenv_var TESTSUITE_SPIDER_EXTREF er2
 testouterr_cmd sh {spider -t} OK $tserr
@@ -252,6 +264,8 @@ modd/1
 $modpath.spider1:
 moda/1
 moda/2
+othervia/1
+othervia/2
 
 $modpath.spider3:
 modc/1
@@ -269,6 +283,8 @@ modd/1(@)
 $modpath.spider1:
 moda/1
 moda/2
+othervia/1
+othervia/2
 
 $modpath.spider2:
 modb/1
@@ -283,6 +299,8 @@ setenv_var TESTSUITE_SPIDER_GLOBALRC symbol1
 set tserr "$modpath.spider1:
 moda/1
 moda/2
+othervia/1
+othervia/2
 
 $modpath.spider2:
 modb/1(sym)
