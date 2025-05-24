@@ -1886,18 +1886,8 @@ proc getLoadedUse {mod} {
    }
 }
 
-# return loaded module which is a via requirement for specified loaded mod
-proc getViaPrereqModuleForLoadedModule {mod} {
-   if {[getConf require_via]} {
-      set modpath [getModulepathFromLoadedModule $mod]
-      if {[string length $modpath]} {
-         return [getLoadedModuleUsingModulepath $modpath]
-      }
-   }
-}
-
 proc getViaModuleForModulepath {modpath} {
-   set via [getLoadedModuleUsingModulepath $modpath]
+   lassign [getAllLoadedModuleUsingModulepath $modpath] via
    if {![string length $via] && $modpath ni [getModulePathList]} {
       # get via information collected from spider processing
       set via [getModuleUsingModulepath $modpath]
@@ -1916,26 +1906,21 @@ proc getModuleUsingModulepath {modpath} {
    }
 }
 
-# Return first loaded module that enables given modulepath. Reference counter
-# is checked to detect if modulepath was enabled prior loading the module in
-# which case modulepath is considered not enabled by loaded module. modpath
+# Return all loaded module that enables given modulepath. Reference counter
+# is checked to detect if modulepath was enabled prior loading the modules in
+# which case modulepath is considered not enabled by loaded modules. modpath
 # may not be currently enabled.
-proc getLoadedModuleUsingModulepath {modpath} {
-   set ref_count [getPathReferenceCount MODULEPATH $modpath [getState\
-      path_separator] 1]
+proc getAllLoadedModuleUsingModulepath {modpath} {
+   set mod_list {}
    foreach mod [getEnvLoadedModulePropertyParsedList name] {
       if {$modpath in [resolvStringListWithEnv [getLoadedUse $mod]]} {
-         if {![info exists first_using_mod]} {
-            set first_using_mod $mod
-         }
-         incr ref_count -1
-         if {$ref_count <= 0} {
-            break
-         }
+         lappend mod_list $mod
       }
    }
-   if {[info exists first_using_mod] && $ref_count <= 0} {
-      return $first_using_mod
+   set ref_count [getPathReferenceCount MODULEPATH $modpath [getState\
+      path_separator] 1]
+   if {$ref_count <= [llength $mod_list]} {
+      return $mod_list
    }
 }
 
@@ -2386,14 +2371,14 @@ proc getLoadedModulePrereqListAndLoadedMatch {mod} {
    set prereq_match_aftmatch_list {}
    set prereq_list [getLoadedPrereq $mod]
 
-   # add via module requirement if enabled and if any
-   set via_prereq_mod [getViaPrereqModuleForLoadedModule $mod]
-   if {[string length $via_prereq_mod]} {
-      lappend prereq_list [list $via_prereq_mod]
+   set via_mod_list {}
+   if {[getConf require_via]} {
+      set modpath [getModulepathFromLoadedModule $mod]
+      set via_mod_list [getAllLoadedModuleUsingModulepath $modpath]
    }
 
    # skip processing if no prereq defined
-   if {![llength $prereq_list]} {
+   if {![llength $prereq_list] && ![llength $via_mod_list]} {
       return
    }
 
@@ -2445,6 +2430,28 @@ proc getLoadedModulePrereqListAndLoadedMatch {mod} {
       }
 
       lappend prereq_match_aftmatch_list $prereq_match_aftmatch
+   }
+
+   # add via module requirement if enabled and if any
+   if {[llength $via_mod_list]} {
+      set bef_loaded_mod_match {}
+      foreach loaded_mod $bef_loaded_mod_list {
+         if {$loaded_mod in $via_mod_list} {
+            set bef_loaded_mod_match $loaded_mod
+            break
+         }
+      }
+      set aft_loaded_mod_match {}
+      foreach loaded_mod $aft_loaded_mod_list {
+         if {$loaded_mod in $via_mod_list} {
+            set aft_loaded_mod_match $loaded_mod
+            break
+         }
+      }
+      # use "<VIA>" string as prereq specification, this value is used for
+      # unsatisfied requirement, which does not exist for via requirement
+      lappend prereq_match_aftmatch_list [list <VIA> {} <VIA>\
+         $bef_loaded_mod_match $aft_loaded_mod_match]
    }
 
    return $prereq_match_aftmatch_list
