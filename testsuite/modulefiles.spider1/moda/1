@@ -42,5 +42,11 @@ if {[info exists env(TESTSUITE_SPIDER_MODPATH1)]} {
             setenv TESTSUITE_SPIDER_INREF er2
             prepend-path MODULEPATH $env(TESTSUITEDIR)/modulefiles.spid\$TESTSUITE_SPIDER_INREF
         }
+        prepend_modpath_inref3 {
+            if {[module-info mode load]} {
+                setenv TESTSUITE_SPIDER_INREF er2
+            }
+            prepend-path MODULEPATH $env(TESTSUITEDIR)/modulefiles.spid\$TESTSUITE_SPIDER_INREF
+        }
     }
 }
