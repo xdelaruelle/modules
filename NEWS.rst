@@ -161,6 +161,7 @@ Modules 5.6.0 (not yet released)
   options. (contribution from Laurent Besson)
 * Install: installation option :instopt:`--enable-new-features` is updated to
   include :instopt:`--enable-require-via`.
+* Doc: add :ref:`require-via` design notes.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
