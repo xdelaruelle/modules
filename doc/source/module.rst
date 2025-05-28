@@ -303,10 +303,11 @@ switches are accepted:
  On :subcmd:`load`, :subcmd:`unload`, :subcmd:`switch`, :subcmd:`load-any`,
  :subcmd:`try-load`, :subcmd:`mod-to-sh` and :subcmd:`source` sub-commands
  by-pass any unsatisfied modulefile constraint corresponding to the declared
- :mfcmd:`prereq` and :mfcmd:`conflict`. Which means for instance that a
- *modulefile* will be loaded even if it comes in conflict with another loaded
- *modulefile* or that a *modulefile* will be unloaded even if it is required
- as a prereq by another *modulefile*.
+ :mfcmd:`prereq`, :ref:`via requirement<MODULES_REQUIRE_VIA>` and
+ :mfcmd:`conflict`. Which means for instance that a *modulefile* will be
+ loaded even if it comes in conflict with another loaded *modulefile* or that
+ a *modulefile* will be unloaded even if it is a requirement of another
+ *modulefile*.
 
  On :subcmd:`load`, :command:`ml`, :subcmd:`mod-to-sh`, :subcmd:`purge`,
  :subcmd:`reload`, :subcmd:`switch`, :subcmd:`try-load` and :subcmd:`unload`
@@ -4458,14 +4459,15 @@ ENVIRONMENT
    ``keep-loaded``, ``sticky`` or ``super-sticky``.
 
  * Dependent Reload: reload of the modulefiles declaring a :mfcmd:`prereq`
-   onto loaded *modulefile* or declaring a :mfcmd:`prereq` onto a *modulefile*
-   part of this reloading batch.
+   onto loading *modulefile* or declaring a :mfcmd:`prereq` or a :ref:`via
+   requirement<MODULES_REQUIRE_VIA>` onto a *modulefile* part of this
+   reloading batch.
 
  When unloading a *modulefile*, following actions are triggered:
 
  * Dependent Unload: unload of the modulefiles declaring a non-optional
-   :mfcmd:`prereq` onto unloaded modulefile or declaring a non-optional
-   :mfcmd:`prereq` onto a modulefile part of this unloading batch. A
+   :mfcmd:`prereq` or a :ref:`via requirement<MODULES_REQUIRE_VIA>` onto
+   unloaded modulefile or a modulefile part of this unloading batch. A
    :mfcmd:`prereq` modulefile is considered optional if the :mfcmd:`prereq`
    definition order is made of multiple modulefiles and at least one
    alternative modulefile is loaded.
@@ -4480,7 +4482,8 @@ ENVIRONMENT
  * Dependent Reload: reload of the modulefiles declaring a :mfcmd:`conflict`
    or an optional :mfcmd:`prereq` onto either the unloaded modulefile, an
    unloaded dependent or an unloaded useless requirement or declaring a
-   :mfcmd:`prereq` onto a modulefile part of this reloading batch.
+   :mfcmd:`prereq` or a :ref:`via requirement<MODULES_REQUIRE_VIA>` onto a
+   modulefile part of this reloading batch.
 
  In case a loaded *modulefile* has some of its declared constraints
  unsatisfied (pre-required modulefile not loaded or conflicting modulefile
@@ -5291,11 +5294,15 @@ ENVIRONMENT
 
     .. versionadded:: 5.1
 
+.. _MODULES_REQUIRE_VIA:
+
 .. envvar:: MODULES_REQUIRE_VIA
 
- If set to ``1``, consider loaded module that enables a modulepath a
- requirement for loaded modules stored in this modulepath. If set to ``0``,
- no dependency is made between these modules.
+ If set to ``1``, consider loaded module that enables a modulepath (through
+ the use of the modulefile commands :mfcmd:`module use<module>`,
+ :mfcmd:`append-path MODULEPATH<append-path>`, or :mfcmd:`prepend-path
+ MODULEPATH<prepend-path>`) a requirement for loaded modules stored in this
+ modulepath. If set to ``0``, no dependency is made between these modules.
 
  This environment variable value supersedes the default value set in the
  :mconfig:`require_via` configuration option. It can be defined with the
