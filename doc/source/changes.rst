@@ -1223,6 +1223,13 @@ The following modulefile Tcl commands appeared on Modules 5.
  Starting version 5.6, label is also used on :subcmd:`whatis` and
  :subcmd:`search` sub-command output.
 
+:mfcmd:`module use<module>`, :mfcmd:`append-path MODULEPATH<append-path>`,
+:mfcmd:`prepend-path MODULEPATH<prepend-path>`
+
+ Starting with version 5.6, if :mconfig:`require_via` configuration option is
+ enabled, modulefile enabling a modulepath is considered a requirement of the
+ loaded modules stored in this path.
+
 Modules Variables
 """""""""""""""""
 
