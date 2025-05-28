@@ -218,8 +218,8 @@ the *modulefile* is being loaded.
 
  If the :mconfig:`conflict_unload` and :mconfig:`auto_handling` configuration
  options are enabled, :mfcmd:`conflict` will attempt to unload all loaded
- modules that match specification. (see :envvar:`MODULES_AUTO_HANDLING` in
- :ref:`module(1)`).
+ modules that match specification. (see :ref:`Automated module handling
+ mechanisms<MODULES_AUTO_HANDLING>` in :ref:`module(1)`).
 
  .. only:: html
 
@@ -293,7 +293,8 @@ the *modulefile* is being loaded.
 
  If the :mconfig:`conflict_unload` and :mconfig:`auto_handling` configuration
  options are enabled, an attempt to unload loaded module that defines the same
- family is made. (see :envvar:`MODULES_AUTO_HANDLING` in :ref:`module(1)`).
+ family is made. (see :ref:`Automated module handling
+ mechanisms<MODULES_AUTO_HANDLING>` in :ref:`module(1)`).
 
  .. only:: html
 
@@ -1201,7 +1202,8 @@ the *modulefile* is being loaded.
 
  If the :mconfig:`auto_handling` configuration option is enabled
  :mfcmd:`prereq` will attempt to load specified modulefile if not found loaded
- yet (see :envvar:`MODULES_AUTO_HANDLING` in :ref:`module(1)`).
+ yet (see :ref:`Automated module handling mechanisms<MODULES_AUTO_HANDLING>`
+ in :ref:`module(1)`).
 
  The ``--tag`` option accepts a list of module tags to apply to *modulefile*
  once loaded. *taglist* corresponds to the concatenation of multiple tags
@@ -2116,7 +2118,7 @@ the modulefiles are loaded.
 :command:`module` keeps environment consistent which means a modulefile cannot
 be loaded if its requirements are not loaded or if a conflicting module is
 loaded. In addition a loaded module cannot be unloaded if other loaded modules
-depends on it. The :envvar:`automated module handling
+depends on it. The :ref:`automated module handling
 mechanisms<MODULES_AUTO_HANDLING>` attempt to solve the dependencies expressed
 by loading or unloading additional modulefiles. When the :option:`--no-auto`
 option is set on :command:`module` command when loading or unload modulefile,
@@ -2158,6 +2160,17 @@ pre-requirement modulefile gets loaded or conflicting modulefile gets unloaded
 the inconsistent loaded module will be automatically reloaded to make user
 environment consistent again.
 
+.. only:: html
+
+   .. versionchanged:: 4.2
+      Options :option:`--force`, :option:`--auto` and :option:`--no-auto`
+      added
+
+   .. versionchanged:: 4.2
+      :ref:`Automated module handling mechanisms<MODULES_AUTO_HANDLING>` added
+
+   .. versionchanged:: 4.7
+      Option ``--not-req`` added
 
 Modulefile Specific Help
 ------------------------
