@@ -1058,7 +1058,7 @@ Module Sub-Commands
  .. mconfig:: conflict_unload
 
   Automated unload of conflicting modules when loading a module. This
-  mechanism is part of the :envvar:`automated module handling
+  mechanism is part of the :ref:`automated module handling
   mode<MODULES_AUTO_HANDLING>` and also requires enablement of
   :mconfig:`auto_handling` configuration option.
 
@@ -4828,7 +4828,7 @@ ENVIRONMENT
  If set to ``1``, enable automated unload of conflicting modules when loading
  a module. If set to ``0``, disable this automated conflict unload mechanism.
 
- Conflict Unload is a mechanism part of the :envvar:`automated module handling
+ Conflict Unload is a mechanism part of the :ref:`automated module handling
  mode<MODULES_AUTO_HANDLING>`. To activate this mechanism,
  :mconfig:`auto_handling` configuration option should also be enabled.
 
@@ -4984,10 +4984,9 @@ ENVIRONMENT
  * restored from a collection, unless already loaded in collection-specified
    order.
 
- * automatically loaded by automated module handling mechanisms (see
-   :envvar:`MODULES_AUTO_HANDLING` section) when declared as module
-   requirement, with :mfcmd:`prereq` or :mfcmd:`module load<module>`
-   modulefile commands.
+ * automatically loaded by :ref:`automated module handling
+   mechanisms<MODULES_AUTO_HANDLING>` when declared as module requirement,
+   with :mfcmd:`prereq` or :mfcmd:`module load<module>` modulefile commands.
 
  An error is returned in the above situations if either no explicit or
  implicit default version is defined.
