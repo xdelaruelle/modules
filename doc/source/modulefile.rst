@@ -487,6 +487,10 @@ the *modulefile* is being loaded.
  unloaded modules are also unloaded. Otherwise an error is raised if module to
  unload has a dependent module loaded.
 
+ If the :mconfig:`require_via` configuration option is enabled, the ``use``
+ sub-command defines a requirement of modulefiles stored in the added
+ modulepath onto current *modulefile*.
+
  The ``unuse`` sub-command accepts the ``--remove-on-unload``,
  ``--noop-on-unload``, ``--append-on-unload`` and ``--prepend-on-unload``
  options to control the behavior to apply when *modulefile* is unloaded. See
@@ -572,6 +576,11 @@ the *modulefile* is being loaded.
        When :mconfig:`auto_handling` and :mconfig:`conflict_unload`
        configuration options are enabled, ``unload`` sub-command removes all
        matching modules loaded and modules that depend on them
+
+    .. versionchanged:: 5.6
+       When :mconfig:`require_via` configuration option is enabled, a
+       modulefile using new modulepath is considered a requirement of
+       modulefiles stored in this modulepath.
 
 .. mfcmd:: module-alias name modulefile
 
@@ -1162,6 +1171,10 @@ the *modulefile* is being loaded.
  If *value* corresponds to the concatenation of multiple elements separated by
  colon, or *delimiter*, character, each element is treated separately.
 
+ If the *variable* is :envvar:`MODULEPATH` and :mconfig:`require_via`
+ configuration option is activated, the *modulefile* is considered a
+ dependency by the loaded modulefiles stored in the added modulepaths.
+
  .. only:: html
 
     .. versionchanged:: 4.1
@@ -1169,6 +1182,11 @@ the *modulefile* is being loaded.
 
     .. versionchanged:: 5.4
        *value* equal to *delimiter* character allowed
+
+    .. versionchanged:: 5.6
+       When :mconfig:`require_via` configuration option is enabled, a
+       modulefile adding path to :envvar:`MODULEPATH` environment variable is
+       considered a requirement of modulefiles stored in this path.
 
 .. mfcmd:: prereq [options] modulefile...
 
@@ -2091,6 +2109,15 @@ the :mfcmd:`prereq`, :mfcmd:`prereq-any`, :mfcmd:`prereq-all`,
 commands or when :mconfig:`auto_handling` is enabled, pre-required modulefiles
 are automatically loaded.
 
+Another form of pre-requirement is expressed through the use of the modulefile
+commands :mfcmd:`module use<module>`, :mfcmd:`append-path
+MODULEPATH<append-path>`, or :mfcmd:`prepend-path MODULEPATH<prepend-path>`,
+when the :mconfig:`require_via` configuration option is enabled. In this
+context, a modulefile that adds a modulepath is treated as a requirement for
+the modulefiles loaded from that path. This pre-requirement is considered when
+such modules are already loaded, helping to maintain consistency when
+attempting to unload a modulefile that enables a modulepath.
+
 Conflict is expressed with :mfcmd:`conflict`, :mfcmd:`family` or
 :mfcmd:`module unload<module>` modulefile commands. When the
 :mconfig:`auto_handling` or :mconfig:`conflict_unload` configuration options
@@ -2171,6 +2198,11 @@ environment consistent again.
 
    .. versionchanged:: 4.7
       Option ``--not-req`` added
+
+   .. versionchanged:: 5.6
+      A modulefile enabling a modulepath is considered a requirement of
+      modulefiles stored in this path if :mconfig:`require_via` configuration
+      option is enabled
 
 Modulefile Specific Help
 ------------------------
