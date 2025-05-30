@@ -1,0 +1,14 @@
+#%Module
+if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
+    switch -- $env(TESTSUITE_REQUIRE_VIA) {
+        indirect_opt_req1 {
+            prereq --optional reqb/1
+        }
+        indirect_req1 {
+            prereq reqb/1
+        }
+        indirect_conflict1 {
+            conflict reqb
+        }
+    }
+}

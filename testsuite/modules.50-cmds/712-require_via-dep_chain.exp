@@ -1,0 +1,265 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:		modules.50-cmds/%M%
+#   Revision:		%I%
+#   First Edition:	2025/05/29
+#   Last Mod.:		%U%, %G%
+#
+#   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:	Testuite testsequence
+#   Command:		load, unload
+#   Modulefiles:    moda, modb, modc, reqa, reqb
+#   Sub-Command:
+#
+#   Comment:	%C{
+#         Test require_via mechanism with dependency chains
+#		}C%
+#
+##############################################################################
+
+skip_if_quick_mode
+
+setenv_var MODULES_REQUIRE_VIA 1
+
+
+#
+# chain of 2 modulepath-enabling modules
+#
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_modpath3
+
+setenv_path_var MODULEPATH $modpath.spider1
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3]
+lappend ans [list set _LMFILES_ $modpath.spider1/moda/1:$modpath.spider2/modb/1:$modpath.spider3/modc/1]
+lappend ans [list set LOADEDMODULES moda/1:modb/1:modc/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1]
+testouterr_cmd bash {load --auto moda/1 modb/1 modc/1} $ans {}
+
+
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1
+setenv_loaded_module [list moda/1 modb/1 modc/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider3/modc/1]
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1]]
+testouterr_cmd bash {unload --no-auto moda/1} ERR $tserr
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH $modpath.spider1]
+set tserr [msg_top_unload moda/1 {modc/1 modb/1} {} {}]
+testouterr_cmd bash {unload --auto moda/1} $ans $tserr
+
+
+#
+# cycle between 3 modulepath-enabling modules
+#
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_modpath3
+setenv_var TESTSUITE_SPIDER_MODPATH3 use_modpath1
+
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3:modc/1&$modpath.spider1
+setenv_var MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1
+setenv_loaded_module [list moda/1 modb/1 modc/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider3/modc/1]
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list unset MODULEPATH]
+set tserr [msg_top_unload moda/1 {modc/1 modb/1} {} {}]
+testouterr_cmd bash {unload --auto moda/1} $ans $tserr
+
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE moda/1&$modpath.spider2]
+lappend ans [list set _LMFILES_ $modpath.spider1/moda/1]
+lappend ans [list set LOADEDMODULES moda/1]
+lappend ans [list set MODULEPATH $modpath.spider2]
+set tserr [msg_top_unload modb/1 {modc/1} {} {}]
+# As dependent is loaded before, modc/1 is not see as a requirement for moda/1
+testouterr_cmd bash {unload --auto modb/1} $ans $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3]
+lappend ans [list set _LMFILES_ $modpath.spider1/moda/1:$modpath.spider2/modb/1]
+lappend ans [list set LOADEDMODULES moda/1:modb/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.spider2]
+# As dependent is loaded before, modc/1 is not see as a requirement for moda/1
+testouterr_cmd bash {unload --auto modc/1} $ans {}
+
+
+#
+# module load with modulepath-enabling chain trapped into Dependent Reload mechanism
+#
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_modpath3
+unsetenv_var TESTSUITE_SPIDER_MODPATH3
+
+setenv_var TESTSUITE_REQUIRE_VIA opt_req1
+
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1:$modpath.4
+setenv_var __MODULES_LMPREREQ moda/1&moda/1|reqa/1
+setenv_loaded_module [list moda/1 modb/1 modc/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider3/modc/1]
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMPREREQ moda/1&moda/1|reqa/1]
+lappend ans [list set _LMFILES_ $modpath.4/reqa/1:$modpath.spider1/moda/1:$modpath.spider2/modb/1:$modpath.spider3/modc/1]
+lappend ans [list set LOADEDMODULES reqa/1:moda/1:modb/1:modc/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1:$modpath.4]
+set tserr [msg_top_load reqa/1 {} {} {moda/1 modb/1 modc/1}]
+testouterr_cmd bash {load --auto reqa/1} $ans $tserr
+
+
+#
+# module unload with modulepath-enabling chain trapped into Dependent Reload mechanism
+#
+
+setenv_loaded_module [list reqa/1 moda/1 modb/1 modc/1] [list $modpath.4/reqa/1 $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider3/modc/1]
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMPREREQ moda/1&moda/1|reqa/1]
+lappend ans [list set _LMFILES_ $modpath.spider1/moda/1:$modpath.spider2/modb/1:$modpath.spider3/modc/1]
+lappend ans [list set LOADEDMODULES moda/1:modb/1:modc/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1:$modpath.4]
+set tserr [msg_top_unload reqa/1 {} {} {moda/1 modb/1 modc/1}]
+testouterr_cmd bash {unload --auto reqa/1} $ans $tserr
+
+
+#
+# module unload with modulepath-enabling chain trapped into Dependent Unload mechanism
+#
+
+setenv_var TESTSUITE_REQUIRE_VIA req1
+
+setenv_var __MODULES_LMPREREQ moda/1&reqa/1
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH $modpath.spider1:$modpath.4]
+set tserr [msg_top_unload reqa/1 {modc/1 modb/1 moda/1} {} {}]
+testouterr_cmd bash {unload --auto reqa/1} $ans $tserr
+
+
+#
+# module load with modulepath-enabling chain trapped into Conflict Unload mechanism
+#
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+setenv_var TESTSUITE_REQUIRE_VIA conflict1
+
+unsetenv_var __MODULES_LMPREREQ
+setenv_var __MODULES_LMCONFLICT moda/1&reqa/1
+setenv_loaded_module [list moda/1 modb/1 modc/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider3/modc/1]
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset __MODULES_LMCONFLICT]
+lappend ans [list set _LMFILES_ $modpath.4/reqa/1]
+lappend ans [list set LOADEDMODULES reqa/1]
+lappend ans [list set MODULEPATH $modpath.spider1:$modpath.4]
+set tserr [msg_top_load_conun reqa/1 {modc/1 modb/1} moda/1 {} {} {}]
+testouterr_cmd bash {load --auto reqa/1} $ans $tserr
+
+
+#
+# module load with modulepath-enabling chain trapped into Dependent Reload mechanism
+# with indirect link onto modulepath-enabling chain
+#
+
+setenv_var TESTSUITE_REQUIRE_VIA indirect_opt_req1
+
+unsetenv_var __MODULES_LMCONFLICT
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1:$modpath.4
+setenv_var __MODULES_LMPREREQ reqa/1&reqa/1|reqb/1:moda/1&reqa/1
+setenv_loaded_module [list reqa/1 moda/1 modb/1 modc/1] [list $modpath.4/reqa/1 $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider3/modc/1]
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&reqa/1|reqb/1:moda/1&reqa/1]
+lappend ans [list set _LMFILES_ $modpath.4/reqb/1:$modpath.4/reqa/1:$modpath.spider1/moda/1:$modpath.spider2/modb/1:$modpath.spider3/modc/1]
+lappend ans [list set LOADEDMODULES reqb/1:reqa/1:moda/1:modb/1:modc/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1:$modpath.4]
+set tserr [msg_top_load reqb/1 {} {} {reqa/1 moda/1 modb/1 modc/1}]
+testouterr_cmd bash {load --auto reqb/1} $ans $tserr
+
+
+#
+# module unload with modulepath-enabling chain trapped into Dependent Reload mechanism
+# with indirect link onto modulepath-enabling chain
+#
+
+setenv_loaded_module [list reqb/1 reqa/1 moda/1 modb/1 modc/1] [list $modpath.4/reqb/1 $modpath.4/reqa/1 $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider3/modc/1]
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&reqa/1|reqb/1:moda/1&reqa/1]
+lappend ans [list set _LMFILES_ $modpath.4/reqa/1:$modpath.spider1/moda/1:$modpath.spider2/modb/1:$modpath.spider3/modc/1]
+lappend ans [list set LOADEDMODULES reqa/1:moda/1:modb/1:modc/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1:$modpath.4]
+set tserr [msg_top_unload reqb/1 {} {} {reqa/1 moda/1 modb/1 modc/1}]
+testouterr_cmd bash {unload --auto reqb/1} $ans $tserr
+
+
+#
+# module unload with modulepath-enabling chain trapped into Dependent Unload mechanism
+# with indirect link onto modulepath-enabling chain
+#
+
+setenv_var TESTSUITE_REQUIRE_VIA indirect_req1
+
+setenv_var __MODULES_LMPREREQ reqa/1&reqb/1:moda/1&reqa/1
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+lappend ans [list set MODULEPATH $modpath.spider1:$modpath.4]
+set tserr [msg_top_unload reqb/1 {modc/1 modb/1 moda/1 reqa/1} {} {}]
+testouterr_cmd bash {unload --auto reqb/1} $ans $tserr
+
+
+#
+# module load with modulepath-enabling chain trapped into Conflict Unload mechanism
+# with indirect link onto modulepath-enabling chain
+#
+
+setenv_var TESTSUITE_REQUIRE_VIA indirect_conflict1
+
+setenv_var __MODULES_LMPREREQ moda/1&reqa/1
+setenv_var __MODULES_LMCONFLICT reqa/1&reqb
+setenv_loaded_module [list reqa/1 moda/1 modb/1 modc/1] [list $modpath.4/reqa/1 $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider3/modc/1]
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list unset __MODULES_LMCONFLICT]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list set _LMFILES_ $modpath.4/reqb/1]
+lappend ans [list set LOADEDMODULES reqb/1]
+lappend ans [list set MODULEPATH $modpath.spider1:$modpath.4]
+set tserr [msg_top_load_conun reqb/1 {modc/1 modb/1 moda/1} reqa/1 {} {} {}]
+testouterr_cmd bash {load --auto reqb/1} $ans $tserr
+
+
+#
+#  Cleanup
+#
+
+reset_test_env
