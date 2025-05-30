@@ -50,3 +50,16 @@ if {[info exists env(TESTSUITE_SPIDER_MODPATH1)]} {
         }
     }
 }
+if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
+    switch -- $env(TESTSUITE_REQUIRE_VIA) {
+        opt_req1 {
+            prereq --optional reqa/1
+        }
+        req1 - indirect_req1 - indirect_opt_req1 - indirect_conflict1 {
+            prereq reqa/1
+        }
+        conflict1 {
+            conflict reqa/1
+        }
+    }
+}
