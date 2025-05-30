@@ -1316,8 +1316,11 @@ proc getModulefileFromLoadedModule {mod} {
    }
 }
 
-proc getModulepathFromLoadedModule {mod} {
-   set modfile [getModulefileFromLoadedModule $mod]
+proc getModulepathFromLoadedOrLoadingModule {mod} {
+   set modfile [getModulefileFromLoadingModule $mod]
+   if {![string length $modfile]} {
+      set modfile [getModulefileFromLoadedModule $mod]
+   }
    if {[isModuleVirtual $mod $modfile]} {
       # an empty string is returned if no enabled modulepath matches modfile
       return [findModulepathFromModulefile $modfile]
@@ -2373,7 +2376,7 @@ proc getLoadedModulePrereqListAndLoadedMatch {mod} {
 
    set via_mod_list {}
    if {[getConf require_via]} {
-      set modpath [getModulepathFromLoadedModule $mod]
+      set modpath [getModulepathFromLoadedOrLoadingModule $mod]
       set via_mod_list [getAllLoadedModuleUsingModulepath $modpath]
    }
 
