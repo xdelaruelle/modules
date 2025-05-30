@@ -624,6 +624,29 @@ testouterr_cmd bash {unload --auto othervia/1} $ans $tserr
 
 
 #
+# define conflict over via module
+# unrealistic use case to test dependency check with loading module
+#
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_modpath2
+setenv_var TESTSUITE_REQUIRE_VIA conflict_with_via1
+
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2
+unsetenv_var __MODULES_SHARE_MODULEPATH
+setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
+setenv_loaded_module [list moda/1] [list $modpath.spider1/moda/1]
+
+set tserr [msg_load modb/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto modb/1} ERR $tserr
+
+set tserr [msg_unload moda/1 [err_deploi modb/1]]\n\n[msg_load modb/1 [err_conun moda/1]]
+testouterr_cmd bash {load --auto modb/1} ERR $tserr
+
+
+#
 #  Cleanup
 #
 
