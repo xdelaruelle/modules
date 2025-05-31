@@ -51,10 +51,14 @@ othervia/2
 $modpath.spider2:
 modb/1
 modb/2
+othervib/1
+othervib/2
 
 $modpath.spider3:
 modc/1
-modc/2"
+modc/2
+othervic/1
+othervic/2"
 testouterr_cmd sh {spider -t} OK $tserr
 setenv_var TESTSUITE_SPIDER_MODPATH1 use_append_modpath2
 setenv_var TESTSUITE_SPIDER_MODPATH1 append_modpath2
@@ -169,10 +173,14 @@ othervia/2
 $modpath.spider2:
 modb/1
 modb/2
+othervib/1
+othervib/2
 
 $modpath.spider3:
 modc/1
 modc/2
+othervic/1
+othervic/2
 
 $modpath.link2:
 moda/1
@@ -202,10 +210,14 @@ othervia/2
 $modpath.spider2:
 modb/1
 modb/2
+othervib/1
+othervib/2
 
 $modpath.spider3:
 modc/1
-modc/2"
+modc/2
+othervic/1
+othervic/2"
 set tserr_unkref "$modpath.spider1:
 moda/1
 moda/2
@@ -270,10 +282,14 @@ othervia/2
 $modpath.spider3:
 modc/1
 modc/2
+othervic/1
+othervic/2
 
 $modpath.spider2:
 modb/1
-modb/2"
+modb/2
+othervib/1
+othervib/2"
 testouterr_cmd sh {spider -t} OK $tserr
 
 setenv_var TESTSUITE_SPIDER_GLOBALRC alias1
@@ -289,10 +305,14 @@ othervia/2
 $modpath.spider2:
 modb/1
 modb/2
+othervib/1
+othervib/2
 
 $modpath.spider3:
 modc/1
-modc/2"
+modc/2
+othervic/1
+othervic/2"
 testouterr_cmd sh {spider -t} OK $tserr
 
 setenv_var TESTSUITE_SPIDER_GLOBALRC symbol1
@@ -305,10 +325,14 @@ othervia/2
 $modpath.spider2:
 modb/1(sym)
 modb/2
+othervib/1
+othervib/2
 
 $modpath.spider3:
 modc/1
-modc/2"
+modc/2
+othervic/1
+othervic/2"
 testouterr_cmd sh {spider -t} OK $tserr
 
 setenv_var MODULERCFILE $ORIG_MODULERCFILE
