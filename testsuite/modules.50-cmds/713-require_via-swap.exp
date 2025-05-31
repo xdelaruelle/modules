@@ -1,0 +1,759 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:		modules.50-cmds/%M%
+#   Revision:		%I%
+#   First Edition:	2025/05/31
+#   Last Mod.:		%U%, %G%
+#
+#   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:	Testuite testsequence
+#   Command:		load, switch
+#   Modulefiles:    moda, modb, modc, othervia, othervib, othervic
+#   Sub-Command:
+#
+#   Comment:	%C{
+#         Test require_via mechanism with switch mechanism
+#		}C%
+#
+##############################################################################
+
+setenv_var TESTSUITE_SPIDER_MODPATH1 use_modpath2
+setenv_var TESTSUITE_SPIDER_MODPATH2 use_modpath3
+
+#
+# replace via module with alternative via module
+# modulepath still enabled
+#
+
+setenv_var TESTSUITE_SPIDER_OTHERMODPATH1 use_modpath2_and_conflict_moda
+setenv_var TESTSUITE_REQUIRE_VIA multi_mod_in_path_with_req1
+
+setenv_path_var MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1
+setenv_loaded_module [list moda/1 modb/1 othervib/1 modc/1 othervic/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider2/othervib/1 $modpath.spider3/modc/1 $modpath.spider3/othervic/1]
+
+# replace with module load
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3:othervia/1&$modpath.spider2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.spider2:$modpath.spider3:$modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.spider2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1]
+lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+
+# replace with module switch
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3:othervia/1&$modpath.spider2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.spider2:$modpath.spider3:$modpath.spider1]
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.spider2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1]
+lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1]
+set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+skip_if_quick_mode
+
+
+#
+# replace via module with not an alternative via module
+# modulepath still enabled
+#
+
+setenv_var TESTSUITE_SPIDER_OTHERMODPATH1 conflict_moda
+setenv_var TESTSUITE_REQUIRE_VIA multi_mod_in_path_with_req1
+
+setenv_path_var MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1
+setenv_loaded_module [list moda/1 modb/1 othervib/1 modc/1 othervic/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider2/othervib/1 $modpath.spider3/modc/1 $modpath.spider3/othervic/1]
+
+# replace with module load
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES othervia/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+set tserr [msg_top_load_conun othervia/1 {othervic/1 modc/1 othervib/1 modb/1} moda/1 {} {} {}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+
+# replace with module switch
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.spider1]
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES othervia/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+set tserr [msg_top_switch moda/1 othervia/1 {othervic/1 modc/1 othervib/1 modb/1} {} {} {} {}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set tserr [msg_top_switch moda/1 othervia/1 {othervic/1 modc/1 othervib/1 modb/1} {} {} {} {}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+
+#
+# replace via module with not an alternative via module
+# modulepath not anymore enabled
+#
+
+setenv_var TESTSUITE_SPIDER_OTHERMODPATH1 conflict_moda
+setenv_var TESTSUITE_REQUIRE_VIA multi_mod_in_path_with_req1
+
+setenv_path_var MODULEPATH $modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1
+setenv_loaded_module [list moda/1 modb/1 othervib/1 modc/1 othervic/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider2/othervib/1 $modpath.spider3/modc/1 $modpath.spider3/othervic/1]
+
+# replace with module load
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES othervia/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+set tserr [msg_top_load_conun othervia/1 {othervic/1 modc/1 othervib/1 modb/1} moda/1 {} {} {}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+
+# replace with module switch
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list unset __MODULES_LMUSE]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES othervia/1]
+lappend ans [list set MODULEPATH $modpath.spider1]
+set tserr [msg_top_switch moda/1 othervia/1 {othervic/1 modc/1 othervib/1 modb/1} {} {} {} {}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set tserr [msg_top_switch moda/1 othervia/1 {othervic/1 modc/1 othervib/1 modb/1} {} {} {} {}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+
+# MSYS environment does not support anymore such test
+if {!$is_symlink_supported || $os_name eq {msys} || [catch {file link -symbolic $modpath.other2 modulefiles.spider2}]} {
+    send_user "\tskipping tests over '$modpath.other2' modulepath as symbolic links are not supported on filesystem\n"
+} else {
+
+#
+# replace via module with a via module of another modulepath
+# containing all the module to reload
+# modulepath still enabled
+#
+
+setenv_var TESTSUITE_SPIDER_OTHERMODPATH1 use_other2_and_conflict_moda
+setenv_var TESTSUITE_REQUIRE_VIA multi_mod_in_path_with_req1
+
+setenv_path_var MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1
+setenv_loaded_module [list moda/1 modb/1 othervib/1 modc/1 othervic/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider2/othervib/1 $modpath.spider3/modc/1 $modpath.spider3/othervic/1]
+
+# replace with module load
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3:othervia/1&$modpath.other2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.other2:$modpath.spider3:$modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.other2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.other2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1]
+lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+
+# replace with module switch
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3:othervia/1&$modpath.other2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.other2:$modpath.spider3:$modpath.spider1]
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.other2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.other2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1]
+lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
+set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+
+#
+# replace via module with a via module of another modulepath
+# containing all the module to reload
+# modulepath not anymore enabled
+#
+
+setenv_var TESTSUITE_SPIDER_OTHERMODPATH1 use_other2_and_conflict_moda
+setenv_var TESTSUITE_REQUIRE_VIA multi_mod_in_path_with_req1
+
+setenv_path_var MODULEPATH $modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1
+setenv_loaded_module [list moda/1 modb/1 othervib/1 modc/1 othervic/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider2/othervib/1 $modpath.spider3/modc/1 $modpath.spider3/othervic/1]
+
+# replace with module load
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3:othervia/1&$modpath.other2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.other2:$modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.other2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.other2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1]
+lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+
+# replace with module switch
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3:othervia/1&$modpath.other2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.other2:$modpath.spider1]
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.other2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.other2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1]
+lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
+set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+
+#
+# replace via module with a via module of another modulepath
+# containing not all the module to reload
+# modulepath still enabled
+#
+
+setenv_var TESTSUITE_SPIDER_OTHERMODPATH1 use_other2_and_conflict_moda
+setenv_var TESTSUITE_REQUIRE_VIA multi_mod_in_path_with_req_some_hidden1
+
+setenv_path_var MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1
+setenv_loaded_module [list moda/1 modb/1 othervib/1 modc/1 othervic/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider2/othervib/1 $modpath.spider3/modc/1 $modpath.spider3/othervic/1]
+
+# replace with module load
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3:othervia/1&$modpath.other2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.other2:$modpath.spider3:$modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.other2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.spider3/modc/1]
+lappend ans [list set LOADEDMODULES othervia/1:modb/1:modc/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
+set tserr [msg_top_load_conun othervia/1 {} moda/1 {} {} {{othervic/1 modc/1 othervib/1 modb/1} {modb/1 modc/1}}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+
+# replace with module switch
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3:othervia/1&$modpath.other2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.other2:$modpath.spider3:$modpath.spider1]
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.other2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.spider3/modc/1]
+lappend ans [list set LOADEDMODULES othervia/1:modb/1:modc/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
+set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {{othervic/1 modc/1 othervib/1 modb/1} {modb/1 modc/1}}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {{othervic/1 modc/1 othervib/1 modb/1} {modb/1 modc/1}}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+
+    file delete $modpath.other2
+}
+
+
+#
+# replace via module with a via module of another modulepath
+# containing none of the module to reload
+# modulepath still enabled
+#
+
+setenv_var TESTSUITE_SPIDER_OTHERMODPATH1 use_2_and_conflict_moda
+setenv_var TESTSUITE_REQUIRE_VIA multi_mod_in_path_with_req1
+
+setenv_path_var MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1
+setenv_loaded_module [list moda/1 modb/1 othervib/1 modc/1 othervic/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider2/othervib/1 $modpath.spider3/modc/1 $modpath.spider3/othervic/1]
+
+# replace with module load
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3:othervia/1&$modpath.2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.2:$modpath.spider3:$modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+testouterr_cmd bash {load --auto othervia/1} ERR $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {load --no-auto othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES othervia/1]
+lappend ans [list set MODULEPATH $modpath.2:$modpath.spider1]
+set tserr [msg_top_load_conun othervia/1 {othervic/1 modc/1 othervib/1 modb/1} moda/1 {} {} {}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+
+# replace with module switch
+
+setenv_var MODULES_REQUIRE_VIA 0
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE modb/1&$modpath.spider3:othervia/1&$modpath.2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set _LMFILES_ $modpath.spider2/modb/1:$modpath.spider2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1:$modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES modb/1:othervib/1:modc/1:othervic/1:othervia/1]
+lappend ans [list set MODULEPATH $modpath.2:$modpath.spider3:$modpath.spider1]
+set tserr [msg_load othervia/1 [err_conflict moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} $ans {}
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 0
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.2]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list unset __MODULES_LMPREREQ]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1]
+lappend ans [list set LOADEDMODULES othervia/1]
+lappend ans [list set MODULEPATH $modpath.2:$modpath.spider1]
+set tserr [msg_top_switch moda/1 othervia/1 {othervic/1 modc/1 othervib/1 modb/1} {} {} {} {}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+set tserr [msg_unload moda/1 [err_prerequn modb/1 othervib/1]]\n\n[msg_switch moda/1 othervia/1 [err_swoff moda/1]]
+testouterr_cmd bash {switch --no-auto moda/1 othervia/1} ERR $tserr
+
+set tserr [msg_top_switch moda/1 othervia/1 {othervic/1 modc/1 othervib/1 modb/1} {} {} {} {}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+
+#
+#  Cleanup
+#
+
+reset_test_env
