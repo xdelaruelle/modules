@@ -783,8 +783,10 @@ proc savePropsOfReloadingModule {mod} {
    set conflict_list [getLoadedConflict $mod]
    set prereq_list [getLoadedPrereq $mod]
    set prereq_path_list [getLoadedPrereqPath $mod]
+   set modpath [getModulepathFromLoadedOrLoadingModule $mod]
    set ::g_savedPropsOfReloadMod($mod) [list $is_user_asked $vr_list\
-      $tag_list $extra_tag_list $conflict_list $prereq_list $prereq_path_list]
+      $tag_list $extra_tag_list $conflict_list $prereq_list $prereq_path_list\
+      $modpath]
 }
 
 proc getSavedPropsOfReloadingModule {mod} {
@@ -836,14 +838,15 @@ proc reloadModuleListLoadPhase {mod_list {errmsgtpl {}} {context load}} {
    setConf auto_handling 0
    foreach mod $mod_list {
       lassign [getSavedPropsOfReloadingModule $mod] is_user_asked vr_list\
-         tag_list extra_tag_list conflict_list prereq_list prereq_path_list
+         tag_list extra_tag_list conflict_list prereq_list prereq_path_list\
+         modpath
       # if an auto set default was excluded, module spec need parsing
       lassign [parseModuleSpecification 0 0 0 0 $mod {*}$vr_list] modnamevr
 
       # do not try to reload DepRe module if requirements are not satisfied
       # unless if sticky
       if {$context eq {depre} && ![isModuleLoadable $mod $modnamevr\
-         $conflict_list $prereq_list $prereq_path_list] &&\
+         $conflict_list $prereq_list $prereq_path_list $modpath] &&\
          ![isModuleStickyFromTagList {*}$tag_list {*}$extra_tag_list]} {
          continue
       }
@@ -869,7 +872,7 @@ proc reloadModuleListLoadPhase {mod_list {errmsgtpl {}} {context load}} {
 }
 
 proc isModuleLoadable {mod mod_vr conflict_list prereq_list\
-   prereq_path_list} {
+   prereq_path_list modpath} {
    setLoadedConflict $mod {*}$conflict_list
    set is_conflicting [llength [getModuleLoadedConflict $mod]]
    unsetLoadedConflict $mod
@@ -899,6 +902,13 @@ proc isModuleLoadable {mod mod_vr conflict_list prereq_list\
       if {!$is_requirement_loaded} {
          return 0
       }
+   }
+
+   # module is loadable if its modulepath is still enabled or if it can be
+   # found in another modulepath (variant availability is currently not
+   # checked by is-avail procedure)
+   if {![is-used $modpath] && ![is-avail $mod_vr]} {
+      return 0
    }
 
    return 1
