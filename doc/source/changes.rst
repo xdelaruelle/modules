@@ -1293,6 +1293,14 @@ The following Modules configuration option has been introduced on Modules 5.
  * Dependent Unload modules of Conflict Unload modules are merged into the
    Dependent Reload module list.
 
+ Starting version 5.6:
+
+ * No attempt to reload a Dependent Reload module is made if the modulepath
+   where this module is stored is not enabled anymore and module cannot be
+   found in other enabled modulepaths. Even if force mode is enabled. Reload
+   is attempted when module is not loadable if it is sticky (tagged
+   super-sticky or sticky and force mode not enabled).
+
 :mconfig:`avail_output`, :mconfig:`avail_terse_output`
 
  Starting version 5.3, element ``variant`` is added to the list of accepted
