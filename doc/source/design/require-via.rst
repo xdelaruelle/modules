@@ -55,6 +55,44 @@ dependency consistency may lead to:
 * an error if ``auto_handling`` is disabled
 * automatic dependent module unload or reload if ``auto_handling`` is enabled
 
+Dependent Reload mechanism update
+---------------------------------
+
+Dependent modules of a *via* module are targeted by the Dependent Reload
+(DepRe) mechanism if *via* module is swapped or unloaded by Conflict Unload
+(ConUn) mechanism.
+
+As introduced with the ConUn mechanism, a test is made prior reloading each
+DepRe module to check if it is loadable. If test determines module is not
+able to reload, the reload is skipped and the module is considered a Dependent
+Unload (DepUn) module.
+
+This test checks no conflicting module are loaded and requirements are loaded.
+A new check is added for all DepRe modules attempting to reload: it should be
+available in enabled modulepaths.
+
+Either the modulepath where module is stored is still enabled or module is
+found in enabled modulepaths.
+
+This availability new check is not linked to the ``require_via`` configuration
+option. It is performed even when option is disabled. What is linked to this
+option is to include the dependent of a *via* module in the DepRe mechanism.
+
+*NOTE*: The availability of used variants is not checked by this mechanism.
+Thus if modulefile is found but it does not contain anymore the used variant,
+a DepRe error is obtained.
+
+*FUTURE*: DepRe module reload may be attempted whatever the conditions and in
+case of error, this evaluation is silenced if error is of following kind:
+conflict present, requirement missing, module not available, variant not
+available. Such behavior would help if variant is not available anymore or
+if module in new modulepath does not express the same conflicts or
+requirements.
+
+In case of modulepath change and module reload, tags defined in the disabled
+modulepath does not apply anymore to the reloading module. Tags defined in new
+modulepath does. Extra tags are re-applied to the reloading module.
+
 Unused modulepath
 -----------------
 
