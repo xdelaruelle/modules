@@ -4500,12 +4500,18 @@ ENVIRONMENT
  evaluation of the main *modulefile* (either load, unload or switch
  evaluation).
 
- The reload phase of a Dependent Reload modulefile is skipped either if the
- requirements of this modulefile are not loaded or if a conflict is spotted
- with the loaded environment. Reload is attempted in any case if modulefile is
- tagged ``super-sticky`` or ``sticky`` and force mode is disabled. Dependent
- Reload module whose reload has been skipped are considered Dependent Unload
- module.
+ The reload phase of a Dependent Reload modulefile is skipped if any of the
+ following conditions are met:
+
+ * The required modules for this modulefile are not loaded.
+ * A conflict is detected with the currently loaded environment.
+ * The enabled modulepaths have changed, and the modulefile is no longer
+   available.
+
+ However, reload is always attempted if the modulefile is tagged as
+ ``super-sticky`` or ``sticky``, and force mode is not enabled. Dependent
+ Reload modulefiles whose reload has been skipped are treated as Dependent
+ Unload modulefiles.
 
  Conflict Unload mechanism is activated only if :mconfig:`conflict_unload`
  configuration option is also enabled.
