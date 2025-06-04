@@ -162,6 +162,10 @@ Modules 5.6.0 (not yet released)
 * Install: installation option :instopt:`--enable-new-features` is updated to
   include :instopt:`--enable-require-via`.
 * Doc: add :ref:`require-via` design notes.
+* Skip reload of a *Dependent Reload* module if it is not found after a change
+  in enabled modulepaths. Reload of a not found module is attempted only if it
+  is tagged *super-sticky* or *sticky* and force mode is disabled. Skipped
+  module is considered *Dependent Unload* module.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
