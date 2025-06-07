@@ -4,5 +4,17 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
         multi_mod_in_path_with_req1 - multi_mod_in_path_with_req_some_hidden1 {
             prereq modb/1
         }
+        multi_mod_in_path_with_req_unk_variant_name {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                variant foo val1 val2 val3
+            }
+        }
+        multi_mod_in_path_with_req_unk_variant_val {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                variant foo val1 val2 val3
+            } else {
+                variant foo val2 val3
+            }
+        }
     }
 }
