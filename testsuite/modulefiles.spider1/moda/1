@@ -48,6 +48,9 @@ if {[info exists env(TESTSUITE_SPIDER_MODPATH1)]} {
             }
             prepend-path MODULEPATH $env(TESTSUITEDIR)/modulefiles.spid\$TESTSUITE_SPIDER_INREF
         }
+        use_refvar {
+            module use $env(TESTSUITEDIR)/modulefiles.spid\$TESTSUITE_SPIDER_INREF
+        }
     }
 }
 if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
