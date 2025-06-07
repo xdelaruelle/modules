@@ -25,5 +25,9 @@ if {[info exists env(TESTSUITE_SPIDER_OTHERMODPATH1)]} {
             conflict moda
             module use $env(TESTSUITEDIR)/modulefiles.2
         }
+        use_refvar_and_conflict_moda {
+            conflict moda
+            module use $env(TESTSUITEDIR)/modulefiles.oth\$TESTSUITE_SPIDER_INREF
+        }
     }
 }
