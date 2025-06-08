@@ -17,5 +17,15 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
                 prereq modc/1
             }
         }
+        conflict_in_new2 {
+            if {[is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                conflict othervib
+            }
+        }
+        conflict_not_anymore2 {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                conflict othervib
+            }
+        }
     }
 }

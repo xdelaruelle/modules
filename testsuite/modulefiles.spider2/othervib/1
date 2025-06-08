@@ -18,5 +18,15 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
                 variant foo val2 val3
             }
         }
+        conflict_in_new1 {
+            if {[is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                conflict othervic
+            }
+        }
+        conflict_not_anymore1 {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                conflict othervic
+            }
+        }
     }
 }
