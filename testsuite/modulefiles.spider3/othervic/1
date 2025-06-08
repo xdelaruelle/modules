@@ -5,5 +5,17 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
         multi_mod_in_path_with_req_unk_variant_name - multi_mod_in_path_with_req_unk_variant_val {
             prereq othervib/1
         }
+        req_not_anymore_does_not_exist - req_not_anymore_still_exists {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                prereq othervib/1
+            }
+        }
+        req_another_not_loaded {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                prereq othervib/1
+            } else {
+                prereq modc/1
+            }
+        }
     }
 }

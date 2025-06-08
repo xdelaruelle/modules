@@ -1,7 +1,9 @@
 #%Module
 if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
     switch -- $env(TESTSUITE_REQUIRE_VIA) {
-        multi_mod_in_path_with_req1 - multi_mod_in_path_with_req_some_hidden1 {
+        multi_mod_in_path_with_req1 - multi_mod_in_path_with_req_some_hidden1 -\
+        req_not_anymore_does_not_exist - req_not_anymore_still_exists -\
+        req_another_not_loaded {
             prereq modb/1
         }
         multi_mod_in_path_with_req_unk_variant_name {
