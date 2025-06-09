@@ -4,5 +4,65 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
         multi_mod_in_path_with_req_some_hidden1 - req_not_anymore_does_not_exist {
             module-hide --hard othervib/1
         }
+        tag_before_not_after {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                module-tag foo othervib/1
+            }
+        }
+        tag_after_not_before {
+            if {[is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                module-tag foo othervib/1
+            }
+        }
+        tag_before_and_after {
+            module-tag foo othervib/1
+        }
+        tag_before_no_module_after {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                module-tag foo othervib/1
+            } else {
+                module-hide --hard othervib/1
+            }
+        }
+        sticky_before_not_after {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                module-tag sticky othervib/1
+            }
+        }
+        sticky_after_not_before {
+            if {[is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                module-tag sticky othervib/1
+            }
+        }
+        sticky_before_and_after {
+            module-tag sticky othervib/1
+        }
+        sticky_before_no_module_after {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                module-tag sticky othervib/1
+            } else {
+                module-hide --hard othervib/1
+            }
+        }
+        super_sticky_before_not_after {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                module-tag super-sticky othervib/1
+            }
+        }
+        super_sticky_after_not_before {
+            if {[is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                module-tag super-sticky othervib/1
+            }
+        }
+        super_sticky_before_and_after {
+            module-tag super-sticky othervib/1
+        }
+        super_sticky_before_no_module_after {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                module-tag super-sticky othervib/1
+            } else {
+                module-hide --hard othervib/1
+            }
+        }
     }
 }
