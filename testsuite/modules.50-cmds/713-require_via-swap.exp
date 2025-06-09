@@ -583,6 +583,37 @@ testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans {}
 
 #
 # replace via module with a via module of another modulepath
+# containing all the module to reload
+# via module also a requirement declared by dependent
+#
+
+setenv_var TESTSUITE_SPIDER_OTHERMODPATH1 use_other2_and_conflict_moda
+setenv_var TESTSUITE_REQUIRE_VIA prereq_on_via1
+
+setenv_path_var MODULEPATH $modpath.spider3:$modpath.spider2:$modpath.spider1
+setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:modb/1&$modpath.spider3
+setenv_var __MODULES_LMPREREQ modb/1&moda|othervia:othervib/1&modb/1:modc/1&modb:othervic/1&othervib/1
+setenv_loaded_module [list moda/1 modb/1 othervib/1 modc/1 othervic/1] [list $modpath.spider1/moda/1 $modpath.spider2/modb/1 $modpath.spider2/othervib/1 $modpath.spider3/modc/1 $modpath.spider3/othervic/1]
+
+setenv_var MODULES_REQUIRE_VIA 1
+setenv_var MODULES_CONFLICT_UNLOAD 1
+
+set ans [list]
+lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.other2:modb/1&$modpath.spider3]
+lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
+lappend ans [list set __MODULES_LMPREREQ modb/1&moda|othervia:othervib/1&modb/1:modc/1&modb:othervic/1&othervib/1]
+lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.other2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1]
+lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
+lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
+set tserr [msg_top_load othervia/1 moda/1 {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {load --auto othervia/1} $ans $tserr
+
+set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {modb/1 othervib/1 modc/1 othervic/1}]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+
+
+#
+# replace via module with a via module of another modulepath
 # containing not all the module to reload
 # modulepath still enabled
 #

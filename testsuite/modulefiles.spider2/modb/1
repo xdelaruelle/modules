@@ -33,5 +33,8 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
         conflict_with_via1 {
             conflict moda
         }
+        prereq_on_via1 {
+            prereq moda othervia
+        }
     }
 }
