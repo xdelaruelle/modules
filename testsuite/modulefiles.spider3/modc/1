@@ -30,3 +30,10 @@ if {[info exists env(TESTSUITE_SPIDER_MODPATH3)]} {
         }
     }
 }
+if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
+    switch -- $env(TESTSUITE_REQUIRE_VIA) {
+        prereq_on_via1 {
+            prereq modb
+        }
+    }
+}

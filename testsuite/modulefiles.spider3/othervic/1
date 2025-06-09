@@ -2,7 +2,8 @@
 if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
     switch -- $env(TESTSUITE_REQUIRE_VIA) {
         multi_mod_in_path_with_req1 - multi_mod_in_path_with_req_some_hidden1 -\
-        multi_mod_in_path_with_req_unk_variant_name - multi_mod_in_path_with_req_unk_variant_val {
+        multi_mod_in_path_with_req_unk_variant_name - multi_mod_in_path_with_req_unk_variant_val -\
+        prereq_on_via1 {
             prereq othervib/1
         }
         req_not_anymore_does_not_exist - req_not_anymore_still_exists {
