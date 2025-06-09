@@ -3,7 +3,13 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
     switch -- $env(TESTSUITE_REQUIRE_VIA) {
         multi_mod_in_path_with_req1 - multi_mod_in_path_with_req_some_hidden1 -\
         req_not_anymore_does_not_exist - req_not_anymore_still_exists -\
-        req_another_not_loaded - prereq_on_via1 {
+        req_another_not_loaded - prereq_on_via1 - tag_before_not_after -\
+        tag_after_not_before - tag_before_and_after - keep_loaded_before_not_after -\
+        keep_loaded_after_not_before - keep_loaded_before_and_after -\
+        sticky_before_not_after - sticky_after_not_before - sticky_before_and_after -\
+        sticky_before_no_module_after - super_sticky_before_not_after -\
+        super_sticky_after_not_before - super_sticky_before_and_after -\
+        super_sticky_before_no_module_after {
             prereq modb/1
         }
         multi_mod_in_path_with_req_unk_variant_name {

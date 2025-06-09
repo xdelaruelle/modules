@@ -3,7 +3,11 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
     switch -- $env(TESTSUITE_REQUIRE_VIA) {
         multi_mod_in_path_with_req1 - multi_mod_in_path_with_req_some_hidden1 -\
         multi_mod_in_path_with_req_unk_variant_name - multi_mod_in_path_with_req_unk_variant_val -\
-        prereq_on_via1 {
+        prereq_on_via1 - tag_before_not_after - tag_after_not_before - tag_before_and_after -\
+        sticky_before_not_after - sticky_after_not_before - sticky_before_and_after -\
+        sticky_before_no_module_after - super_sticky_before_not_after -\
+        super_sticky_after_not_before - super_sticky_before_and_after -\
+        super_sticky_before_no_module_after {
             prereq othervib/1
         }
         req_not_anymore_does_not_exist - req_not_anymore_still_exists {
@@ -27,6 +31,23 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
             if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
                 conflict othervib
             }
+        }
+        keep_loaded_before_not_after {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                always-load othervib/1
+            } else {
+                prereq othervib/1
+            }
+        }
+        keep_loaded_after_not_before {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                prereq othervib/1
+            } else {
+                always-load othervib/1
+            }
+        }
+        keep_loaded_before_and_after {
+            always-load othervib/1
         }
     }
 }
