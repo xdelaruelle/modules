@@ -9,3 +9,17 @@ if {[info exists env(TESTSUITE_VIA)]} {
         }
     }
 }
+if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
+    switch -- $env(TESTSUITE_REQUIRE_VIA) {
+        virtual_before_and_after {
+            module-virtual othervirt/1 ./othervib/1
+            module-virtual othervirt/2 ./othervib/2
+        }
+        virtual_before_not_after {
+            if {![is-used $env(TESTSUITEDIR)/modulefiles.other2]} {
+                module-virtual othervirt/1 ./othervib/1
+                module-virtual othervirt/2 ./othervib/2
+            }
+        }
+    }
+}

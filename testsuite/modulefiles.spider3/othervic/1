@@ -49,5 +49,8 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
         keep_loaded_before_and_after {
             always-load othervib/1
         }
+        virtual_before_and_after - virtual_before_not_after {
+            prereq othervirt/1
+        }
     }
 }
