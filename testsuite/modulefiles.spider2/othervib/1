@@ -9,7 +9,8 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
         sticky_before_not_after - sticky_after_not_before - sticky_before_and_after -\
         sticky_before_no_module_after - super_sticky_before_not_after -\
         super_sticky_after_not_before - super_sticky_before_and_after -\
-        super_sticky_before_no_module_after {
+        super_sticky_before_no_module_after - virtual_before_and_after -\
+        virtual_before_not_after {
             prereq modb/1
         }
         multi_mod_in_path_with_req_unk_variant_name {
