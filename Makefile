@@ -1016,9 +1016,10 @@ tclsh83:
 	chmod +x $@
 	rm $(TCL_DIST83)
 
-# fetch spack repository (for source-sh test purpose)
+# fetch spack repository and initialize it (for source-sh test purpose)
 spack:
 	git clone --depth 1 $(SPACK_REPOURL)
+	cd spack && ./bin/spack bootstrap now
 
 # install Conda (for source-sh test purpose)
 miniconda3:
