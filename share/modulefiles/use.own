@@ -14,6 +14,7 @@ set ownmoddir $HOME/privatemodules
 # create directory if necessary
 if {[module-info mode load]} {
     if {![file exists $ownmoddir]} {
+        puts stderr "Creating directory '$ownmoddir'"
         file mkdir $ownmoddir
         set null [open $ownmoddir/null w]
         puts $null {#%Module}
