@@ -998,7 +998,8 @@ if [ -e "${builddocdir}/changes.txt" ] && [ -e "${builddocdir}/MIGRATING.txt" ] 
    && [ -e "${builddocdir}/INSTALL.txt" ] && [ -e "${builddocdir}/INSTALL-win.txt" ] \
    && [ -e "${builddocdir}/NEWS.txt" ] && [ -e "${builddocdir}/CONTRIBUTING.txt" ] \
    && [ -e "${builddocdir}/module.1.in" ] && [ -e "${builddocdir}/ml.1" ] \
-   && [ -e "${builddocdir}/modulefile.5" ] && [ "$oldbuilddoc" != 'y' ]; then
+   && [ -e "${builddocdir}/envml.1" ] && [ -e "${builddocdir}/modulefile.5" ] \
+   && [ "$oldbuilddoc" != 'y' ]; then
    builddoc=p
 # test sphinx availability otherwise
 else

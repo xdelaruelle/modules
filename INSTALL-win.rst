@@ -104,6 +104,6 @@ a modulepath and contains few modulefile examples::
         ------- C:/Program Files/Environment Modules/modulefiles --------
         module-git  module-info  null
 
-Documentation of the :ref:`module(1)` and :ref:`ml(1)` commands and
-:ref:`modulefile(5)` syntax can be found in the ``doc`` directory in
-installation directory.
+Documentation of the :ref:`module(1)`, :ref:`ml(1)` and :ref:`envml(1)`
+commands and :ref:`modulefile(5)` syntax can be found in the ``doc`` directory
+in installation directory.

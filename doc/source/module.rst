@@ -5839,5 +5839,5 @@ FILES
 SEE ALSO
 --------
 
-:ref:`ml(1)`, :ref:`modulefile(5)`
+:ref:`ml(1)`, :ref:`modulefile(5)`, :ref:`envml(1)`
 

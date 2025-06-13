@@ -93,5 +93,5 @@ the list of supported environment variables.
 SEE ALSO
 --------
 
-:ref:`module(1)`, :ref:`modulefile(5)`
+:ref:`module(1)`, :ref:`modulefile(5)`, :ref:`envml(1)`
 

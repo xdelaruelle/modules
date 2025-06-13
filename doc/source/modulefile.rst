@@ -2365,10 +2365,10 @@ See the :ref:`ENVIRONMENT<module ENVIRONMENT>` section in the
 SEE ALSO
 --------
 
-:ref:`module(1)`, :ref:`ml(1)`, :manpage:`Tcl(n)`, :manpage:`TclX(n)`,
-:manpage:`id(1)`, :manpage:`xrdb(1)`, :manpage:`exec(n)`, :manpage:`uname(1)`,
-:manpage:`domainname(1)`, :manpage:`tclvars(n)`, :manpage:`lsort(n)`,
-:manpage:`string(n)`
+:ref:`module(1)`, :ref:`ml(1)`, :ref:`envml(1)`, :manpage:`Tcl(n)`,
+:manpage:`TclX(n)`, :manpage:`id(1)`, :manpage:`xrdb(1)`, :manpage:`exec(n)`,
+:manpage:`uname(1)`, :manpage:`domainname(1)`, :manpage:`tclvars(n)`,
+:manpage:`lsort(n)`, :manpage:`string(n)`
 
 
 NOTES

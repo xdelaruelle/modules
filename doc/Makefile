@@ -37,7 +37,8 @@ ALL_RST := $(wildcard $(SOURCE_DIR)/*.rst $(SOURCE_DIR)/cookbook/*.rst\
 	$(SOURCE_DIR)/design/*.rst)
 ALL_TXT := $(patsubst $(SOURCE_DIR)/%,$(BUILD_DIR)/%,$(patsubst %.rst,%.txt,$(ALL_RST)))
 ALL_HTML := $(patsubst $(SOURCE_DIR)/%,$(BUILD_DIR)/%,$(patsubst %.rst,%.html,$(ALL_RST)))
-ALL_MAN := $(BUILD_DIR)/module.1 $(BUILD_DIR)/ml.1 $(BUILD_DIR)/modulefile.5
+ALL_MAN := $(BUILD_DIR)/module.1 $(BUILD_DIR)/ml.1 $(BUILD_DIR)/envml.1\
+	$(BUILD_DIR)/modulefile.5
 
 all: man txt
 
@@ -100,7 +101,8 @@ $(BUILD_DIR)/%.txt: $(SOURCE_DIR)/%.rst $(SOURCE_DIR)/version.py
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/*.txt
 	$(SPHINXBUILD) $(SPHINXOPTS) -b text "$(SOURCE_DIR)" "$(BUILD_DIR)"
 
-$(BUILD_DIR)/module.1.in $(BUILD_DIR)/modulefile.5 $(BUILD_DIR)/ml.1: $(ALL_RST) $(SOURCE_DIR)/version.py
+$(BUILD_DIR)/module.1.in $(BUILD_DIR)/modulefile.5 $(BUILD_DIR)/ml.1 $(BUILD_DIR)/envml.1: $(ALL_RST) $(SOURCE_DIR)/version.py
+	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/envml.1
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/ml.1
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/module.1.in
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/modulefile.5
@@ -124,6 +126,7 @@ ifeq ($(docinstall),y)
 endif
 	$(INSTALL_DATA) $(BUILD_DIR)/module.1 '$(DESTDIR)$(mandir)/man1/'
 	$(INSTALL_DATA) $(BUILD_DIR)/ml.1 '$(DESTDIR)$(mandir)/man1/'
+	$(INSTALL_DATA) $(BUILD_DIR)/envml.1 '$(DESTDIR)$(mandir)/man1/'
 	$(INSTALL_DATA) $(BUILD_DIR)/modulefile.5 '$(DESTDIR)$(mandir)/man5/'
 
 uninstall:
@@ -138,6 +141,7 @@ ifeq ($(docinstall),y)
 endif
 	rm -f '$(DESTDIR)$(mandir)/man1/module.1'
 	rm -f '$(DESTDIR)$(mandir)/man1/ml.1'
+	rm -f '$(DESTDIR)$(mandir)/man1/envml.1'
 	rm -f '$(DESTDIR)$(mandir)/man5/modulefile.5'
 	rmdir '$(DESTDIR)$(mandir)/man1' '$(DESTDIR)$(mandir)/man5'
 	rmdir '$(DESTDIR)$(mandir)'

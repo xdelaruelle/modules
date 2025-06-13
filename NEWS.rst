@@ -154,6 +154,7 @@ Modules 5.6.0 (not yet released)
 * Add :mfcmd:`haveDynamicMPATH` modulefile command
 * Fix ``use.own`` example modulefile to report when creating local modulefiles
   directory. (fix issue #576)
+* Doc: add manual page for :ref:`envml(1)` command. (fix issue #190)
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

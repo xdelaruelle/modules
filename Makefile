@@ -815,8 +815,8 @@ dist-tar: ChangeLog.gz share/rpm/environment-modules.spec pkgdoc
 		lib/configure lib/config.h.in $(DIST_AUTORECONF_EXTRA) ChangeLog.gz \
 		doc/build/MIGRATING.txt doc/build/changes.txt doc/build/INSTALL.txt \
 		doc/build/INSTALL-win.txt doc/build/NEWS.txt doc/build/CONTRIBUTING.txt \
-		doc/build/module.1.in doc/build/ml.1 doc/build/modulefile.5 \
-		share/rpm/environment-modules.spec
+		doc/build/module.1.in doc/build/ml.1 doc/build/envml.1 \
+		doc/build/modulefile.5 share/rpm/environment-modules.spec
 
 dist-gzip: dist-tar
 	$(ECHO_GEN2) $(DIST_PREFIX).tar.gz
@@ -847,6 +847,8 @@ dist-win: modulecmd.tcl ChangeLog.gz README pkgdoc
 	$(INSTALL_DATA) doc/build/NEWS.txt $(DIST_WIN_PREFIX)/doc/
 	$(INSTALL_DATA) doc/build/CONTRIBUTING.txt $(DIST_WIN_PREFIX)/doc/
 	$(INSTALL_DATA) doc/build/module.txt $(DIST_WIN_PREFIX)/doc/
+	$(INSTALL_DATA) doc/build/ml.txt $(DIST_WIN_PREFIX)/doc/
+	$(INSTALL_DATA) doc/build/envml.txt $(DIST_WIN_PREFIX)/doc/
 	$(INSTALL_DATA) doc/build/modulefile.txt $(DIST_WIN_PREFIX)/doc/
 	$(MAKE) --no-print-directory -C init dist-win DIST_WIN_PREFIX=../$(DIST_WIN_PREFIX)
 	$(INSTALL_PROGRAM) script/INSTALL.bat $(DIST_WIN_PREFIX)/
