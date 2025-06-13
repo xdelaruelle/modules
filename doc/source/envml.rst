@@ -11,16 +11,15 @@ SYNOPSIS
 DESCRIPTION
 -----------
 
-The :command:`envml` command is a helper script that configures the shell
-environment using specified Environment Modules actions before executing a
-given command.
+The :command:`envml` command configures the environment using specified
+Environment Modules actions and then given command.
 
 This is useful for running a command in a modified environment without
 permanently altering the current shell session.
 
-The script first interprets arguments as module actions, then switches to
-command execution after either encountering ``--`` or determining that the
-remaining arguments form the actual command to run.
+:command:`envml` interprets its first arguments as module actions, then
+switches to command execution after either encountering ``--`` or determining
+that the remaining arguments form the actual command to run.
 
 MODULE_ACTION FORMAT
 --------------------
@@ -67,8 +66,7 @@ OPTIONS
 EXAMPLES
 --------
 
-Run ``command arg1 arg2`` in the environment restored from the default module
-collection:
+Restore default module collection then run ``command arg1 arg2``:
 
 .. code-block:: sh
 
