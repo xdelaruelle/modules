@@ -155,6 +155,10 @@ Modules 5.6.0 (not yet released)
 * Fix ``use.own`` example modulefile to report when creating local modulefiles
   directory. (fix issue #576)
 * Doc: add manual page for :ref:`envml(1)` command. (fix issue #190)
+* Introduce Emacs addon files to highlight the modulefile syntax. Installation
+  of these files, which is enabled by default, is controlled by the
+  :instopt:`--enable-emacs-addons` and :instopt:`--emacsdatadir` configure
+  options. (contribution from Laurent Besson)
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

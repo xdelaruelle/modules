@@ -400,6 +400,14 @@ is displayed within brackets):
  Directory to host documentation other than man pages like README, license
  file, etc [``DATAROOTDIR/doc``]
 
+.. instopt:: --emacsdatadir=DIR
+
+ Directory to host Emacs addon files [``DATAROOTDIR/emacs/lisp``]
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. instopt:: --etcdir=DIR
 
  Directory for the executable configuration scripts
@@ -570,6 +578,15 @@ instance :instopt:`--disable-set-manpath<--enable-set-manpath>`):
  .. only:: html
 
     .. versionadded:: 4.0
+
+.. instopt:: --enable-emacs-addons
+
+ Install the Emacs addon files in the Emacs addons directory defined with the
+ :instopt:`--emacsdatadir` option. (default=yes)
+
+ .. only:: html
+
+    .. versionadded:: 5.6
 
 .. instopt:: --enable-example-modulefiles
 
