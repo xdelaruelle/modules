@@ -1240,3 +1240,4 @@ haveDynamicMPATH
 settarg
 ACTIONs
 arg2
+emacsdatadir

@@ -40,7 +40,8 @@ tagcolorname mcookieversioncheck availoutput availterseoutput listoutput \
 listterseoutput editor variantshortcut bashcompletiondir fishcompletiondir \
 zshcompletiondir tcllinter tcllinteropts nagelfardatadir nagelfaraddons \
 stickypurge uniquenameloaded abortonerror sourcecache logger loggeropts \
-loggedevents conflictunload spideroutput spiderterseoutput spiderindepth"
+loggedevents conflictunload spideroutput spiderterseoutput spiderindepth \
+emacsdatadir emacsaddons"
 libarglist=()
 
 # flags to know if argument has been specified on command-line
@@ -56,6 +57,7 @@ appendbinpath=n
 setmodulespath=n
 docinstall=y
 vimaddons=y
+emacsaddons=y
 examplemodulefiles=y
 libtclenvmodules=y
 SHLIB_SUFFIX='.so'
@@ -119,6 +121,7 @@ datarootdir=
 mandir=
 docdir=
 vimdatadir=
+emacsdatadir=
 nagelfardatadir=
 modulefilesdir=
 moduleshome=
@@ -224,6 +227,7 @@ Fine tuning of the installation directories:
   --mandir=DIR            man documentation [DATAROOTDIR/man]
   --docdir=DIR            documentation root [DATAROOTDIR/doc]
   --vimdatadir=DIR        Vim addons directory [DATAROOTDIR/vim/vimfiles]
+  --emacsdatadir=DIR      Emacs addons directory [DATAROOTDIR/emacs/lisp]
   --nagelfardatadir=DIR   Nagelfar addons directory [DATAROOTDIR/nagelfar]
   --modulefilesdir=DIR    system modulefiles [PREFIX/modulefiles]
 
@@ -244,6 +248,8 @@ Optional Features:
                           man pages installation) [yes]
   --enable-vim-addons     install Vim addon files in the directory defined
                           with \'vimdatadir' [yes]
+  --enable-emacs-addons   install Emacs addon files in the directory defined
+                          with \'emacsdatadir' [yes]
   --enable-nagelfar-addons
                           install Nagelfar addon files in the directory
                           defined with \'nagelfardatadir' [yes]
@@ -508,6 +514,8 @@ placed in the following directory structure:
     libexec/
     share/
       doc/
+      emacs/
+        lisp/
       man/
         man1/
         man5/
@@ -686,6 +694,10 @@ for arg in "$@"; do
       vimdatadir="${arg#*=}" ;;
    --vimdatadir)
       nextargisval=vimdatadir ;;
+   --emacsdatadir=*)
+      emacsdatadir="${arg#*=}" ;;
+   --emacsdatadir)
+      nextargisval=emacsdatadir ;;
    --nagelfardatadir=*)
       nagelfardatadir="${arg#*=}" ;;
    --nagelfardatadir)
@@ -714,6 +726,9 @@ for arg in "$@"; do
    --enable-vim-addons*|--disable-vim-addons)
       # shellcheck disable=SC2034
       vimaddons=$(get_feature_value "$arg") ;;
+   --enable-emacs-addons*|--disable-emacs-addons)
+      # shellcheck disable=SC2034
+      emacsaddons=$(get_feature_value "$arg") ;;
    --enable-nagelfar-addons*|--disable-nagelfar-addons)
       # shellcheck disable=SC2034
       nagelfaraddons=$(get_feature_value "$arg") ;;
@@ -1169,6 +1184,7 @@ fi
 [ -z "$mandir" ] && mandir=$datarootdir/man
 [ -z "$docdir" ] && docdir=$datarootdir/doc
 [ -z "$vimdatadir" ] && vimdatadir=$datarootdir/vim/vimfiles
+[ -z "$emacsdatadir" ] && emacsdatadir=$datarootdir/emacs/lisp
 [ -z "$nagelfardatadir" ] && nagelfardatadir=$datarootdir/nagelfar
 [ -z "$modulefilesdir" ] && modulefilesdir=$prefix/modulefiles
 [ -z "$moduleshome" ] && moduleshome=$prefix
