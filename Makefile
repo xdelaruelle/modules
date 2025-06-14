@@ -723,6 +723,10 @@ ifeq ($(vimaddons),y)
 	$(INSTALL_DATA) share/vim/ftplugin/modulefile.vim '$(DESTDIR)$(vimdatadir)/ftplugin'
 	$(INSTALL_DATA) share/vim/syntax/modulefile.vim '$(DESTDIR)$(vimdatadir)/syntax'
 endif
+ifeq ($(emacsaddons),y)
+	$(INSTALL_DIR) '$(DESTDIR)$(emacsdatadir)'
+	$(INSTALL_DATA) share/emacs/lisp/modulefile-mode.el* '$(DESTDIR)$(emacsdatadir)'
+endif
 ifeq ($(nagelfaraddons),y)
 	$(INSTALL_DIR) '$(DESTDIR)$(nagelfardatadir)'
 	$(INSTALL_DATA) share/nagelfar/plugin_modulecache.tcl  '$(DESTDIR)$(nagelfardatadir)/'
@@ -768,6 +772,11 @@ ifeq ($(vimaddons),y)
 	-rmdir '$(DESTDIR)$(vimdatadir)/ftplugin'
 	-rmdir '$(DESTDIR)$(vimdatadir)/syntax'
 	-rmdir -p '$(DESTDIR)$(vimdatadir)'
+endif
+ifeq ($(emacsaddons),y)
+	rm -f '$(DESTDIR)$(emacsdatadir)/modulefile-mode.el'
+	rm -f '$(DESTDIR)$(emacsdatadir)/modulefile-mode.elc'
+	-rmdir -p '$(DESTDIR)$(emacsdatadir)'
 endif
 ifeq ($(nagelfaraddons),y)
 	rm -f '$(DESTDIR)$(nagelfardatadir)/plugin_modulecache.tcl'
