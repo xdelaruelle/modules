@@ -42,6 +42,12 @@ Requires:       util-linux
 Requires:       util-linux-core
 %endif
 Requires:       vim-filesystem
+%if 0%{?rhel} && 0%{?rhel} <= 9
+BuildRequires:  emacs
+%else
+BuildRequires:  emacs-nw
+%endif
+Requires:       emacs-filesystem%{?_emacs_version: >= %{_emacs_version}}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:       procps
 Requires:       man
@@ -104,6 +110,7 @@ have access to the module alias.
            --libexecdir=%{_datadir}/Modules/libexec \
            --mandir=%{_mandir} \
            --vimdatadir=%{vimdatadir} \
+           --emacsdatadir=%{_emacs_sitelispdir}/%{name} \
            --nagelfardatadir=%{_datadir}/Modules/nagelfar \
            --with-bashcompletiondir=%{bash_completions_dir} \
            --with-fishcompletiondir=%{fish_completions_dir} \
@@ -120,6 +127,9 @@ have access to the module alias.
 %else
 make %{?_smp_mflags}
 %endif
+
+# compile Elisp file
+%{_emacs_bytecompile} share/emacs/lisp/modulefile-mode.el
 
 
 %install
@@ -161,6 +171,9 @@ mv {doc/build/,}changes.txt
 
 # install the rpm config file
 install -Dpm 644 share/rpm/macros.%{name} %{buildroot}/%{macrosdir}/macros.%{name}
+
+# install Emacs init file
+install -Dpm 644 share/emacs/lisp/%{name}-init.el %{buildroot}/%{_emacs_sitestartdir}/%{name}-init.el
 
 
 %check
@@ -244,6 +257,9 @@ fi
 %{vimdatadir}/ftdetect/modulefile.vim
 %{vimdatadir}/ftplugin/modulefile.vim
 %{vimdatadir}/syntax/modulefile.vim
+%dir %{_emacs_sitelispdir}/%{name}
+%{_emacs_sitelispdir}/%{name}/*
+%{_emacs_sitestartdir}/%{name}-init.el
 %dir %{_datadir}/Modules/nagelfar
 %{_datadir}/Modules/nagelfar/*
 
