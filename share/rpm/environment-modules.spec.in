@@ -1,5 +1,4 @@
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
-%global vimdatadir %{_datadir}/vim/vimfiles
 %if 0%{?rhel} && 0%{?rhel} <= 9
 %global bash_completions_dir %{_datadir}/bash-completion/completions
 %global fish_completions_dir %{_datadir}/fish/vendor_completions.d
@@ -111,7 +110,7 @@ have access to the module alias.
            --bindir=%{_datadir}/Modules/bin \
            --libexecdir=%{_datadir}/Modules/libexec \
            --mandir=%{_mandir} \
-           --vimdatadir=%{vimdatadir} \
+           --vimdatadir=%{vimfiles_root} \
            --emacsdatadir=%{_emacs_sitelispdir}/%{name} \
            --nagelfardatadir=%{_datadir}/Modules/nagelfar \
            --with-bashcompletiondir=%{bash_completions_dir} \
@@ -256,9 +255,9 @@ fi
 %{_mandir}/man1/module.1.gz
 %{_mandir}/man5/modulefile.5.gz
 %{macrosdir}/macros.%{name}
-%{vimdatadir}/ftdetect/modulefile.vim
-%{vimdatadir}/ftplugin/modulefile.vim
-%{vimdatadir}/syntax/modulefile.vim
+%{vimfiles_root}/ftdetect/modulefile.vim
+%{vimfiles_root}/ftplugin/modulefile.vim
+%{vimfiles_root}/syntax/modulefile.vim
 %dir %{_emacs_sitelispdir}/%{name}
 %{_emacs_sitelispdir}/%{name}/*
 %{_emacs_sitestartdir}/%{name}-init.el
