@@ -1,8 +1,10 @@
 %global macrosdir %(d=%{_rpmconfigdir}/macros.d; [ -d $d ] || d=%{_sysconfdir}/rpm; echo $d)
 %global vimdatadir %{_datadir}/vim/vimfiles
+%if 0%{?rhel} && 0%{?rhel} <= 9
 %global bash_completions_dir %{_datadir}/bash-completion/completions
 %global fish_completions_dir %{_datadir}/fish/vendor_completions.d
 %global zsh_completions_dir %{_datadir}/zsh/site-functions
+%endif
 
 Name:           environment-modules
 Version:        5.5.0
