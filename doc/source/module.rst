@@ -3490,6 +3490,9 @@ Extra match search is triggered when:
 * :ref:`Module variants` and their available values have to be reported in
   avail and spider outputs (see :option:`--output`/:option:`-o` option): extra
   match search is triggered to collect variant information
+* Provided module aliases have to be reported in avail and spider outputs (see
+  :option:`--output`/:option:`-o` option): extra match search is triggered to
+  collect these module aliases defined within modulefiles
 * Module variant is specified in search query: extra match search is triggered
   to collect variant information then match them against variant specified in
   query
@@ -3526,6 +3529,8 @@ to build and use :ref:`Module cache` to improve search speed.
    .. versionchanged:: 5.6
       Support for :subcmd:`spider` sub-command added
 
+   .. versionchanged:: 5.6
+      Extra match search triggered when reporting provided module aliases
 
 .. _collections:
 

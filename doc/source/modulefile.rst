@@ -1302,6 +1302,25 @@ the *modulefile* is being loaded.
     .. versionchanged:: 5.5
        Option ``--modulepath`` added
 
+.. mfcmd:: provide modulefile...
+
+ Define each specified *modulefile* as a module alias of currently evaluating
+ module. :mfcmd:`provide` command helps to declare the additional elements
+ included in a modulefile.
+
+ The :mfcmd:`provide` command should be paired with a :mfcmd:`conflict`
+ command if the specified alias should be uniquely provided in the currently
+ loaded environment.
+
+ Note: A module alias defined using :mfcmd:`provide` command will not be
+ recognized during module resolution. It is recommended to use the
+ :mfcmd:`module-alias` command to define an alias that points to the default
+ resolution target.
+
+ .. only:: html
+
+    .. versionadded:: 5.6
+
 .. mfcmd:: pushenv variable value
 
  Set environment *variable* to *value* and save previous value of *variable*

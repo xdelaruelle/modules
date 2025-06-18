@@ -1093,7 +1093,8 @@ The following modulefile Tcl commands appeared on Modules 5.
 |            | :mfcmd:`lsb-release`                                            |
 +------------+-----------------------------------------------------------------+
 | 5.6        | :mfcmd:`depends-on-any`, :mfcmd:`module-help`,                  |
-|            | :mfcmd:`module-warn`, :mfcmd:`haveDynamicMPATH`                 |
+|            | :mfcmd:`module-warn`, :mfcmd:`haveDynamicMPATH`,                |
+|            | :mfcmd:`provide`                                                |
 +------------+-----------------------------------------------------------------+
 
 :mfcmd:`system`, :mfcmd:`is-used`
