@@ -15,15 +15,15 @@ syn iskeyword @,48-57,_,192-255,-
 
 " Modulefile commands
 syn keyword modCommand  add-property always-load append-path chdir complete conflict
-syn keyword modCommand  depends-on depends-on-any family getenv getvariant haveDynamicMPATH
-syn keyword modCommand  hide-modulefile hide-version is-avail is-loaded is-saved is-used
-syn keyword modCommand  lsb-release module module-alias module-forbid module-help
-syn keyword modCommand  module-hide module-info module-tag module-version module-virtual
-syn keyword modCommand  module-warn module-whatis modulepath-label prepend-path prereq
-syn keyword modCommand  prereq-all prereq-any provide pushenv remove-path reportError
-syn keyword modCommand  reportWarning require-fullname set-alias set-function setenv
-syn keyword modCommand  source-sh system uname uncomplete unset-alias unset-function
-syn keyword modCommand  unsetenv variant versioncmp x-resource
+syn keyword modCommand  depends-on depends-on-any extensions family getenv getvariant
+syn keyword modCommand  haveDynamicMPATH hide-modulefile hide-version is-avail is-loaded
+syn keyword modCommand  is-saved is-used lsb-release module module-alias module-forbid
+syn keyword modCommand  module-help module-hide module-info module-tag module-version
+syn keyword modCommand  module-virtual module-warn module-whatis modulepath-label
+syn keyword modCommand  prepend-path prereq prereq-all prereq-any provide pushenv
+syn keyword modCommand  remove-path reportError reportWarning require-fullname set-alias
+syn keyword modCommand  set-function setenv source-sh system uname uncomplete unset-alias
+syn keyword modCommand  unset-function unsetenv variant versioncmp x-resource
 
 " Modulefile procedures
 syn keyword modProc     ModulesHelp ModulesDisplay ModulesTest
