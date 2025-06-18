@@ -20,10 +20,10 @@ syn keyword modCommand  hide-modulefile hide-version is-avail is-loaded is-saved
 syn keyword modCommand  lsb-release module module-alias module-forbid module-help
 syn keyword modCommand  module-hide module-info module-tag module-version module-virtual
 syn keyword modCommand  module-warn module-whatis modulepath-label prepend-path prereq
-syn keyword modCommand  prereq-all prereq-any pushenv remove-path reportError reportWarning
-syn keyword modCommand  require-fullname set-alias set-function setenv source-sh system
-syn keyword modCommand  uname uncomplete unset-alias unset-function unsetenv variant
-syn keyword modCommand  versioncmp x-resource
+syn keyword modCommand  prereq-all prereq-any provide pushenv remove-path reportError
+syn keyword modCommand  reportWarning require-fullname set-alias set-function setenv
+syn keyword modCommand  source-sh system uname uncomplete unset-alias unset-function
+syn keyword modCommand  unsetenv variant versioncmp x-resource
 
 " Modulefile procedures
 syn keyword modProc     ModulesHelp ModulesDisplay ModulesTest
