@@ -1231,6 +1231,11 @@ The following modulefile Tcl commands appeared on Modules 5.
  enabled, modulefile enabling a modulepath is considered a requirement of the
  loaded modules stored in this path.
 
+:mfcmd:`extensions`
+
+ Starting with version 5.6, :mfcmd:`extensions` becomes an alias of
+ :mfcmd:`provide` modulefile command.
+
 Modules Variables
 """""""""""""""""
 

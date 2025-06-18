@@ -268,6 +268,17 @@ the *modulefile* is being loaded.
  module sub-command. This module and the subsequent modules will not be listed
  as loaded. No environment commands will be performed in the current module.
 
+.. mfcmd:: extensions modulefile...
+
+ Alias of :mfcmd:`provide` command.
+
+ .. only:: html
+
+    .. versionadded:: 5.1
+
+    .. versionchanged:: 5.6
+       Changed from *no-operation* command to alias of :mfcmd:`provide`
+
 .. mfcmd:: family name
 
  Defines loading modulefile as a member of family *name*. Only one member of a
@@ -2270,9 +2281,9 @@ Except for the specific cases listed below, such modulefiles can be evaluated
 by Modules without producing errors. Key differences between the two
 implementations are outlined below.
 
-The ``remove-property`` and ``extensions`` modulefile commands are evaluated
-as a *no-operation* command. No error is obtained if these commands are used
-in modulefiles but no change occurs.
+The ``remove-property`` modulefile command is evaluated as a *no-operation*
+command. No error is obtained if this command is used in modulefiles but no
+change occurs.
 
 The :mfcmd:`haveDynamicMPATH` is evaluated as a *no-operation* modulefile
 command. If modulefile conditionally updates :envvar:`MODULEPATH` environment
