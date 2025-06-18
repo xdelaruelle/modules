@@ -58,6 +58,7 @@ prepend-path
 prereq
 prereq-all
 prereq-any
+provide
 pushenv
 remove-path
 reportError
@@ -184,6 +185,7 @@ set ::syntax(prepend-path) {o* x x x*}
 set ::syntax(prereq) {o* x x*}
 set ::syntax(prereq-all) {o* x x*}
 set ::syntax(prereq-any) {o* x x*}
+set ::syntax(provide) {x x*}
 set ::syntax(pushenv) 2
 set ::syntax(remove-path) {o* x x x* p? x*}
 set ::syntax(reportError) 1
