@@ -32,7 +32,7 @@ proc statementWords {words info} {
                deprecated and not implemented"]
          }
       }
-      extensions - remove-property {
+      remove-property {
          set res [list warning "Command \"[lindex $words 0]\" is not\
             implemented"]
       }

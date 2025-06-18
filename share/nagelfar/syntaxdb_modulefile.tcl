@@ -33,6 +33,7 @@ complete
 conflict
 depends-on
 depends-on-any
+extensions
 family
 getenv
 getvariant
@@ -77,7 +78,6 @@ unsetenv
 variant
 versioncmp
 x-resource
-extensions
 remove-property
 module-log
 module-trace
@@ -94,6 +94,7 @@ set ::syntax(complete) 3
 set ::syntax(conflict) {x x*}
 set ::syntax(depends-on) {o* x x*}
 set ::syntax(depends-on-any) {o* x x*}
+set ::syntax(extensions) {x x*}
 set ::syntax(family) 1
 set ::syntax(getenv) {o? x x?}
 set ::syntax(getvariant) {o? x x?}
@@ -214,7 +215,6 @@ set ::syntax(versioncmp) 2
 set ::syntax(x-resource) 1
 # not implemented commands
 set ::syntax(remove-property) 2
-set ::syntax(extensions) {x x*}
 set {::syntax(module-info flags)} 0
 set {::syntax(module-info trace)} 0
 set {::syntax(module-info tracepat)} 0

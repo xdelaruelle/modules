@@ -23,12 +23,12 @@ proc statementWords {words info} {
    set res {}
    switch [lindex $words 0] {
       always-load - append-path - chdir - complete - conflict - depends-on -\
-      family - getenv - getvariant - is-avail - is-saved - module -\
-      module-whatis - prepend-path - prereq - prereq-all - prereq-any -\
-      pushenv - remove-path - reportError - reportWarning - require-fullname\
-      - set-alias - set-function - setenv - source-sh - uncomplete -\
-      unset-alias - unset-function - unsetenv - variant - x-resource -\
-      add-property - extensions - remove-property - module-log - module-trace\
+      extensions - family - getenv - getvariant - is-avail - is-saved -\
+      module - module-whatis - prepend-path - prereq - prereq-all -\
+      prereq-any - pushenv - remove-path - reportError - reportWarning -\
+      require-fullname - set-alias - set-function - setenv - source-sh -\
+      uncomplete - unset-alias - unset-function - unsetenv - variant -\
+      x-resource - add-property - remove-property - module-log - module-trace\
       - module-user - module-verbosity {
          set res [list warning "Command \"[lindex $words 0]\" should not be\
             be used in global rc file"]
