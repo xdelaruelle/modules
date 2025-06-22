@@ -166,6 +166,8 @@ Modules 5.6.0 (not yet released)
   in enabled modulepaths. Reload of a not found module is attempted only if it
   is tagged *super-sticky* or *sticky* and force mode is disabled. Skipped
   module is considered *Dependent Unload* module.
+* Script: update :command:`mb` tool to skip test for Modules version below 5.5
+  if Tcl 9 is selected.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

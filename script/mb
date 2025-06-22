@@ -1,7 +1,7 @@
 #!/usr/bin/env tclsh
 #
 # MB, make bench between modulecmd versions
-# Copyright (C) 2019-2024 Xavier Delaruelle
+# Copyright (C) 2019-2025 Xavier Delaruelle
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -46,7 +46,11 @@ proc sgr {sgrcode str} {
 }
 
 proc reportError {str} {
-   puts "[sgr {1;31} ERROR]: $str"
+   puts stderr "[sgr {1;31} ERROR]: $str"
+}
+
+proc reportWarning {str} {
+   puts stderr "[sgr {1;33} WARNING]: $str"
 }
 
 set benchrep 20
@@ -191,6 +195,16 @@ set needstash [expr {[exec git status --porcelain --untracked-files=no] ne\
 # also drop alpha/beta releases
 set exclvers_list [list v4.2 v4.4 v4.6 v4.8 v5.0 v5.2]
 set exclbef [expr {$mode eq {profile} ? {4.5} : {4.1}}]
+
+##nagelfar implicitvarcmd {source site.exp} install_tclsh
+source site.exp
+set selected_tcl_version [exec $install_tclsh << {puts [info tclversion]}]
+if {[string compare $selected_tcl_version 9.0] >= 0} {
+   reportWarning "Tcl $selected_tcl_version is selected, exclude Modules\
+      versions <5.5"
+   set exclbef 5.5
+}
+
 array set tagarray [list]
 foreach tag [exec git tag --list v*] {
    if {[string compare $tag v$exclbef] == 1 && [string first alpha $tag] ==\
