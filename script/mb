@@ -335,6 +335,7 @@ foreach test $testlist {
 foreach tag $taglist {
    catch {file delete modulecmd.$tag lib/libtclenvmodules.so.$tag}
 }
+catch {file delete tcl/mfinterp.tcl}
 
 # restore workspace if saved
 if {$needstash} {
