@@ -2372,6 +2372,16 @@ proc module-warn {args} {
    }
 }
 
+proc provide {args} {
+   if {![llength $args]} {
+      knerror {No module specified in argument}
+   }
+   set current_mod [currentState modulename]
+   foreach alias $args {
+      setLoadedAltname $current_mod [list al $alias]
+   }
+}
+
 # ;;; Local Variables: ***
 # ;;; mode:tcl ***
 # ;;; End: ***
