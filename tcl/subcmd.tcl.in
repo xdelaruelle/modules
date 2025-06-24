@@ -39,7 +39,8 @@ proc cmdModuleList {show_oneperline show_mtime search_match args} {
    }
 
    set report_indesym [isEltInReport indesym 0]
-   set report_alias [isEltInReport alias 0]
+   set report_alias [expr {[isEltInReport alias 0] || [isEltInReport\
+      provided-alias 0]}]
 
    # build list of loaded modules and symbolics and aliases if reported
    set loadedmodlist [list]

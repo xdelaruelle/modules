@@ -357,11 +357,12 @@ proc getModMatchingExtraSpec {modpath pxtlist} {
 # determine if current module search requires an extra match search
 proc isExtraMatchSearchRequired {mod} {
    # an extra match search is required if not currently inhibited and:
-   # * variant should be reported in output
+   # * variant or provided-alias should be reported in output
    # * mod specification contains variant during avail/paths/whatis
    # * mod specification contains extra specifier during avail/paths/whatis
    return [expr {![getState inhibit_ems 0] && ([isEltInReport variant 0] ||\
-      (([llength [getVariantListFromVersSpec $mod]] || [llength\
+      [isEltInReport provided-alias 0] || (([llength\
+      [getVariantListFromVersSpec $mod]] || [llength\
       [getExtraListFromVersSpec $mod]]) && [currentState commandname] in\
       {avail paths whatis spider}))}]
 }
@@ -379,7 +380,7 @@ proc filterExtraMatchSearch {modpath mod res_arrname versmod_arrname} {
    set check_extra [llength $spec_xt_list]
    set check_tag [llength $spec_tag_list]
    set scan_eval [expr {$check_variant || $check_extra || [isEltInReport\
-      variant 0]}]
+      variant 0] || [isEltInReport provided-alias 0]}]
    set filter_res [expr {$check_variant || $check_extra || $check_tag}]
 
    if {$scan_eval} {

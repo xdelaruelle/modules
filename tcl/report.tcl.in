@@ -1448,7 +1448,8 @@ proc reportModules {search_queries header hsgrkey hstyle show_mtime show_idx\
       set report_sym [isEltInReport sym]
    }
    set report_tag [isEltInReport tag]
-   set report_alias [isEltInReport alias]
+   set report_alias [expr {[isEltInReport alias] || [isEltInReport\
+      provided-alias]}]
    # enable variant report if variantifspec configured and some variant is
    # specified in query or variant configured for report or list sub-command
    # json output
