@@ -168,6 +168,12 @@ Modules 5.6.0 (not yet released)
   module is considered *Dependent Unload* module.
 * Script: update :command:`mb` tool to skip test for Modules version below 5.5
   if Tcl 9 is selected.
+* Add the ``provided-alias`` element in the allowed value list of the
+  :mconfig:`avail_output`, :mconfig:`avail_terse_output`,
+  :mconfig:`spider_output` and :mconfig:`spider_terse_output` configuration
+  options. When set, module aliases are included into the output and the
+  *extra match search* mechanism is activated to scan modulefiles to get the
+  module aliases they define.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
