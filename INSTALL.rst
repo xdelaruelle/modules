@@ -943,10 +943,10 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
  Specify the content to report on avail sub-command regular output in addition
  to the available module names. Elements accepted in LIST are: ``modulepath``,
- ``alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``, ``key``, ``hidden``,
- ``variant``, ``variantifspec`` and ``via`` (elements in LIST are separated by
- ``:``). The order of the elements in LIST does not matter.
- (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec:key``)
+ ``alias``, ``provided-alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``,
+ ``key``, ``hidden``, ``variant``, ``variantifspec`` and ``via`` (elements in
+ LIST are separated by ``:``). The order of the elements in LIST does not
+ matter. (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec:key``)
 
  This installation option defines the default value of the
  :mconfig:`avail_output` configuration option which could be changed after
@@ -966,15 +966,16 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
        Element ``indesym`` added
 
     .. versionchanged:: 5.6
-       Elements ``hidden`` and ``via`` added
+       Elements ``hidden``, ``provided-alias`` and ``via`` added
 
 .. instopt:: --with-avail-terse-output=LIST
 
  Specify the content to report on avail sub-command terse output in addition
  addition to the available module names. Elements accepted in LIST are:
- ``modulepath``, ``alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``,
- ``key``, ``hidden``, ``variant`` and ``variantifspec`` (elements in LIST are
- separated by ``:``). The order of the elements in LIST does not matter.
+ ``modulepath``, ``alias``, ``provided-alias``, ``dirwsym``, ``indesym``,
+ ``sym``, ``tag``, ``key``, ``hidden``, ``variant`` and ``variantifspec``
+ (elements in LIST are separated by ``:``). The order of the elements in LIST
+ does not matter.
  (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec``)
 
  This installation option defines the default value of the
@@ -995,7 +996,7 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
        Element ``indesym`` added
 
     .. versionchanged:: 5.6
-       Element ``hidden`` added
+       Elements ``hidden`` and ``provided-alias`` added
 
 .. instopt:: --with-bashcompletiondir=DIR
 
@@ -1398,10 +1399,10 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
  Specify the content to report on spider sub-command regular output in
  addition to the available module names. Elements accepted in LIST are:
- ``modulepath``, ``alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``,
- ``key``, ``hidden``, ``variant``, ``variantifspec`` and ``via`` (elements in
- LIST are separated by ``:``). The order of the elements in LIST does not
- matter.
+ ``modulepath``, ``alias``, ``provided-alias``, ``dirwsym``, ``indesym``,
+ ``sym``, ``tag``, ``key``, ``hidden``, ``variant``, ``variantifspec`` and
+ ``via`` (elements in LIST are separated by ``:``). The order of the elements
+ in LIST does not matter.
  (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec:via:key``)
 
  This installation option defines the default value of the
@@ -1416,9 +1417,10 @@ instance :instopt:`--without-modulepath<--with-modulepath>`):
 
  Specify the content to report on spider sub-command terse output in addition
  addition to the available module names. Elements accepted in LIST are:
- ``modulepath``, ``alias``, ``dirwsym``, ``indesym``, ``sym``, ``tag``,
- ``key``, ``hidden``, ``variant`` and ``variantifspec`` (elements in LIST are
- separated by ``:``). The order of the elements in LIST does not matter.
+ ``modulepath``, ``alias``, ``provided-alias``, ``dirwsym``, ``indesym``,
+ ``sym``, ``tag``, ``key``, ``hidden``, ``variant`` and ``variantifspec``
+ (elements in LIST are separated by ``:``). The order of the elements in LIST
+ does not matter.
  (default=\ ``modulepath:alias:dirwsym:sym:tag:variantifspec``)
 
  This installation option defines the default value of the

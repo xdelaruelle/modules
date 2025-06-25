@@ -1323,8 +1323,9 @@ The following Modules configuration option has been introduced on Modules 5.
  Starting version 5.3.1, element ``indesym`` is added to the list of accepted
  values.
 
- Starting version 5.6, elements ``hidden`` and ``via`` is added to the list of
- accepted values. ``via`` is only supported on :mconfig:`avail_output`.
+ Starting version 5.6, elements ``hidden``, ``provided-alias`` and ``via`` are
+ added to the list of accepted values. ``via`` is only supported on
+ :mconfig:`avail_output`.
 
 :mconfig:`list_output`, :mconfig:`list_terse_output`
 

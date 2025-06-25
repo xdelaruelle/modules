@@ -492,9 +492,9 @@ switches are accepted:
  of the elements in *LIST* does not matter.
 
  Accepted elements in *LIST* for :subcmd:`avail` and :subcmd:`spider`
- sub-command are: *modulepath*, *alias*, *dirwsym*, *indesym*, *sym*, *tag*,
- *key*, *hidden*, *variant*, *variantifspec* and *via*. *via* element is not
- accepted on terse output mode.
+ sub-command are: *modulepath*, *alias*, *provided-alias*, *dirwsym*,
+ *indesym*, *sym*, *tag*, *key*, *hidden*, *variant*, *variantifspec* and
+ *via*. *via* element is not accepted on terse output mode.
 
  Accepted elements in *LIST* for :subcmd:`list` sub-command are: *header*,
  *idx*, *variant*, *alias*, *indesym*, *sym*, *tag*, *hidden* and *key*.
@@ -536,8 +536,8 @@ switches are accepted:
        :subcmd:`spider` sub-commands
 
     .. versionchanged:: 5.6
-       Element *via* added for :subcmd:`avail` and :subcmd:`spider`
-       sub-commands
+       Elements *provided-alias* and *via* added for :subcmd:`avail` and
+       :subcmd:`spider` sub-commands
 
 .. option:: --paginate
 
@@ -3500,11 +3500,13 @@ Extra match search is triggered when:
   triggered to collect commands used in modulefiles or modulercs then match
   them against extra specifier query
 
-If search query does not contain an extra query and if variant information
-should not be reported, no extra match search is performed. If search query
-does not contain any module name and version but contains an extra query or if
-variant information should be reported, extra match search is applied to all
-available modulefiles.
+If search query does not contain an extra query and if variant or provided
+alias information should not be reported, no extra match search is performed.
+If search query does not contain any module name and version but contains an
+extra query or if variant information should be reported, extra match search
+is applied to all available modulefiles. If provided alias information should
+be reported, extra match search is applied to all available modulefiles even
+if search query contains a module specification.
 
 During this specific evaluation, modulefiles are interpreted in *scan* mode.
 This mode aims to collect the different Tcl modulefile commands used. Special
@@ -4577,6 +4579,8 @@ ENVIRONMENT
  Accepted elements that can be set in value list are:
 
  * ``alias``: module aliases.
+ * ``provided-alias``: show module aliases and evaluate all modulefiles to get
+   aliases provided by them.
  * ``dirwsym``: directories associated with symbolic versions.
  * ``hidden``: show all hidden modules.
  * ``indesym``: symbolic versions reported independently from the module or
@@ -4619,7 +4623,7 @@ ENVIRONMENT
        Element ``indesym`` added
 
     .. versionchanged:: 5.6
-       Elements ``hidden`` and ``via`` added
+       Elements ``hidden``, ``provided-alias`` and ``via`` added
 
 .. envvar:: MODULES_AVAIL_TERSE_OUTPUT
 
@@ -4646,7 +4650,7 @@ ENVIRONMENT
        Elements ``variant`` and ``variantifspec`` added
 
     .. versionchanged:: 5.6
-       Element ``hidden`` added
+       Elements ``hidden`` and ``provided-alias`` added
 
 .. envvar:: MODULES_CACHE_BUFFER_BYTES
 
@@ -5526,6 +5530,8 @@ ENVIRONMENT
  Accepted elements that can be set in value list are:
 
  * ``alias``: module aliases.
+ * ``provided-alias``: show module aliases and evaluate all modulefiles to get
+   aliases provided by them.
  * ``dirwsym``: directories associated with symbolic versions.
  * ``hidden``: show all hidden modules.
  * ``indesym``: symbolic versions reported independently from the module or
