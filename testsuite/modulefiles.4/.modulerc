@@ -81,3 +81,14 @@ if {[info exists env(TESTSUITE_CONFLICT_UNLOAD)]} {
         }
     }
 }
+
+if {[info exists env(TESTSUITE_PROVIDE)]} {
+    switch -- $env(TESTSUITE_PROVIDE) {
+        duplicate_with_ext_same_alias {
+            module-alias foo provide/1
+        }
+        duplicate_with_ext_diff_alias {
+            module-alias foo bar/1
+        }
+    }
+}

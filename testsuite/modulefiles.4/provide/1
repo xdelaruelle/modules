@@ -1,0 +1,69 @@
+#%Module
+if {[info exists env(TESTSUITE_PROVIDE)]} {
+    module-whatis [module-info name]
+    switch -- $env(TESTSUITE_PROVIDE) {
+        single {
+            provide foo/1
+        }
+        multiple {
+            provide foo/1 bar/1
+            provide baz/1 qux/1 quux/1
+        }
+        err_arg {
+            provide
+        }
+        variant {
+            provide foo/1 var=val1
+        }
+        duplicate {
+            provide foo/1 foo/1
+        }
+        duplicate2 {
+            provide foo/1 bar/1
+            provide qux/1 foo/1
+        }
+        duplicate_with_ext {
+            provide foo/1
+        }
+        duplicate_with_ext_module {
+            provide bar/1
+        }
+        duplicate_with_family {
+            family foo
+            provide foo
+        }
+        duplicate_with_family2 {
+            provide foo
+            family foo
+        }
+        duplicate_with_ext_family {
+            provide foo
+        }
+        duplicate_with_alias {
+            module-alias foo provide/1
+            provide foo
+        }
+        duplicate_with_alias2 {
+            provide foo
+            module-alias foo provide/1
+        }
+        duplicate_with_ext_same_alias - duplicate_with_ext_diff_alias {
+            provide foo
+        }
+        duplicate_with_version {
+            module-version provide/1 foo
+            provide provide/foo
+        }
+        duplicate_with_version2 {
+            provide provide/foo
+            module-version provide/1 foo
+        }
+        duplicate_with_ext_same_version - duplicate_with_ext_diff_version {
+            provide provide/foo
+        }
+        extensions {
+            extensions foo/1 bar/1
+            extensions baz/1 qux/1 quux/1
+        }
+    }
+}

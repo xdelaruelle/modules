@@ -1,0 +1,11 @@
+#%Module
+if {[info exists env(TESTSUITE_PROVIDE)]} {
+    switch -- $env(TESTSUITE_PROVIDE) {
+        duplicate_with_ext_same_version {
+            module-version provide/1 foo
+        }
+        duplicate_with_ext_diff_version {
+            module-version provide/2 foo
+        }
+    }
+}

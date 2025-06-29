@@ -1,0 +1,724 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:		modules.50-cmds/%M%
+#   Revision:		%I%
+#   First Edition:	2025/06/26
+#   Last Mod.:		%U%, %G%
+#
+#   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:	Testuite testsequence
+#   Command:		load, unload, display, help, show, test,
+#                   refresh, whatis
+#   Modulefiles:    provide, bar, foo, reqa
+#   Sub-Command:
+#
+#   Comment:	%C{
+#         Test provide command
+#		}C%
+#
+##############################################################################
+
+set mp $modpath.4
+set mpre $modpathre.4
+setenv_var MODULEPATH $mp
+
+setenv_var MODULES_ADVANCED_VERSION_SPEC 1
+setenv_var MODULES_IMPLICIT_DEFAULT 1
+
+if {[cmpversion $tclsh_version 8.6] == -1} {
+    set custom_error_trace "    invoked from within
+\"if \{\[info exists env(TESTSUITE_PROVIDE)\]\} \{
+    module-whatis \[module-info name\]
+    switch -- \$env(TESTSUITE_PROVIDE) \{
+        single \{
+            ...\""
+} else {
+    set custom_error_trace {}
+}
+
+
+setenv_var TESTSUITE_PROVIDE single
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo/1]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE multiple
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo/1&al|bar/1&al|baz/1&al|qux/1&al|quux/1]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+skip_if_quick_mode
+
+
+setenv_var TESTSUITE_PROVIDE err_arg
+
+set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 2 : 13}]
+set tserr [msg_load provide/1 [msg_moderr {No module specified in argument} {provide} $mp/provide/1 $line_num {} {} {} $custom_error_trace]]
+testouterr_cmd bash {load provide/1} ERR $tserr
+
+
+setenv_var TESTSUITE_PROVIDE variant
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo/1&al|var=val1]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+
+# test all the evaluation modes
+setenv_var TESTSUITE_PROVIDE multiple
+
+set tserr "$modlin
+$mpre/provide/1:
+
+module-whatis\tprovide/1
+provide\t\tfoo/1 bar/1
+provide\t\tbaz/1 qux/1 quux/1
+$modlin"
+testouterr_cmd_re bash {display provide/1} OK $tserr
+
+set tserr "$modlin
+Module Specific Help for $mpre/provide/1:
+
+$warn_msgs: Unable to find ModulesHelp in $mpre/provide/1.
+$modlin"
+testouterr_cmd_re bash {help provide/1} OK $tserr
+set tserr "$modlin
+Module Specific Test for $mpre/provide/1:
+
+$warn_msgs: Unable to find ModulesTest in $mpre/provide/1.
+$modlin"
+testouterr_cmd_re bash {test provide/1} OK $tserr
+
+set ans [list]
+lappend ans [list out all-pre-out]
+lappend ans [list out all-out]
+set tserr "$modlin $mpre $modlin
+\\s*provide/1: provide/1"
+testouterr_cmd_re bash {whatis provide/1} OK $tserr
+testouterr_cmd_re bash {whatis foo/1} ERR $err_path'foo/1'
+testouterr_cmd_re bash {search provide/1} $ans $tserr
+testouterr_cmd_re bash {search foo/1} $ans {}
+
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|foo/1&al|bar/1&al|baz/1&al|qux/1&al|quux/1
+
+testouterr_cmd_re bash {whatis foo/1} ERR $err_path'foo/1'
+testouterr_cmd_re bash {search foo/1} $ans {}
+
+testouterr_cmd bash {refresh} OK {}
+
+set ans [list]
+lappend ans [list unset __MODULES_LMALTNAME]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+testouterr_cmd bash {unload provide/1} $ans {}
+
+# loaded alt names different than evaluated provide command
+setenv_var __MODULES_LMALTNAME provide/1&al|foo/1&al|waldo/1
+testouterr_cmd bash {unload provide/1} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+#
+# test various kind of duplicate definitions
+#
+
+setenv_var TESTSUITE_PROVIDE duplicate
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo/1]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE duplicate2
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo/1&al|bar/1&al|qux/1]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_family
+set ans [list]
+lappend ans [list set LMOD_FAMILY_FOO provide]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo]
+lappend ans [list set __MODULES_LMCONFLICT provide/1&foo]
+lappend ans [list set MODULES_FAMILY_FOO provide]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_family2
+testouterr_cmd bash {load provide/1} $ans {}
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_alias
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_alias2
+testouterr_cmd bash {load provide/1} $ans {}
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_version
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_version2
+testouterr_cmd bash {load provide/1} $ans {}
+
+
+# tests with external modules providing same name
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo/1]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|foo/1
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo/1:bar/1&al|foo/1]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/bar/1]
+lappend ans [list set LOADEDMODULES provide/1:bar/1]
+testouterr_cmd bash {load bar/1} $ans {}
+
+#FIXME: should find foo/1 already loaded
+testouterr_cmd bash {load foo/1} ERR $err_path'foo/1'
+
+setenv_loaded_module [list bar/1] [list $mp/bar/1]
+setenv_var __MODULES_LMALTNAME bar/1&al|foo/1
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME bar/1&al|foo/1:provide/1&al|foo/1]
+lappend ans [list set _LMFILES_ $mp/bar/1:$mp/provide/1]
+lappend ans [list set LOADEDMODULES bar/1:provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+#FIXME: should find foo/1 already loaded
+testouterr_cmd bash {load foo/1} ERR $err_path'foo/1'
+
+set ans [list]
+lappend ans [list unset __MODULES_LMALTNAME]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+testouterr_cmd bash {unload foo/1} $ans {}
+
+
+setenv_loaded_module [list bar/1 provide/1] [list $mp/bar/1 $mp/provide/1]
+setenv_var __MODULES_LMALTNAME bar/1&al|foo/1:provide/1&al|foo/1
+
+#FIXME: should find foo/1 already loaded
+testouterr_cmd bash {load foo/1} ERR $err_path'foo/1'
+
+setenv_var MODULES_UNLOAD_MATCH_ORDER returnlast
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME bar/1&al|foo/1]
+lappend ans [list set _LMFILES_ $mp/bar/1]
+lappend ans [list set LOADEDMODULES bar/1]
+testouterr_cmd bash {unload foo/1} $ans {}
+
+setenv_var MODULES_UNLOAD_MATCH_ORDER returnfirst
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo/1]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {unload foo/1} $ans {}
+
+unsetenv_var MODULES_UNLOAD_MATCH_ORDER
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_module
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|bar/1]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|bar/1
+
+testouterr_cmd bash {load bar/1} OK {}
+
+setenv_loaded_module [list bar/1] [list $mp/bar/1]
+unsetenv_var __MODULES_LMALTNAME
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|bar/1]
+lappend ans [list set _LMFILES_ $mp/bar/1:$mp/provide/1]
+lappend ans [list set LOADEDMODULES bar/1:provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+testouterr_cmd bash {load bar/1} OK {}
+
+setenv_loaded_module [list bar/1 provide/1] [list $mp/bar/1 $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|bar/1
+
+setenv_var MODULES_UNLOAD_MATCH_ORDER returnlast
+set ans [list]
+lappend ans [list unset __MODULES_LMALTNAME]
+lappend ans [list set _LMFILES_ $mp/bar/1]
+lappend ans [list set LOADEDMODULES bar/1]
+testouterr_cmd bash {unload bar/1} $ans {}
+
+setenv_var MODULES_UNLOAD_MATCH_ORDER returnfirst
+set ans [list]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {unload bar/1} $ans {}
+
+unsetenv_var MODULES_UNLOAD_MATCH_ORDER
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_family
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|foo
+
+setenv_var MODULES_CONFLICT_UNLOAD 0
+set tserr [msg_load bar/1 [err_conflict provide/1]]
+testouterr_cmd bash {load bar/1} ERR $tserr
+unsetenv_var MODULES_CONFLICT_UNLOAD
+
+setenv_loaded_module [list bar/1] [list $mp/bar/1]
+setenv_var __MODULES_LMALTNAME bar/1&al|foo
+setenv_var __MODULES_LMCONFLICT bar/1&foo
+setenv_var MODULES_FAMILY_FOO bar
+setenv_var LMOD_FAMILY_FOO bar
+
+set tserr [msg_load provide/1 [err_conflict bar/1]]
+testouterr_cmd bash {load provide/1} ERR $tserr
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+unsetenv_var __MODULES_LMCONFLICT
+unsetenv_var MODULES_FAMILY_FOO
+unsetenv_var LMOD_FAMILY_FOO
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_same_alias
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+testouterr_cmd bash {load foo} $ans {}
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|foo
+
+set ans [list]
+lappend ans [list unset __MODULES_LMALTNAME]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+testouterr_cmd bash {unload foo} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_diff_alias
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME bar/1&al|foo]
+lappend ans [list set _LMFILES_ $mp/bar/1]
+lappend ans [list set LOADEDMODULES bar/1]
+testouterr_cmd bash {load foo} $ans {}
+
+setenv_loaded_module [list bar/1] [list $mp/bar/1]
+setenv_var __MODULES_LMALTNAME bar/1&al|foo
+
+testouterr_cmd bash {load foo} OK {}
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME bar/1&al|foo:provide/1&al|foo]
+lappend ans [list set _LMFILES_ $mp/bar/1:$mp/provide/1]
+lappend ans [list set LOADEDMODULES bar/1:provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|foo
+
+#FIXME: should find foo already loaded
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo:bar/1&al|foo]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/bar/1]
+lappend ans [list set LOADEDMODULES provide/1:bar/1]
+testouterr_cmd bash {load foo} $ans {}
+
+set ans [list]
+lappend ans [list unset __MODULES_LMALTNAME]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+testouterr_cmd bash {unload foo} $ans {}
+
+setenv_loaded_module [list bar/1 provide/1] [list $mp/bar/1 $mp/provide/1]
+setenv_var __MODULES_LMALTNAME bar/1&al|foo:provide/1&al|foo
+
+setenv_var MODULES_UNLOAD_MATCH_ORDER returnlast
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME bar/1&al|foo]
+lappend ans [list set _LMFILES_ $mp/bar/1]
+lappend ans [list set LOADEDMODULES bar/1]
+testouterr_cmd bash {unload foo} $ans {}
+
+setenv_var MODULES_UNLOAD_MATCH_ORDER returnfirst
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {unload foo} $ans {}
+
+unsetenv_var MODULES_UNLOAD_MATCH_ORDER
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_same_version
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&provide/foo&al|provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+testouterr_cmd bash {load provide/foo} $ans {}
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&provide/foo&al|provide/foo
+
+set ans [list]
+lappend ans [list unset __MODULES_LMALTNAME]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+testouterr_cmd bash {unload provide/foo} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_diff_version
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/2&provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/2]
+lappend ans [list set LOADEDMODULES provide/2]
+testouterr_cmd bash {load provide/foo} $ans {}
+
+setenv_loaded_module [list provide/2] [list $mp/provide/2]
+setenv_var __MODULES_LMALTNAME provide/2&provide/foo
+
+testouterr_cmd bash {load provide/foo} OK {}
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/2&provide/foo:provide/1&al|provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/2:$mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/2:provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|provide/foo
+
+#FIXME: should find provide/foo already loaded
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|provide/foo:provide/2&provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/provide/2]
+lappend ans [list set LOADEDMODULES provide/1:provide/2]
+testouterr_cmd bash {load provide/foo} $ans {}
+
+set ans [list]
+lappend ans [list unset __MODULES_LMALTNAME]
+lappend ans [list unset _LMFILES_]
+lappend ans [list unset LOADEDMODULES]
+testouterr_cmd bash {unload provide/foo} $ans {}
+
+setenv_loaded_module [list provide/2 provide/1] [list $mp/provide/2 $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/2&provide/foo:provide/1&al|provide/foo
+
+setenv_var MODULES_UNLOAD_MATCH_ORDER returnlast
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/2&provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/2]
+lappend ans [list set LOADEDMODULES provide/2]
+testouterr_cmd bash {unload provide/foo} $ans {}
+
+setenv_var MODULES_UNLOAD_MATCH_ORDER returnfirst
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {unload provide/foo} $ans {}
+
+unsetenv_var MODULES_UNLOAD_MATCH_ORDER
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+#
+# provided alias used a requirement
+#
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext
+
+set tserr [msg_load reqa/1 $err_path'foo/1' [err_reqlo foo/1]]
+testouterr_cmd bash {load --auto reqa/1} ERR $tserr
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|foo/1
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&foo/1]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+setenv_loaded_module [list bar/1] [list $mp/bar/1]
+setenv_var __MODULES_LMALTNAME bar/1&al|foo/1
+
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&foo/1]
+lappend ans [list set _LMFILES_ $mp/bar/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES bar/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_module
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&bar/1]
+lappend ans [list set _LMFILES_ $mp/bar/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES bar/1:reqa/1]
+lappend ans [list set __MODULES_LMTAG bar/1&auto-loaded]
+set tserr [msg_top_load reqa/1 {} bar/1 {}]
+testouterr_cmd bash {load --auto reqa/1} $ans $tserr
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|bar/1
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&bar/1]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+setenv_loaded_module [list bar/1] [list $mp/bar/1]
+unsetenv_var __MODULES_LMALTNAME
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&bar/1]
+lappend ans [list set _LMFILES_ $mp/bar/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES bar/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_family
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME foo/9.0&as|foo/default&as|foo/latest]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&foo]
+lappend ans [list set _LMFILES_ $mp/foo/9.0:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES foo/9.0:reqa/1]
+lappend ans [list set __MODULES_LMTAG foo/9.0&auto-loaded]
+set tserr [msg_top_load reqa/1 {} foo/9.0 {}]
+testouterr_cmd bash {load --auto reqa/1} $ans $tserr
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|foo
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&foo]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+setenv_loaded_module [list bar/1] [list $mp/bar/1]
+setenv_var __MODULES_LMALTNAME bar/1&al|foo
+setenv_var __MODULES_LMCONFLICT bar/1&foo
+setenv_var MODULES_FAMILY_FOO bar
+setenv_var LMOD_FAMILY_FOO bar
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&foo]
+lappend ans [list set _LMFILES_ $mp/bar/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES bar/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+unsetenv_var __MODULES_LMCONFLICT
+unsetenv_var MODULES_FAMILY_FOO
+unsetenv_var LMOD_FAMILY_FOO
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_same_alias
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&foo]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/1:reqa/1]
+lappend ans [list set __MODULES_LMTAG provide/1&auto-loaded]
+set tserr [msg_top_load reqa/1 {} provide/1 {}]
+testouterr_cmd bash {load --auto reqa/1} $ans $tserr
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|foo
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&foo]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_diff_alias
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME bar/1&al|foo]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&foo]
+lappend ans [list set _LMFILES_ $mp/bar/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES bar/1:reqa/1]
+lappend ans [list set __MODULES_LMTAG bar/1&auto-loaded]
+set tserr [msg_top_load reqa/1 {} bar/1 {}]
+testouterr_cmd bash {load --auto reqa/1} $ans $tserr
+
+setenv_loaded_module [list bar/1] [list $mp/bar/1]
+setenv_var __MODULES_LMALTNAME bar/1&al|foo
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&foo]
+lappend ans [list set _LMFILES_ $mp/bar/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES bar/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|foo
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&foo]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_same_version
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&provide/foo&al|provide/foo]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/1:reqa/1]
+lappend ans [list set __MODULES_LMTAG provide/1&auto-loaded]
+set tserr [msg_top_load reqa/1 {} provide/1 {}]
+testouterr_cmd bash {load --auto reqa/1} $ans $tserr
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&provide/foo&al|provide/foo
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_diff_version
+
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/2&provide/foo]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/2:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/2:reqa/1]
+lappend ans [list set __MODULES_LMTAG provide/2&auto-loaded]
+set tserr [msg_top_load reqa/1 {} provide/2 {}]
+testouterr_cmd bash {load --auto reqa/1} $ans $tserr
+
+setenv_loaded_module [list provide/2] [list $mp/provide/2]
+setenv_var __MODULES_LMALTNAME provide/2&provide/foo
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/2:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/2:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+setenv_loaded_module [list provide/1] [list $mp/provide/1]
+setenv_var __MODULES_LMALTNAME provide/1&al|provide/foo
+
+set ans [list]
+lappend ans [list set __MODULES_LMPREREQ reqa/1&provide/foo]
+lappend ans [list set _LMFILES_ $mp/provide/1:$mp/reqa/1]
+lappend ans [list set LOADEDMODULES provide/1:reqa/1]
+testouterr_cmd bash {load --auto reqa/1} $ans {}
+
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
+
+#
+#  Cleanup
+#
+
+reset_test_env

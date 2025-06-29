@@ -12,3 +12,20 @@ if {[info exists env(TESTSUITE_REQUIRE_VIA)]} {
         }
     }
 }
+if {[info exists env(TESTSUITE_PROVIDE)]} {
+    switch -- $env(TESTSUITE_PROVIDE) {
+        duplicate_with_ext {
+            prereq foo/1
+        }
+        duplicate_with_ext_module {
+            prereq bar/1
+        }
+        duplicate_with_ext_family - duplicate_with_ext_same_alias -\
+        duplicate_with_ext_diff_alias {
+            prereq foo
+        }
+        duplicate_with_ext_same_version - duplicate_with_ext_diff_version {
+            prereq provide/foo
+        }
+    }
+}
