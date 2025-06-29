@@ -30,19 +30,34 @@ set mod lcompat/1.2
 set modfile $mp/$mod
 set modfilere $mpre/$mod
 
+if {[cmpversion $tclsh_version 8.6] == -1} {
+    set custom_error_trace "    invoked from within
+\"if \{\[info exists env(TESTSUITE_LCOMPAT)\]\} \{
+    switch -- \$env(TESTSUITE_LCOMPAT) \{
+        ext1 \{
+            extensions moda/1.0 modb/2.0
+        \}
+...\""
+} else {
+    set custom_error_trace {}
+}
+
 
 setenv_var TESTSUITE_LCOMPAT ext1
 
 # load
 set ans [list]
+lappend ans [list set __MODULES_LMALTNAME $mod&al|moda/1.0&al|modb/2.0]
 lappend ans [list set _LMFILES_ $modfile]
 lappend ans [list set LOADEDMODULES $mod]
 testouterr_cmd sh "load $mod" $ans {}
 
 setenv_loaded_module [list $mod] [list $modfile]
+setenv_var __MODULES_LMALTNAME $mod&al|moda/1.0&al|modb/2.0
 
 # unload
 set ans [list]
+lappend ans [list unset __MODULES_LMALTNAME]
 lappend ans [list unset _LMFILES_]
 lappend ans [list unset LOADEDMODULES]
 testouterr_cmd sh "unload $mod" $ans {}
@@ -51,6 +66,7 @@ testouterr_cmd sh "unload $mod" $ans {}
 testouterr_cmd sh {refresh} OK {}
 
 unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
 
 # whatis
 set tserr "$modlin $mpre $modlin
@@ -86,6 +102,7 @@ testouterr_cmd_re sh "test $mod" OK $tserr
 setenv_var TESTSUITE_LCOMPAT ext2
 
 set ans [list]
+lappend ans [list set __MODULES_LMALTNAME $mod&al|moda/1.0]
 lappend ans [list set _LMFILES_ $modfile]
 lappend ans [list set LOADEDMODULES $mod]
 testouterr_cmd sh "load $mod" $ans {}
@@ -93,10 +110,9 @@ testouterr_cmd sh "load $mod" $ans {}
 
 setenv_var TESTSUITE_LCOMPAT ext3
 
-set ans [list]
-lappend ans [list set _LMFILES_ $modfile]
-lappend ans [list set LOADEDMODULES $mod]
-testouterr_cmd sh "load $mod" $ans {}
+set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 5 : 14}]
+set tserr [msg_load lcompat/1.2 [msg_moderr {No module specified in argument} {extensions} $mp/lcompat/1.2 $line_num {} {} {} $custom_error_trace]]
+testouterr_cmd sh "load $mod" ERR $tserr
 
 
 setenv_var TESTSUITE_LCOMPAT extrc1

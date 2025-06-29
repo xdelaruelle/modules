@@ -239,10 +239,7 @@ set tserr [msg_lint $mp/lcompat/.version {*}$lintmsglcompatversion]
 testouterr_cmd sh "lint $mp/lcompat/.version" OK $tserr
 
 # command not implemented
-set lintmsglcompat12 [list {WARNING line 8: Command "extensions" is not implemented}\
-{WARNING line 11: Command "extensions" is not implemented}\
-{WARNING line 14: Command "extensions" is not implemented}\
-{ERROR   line 14: Wrong number of arguments (0) to "extensions"}]
+set lintmsglcompat12 [list {ERROR   line 14: Wrong number of arguments (0) to "extensions"}]
 set tserr [msg_lint $mp/lcompat/1.2 {*}$lintmsglcompat12]
 testouterr_cmd sh {lint lcompat/1.2} ERR $tserr
 
