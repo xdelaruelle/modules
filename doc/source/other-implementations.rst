@@ -114,11 +114,11 @@ the end of this section to map these equivalents.
 
    * - Lmod 8.8
      - Modules 5.6
-   * - ``extensions``, ``remove-property``
+   * - ``remove-property``
      - :mfcmd:`getvariant`, :mfcmd:`is-saved`, :mfcmd:`is-used`,
        :mfcmd:`lsb-release`, :mfcmd:`module-help`, :mfcmd:`module-tag`,
        :mfcmd:`module-virtual`, :mfcmd:`module-warn`,
-       :mfcmd:`modulepath-label`, :mfcmd:`modulepath-label`,
+       :mfcmd:`modulepath-label`, :mfcmd:`modulepath-label`, :mfcmd:`provide`,
        :mfcmd:`reportWarning`, :mfcmd:`uncomplete`, :mfcmd:`variant`,
        :mfcmd:`x-resource`
 
@@ -141,6 +141,8 @@ implementation.
      - :mconfig:`unique_name_loaded` configuration option
    * - `Custom labels for avail`_
      - :mfcmd:`modulepath-label` modulefile command
+   * - `Extensions`_
+     - :mfcmd:`provide` modulefile command
    * - `Irreversible module actions`_
      - :ref:`Change modulefile command behavior`
    * - `NAG file`_
@@ -184,6 +186,10 @@ implementation.
      - ``module avail`` :option:`--contains`
    * - ``module --style=<style_name> avail``
      - ``module avail`` :option:`--output` ``<element_list>``
+   * - ``module --no_extensions avail``
+     - ``module avail`` :option:`--output` ``-provided-alias``
+   * - ``module --terse_show_extensions avail``
+     - ``module avail --terse`` :option:`--output` ``+provided-alias``
    * - ``module category``
      - ``module`` :subcmd:`search`
    * - ``module --brief list``
@@ -208,6 +214,7 @@ implementation.
 .. _Irreversible module actions: https://lmod.readthedocs.io/en/latest/370_irreversible.html
 .. _NAG file: https://lmod.readthedocs.io/en/latest/140_deprecating_modules.html
 .. _Custom labels for avail: https://lmod.readthedocs.io/en/latest/200_avail_custom.html
+.. _Extensions: https://lmod.readthedocs.io/en/latest/330_extensions.html
 .. _Module properties: https://lmod.readthedocs.io/en/latest/145_properties.html
 .. _One name rule: https://lmod.readthedocs.io/en/latest/010_user.html#users-can-only-have-one-version-active-the-one-name-rule
 .. _XALT: https://github.com/xalt/xalt
