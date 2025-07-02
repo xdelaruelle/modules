@@ -174,6 +174,7 @@ Modules 5.6.0 (not yet released)
   options. When set, module aliases are included into the output and the
   *extra match search* mechanism is activated to scan modulefiles to get the
   module aliases they define.
+* Doc: add :ref:`provide` design notes.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org

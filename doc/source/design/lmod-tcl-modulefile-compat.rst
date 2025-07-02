@@ -74,7 +74,8 @@ Lmod Tcl modulefile compatibility
   - Not used to load the modulefile declaring them when an extension name is
     passed to ``load`` sub-command or ``depends-on`` modulefile command
 
-- This command will be first implemented as a no-operation command (``nop``)
+- This command was first implemented as a no-operation command (``nop``) in
+  Modules 5.1
 
   - No error raised if used
   - And no warning message to avoid polluting output
@@ -82,12 +83,8 @@ Lmod Tcl modulefile compatibility
 - This command is intended for use only within modulefile evaluation context
   (not within modulerc)
 
-- *FUTURE*: may be interesting to improve the concept by making the extension
-  names an alias on the modulefile declaring them
-
-  - Will automatically achieve dependency consistency this way
-  - Could resolve dependencies based on extension names if modulefile is
-    evaluated during an ``avail``
+- Starting Modules 5.6, this command is made an alias onto :mfcmd:`provide`
+  modulefile command. See :ref:`provide` for details.
 
 
 ``prereq-any``
