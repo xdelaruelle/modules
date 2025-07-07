@@ -367,6 +367,53 @@ proc isExtraMatchSearchRequired {mod} {
       {avail paths whatis spider}))}]
 }
 
+# scan modulefiles from currently being built module search result if extra
+# match search is needed
+proc scanExtraMatchSearch {modpath mod res_arrname} {
+   upvar $res_arrname found_list
+
+   # get extra match query properties
+   set spec_vr_list [getVariantListFromVersSpec $mod]
+   set check_variant [llength $spec_vr_list]
+   lassign [getSplitExtraListFromVersSpec $mod] spec_tag_list spec_xt_list
+   set check_extra [llength $spec_xt_list]
+
+   # no scan evaluation if extra match search not needed
+   if {!$check_variant && !$check_extra && ![isEltInReport variant 0] &&\
+      ![isEltInReport provided-alias 0]} {
+      return
+   }
+
+   # disable error reporting to avoid modulefile errors (not coping with
+   # scan evaluation for instance) to pollute result
+   set alreadyinhibit [getState inhibit_errreport]
+   if {!$alreadyinhibit} {
+      inhibitErrorReport
+   }
+   # evaluate all modules found in scan mode to gather content information
+   lappendState mode scan
+
+   foreach elt [array names found_list] {
+      switch -- [lindex $found_list($elt) 0] {
+         modulefile - virtual {
+            # skip evaluation of fully forbidden modulefile
+            if {![isModuleTagged $elt forbidden 0 [lindex $found_list($elt)\
+               2]]} {
+               ##nagelfar ignore Suspicious variable name
+               execute-modulefile [lindex $found_list($elt) 2] $elt $elt $elt\
+                  0 0 0 $modpath
+            }
+         }
+      }
+   }
+
+   lpopState mode
+   # re-enable error report only is it was disabled from this procedure
+   if {!$alreadyinhibit} {
+      setState inhibit_errreport 0
+   }
+}
+
 # perform extra match search on currently being built module search result
 proc filterExtraMatchSearch {modpath mod res_arrname versmod_arrname} {
    # link to variables/arrays from upper context
@@ -379,20 +426,7 @@ proc filterExtraMatchSearch {modpath mod res_arrname versmod_arrname} {
    lassign [getSplitExtraListFromVersSpec $mod] spec_tag_list spec_xt_list
    set check_extra [llength $spec_xt_list]
    set check_tag [llength $spec_tag_list]
-   set scan_eval [expr {$check_variant || $check_extra || [isEltInReport\
-      variant 0] || [isEltInReport provided-alias 0]}]
    set filter_res [expr {$check_variant || $check_extra || $check_tag}]
-
-   if {$scan_eval} {
-      # disable error reporting to avoid modulefile errors (not coping with
-      # scan evaluation for instance) to pollute result
-      set alreadyinhibit [getState inhibit_errreport]
-      if {!$alreadyinhibit} {
-         inhibitErrorReport
-      }
-      # evaluate all modules found in scan mode to gather content information
-      lappendState mode scan
-   }
 
    if {$check_tag} {
       # load tags from loaded mods prior collecting tags found during rc eval
@@ -404,20 +438,6 @@ proc filterExtraMatchSearch {modpath mod res_arrname versmod_arrname} {
    foreach elt [array names found_list] {
       if {$check_tag} {
          collectModuleTags $elt
-      }
-      # skip scan evaluation if only checking tags
-      if {$scan_eval} {
-         switch -- [lindex $found_list($elt) 0] {
-            modulefile - virtual {
-               # skip evaluation of fully forbidden modulefile
-               if {![isModuleTagged $elt forbidden 0 [lindex\
-                  $found_list($elt) 2]]} {
-                  ##nagelfar ignore Suspicious variable name
-                  execute-modulefile [lindex $found_list($elt) 2] $elt $elt\
-                     $elt 0 0 0 $modpath
-               }
-            }
-         }
       }
 
       # unset elements that do not match extra query
@@ -441,14 +461,6 @@ proc filterExtraMatchSearch {modpath mod res_arrname versmod_arrname} {
                }
             }
          }
-      }
-   }
-
-   if {$scan_eval} {
-      lpopState mode
-      # re-enable error report only is it was disabled from this procedure
-      if {!$alreadyinhibit} {
-         setState inhibit_errreport 0
       }
    }
 
