@@ -110,7 +110,7 @@ complete       {complete       complete-un    reportCmd      nop            nop 
 conflict       {conflict       nop            reportCmd      nop            nop            nop            nop          conflict-sc }
 depends-on     {prereqAllModfileCmd  nop      reportCmd      nop            nop            nop            nop          prereq-all-sc}
 depends-on-any {prereqAnyModfileCmd  nop      reportCmd      nop            nop            nop            nop          prereq-sc   }
-extensions     {provide        nop            reportCmd      nop            nop            nop            nop          nop         }
+extensions     {provide        nop            reportCmd      nop            nop            nop            nop          provide-sc  }
 family         {family         family-un      reportCmd      nop            nop            nop            nop          family-sc   }
 haveDynamicMPATH {nop          nop            nop            nop            nop            nop            nop          nop         }
 hide-modulefile {hide-modulefile hide-modulefile hide-modulefile hide-modulefile hide-modulefile hide-modulefile nop   nop         }
@@ -133,7 +133,7 @@ prepend-path   {prepend-path   prepend-path-un prepend-path  prepend-path   prep
 prereq-all     {prereqAllModfileCmd  nop      reportCmd      nop            nop            nop            nop          prereq-all-sc}
 prereq-any     {prereqAnyModfileCmd  nop      reportCmd      nop            nop            nop            nop          prereq-sc   }
 prereq         {prereqAnyModfileCmd  nop      reportCmd      nop            nop            nop            nop          prereq-sc   }
-provide        {provide        nop            reportCmd      nop            nop            nop            nop          nop         }
+provide        {provide        nop            reportCmd      nop            nop            nop            nop          provide-sc  }
 pushenv        {pushenv        pushenv-un     pushenv        pushenv        pushenv        pushenv-wh     nop          pushenv-sc  }
 remove-path    {remove-path    remove-path-un remove-path    remove-path    remove-path    edit-path-wh   nop          edit-path-sc}
 remove-property {nop           nop            nop            nop            nop            nop            nop          nop         }

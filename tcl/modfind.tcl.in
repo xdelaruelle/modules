@@ -3181,7 +3181,16 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
       }
    }
 
-   # Phase #3: filter-out dynamically hidden or expired elements
+   # Phase #3: scan modulefiles if extra match search is needed
+
+   if {$ems_required} {
+      scanExtraMatchSearch $dir $mod found_list
+      if {[isEltInReport provided-alias 0]} {
+         insertProvidedAliases $dir found_list
+      }
+   }
+
+   # Phase #4: filter-out dynamically hidden or expired elements
 
    # define module name and version comparison procs
    defineModStartNbProc $icase
@@ -3237,7 +3246,7 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
       }
    }
 
-   # Phase #4: elaborate directory content with default element selection
+   # Phase #5: elaborate directory content with default element selection
 
    array set dir_list {}
    array set autosym_list {}
@@ -3305,18 +3314,13 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
       }
    }
 
-   # Phase #5: perform extra match search
+   # Phase #6: perform extra match search filtering
 
    if {$ems_required} {
-      scanExtraMatchSearch $dir $mod found_list
       filterExtraMatchSearch $dir $mod found_list versmod_list
    }
 
-   # ensure modEqStatic is defined as expected (could have been redefined
-   # during scan evaluation)
-   defineModEqStaticProc $icase [getConf extended_default] $mod
-
-   # Phase #6: filter results to keep those matching search query
+   # Phase #7: filter results to keep those matching search query
 
    # define module name and version comparison procs
    defineDoesModMatchAtDepthProc $contains $querydepth $mtest

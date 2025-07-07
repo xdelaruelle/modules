@@ -1312,9 +1312,10 @@ proc parseModuleSpecificationProcAdvVersSpec {mlspec nonamespec xtspec\
    # match
    set xtelt_valid_list [list always-load append-path chdir complete conflict\
       depends-on depends-on-any envvar family incompat load load-any\
-      prepend-path prereq prereq-all prereq-any pushenv remove-path require\
-      set-alias set-function setenv switch switch-on switch-off tag try-load\
-      uncomplete unload unset-alias unset-function unsetenv use variant]
+      prepend-path prereq prereq-all prereq-any provide provided-alias\
+      pushenv remove-path require set-alias set-function setenv switch\
+      switch-on switch-off tag try-load uncomplete unload unset-alias\
+      unset-function unsetenv use variant]
    set xtelt_modspec_list [list always-load conflict depends-on\
       depends-on-any incompat load load-any prereq prereq-all prereq-any\
       require switch switch-on switch-off try-load unload]

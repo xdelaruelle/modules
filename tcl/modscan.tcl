@@ -124,7 +124,16 @@ proc family-sc {name} {
    if {![string length $name] || ![regexp {^[A-Za-z0-9_]*$} $name]} {
       knerror "Invalid family name '$name'"
    }
-   recordScanModuleElt $name family
+   recordScanModuleElt $name family provided-alias
+}
+
+proc provide-sc {args} {
+   if {![llength $args]} {
+      knerror {No module specified in argument}
+   }
+   foreach alias $args {
+      recordScanModuleElt $alias provide provided-alias
+   }
 }
 
 proc prereq-sc {args} {
@@ -365,6 +374,16 @@ proc isExtraMatchSearchRequired {mod} {
       [getVariantListFromVersSpec $mod]] || [llength\
       [getExtraListFromVersSpec $mod]]) && [currentState commandname] in\
       {avail paths whatis spider}))}]
+}
+
+proc insertProvidedAliases {modpath res_arrname} {
+   upvar $res_arrname found_list
+   foreach {alias target_mod} [getScanModuleElt $modpath provided-alias] {
+      if {![info exists found_list($alias)]} {
+         ##nagelfar ignore Found constant
+         set found_list($alias) [list alias $target_mod]
+      }
+   }
 }
 
 # scan modulefiles from currently being built module search result if extra
