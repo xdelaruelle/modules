@@ -1243,3 +1243,5 @@ arg2
 emacsdatadir
 NPO
 mech
+scanExtraMatchSearch
+insertProvidedAliases
