@@ -993,6 +993,7 @@ The following module sub-commands appeared on Modules 5.
    or :mfcmd:`prepend-path` may also be queried with ``use`` extra specifier.
  * ``depends-on-any`` :ref:`extra specifier` is introduced.
  * result of a multi pattern search is consolidated under a single output
+ * ``provide`` and ``provided-alias`` :ref:`extra specifier` are introduced.
 
 :subcmd:`reload`
 
