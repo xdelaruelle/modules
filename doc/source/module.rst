@@ -3155,10 +3155,12 @@ an environment variable, a shell alias, a module specification, etc.
 Supported extra specifier *elements* are:
 
 * ``variant``, ``complete``, ``uncomplete``, ``set-alias``, ``unset-alias``,
-  ``set-function``, ``unset-function``, ``chdir``, ``family``, ``tag``
+  ``set-function``, ``unset-function``, ``chdir``, ``tag``
 * ``setenv``, ``unsetenv``, ``append-path``, ``prepend-path``, ``remove-path``
   and ``pushenv``: these elements related to environment variable handling may
   also be aliased ``envvar``
+* ``family`` and ``provide``: these elements related to module alias may also
+  be aliases ``provided-alias``
 * ``prereq``, ``prereq-any``, ``prereq-all``, ``depends-on``,
   ``depends-on-any``, ``always-load``, ``load``, ``load-any``, ``try-load``,
   ``switch`` and ``switch-on``: these elements related to module requirement
@@ -3230,6 +3232,9 @@ query.
 
    .. versionchanged:: 5.6
       Support for :subcmd:`spider` sub-command added
+
+   .. versionchanged:: 5.6
+      Extra specifiers ``provide`` and ``provided-alias`` added
 
 
 .. _Module tags:

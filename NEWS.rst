@@ -175,6 +175,10 @@ Modules 5.6.0 (not yet released)
   *extra match search* mechanism is activated to scan modulefiles to get the
   module aliases they define.
 * Doc: add :ref:`provide` design notes.
+* Introduce ``provide`` and ``provided-alias`` extra specifiers to search
+  modules on :subcmd:`avail`, :subcmd:`spider`, :subcmd:`whatis` and
+  :subcmd:`paths` sub-commands. ``provided-alias`` extra specifier is an alias
+  onto ``provide`` and ``family`` extra specifiers.
 
 .. _Security policy: https://github.com/envmodules/modules/blob/main/SECURITY.md
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
