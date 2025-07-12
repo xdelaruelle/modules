@@ -752,10 +752,10 @@ proc err_extraspecifier {xtspec} {
     return "$::error_msgs: Invalid extra specifier '$xtspec'\n  Valid extra\
         specifiers are: always-load append-path chdir complete conflict\
         depends-on depends-on-any envvar family incompat load load-any\
-        prepend-path prereq prereq-all prereq-any pushenv remove-path\
-        require set-alias set-function setenv switch switch-on switch-off\
-        tag try-load uncomplete unload unset-alias unset-function unsetenv\
-        use variant"
+        prepend-path prereq prereq-all prereq-any provide provided-alias\
+        pushenv remove-path require set-alias set-function setenv switch\
+        switch-on switch-off tag try-load uncomplete unload unset-alias\
+        unset-function unsetenv use variant"
 }
 
 proc err_xtspec_notallowed {} {

@@ -1,0 +1,110 @@
+##############################################################################
+#   Modules Revision 3.0
+#   Providing a flexible user environment
+#
+#   File:		modules.51-scan/%M%
+#   Revision:		%I%
+#   First Edition:	2025/07/12
+#   Last Mod.:		%U%, %G%
+#
+#   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
+#
+#   Description:	Testuite testsequence
+#   Command:		avail
+#   Modulefiles:    extra
+#   Sub-Command:
+#
+#   Comment:	%C{
+#           Test "provide" related extra specifier
+#		}C%
+#
+##############################################################################
+
+skip_if_quick_mode
+
+set mp $modpath.4
+set mpre $modpathre.4
+setenv_path_var MODULEPATH $mp
+
+# ensure advanced version specifiers are enabled
+setenv_var MODULES_ADVANCED_VERSION_SPEC 1
+
+# ensure avail tests are made using in depth mode
+setenv_var MODULES_AVAIL_INDEPTH 1
+
+# ensure avail tests have implicit default enabled
+setenv_var MODULES_IMPLICIT_DEFAULT 1
+
+setenv_var MODULES_AVAIL_TERSE_OUTPUT alias:dirwsym:sym:tag
+
+
+#
+# provide
+#
+
+setenv_var TESTSUITE_PROVIDE multiple
+
+set tserr provide/1
+testouterr_cmd sh {avail -t provide provide:foo/1} OK $tserr
+testouterr_cmd sh {avail -t provide provide:foo} OK {}
+testouterr_cmd sh {avail -t provide provide:foo*} OK {}
+testouterr_cmd sh {avail -t provide provide:qux/1} OK $tserr
+testouterr_cmd sh {avail -t provide provided-alias:qux/1} OK $tserr
+testouterr_cmd sh {avail -t provide provided-alias:unk/1} OK {}
+
+testouterr_cmd sh {avail -o +provided-alias -t provide provide:foo/1} OK $tserr
+testouterr_cmd sh {avail -o +provided-alias -t provide provide:foo} OK {}
+
+setenv_var TESTSUITE_PROVIDE err_arg
+
+testouterr_cmd sh {avail -t provide provide:foo/1} OK {}
+testouterr_cmd sh {avail -t provide provided-alias:foo/1} OK {}
+testouterr_cmd sh {avail -t provide provide:unk} OK {}
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext
+
+set tserr bar/1\nprovide/1
+testouterr_cmd sh {avail -t provide:foo/1} OK $tserr
+testouterr_cmd sh {avail -t provided-alias:foo/1} OK $tserr
+testouterr_cmd sh {avail -t provide:bar/1} OK {}
+
+testouterr_cmd sh {avail -o +provided-alias -t provide:foo/1} OK $tserr
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_module
+
+set tserr provide/1
+testouterr_cmd sh {avail -t provide:bar/1} OK $tserr
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_family
+
+testouterr_cmd sh {avail -t provide:foo} OK $tserr
+testouterr_cmd sh {avail -t provided-alias:foo} OK $tserr
+testouterr_cmd sh {avail -t family:foo} OK $tserr
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_family
+
+set tserr bar/1\nprovide/1
+testouterr_cmd sh {avail -t provided-alias:foo} OK $tserr
+testouterr_cmd sh {avail -t provide:foo} OK provide/1
+testouterr_cmd sh {avail -t family:foo} OK bar/1
+
+testouterr_cmd sh {avail -o +provided-alias -t provided-alias:foo} OK $tserr
+testouterr_cmd sh {avail -o +provided-alias -t family:foo} OK bar/1
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_alias
+
+set tserr provide/1
+testouterr_cmd sh {avail -t provide:foo} OK $tserr
+testouterr_cmd sh {avail -t provided-alias:foo} OK $tserr
+
+setenv_var TESTSUITE_PROVIDE duplicate_with_ext_same_alias
+
+testouterr_cmd sh {avail -t provide:foo} OK $tserr
+testouterr_cmd sh {avail -t provided-alias:foo} OK $tserr
+
+
+#
+#  Cleanup
+#
+
+reset_test_env

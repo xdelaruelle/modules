@@ -46,11 +46,14 @@ setenv_var TESTSUITE_EXTRA family1
 
 set tserr extra/1.0
 testouterr_cmd sh {avail -t extra family:xtfoo} OK $tserr
+testouterr_cmd sh {avail -t extra provided-alias:xtfoo} OK $tserr
 testouterr_cmd sh {avail -t extra family:xtbar} OK {}
+testouterr_cmd sh {avail -t extra provided-alias:xtbar} OK {}
 
 setenv_var TESTSUITE_EXTRA family2
 
 testouterr_cmd sh {avail -t extra family:xtfoo} OK {}
+testouterr_cmd sh {avail -t extra provided-alias:xtfoo} OK {}
 testouterr_cmd sh {avail -t extra family:*} OK {}
 
 setenv_var TESTSUITE_EXTRA family3
