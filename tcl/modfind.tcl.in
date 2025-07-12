@@ -3169,20 +3169,27 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
       }
    }
 
-   # Phase #2: filter-out dynamically hidden or expired elements
+   # Phase #2: early filtering of non-matching elements
+
+   defineModEqProc $icase [getConf extended_default]
+
+   if {$earlyfilter} {
+      foreach elt [array names found_list] {
+         if {![modEq $modroot $elt eqstart]} {
+            unset found_list($elt)
+         }
+      }
+   }
+
+   # Phase #3: filter-out dynamically hidden or expired elements
 
    # define module name and version comparison procs
    defineModStartNbProc $icase
-   defineModEqProc $icase [getConf extended_default]
    defineModEqStaticProc $icase [getConf extended_default] $mod
 
    # remove hidden elements unless they are (or their symbols) targeted by
    # search query.
    foreach elt [array names found_list] {
-      if {$earlyfilter && ![modEq $modroot $elt eqstart]} {
-         unset found_list($elt)
-         continue
-      }
       if {[lassign [isModuleHidden $elt $mod 1 [lindex $found_list($elt) 2]]\
          hidlvl hidmatch hidbydef]} {
          # is there a symbol that matches query (bare module name query
@@ -3230,7 +3237,7 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
       }
    }
 
-   # Phase #3: elaborate directory content with default element selection
+   # Phase #4: elaborate directory content with default element selection
 
    array set dir_list {}
    array set autosym_list {}
@@ -3298,7 +3305,7 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
       }
    }
 
-   # Phase #4: perform extra match search
+   # Phase #5: perform extra match search
 
    if {$ems_required} {
       scanExtraMatchSearch $dir $mod found_list
@@ -3309,7 +3316,7 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
    # during scan evaluation)
    defineModEqStaticProc $icase [getConf extended_default] $mod
 
-   # Phase #5: filter results to keep those matching search query
+   # Phase #6: filter results to keep those matching search query
 
    # define module name and version comparison procs
    defineDoesModMatchAtDepthProc $contains $querydepth $mtest
