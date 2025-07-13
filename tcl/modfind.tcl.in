@@ -3050,7 +3050,10 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
    set hasmoddir [expr {$moddir ne {.}}]
    set modroot [getModuleRootFromVersSpec $mod]
 
-   set earlyfilter [expr {!$contains && !$wild && $modroot eq [string\
+   # get all in case of contains search or if provided-aliases are included
+   set find_all [expr {$contains || [isEltInReport provided-alias 0]}]
+
+   set earlyfilter [expr {!$find_all && !$wild && $modroot eq [string\
       map {* {} ? {}} $modroot]}]
 
    # are result entries gathered in a resolution context ?
@@ -3068,7 +3071,7 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
       # find modules by searching mod root name in order to catch all module
       # related entries to correctly computed auto symbols afterward
 
-      if {$contains} {
+      if {$find_all} {
          set findmod *
       } else {
          set findmod $modroot
