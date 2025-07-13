@@ -36,8 +36,15 @@ if {[info exists env(TESTSUITE_PROVIDE)]} {
             provide foo
             family foo
         }
+        duplicate_with_family3 {
+            family quux
+            provide quux
+        }
         duplicate_with_ext_family {
             provide foo
+        }
+        duplicate_with_ext_family2 {
+            provide quux
         }
         duplicate_with_alias {
             module-alias foo provide/1
@@ -47,8 +54,15 @@ if {[info exists env(TESTSUITE_PROVIDE)]} {
             provide foo
             module-alias foo provide/1
         }
+        duplicate_with_alias3 {
+            provide quux
+            module-alias quux provide/1
+        }
         duplicate_with_ext_same_alias - duplicate_with_ext_diff_alias {
             provide foo
+        }
+        duplicate_with_ext_same_alias2 - duplicate_with_ext_diff_alias2 {
+            provide quux
         }
         duplicate_with_version {
             module-version provide/1 foo

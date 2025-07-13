@@ -66,5 +66,8 @@ if {[info exists env(TESTSUITE_PROVIDE)]} {
         duplicate_with_ext_family {
             family foo
         }
+        duplicate_with_ext_family2 {
+            family quux
+        }
     }
 }

@@ -90,5 +90,11 @@ if {[info exists env(TESTSUITE_PROVIDE)]} {
         duplicate_with_ext_diff_alias {
             module-alias foo bar/1
         }
+        duplicate_with_ext_same_alias2 {
+            module-alias quux provide/1
+        }
+        duplicate_with_ext_diff_alias2 {
+            module-alias quux bar/1
+        }
     }
 }
