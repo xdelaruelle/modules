@@ -79,5 +79,16 @@ if {[info exists env(TESTSUITE_PROVIDE)]} {
             extensions foo/1 bar/1
             extensions baz/1 qux/1 quux/1
         }
+        multiple_and_forbidden - multiple_and_alias_forbidden -\
+        multiple_and_expired - multiple_and_alias_expired -\
+        multiple_and_hidden - multiple_and_alias_hidden {
+            provide foo/1 bar/1 baz/1 qux/1 quux/1
+            setenv FOO bar
+        }
+        multiple_and_family_forbidden - multiple_and_family_expired -\
+        multiple_and_family_hidden {
+            setenv FOO bar
+            family quux
+        }
     }
 }

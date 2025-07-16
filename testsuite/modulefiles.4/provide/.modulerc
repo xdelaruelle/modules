@@ -7,5 +7,32 @@ if {[info exists env(TESTSUITE_PROVIDE)]} {
         duplicate_with_ext_diff_version {
             module-version provide/2 foo
         }
+        multiple_and_forbidden {
+            module-forbid provide/1
+        }
+        multiple_and_alias_forbidden {
+            module-forbid quux/1
+        }
+        multiple_and_family_forbidden {
+            module-forbid quux
+        }
+        multiple_and_expired {
+            module-forbid --after 2025-07-15 provide/1
+        }
+        multiple_and_alias_expired {
+            module-forbid --after 2025-07-15 quux/1
+        }
+        multiple_and_family_expired {
+            module-forbid --after 2025-07-15 quux
+        }
+        multiple_and_hidden {
+            module-hide provide/1
+        }
+        multiple_and_alias_hidden {
+            module-hide quux/1
+        }
+        multiple_and_family_hidden {
+            module-hide quux
+        }
     }
 }
