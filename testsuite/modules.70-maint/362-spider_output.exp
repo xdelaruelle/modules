@@ -621,6 +621,7 @@ unsetenv_var TESTSUITE_SPIDER_MODPATH2
 if {$is_symlink_supported && $os_name ne {msys}} {
 
 setenv_var MODULES_TERM_WIDTH 200
+setenv_var MODULES_ADVANCED_VERSION_SPEC 1
 set mp $modpath.provide
 
 file mkdir $mp
@@ -798,6 +799,130 @@ testouterr_cmd sh {spider} OK {bar/1  bar/2  foo/1.0  foo/2.0  foo/9.0  provide/
 testouterr_cmd sh {spider provide} OK {provide/1  provide/2(foo)  provide/3  }
 
 
+setenv_var MODULES_SPIDER_OUTPUT sym:tag:provided-alias
+
+setenv_var TESTSUITE_PROVIDE multiple_and_forbidden
+
+testouterr_cmd sh {spider} OK {bar/1  bar/2  foo/1.0  foo/2.0  foo/9.0  provide/1 <F>  provide/2  provide/3  }
+testouterr_cmd sh {spider provide} OK {provide/1 <F>  provide/2  provide/3  }
+testouterr_cmd sh {spider provide/1} OK {provide/1 <F>  }
+testouterr_cmd sh {spider unk} OK {}
+testouterr_cmd sh {spider quux/1} OK {}
+
+testouterr_cmd sh {spider envvar:FOO} OK {}
+testouterr_cmd sh {spider provide envvar:FOO} OK {}
+testouterr_cmd sh {spider unk envvar:FOO} OK {}
+testouterr_cmd sh {spider quux/1 envvar:FOO} OK {}
+
+
+setenv_var TESTSUITE_PROVIDE multiple_and_alias_forbidden
+
+testouterr_cmd sh {spider} OK {bar/1  bar/2  baz/1(@)  foo/1(@)  foo/1.0  foo/2.0  foo/9.0  provide/1  provide/2  provide/3  quux/1(@) <F>  qux/1(@)  }
+testouterr_cmd sh {spider provide} OK {provide/1  provide/2  provide/3  }
+testouterr_cmd sh {spider provide/1} OK {provide/1  }
+testouterr_cmd sh {spider unk} OK {}
+testouterr_cmd sh {spider quux/1} OK {quux/1(@) <F>  }
+
+testouterr_cmd sh {spider envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider provide envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider unk envvar:FOO} OK {}
+testouterr_cmd sh {spider quux/1 envvar:FOO} OK {}
+
+
+setenv_var TESTSUITE_PROVIDE multiple_and_family_forbidden
+
+testouterr_cmd sh {spider} OK {bar/1  bar/2  foo/1.0  foo/2.0  foo/9.0  provide/1  provide/2  provide/3  quux(@) <F>  }
+testouterr_cmd sh {spider provide/1} OK {provide/1  }
+testouterr_cmd sh {spider unk} OK {}
+testouterr_cmd sh {spider quux} OK {quux(@) <F>  }
+
+testouterr_cmd sh {spider envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider provide envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider unk envvar:FOO} OK {}
+testouterr_cmd sh {spider quux envvar:FOO} OK {}
+
+
+setenv_var TESTSUITE_PROVIDE multiple_and_expired
+
+testouterr_cmd sh {spider} OK {bar/1  bar/2  foo/1.0  foo/2.0  foo/9.0  provide/1 <F>  provide/2  provide/3  }
+testouterr_cmd sh {spider provide} OK {provide/1 <F>  provide/2  provide/3  }
+testouterr_cmd sh {spider provide/1} OK {provide/1 <F>  }
+testouterr_cmd sh {spider unk} OK {}
+testouterr_cmd sh {spider quux/1} OK {}
+
+testouterr_cmd sh {spider envvar:FOO} OK {}
+testouterr_cmd sh {spider provide envvar:FOO} OK {}
+testouterr_cmd sh {spider unk envvar:FOO} OK {}
+testouterr_cmd sh {spider quux envvar:FOO} OK {}
+
+
+setenv_var TESTSUITE_PROVIDE multiple_and_alias_expired
+
+testouterr_cmd sh {spider} OK {bar/1  bar/2  baz/1(@)  foo/1(@)  foo/1.0  foo/2.0  foo/9.0  provide/1  provide/2  provide/3  quux/1(@) <F>  qux/1(@)  }
+testouterr_cmd sh {spider provide} OK {provide/1  provide/2  provide/3  }
+testouterr_cmd sh {spider provide/1} OK {provide/1  }
+testouterr_cmd sh {spider unk} OK {}
+testouterr_cmd sh {spider quux/1} OK {quux/1(@) <F>  }
+
+testouterr_cmd sh {spider envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider provide envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider unk envvar:FOO} OK {}
+testouterr_cmd sh {spider quux/1 envvar:FOO} OK {}
+
+
+setenv_var TESTSUITE_PROVIDE multiple_and_family_expired
+
+testouterr_cmd sh {spider} OK {bar/1  bar/2  foo/1.0  foo/2.0  foo/9.0  provide/1  provide/2  provide/3  quux(@) <F>  }
+testouterr_cmd sh {spider provide/1} OK {provide/1  }
+testouterr_cmd sh {spider unk} OK {}
+testouterr_cmd sh {spider quux} OK {quux(@) <F>  }
+
+testouterr_cmd sh {spider envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider provide envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider unk envvar:FOO} OK {}
+testouterr_cmd sh {spider quux envvar:FOO} OK {}
+
+
+setenv_var TESTSUITE_PROVIDE multiple_and_hidden
+
+testouterr_cmd sh {spider} OK {bar/1  bar/2  baz/1(@)  foo/1(@)  foo/1.0  foo/2.0  foo/9.0  provide/2  provide/3  quux/1(@)  qux/1(@)  }
+testouterr_cmd sh {spider provide} OK {provide/2  provide/3  }
+testouterr_cmd sh {spider provide/1} OK {provide/1 <H>  }
+testouterr_cmd sh {spider unk} OK {}
+testouterr_cmd sh {spider quux/1} OK {quux/1(@)  }
+
+testouterr_cmd sh {spider envvar:FOO} OK {}
+testouterr_cmd sh {spider provide envvar:FOO} OK {}
+testouterr_cmd sh {spider unk envvar:FOO} OK {}
+testouterr_cmd sh {spider quux envvar:FOO} OK {}
+
+
+setenv_var TESTSUITE_PROVIDE multiple_and_alias_hidden
+
+testouterr_cmd sh {spider} OK {bar/1  bar/2  baz/1(@)  foo/1(@)  foo/1.0  foo/2.0  foo/9.0  provide/1  provide/2  provide/3  qux/1(@)  }
+testouterr_cmd sh {spider provide} OK {provide/1  provide/2  provide/3  }
+testouterr_cmd sh {spider provide/1} OK {provide/1  }
+testouterr_cmd sh {spider unk} OK {}
+testouterr_cmd sh {spider quux/1} OK {quux/1(@) <H>  }
+
+testouterr_cmd sh {spider envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider provide envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider unk envvar:FOO} OK {}
+testouterr_cmd sh {spider quux/1 envvar:FOO} OK {}
+
+
+setenv_var TESTSUITE_PROVIDE multiple_and_family_hidden
+
+testouterr_cmd sh {spider} OK {bar/1  bar/2  foo/1.0  foo/2.0  foo/9.0  provide/1  provide/2  provide/3  }
+testouterr_cmd sh {spider provide/1} OK {provide/1  }
+testouterr_cmd sh {spider unk} OK {}
+testouterr_cmd sh {spider quux} OK {quux(@) <H>  }
+
+testouterr_cmd sh {spider envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider provide envvar:FOO} OK {provide/1  }
+testouterr_cmd sh {spider unk envvar:FOO} OK {}
+testouterr_cmd sh {spider quux envvar:FOO} OK {}
+
 file delete $mp/foo
 file delete $mp/bar
 file delete $mp/provide
@@ -805,6 +930,7 @@ file delete $mp/.modulerc
 file delete $mp
 
 unsetenv_var MODULES_TERM_WIDTH
+setenv_var MODULES_ADVANCED_VERSION_SPEC 0
 
 } else {
     send_user "\tskipping provided-alias tests as specific test setup cannot be built\n"
