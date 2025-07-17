@@ -902,6 +902,23 @@ testouterr_cmd sh {avail unk envvar:FOO} OK {}
 testouterr_cmd sh {avail quux envvar:FOO} OK {}
 
 
+setenv_var MODULES_AVAIL_OUTPUT sym:tag:provided-alias
+setenv_var TESTSUITE_PROVIDE explicit_default
+testouterr_cmd sh {avail provide} OK {provide/0(default:@)  provide/1  provide/2  provide/3  }
+
+setenv_var TESTSUITE_PROVIDE explicit_default_and_forbidden
+testouterr_cmd sh {avail provide} OK {provide/1 <F>  provide/2  provide/3  }
+
+setenv_var TESTSUITE_PROVIDE explicit_default_and_alias_forbidden
+testouterr_cmd sh {avail provide} OK {provide/0(default:@) <F>  provide/1  provide/2  provide/3  }
+
+setenv_var TESTSUITE_PROVIDE explicit_default_and_hidden
+testouterr_cmd sh {avail provide} OK {provide/0(default:@)  provide/2  provide/3  }
+
+setenv_var TESTSUITE_PROVIDE explicit_default_and_alias_hidden
+testouterr_cmd sh {avail provide} OK {provide/1  provide/2  provide/3  }
+
+
 file delete $mp/foo
 file delete $mp/bar
 file delete $mp/provide

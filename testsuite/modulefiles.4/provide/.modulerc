@@ -34,5 +34,37 @@ if {[info exists env(TESTSUITE_PROVIDE)]} {
         multiple_and_family_hidden {
             module-hide quux
         }
+        explicit_default {
+            module-version provide/0 default
+        }
+        explicit_default_and_forbidden {
+            module-version provide/0 default
+            module-forbid provide/1
+        }
+        explicit_default_and_alias_forbidden {
+            module-version provide/0 default
+            module-forbid provide/0
+        }
+        explicit_default_and_hidden {
+            module-version provide/0 default
+            module-hide provide/1
+        }
+        explicit_default_and_alias_hidden {
+            module-version provide/0 default
+            module-hide provide/0
+        }
+        latest_and_forbidden {
+            module-forbid provide/1
+        }
+        latest_and_alias_forbidden {
+            module-forbid provide/0
+        }
+        latest_and_hidden {
+            module-hide provide/1
+        }
+        latest_and_alias_hidden {
+            module-version provide/0 default
+            module-hide provide/0
+        }
     }
 }

@@ -28,16 +28,12 @@ setenv_var MODULEPATH $mp
 setenv_var MODULES_ADVANCED_VERSION_SPEC 1
 setenv_var MODULES_IMPLICIT_DEFAULT 1
 
-if {[cmpversion $tclsh_version 8.6] == -1} {
-    set custom_error_trace "    invoked from within
+set custom_error_trace "    invoked from within
 \"if \{\[info exists env(TESTSUITE_PROVIDE)\]\} \{
     module-whatis \[module-info name\]
     switch -- \$env(TESTSUITE_PROVIDE) \{
         single \{
             ...\""
-} else {
-    set custom_error_trace {}
-}
 
 
 setenv_var TESTSUITE_PROVIDE single
@@ -61,8 +57,7 @@ skip_if_quick_mode
 
 setenv_var TESTSUITE_PROVIDE err_arg
 
-set line_num [expr {[cmpversion $tclsh_version 8.6] == -1 ? 2 : 13}]
-set tserr [msg_load provide/1 [msg_moderr {No module specified in argument} {provide} $mp/provide/1 $line_num {} {} {} $custom_error_trace]]
+set tserr [msg_load provide/1 [msg_moderr {No module specified in argument} {provide} $mp/provide/1 2 {} {} {} $custom_error_trace]]
 testouterr_cmd bash {load provide/1} ERR $tserr
 
 
@@ -716,6 +711,38 @@ testouterr_cmd bash {load --auto reqa/1} $ans {}
 unsetenv_loaded_module
 unsetenv_var __MODULES_LMALTNAME
 
+
+setenv_var TESTSUITE_PROVIDE explicit_default
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|provide/0]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE explicit_default_and_alias_forbidden
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE explicit_default_and_hidden
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE explicit_default_and_alias_hidden
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE latest
+set ans [list]
+lappend ans [list set __MODULES_LMALTNAME provide/1&al|provide/10]
+lappend ans [list set _LMFILES_ $mp/provide/1]
+lappend ans [list set LOADEDMODULES provide/1]
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE latest_and_alias_forbidden
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE latest_and_hidden
+testouterr_cmd bash {load provide/1} $ans {}
+
+setenv_var TESTSUITE_PROVIDE latest_and_alias_hidden
+testouterr_cmd bash {load provide/1} $ans {}
 
 #
 #  Cleanup

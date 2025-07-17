@@ -90,5 +90,14 @@ if {[info exists env(TESTSUITE_PROVIDE)]} {
             setenv FOO bar
             family quux
         }
+        latest - latest_and_forbidden - latest_and_alias_forbidden -\
+        latest_and_hidden - latest_and_alias_hidden {
+            provide provide/10
+        }
+        explicit_default - explicit_default_and_forbidden -\
+        explicit_default_and_alias_forbidden - explicit_default_and_hidden -\
+        explicit_default_and_alias_hidden {
+            provide provide/0
+        }
     }
 }
