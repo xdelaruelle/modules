@@ -128,9 +128,10 @@ if {[cmpversion $tclsh_version 8.6] == -1} {
     testouterr_cmd sh {load output/1.0} ERR [msg_load output/1.0 [msg_moderr {Unsupported option '-o' on long output mode} {module list -o sym -l} $mp/output/1.0 22]]
 
     setenv_var TESTSUITE_OUTPUT_INMODFILE 22
-    testouterr_cmd sh {load output/1.0} ERR [msg_load output/1.0 [msg_moderr "Invalid element in value list for '--output' option on list sub-command\nAllowed elements are: header idx variant alias indesym sym tag hidden key (separated by ':')" {module list --output=modulepath} $mp/output/1.0 26]]
+    # terminal column size not correctly detected on MSYS2 CI environment
+    testouterr_cmd sh {load output/1.0} ERR [msg_load output/1.0 [msg_moderr "Invalid element in value list for '--output' option on list sub-command\nAllowed elements are: header idx variant alias indesym sym tag hidden key (separated by ':')" {module list --output=modulepath} $mp/output/1.0 26]] [expr {$os_name eq {msys} ? {xfail} : {}}]
     setenv_var TESTSUITE_OUTPUT_INMODFILE 23
-    testouterr_cmd sh {load output/1.0} ERR [msg_load output/1.0 [msg_moderr "Invalid element in value list for '-o' option on list sub-command\nAllowed elements are: header idx variant alias indesym sym tag hidden key (separated by ':')" {module list -o sym,alias} $mp/output/1.0 27]]
+    testouterr_cmd sh {load output/1.0} ERR [msg_load output/1.0 [msg_moderr "Invalid element in value list for '-o' option on list sub-command\nAllowed elements are: header idx variant alias indesym sym tag hidden key (separated by ':')" {module list -o sym,alias} $mp/output/1.0 27]] [expr {$os_name eq {msys} ? {xfail} : {}}]
 
 }
 
