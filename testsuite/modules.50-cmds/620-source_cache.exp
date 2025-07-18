@@ -219,11 +219,11 @@ set ts_load [msg_load source/1.0 [msg_moderr {msg} {error msg} $mp/source/1.0 27
 setenv_var MODULES_SOURCE_CACHE 0
 testouterr_cmd bash {load source/1.0} ERR $ts_load
 
-set custom_load "    invoked from within
+set custom_load "<EXM>    invoked from within
 \"source \[file dirname \$ModulesCurrentModulefile\]/source_file\""
-set ts_load [msg_load source/1.0 [msg_moderr {msg} {error msg} $mp/source/1.0 27 {} {} {} $custom_load]]
+set ts_load [escre [msg_load source/1.0 [msg_moderr {msg} {error msg} $mp/source/1.0 27 {} {} {} $custom_load]]]
 setenv_var MODULES_SOURCE_CACHE 1
-testouterr_cmd bash {load source/1.0} ERR $ts_load
+testouterr_cmd_re bash {load source/1.0} ERR $ts_load
 
 }
 
@@ -283,10 +283,10 @@ testouterr_cmd bash {avail -t source} OK $ts_avail
 
 if {[cmpversion $tclsh_version 8.6] > -1} {
 
-set custom_load "    invoked from within
+set custom_load "<EXM>    invoked from within
 \"source \[file dirname \$ModulesCurrentModulefile\]/source_file\""
-set ts_load [msg_moderr {msg} {error msg} $mp/source/.modulerc 14 {  } {} {} $custom_load]
-testouterr_cmd bash {load source/1.0} $ans_load $ts_load
+set ts_load [escre [msg_moderr {msg} {error msg} $mp/source/.modulerc 14 {  } {} {} $custom_load]]
+testouterr_cmd_re bash {load source/1.0} $ans_load $ts_load
 
 }
 
