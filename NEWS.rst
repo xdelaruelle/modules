@@ -168,6 +168,11 @@ Modules 5.6.0 (not yet released)
   module is considered *Dependent Unload* module.
 * Script: update :command:`mb` tool to skip test for Modules version below 5.5
   if Tcl 9 is selected.
+* Introduce the :mfcmd:`provide` modulefile command that defines module alias
+  over currently evaluating module. This helps convey that the module offers
+  additional functionality or components.
+* Change :mfcmd:`extensions` modulefile command to be an alias over the
+  :mfcmd:`provide` command.
 * Add the ``provided-alias`` element in the allowed value list of the
   :mconfig:`avail_output`, :mconfig:`avail_terse_output`,
   :mconfig:`spider_output` and :mconfig:`spider_terse_output` configuration
