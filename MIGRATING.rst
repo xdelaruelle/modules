@@ -113,6 +113,121 @@ single quotes rather escaping each special characters:
     line
     value'; export BAR;
 
+Declare additional elements provided by a module
+------------------------------------------------
+
+New :mfcmd:`provide` modulefile command is added to declare additional
+elements included in a modulefile. When the modulefile is loaded, each
+argument specified in the :mfcmd:`provide` command is registered as an alias
+for the module.
+
+
+.. parsed-literal::
+
+    :ps:`$` module show foo
+    -------------------------------------------------------------------
+    :sgrhi:`/path/to/modulefiles/mp4/foo/1`:
+
+    :sgrcm:`provide`         liba/1.2 libb/2.1
+    :sgrcm:`conflict`        foo
+    :sgrcm:`conflict`        liba libb
+    -------------------------------------------------------------------
+    :ps:`$` module load foo
+
+It is advised to define :mfcmd:`conflict` over the name of these additional
+elements to ensure only one provider is found loaded in user environment.
+
+.. parsed-literal::
+
+    :ps:`$` module show bar/1
+    -------------------------------------------------------------------
+    :sgrhi:`/path/to/modulefiles/bar/1`:
+
+    :sgrcm:`provide`         liba/1.2 libb/2.1
+    :sgrcm:`conflict`        bar
+    :sgrcm:`conflict`        liba libb
+    -------------------------------------------------------------------
+    :ps:`$` module load bar
+    Loading :sgrhi:`bar/1`
+      :sgrer:`ERROR`: Module cannot be loaded due to a conflict.
+        HINT: Might try "module unload foo/1" first.
+
+Once a module with a provided alias is loaded, it fulfills any requirements
+declared by other modules for that name and version, just like any other type
+of module alias.
+
+.. parsed-literal::
+
+    :ps:`$` module show qux
+    -------------------------------------------------------------------
+    :sgrhi:`/path/to/modulefiles/qux/1`:
+
+    :sgrcm:`prereq`          liba/1.2
+    -------------------------------------------------------------------
+    :ps:`$` module load qux
+    :ps:`$` module list
+    Currently Loaded Modulefiles:
+     1) foo/1   2) qux/1
+
+Module aliases defined via the :mfcmd:`provide` command are not available
+during module resolution, as modulefiles are not evaluated in that context.
+Therefore, it is recommended to define a global module alias in a ``modulerc``
+file using the :mfcmd:`module-alias` command to specify a default target for
+the alias.
+
+.. parsed-literal::
+
+    :ps:`$` cat /path/to/modulefiles/.modulerc
+    #%Module
+    module-alias liba/1.2 bar/1
+    :ps:`$` module purge
+    :ps:`$` module load qux
+    Loading :sgrhi:`qux/1`
+      :sgrin:`Loading requirement`: bar/1
+
+The :mfcmd:`provide` modulefile command also serves as an alias for the
+:mfcmd:`extensions` command, ensuring compatibility with modulefiles written
+for `Lmod`_.
+
+By default an :subcmd:`avail` command includes module aliases defined in
+``modulerc`` files. To also get aliases defined within modulefiles with
+:mfcmd:`provide` or :mfcmd:`family`, output element ``provided-alias`` has to
+be included. It is supported on :mconfig:`avail_output`,
+:mconfig:`avail_terse_output`, :mconfig:`spider_output` and
+:mconfig:`spider_terse_output` configuration options.
+
+Having ``provided-alias`` included in output triggers :ref:`Extra match
+search` mechanism that scans all modulefiles to find these aliases. It is thus
+advised to have :ref:`Module cache` built and used to improve search speed.
+
+.. parsed-literal::
+
+    :ps:`$` module avail
+    --------------------- :sgrdi:`/path/to/modulefiles` ---------------------
+    bar/1  foo/1  :sgrali:`liba/1.2`  qux/1
+
+    Key:
+    :sgrdi:`modulepath`  :sgrali:`module-alias`
+    :ps:`$`  module avail -o +provided-alias
+    --------------------- :sgrdi:`/path/to/modulefiles` ---------------------
+    bar/1  foo/1  :sgrali:`liba/1.2`  :sgrali:`libb/2.1`  qux/1
+
+    Key:
+    :sgrdi:`modulepath`  :sgrali:`module-alias`
+
+The ``provided-alias`` :ref:`Extra specifier` is also introduced to find
+modules that define such alias with :mfcmd:`provide` or :mfcmd:`family`
+modulefile commands.
+
+.. parsed-literal::
+
+    :ps:`$` module avail provided-alias:liba/1.2
+    --------------------- :sgrdi:`/path/to/modulefiles` ---------------------
+    bar/1  foo/1
+
+    Key:
+    :sgrdi:`modulepath`
+
 
 v5.5
 ====
