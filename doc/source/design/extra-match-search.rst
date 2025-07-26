@@ -248,6 +248,8 @@ specifiers and their associated modulefile command.
 +--------------------+-----------------------------------------+
 | module-forbid      | tag                                     |
 +--------------------+-----------------------------------------+
+| module-warn        | tag                                     |
++--------------------+-----------------------------------------+
 
 Extra specifier are only valid on *return all matching modules* context. An
 error is returned when used in query on other contexts.
