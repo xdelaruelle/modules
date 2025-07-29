@@ -11,6 +11,101 @@ that will be encountered when upgrading.
 v5.6 (not yet released)
 =======================
 
+This new version is backward-compatible with previous version 5 release. It
+fixes bugs but also introduces new functionalities that are described in this
+section. See the :ref:`5.6 release notes<5.6 release notes>` for a complete
+list of the changes between Modules v5.5 and v5.6.
+
+spider sub-command
+------------------
+
+Support has been added for the :subcmd:`spider` sub-command introduced by the
+`Lmod`_ project. This sub-command lists available modules found in enabled
+modulepaths and recursively found in modulepaths enabled by available modules.
+
+.. parsed-literal::
+
+    :ps:`$` module avail
+    --------------------- :sgrdi:`/path/to/modulefiles` ---------------------
+    foo/1  foo/2
+    :ps:`$` module show foo/1
+    -------------------------------------------------------------------
+    :sgrhi:`/path/to/modulefiles/foo/1`:
+
+    :sgrcm:`module`          use /path/to/modulefiles.2
+    -------------------------------------------------------------------
+    :ps:`$` module show foo/2
+    -------------------------------------------------------------------
+    :sgrhi:`/path/to/modulefiles/foo/2`:
+
+    :sgrcm:`append-path`     MODULEPATH /path/to/modulefiles.3
+    -------------------------------------------------------------------
+    :ps:`$` module spider
+    --------------------- :sgrdi:`/path/to/modulefiles` ---------------------
+    foo/1  foo/2
+
+    -------------- :sgrdi:`/path/to/modulefiles.2` (via foo/1) --------------
+    bar/1  bar/2
+
+    -------------- :sgrdi:`/path/to/modulefiles.3` (via foo/2) --------------
+    bar/3  bar/4
+
+    -------------- :sgrdi:`/path/to/modulefiles.3` (via bar/1) --------------
+    qux/1  qux/2
+
+The :subcmd:`spider` sub-command relies on the :ref:Extra match search
+mechanism to scan modulefiles and identify the modulepaths they enable. Since
+all modulefiles are evaluated during this scan, it is recommended to build
+and use a :ref:`Module cache` to improve search performance.
+
+The output of :subcmd:`spider` is similar to that of the :subcmd:`avail`
+sub-command and supports the same set of options and queries.
+
+.. parsed-literal::
+
+    :ps:`$` module spider -t bar@2:
+    :sgrdi:`/path/to/modulefiles.2`:
+    :sgrhi:`bar/2`
+
+    :sgrdi:`/path/to/modulefiles.3`:
+    bar/3
+    bar/4
+
+The :subcmd:`spider` sub-command has its own configuration options to control
+the content of its output: :mconfig:`spider_indepth`,
+:mconfig:`spider_output`, and :mconfig:`spider_terse_output`.
+
+These settings make it possible to define output for :subcmd:`spider` that
+differs from the :subcmd:`avail` sub-command.
+
+.. parsed-literal::
+
+    :ps:`$` module config spider_output -modulepath
+    :ps:`$` module config spider_indepth 0
+    :ps:`$` module spider
+    :sgrdi:`bar`/  :sgrdi:`foo`/  :sgrdi:`qux`/
+
+When a modulepath is enabled by a specific module, that modulepath is
+considered available *via* that module. When the module is loaded, this *via*
+information is stored in the :envvar:`__MODULES_LMUSE` environment variable to
+track which modules enable which modulepaths.
+
+By default, the *via* information is included in the standard output of the
+:subcmd:`spider` sub-command. Additionally, the JSON output for both the
+:subcmd:`avail` and :subcmd:`spider` sub-commands has been updated to include
+*via* details for each modulefile.
+
+.. parsed-literal::
+
+    :ps:`$` module spider -j bar@2:
+    {"/path/to/modulefiles.2": {
+    "bar/2": { "name": "bar/2", "type": "modulefile", "symbols": [], "tags": [], "pathname": "/path/to/modulefiles.2/bar/2", "via": "foo/1"}
+    },
+    "/path/to/modulefiles.3": {
+    "bar/3": { "name": "bar/3", "type": "modulefile", "symbols": [], "tags": [], "pathname": "/path/to/modulefiles.3/bar/3", "via": "foo/2"},
+    "bar/4": { "name": "bar/4", "type": "modulefile", "symbols": [], "tags": [], "pathname": "/path/to/modulefiles.3/bar/4", "via": "foo/2"}
+    }}
+
 Always see hidden modules
 -------------------------
 
