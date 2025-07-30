@@ -32,12 +32,14 @@ modulepaths and recursively found in modulepaths enabled by available modules.
     -------------------------------------------------------------------
     :sgrhi:`/path/to/modulefiles/foo/1`:
 
+    :sgrcm:`conflict`        foo
     :sgrcm:`module`          use /path/to/modulefiles.2
     -------------------------------------------------------------------
     :ps:`$` module show foo/2
     -------------------------------------------------------------------
     :sgrhi:`/path/to/modulefiles/foo/2`:
 
+    :sgrcm:`conflict`        foo
     :sgrcm:`append-path`     MODULEPATH /path/to/modulefiles.3
     -------------------------------------------------------------------
     :ps:`$` module spider
@@ -45,7 +47,7 @@ modulepaths and recursively found in modulepaths enabled by available modules.
     foo/1  foo/2
 
     -------------- :sgrdi:`/path/to/modulefiles.2` (via foo/1) --------------
-    bar/1  bar/2
+    bar/1  bar/2  bar/3
 
     -------------- :sgrdi:`/path/to/modulefiles.3` (via foo/2) --------------
     bar/3  bar/4
@@ -66,6 +68,7 @@ sub-command and supports the same set of options and queries.
     :ps:`$` module spider -t bar@2:
     :sgrdi:`/path/to/modulefiles.2`:
     :sgrhi:`bar/2`
+    bar/3
 
     :sgrdi:`/path/to/modulefiles.3`:
     bar/3
@@ -100,11 +103,82 @@ By default, the *via* information is included in the standard output of the
     :ps:`$` module spider -j bar@2:
     {"/path/to/modulefiles.2": {
     "bar/2": { "name": "bar/2", "type": "modulefile", "symbols": [], "tags": [], "pathname": "/path/to/modulefiles.2/bar/2", "via": "foo/1"}
+    "bar/2": { "name": "bar/3", "type": "modulefile", "symbols": [], "tags": [], "pathname": "/path/to/modulefiles.2/bar/3", "via": "foo/1"}
     },
     "/path/to/modulefiles.3": {
     "bar/3": { "name": "bar/3", "type": "modulefile", "symbols": [], "tags": [], "pathname": "/path/to/modulefiles.3/bar/3", "via": "foo/2"},
     "bar/4": { "name": "bar/4", "type": "modulefile", "symbols": [], "tags": [], "pathname": "/path/to/modulefiles.3/bar/4", "via": "foo/2"}
     }}
+
+.. _Requiring via module:
+
+Requiring *via* module
+----------------------
+
+A loaded module that enables a modulepath is considered the *via* module of
+other loaded modules whose modulefiles are stored in this modulepath. The
+:mconfig:`require_via` configuration option is introduced to consider a *via*
+module a requirement for the loaded module stored in the modulepath it
+enables.
+
+A *module hierarchy* mechanism, as introduced by the Lmod_ project, is now
+supported with this feature. It allows organizing modulefiles through a
+primary modulepath, where loading certain modules enables additional
+modulepaths. :mconfig:`require_via` maintains a link between modulefiles in
+these additional paths and the *via* module that activated them.
+
+The :mconfig:`require_via` setting is disabled by default to maintain
+compatibility with previous Modules 5 releases. However, users are encouraged
+to enable this feature if they want to use the *module hierarchy* mechanism.
+
+.. parsed-literal::
+
+    :ps:`$` module config require_via 1
+
+When unloading a *via* module, all the modules stored in its enabled
+modulepath are automatically unloaded thanks to the *Dependent Unload*
+mechanism of the :ref:`Automated module handling mode<MODULES_AUTO_HANDLING>`.
+
+.. parsed-literal::
+
+    :ps:`$` module load foo/1 bar/2
+    :ps:`$` module avail
+    -------------- :sgrdi:`/path/to/modulefiles.2` (via foo/1) --------------
+    bar/1  :sgrl:`bar/2`  bar/3
+
+    --------------------- :sgrdi:`/path/to/modulefiles` ---------------------
+    :sgrl:`foo/1`  foo/2
+
+    Key:
+    :sgrl:`loaded`  :sgrdi:`modulepath`
+    :ps:`$` module unload foo
+    Unloading :sgrhi:`foo/1`
+      :sgrin:`Unloading dependent`: bar/2
+
+When a *via* module is replaced by another, any modulepaths it enabled are
+updated accordingly. If the newly enabled modulepath provides alternatives to
+modules previously loaded from the original path, those modules are reloaded
+from the new location. If no alternatives are found, the dependent modules are
+unloaded.
+
+.. parsed-literal::
+
+    :ps:`$` module config conflict_unload 1
+    :ps:`$` module load foo/1 bar/3
+    :ps:`$` module load foo/2
+    Loading :sgrhi:`foo/2`
+      :sgrin:`Unloading dependent`: bar/3
+      :sgrin:`Unloading conflict`: foo/1
+      :sgrin:`Reloading dependent`: bar/3
+    :ps:`$` module avail
+    -------------- :sgrdi:`/path/to/modulefiles.3` (via foo/2) --------------
+    :sgrl:`bar/3`  bar/4
+
+    --------------------- :sgrdi:`/path/to/modulefiles` ---------------------
+    foo/1  :sgrl:`foo/2`
+
+    Key:
+    :sgrl:`loaded`  :sgrdi:`modulepath`
 
 Always see hidden modules
 -------------------------

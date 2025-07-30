@@ -20,7 +20,7 @@ kinds of requirements, that unloading a *via* module:
 
 This feature provides a *module hierarchy* mechanism.
 
-It is controlled by the :mconfig:`require_via` configuration option, which  is
+It is controlled by the :mconfig:`require_via` configuration option, which is
 disabled by default to maintain compatibility in Modules version 5 branch.
 This option will be enabled by default when moving to Modules version 6.
 

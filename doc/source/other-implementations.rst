@@ -153,7 +153,7 @@ implementation.
      - :ref:`Override any internal procedures or set trace hook<Site-specific
        configuration>`
    * - `Module hierarchy`_
-     - :ref:`Require via MIGRATING`
+     - :ref:`Requiring via module`
    * - `Autoswap`_
      - :ref:`Conflict unload MIGRATING`
    * - |LMOD_DOWNSTREAM_CONFLICTS|_ environment variable
