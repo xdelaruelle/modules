@@ -159,6 +159,17 @@ Modules 5.6.0 (not yet released)
   of these files, which is enabled by default, is controlled by the
   :instopt:`--enable-emacs-addons` and :instopt:`--emacsdatadir` configure
   options. (contribution from Laurent Besson)
+* Add :mconfig:`require_via` configuration option that controls whether or not
+  a requirement is considered between a module stored in a modulepath and the
+  loaded module that enables this modulepath. With :ref:`Automated module
+  handling mechanisms<MODULES_AUTO_HANDLING>` enabled, modules stored in a
+  modulepath are unloaded or reloaded when the module enabling this modulepath
+  is changed. :mconfig:`require_via` is disabled by default but everyone
+  willing to hierarchically organize their modulefiles is encouraged to enable
+  this new option. This option can be changed at installation time with
+  :instopt:`--enable-require-via`. When :mconfig:`require_via` is changed with
+  :subcmd:`config` sub-command, it sets the :envvar:`MODULES_REQUIRE_VIA`
+  environment variable.
 * Install: installation option :instopt:`--enable-new-features` is updated to
   include :instopt:`--enable-require-via`.
 * Doc: add :ref:`require-via` design notes.
