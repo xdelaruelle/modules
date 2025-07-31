@@ -8,8 +8,8 @@ available as patch (`x.y.1`, `x.y.2`, etc.) releases.
 
 | Version      | Supported          |
 | ------------ | ------------------ |
-| 5.5.x        | :white_check_mark: |
-| 5.4.x        | :x:                |
+| 5.6.x        | :white_check_mark: |
+| > 5.3, < 5.6 | :x:                |
 | 5.3.x        | :white_check_mark: |
 | > 4.5, < 5.3 | :x:                |
 | 4.5.x        | :white_check_mark: |

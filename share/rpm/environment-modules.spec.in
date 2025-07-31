@@ -6,7 +6,7 @@
 %endif
 
 Name:           environment-modules
-Version:        5.5.0
+Version:        5.6.0
 Release:        @MODULES_RPM_RELEASE@%{?dist}
 Summary:        Provides dynamic modification of a user's environment
 
@@ -42,6 +42,7 @@ Requires:       util-linux
 %else
 Requires:       util-linux-core
 %endif
+BuildRequires:  vim-filesystem
 Requires:       vim-filesystem
 %if 0%{?rhel} && 0%{?rhel} <= 9
 BuildRequires:  emacs
@@ -266,6 +267,13 @@ fi
 
 
 %changelog
+* Thu Jul 31 2025 Xavier Delaruelle <xavier.delaruelle@cea.fr> - 5.6.0-1
+- Update to 5.6.0
+- Add envml(1) man page
+- Use shell completion path macros
+- Install Emacs addon files
+- Use 'vimfiles_root' macro provided by vim-filesystem
+
 * Mon Nov 11 2024 Xavier Delaruelle <xavier.delaruelle@cea.fr> - 5.5.0-1
 - Update to 5.5.0
 - Require util-linux-core to get logger command for logging capabilities

@@ -8,7 +8,7 @@ documents those changes that are of interest to users and admins.
 
 .. _5.6 release notes:
 
-Modules 5.6.0 (not yet released)
+Modules 5.6.0 (2025-07-31)
 --------------------------------
 
 * Rename :file:`contrib` directory as :file:`share` in sources to use clearer
