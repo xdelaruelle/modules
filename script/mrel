@@ -291,7 +291,22 @@ runcmd 2>@$logfid git push --force $gh_test_remote $reltag
 # see Phase 6 for CI result check
 
 
-# Phase 3: build, test, install from generated dists
+# Phase 3: build, test, install from RPM built locally
+# ---------------------------------------------------------
+
+# extend sudo timeout for next usages
+exec sudo --validate
+
+runcmd 2>@$logfid rpmbuild --rebuild $srcrpm
+foreach rpmpkg [glob $rpmdir/environment-modules-$rpmrelver.*.rpm] {
+   runcmd >@stdout rpm -qlp $rpmpkg | less -eFKRX
+   quitorcont
+   # check installation of built RPM
+   runcmd sudo rpm -ivh $rpmpkg
+}
+
+
+# Phase 4: build, test, install from generated dists
 # ---------------------------------------------------------
 
 cd /tmp/mods+test-gz
@@ -346,18 +361,6 @@ runcmd make clean
 
 cd $cwd
 reportInfo "Moved back into '[pwd]' directory"
-
-
-# Phase 4: build, test, install from RPM built locally
-# ---------------------------------------------------------
-
-runcmd 2>@$logfid rpmbuild --rebuild $srcrpm
-foreach rpmpkg [glob $rpmdir/environment-modules-$rpmrelver.*.rpm] {
-   runcmd >@stdout rpm -qlp $rpmpkg | less -eFKRX
-   quitorcont
-   # check installation of built RPM
-   runcmd sudo rpm -ivh $rpmpkg
-}
 
 
 # Phase 5: build and test on Fedora platform
