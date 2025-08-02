@@ -400,7 +400,7 @@ while {[array size koji_tasks]} {
          set koji_out [exec koji taskinfo $ktask]
          regexp {State: (\w+)} $koji_out match kstate
          switch -- $kstate {
-            free - open {
+            free - open - assigned {
                reportInfo "Task '$ktask' on '$koji_tasks($ktask)' still\
                   running"
             }
@@ -410,8 +410,8 @@ while {[array size koji_tasks]} {
                unset koji_tasks($ktask)
             }
             default {
-               reportError "Task '$ktask' on '$koji_tasks($ktask)' failed,\
-                  see $koji_taskinfo_url$ktask"
+               reportError "Task '$ktask' on '$koji_tasks($ktask)' failed:\
+                  \n$koji_out\nSee $koji_taskinfo_url$ktask"
                unset koji_tasks($ktask)
                set exitcode 1
             }
