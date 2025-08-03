@@ -58,8 +58,8 @@ Requires:       procps-ng
 Requires:       man-db
 %endif
 Requires(post): coreutils
-Requires(post): %{_sbindir}/update-alternatives
-Requires(postun): %{_sbindir}/update-alternatives
+Requires(post): %{_bindir}/update-alternatives
+Requires(postun): %{_bindir}/update-alternatives
 Provides:       environment(modules)
 Obsoletes:      modules-tcl <= 1.923
 Obsoletes:      environment-modules-compat <= 4.8.99
@@ -192,10 +192,10 @@ make test QUICKTEST=1
 
 # Migration from version 3.x to 4
 if [ "$(readlink /etc/alternatives/modules.sh)" = '%{_datadir}/Modules/init/modules.sh' ]; then
-  %{_sbindir}/update-alternatives --remove modules.sh %{_datadir}/Modules/init/modules.sh
+  update-alternatives --remove modules.sh %{_datadir}/Modules/init/modules.sh
 fi
 
-%{_sbindir}/update-alternatives \
+update-alternatives \
   --install %{_sysconfdir}/profile.d/modules.sh modules.sh %{_datadir}/Modules/init/profile.sh 40 \
   --slave %{_sysconfdir}/profile.d/modules.csh modules.csh %{_datadir}/Modules/init/profile.csh \
   --slave %{_datadir}/fish/vendor_conf.d/modules.fish modules.fish %{_datadir}/Modules/init/fish \
@@ -203,7 +203,7 @@ fi
 
 %postun
 if [ $1 -eq 0 ] ; then
-  %{_sbindir}/update-alternatives --remove modules.sh %{_datadir}/Modules/init/profile.sh
+  update-alternatives --remove modules.sh %{_datadir}/Modules/init/profile.sh
 fi
 %endif
 
