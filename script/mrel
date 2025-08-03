@@ -258,8 +258,8 @@ extractflist $relver-win log-win distfiles-win
 # fetch previous dists
 set prevdistgz modules-$prevver.tar.gz
 set prevdistwin modules-$prevver-win.zip
-runcmd 2>@$logfid wget -O $prevdistgz $dlurl/$prevtag/$prevdistgz
-runcmd 2>@$logfid wget -O $prevdistwin $dlurl/$prevtag/$prevdistwin
+runcmd 2>@$logfid curl -LO $dlurl/$prevtag/$prevdistgz
+runcmd 2>@$logfid curl -LO $dlurl/$prevtag/$prevdistwin
 
 # prepare previous version dist file list to compare to previous dist
 runcmd >log-prev-gz tar tfz $prevdistgz
@@ -347,7 +347,7 @@ runcmd 2>@$logfid make uninstall
 runcmd make clean
 
 cd /tmp/mods+test-export
-runcmd 2>@$logfid wget -O $reltag.tar.gz $ghexporturl
+runcmd 2>@$logfid curl -LO $ghexporturl
 runcmd tar xfz $reltag.tar.gz
 cd modules-$relver
 reportInfo "Moved into '[pwd]' directory"
@@ -436,8 +436,8 @@ while {[array size koji_tasks]} {
 # ---------------------------------------------------------
 
 reportInfo "Checking CI tests status on $ghstatusurl"
-while {[set cistatus [lindex [split [string range [exec wget -q -O -\
-   $ghstatusurl] 0 30] \"] 3]] eq {pending}} {
+while {[set cistatus [lindex [split [string range [exec curl -s $ghstatusurl]\
+   0 30] \"] 3]] eq {pending}} {
    reportInfo "CI tests still in progress"
    # wait 30 seconds before next check loop
    after 30000

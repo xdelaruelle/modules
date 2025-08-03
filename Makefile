@@ -13,7 +13,8 @@ INSTALL_DATA = $(INSTALL) -m 644
 INSTALL_PROGRAM = $(INSTALL) -m 755
 
 # download command and its options
-WGET := wget --retry-connrefused --waitretry=20 --timeout=20 --tries=3
+CURL := curl --location --remote-name --retry 3 --retry-connrefused \
+	--retry-delay 20 --max-time 20
 
 # definitions for code coverage
 NAGELFAR_DLSRC1 := http://downloads.sourceforge.net/nagelfar/
@@ -1017,14 +1018,14 @@ testlint: initdir modulecmd.tcl $(NAGELFAR) script/add.modules script/modulecmd
 
 # install enhanced diff tool (to review test results)
 icdiff:
-	$(WGET) $(ICDIFF_DLSRC)$@ || true
+	$(CURL) $(ICDIFF_DLSRC)$@
 	echo "$(ICDIFF_CHECKSUM)  $@" | md5sum --status -c - || \
 		md5 -c $(ICDIFF_CHECKSUM) $@
 	chmod +x $@
 
 # install old Tcl interpreter (for code coverage purpose)
 tclsh83:
-	$(WGET) $(TCL_DLSRC)$(TCL_DIST83) || true
+	$(CURL) $(TCL_DLSRC)$(TCL_DIST83)
 	echo "$(TCL_DISTSUM83)  $(TCL_DIST83)" | md5sum --status -c - || \
 		md5 -c $(TCL_DISTSUM83) $@ || (rm -f $(TCL_DIST83) && false)
 	tar xzf $(TCL_DIST83)
@@ -1041,7 +1042,7 @@ spack:
 
 # install Conda (for source-sh test purpose)
 miniconda3:
-	$(WGET) $(MINICONDA_DLSRC)$(MINICONDA_DIST) || true
+	$(CURL) $(MINICONDA_DLSRC)$(MINICONDA_DIST)
 	echo "$(MINICONDA_DISTSUM)  $(MINICONDA_DIST)" | md5sum --status -c - || \
 		md5 -c $(MINICONDA_DISTSUM) $@ || (rm -f $(MINICONDA_DIST) && false)
 	bash $(MINICONDA_DIST) -b -s -p ./miniconda3
@@ -1054,7 +1055,7 @@ OpenFOAM-dev:
 # install code coverage tool
 # download from alt. source if correct tarball not retrieved from primary location
 $(NAGELFAR):
-	$(WGET) $(NAGELFAR_DLSRC1)$(NAGELFAR_DIST) || true
+	$(CURL) $(NAGELFAR_DLSRC1)$(NAGELFAR_DIST)
 	echo "$(NAGELFAR_DISTSUM)  $(NAGELFAR_DIST)" | md5sum --status -c - || \
 		(rm -f $(NAGELFAR_DIST) && false)
 	tar xzf $(NAGELFAR_DIST)

@@ -83,7 +83,7 @@ task:
     image_family: freebsd-14-2
     cpu: 1
     memory: 2G
-  reqinstall_script: pkg install -y bash wget gmake dejagnu py311-sphinx gzip tcl86 tcl-wrapper autoconf ksh93 zsh fish perl5 python311 ruby cmake R readline
+  reqinstall_script: pkg install -y bash curl gmake dejagnu py311-sphinx gzip tcl86 tcl-wrapper autoconf ksh93 zsh fish perl5 python311 ruby cmake R readline
   configure_script:
     - ./configure
   << : *BUILD_INSTALL_TEST_TEMPLATE
@@ -130,7 +130,7 @@ task:
     yes | unminimize || true
     # install requirements
     apt-get update
-    apt-get -y install curl wget expect-dev dejagnu python3-sphinx gzip man-db bash tcsh ksh zsh fish tcl tcl8.6 perl python3 ruby cmake r-base-core
+    apt-get -y install curl expect-dev dejagnu python3-sphinx gzip man-db bash tcsh ksh zsh fish tcl tcl8.6 perl python3 ruby cmake r-base-core
     # libtclenvmodules build requirements
     apt-get -y install gcc autoconf tcl8.6-dev
     # requirements for source-sh extra tests
@@ -193,7 +193,7 @@ task:
     # another one from EPEL (as dependency for R-core) on recent RockyLinux 8
     yum install -y environment-modules
     yum install -y epel-release
-    yum install -y tcsh zsh ksh tcl perl python36 gzip ruby cmake R-core make wget perl python3-sphinx git dejagnu man-db rpm-build bzip2 autoconf gcc tcl-devel emacs
+    yum install -y tcsh zsh ksh tcl perl python36 gzip ruby cmake R-core make curl perl python3-sphinx git dejagnu man-db rpm-build bzip2 autoconf gcc tcl-devel emacs
     yum install -y which xorg-x11-server-utils xorg-x11-server-Xvfb
     yum install -y fish
   configure_script:
@@ -217,7 +217,7 @@ task:
   reqinstall_script: |
     dnf install -y dnf-plugins-core epel-release
     dnf config-manager --set-enabled crb
-    dnf install -y tcsh zsh ksh fish tcl perl python3 gzip ruby cmake R-core make wget perl python3-sphinx git dejagnu man-db rpm-build bzip2 autoconf gcc tcl-devel procps-ng emacs
+    dnf install -y tcsh zsh ksh fish tcl perl python3 gzip ruby cmake R-core make perl python3-sphinx git dejagnu man-db rpm-build bzip2 autoconf gcc tcl-devel procps-ng emacs
   configure_script:
     - ./configure --with-bashcompletiondir=/usr/share/bash-completion/completions --with-fishcompletiondir=/usr/share/fish/vendor_completions.d --with-zshcompletiondir=/usr/share/zsh/site-functions
   # also enable a display on this test case to validate x-resource behavior
@@ -234,7 +234,7 @@ task:
     cpu: 1
     memory: 2G
   reqinstall_script: |
-    zypper install -y tcsh zsh ksh fish tcl perl python3 ruby cmake R-core R-core-packages make wget python3-Sphinx gzip git dejagnu man net-tools autoconf gcc tcl-devel util-linux-systemd procps
+    zypper install -y tcsh zsh ksh fish tcl perl python3 ruby cmake R-core R-core-packages make curl python3-Sphinx gzip git dejagnu man net-tools autoconf gcc tcl-devel util-linux-systemd procps
     zypper install -y which xrdb xvfb-run
   configure_script:
     - ./configure --enable-versioning --with-loadedmodules=null:dot --with-quarantine-vars='LD_LIBRARY_PATH LD_PRELOAD'

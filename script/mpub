@@ -179,9 +179,9 @@ file delete mpubbatch
 
 file mkdir dlcheck
 cd dlcheck
-runcmd 2>@$logfid wget -O $distgz $dlurl/$distgz
-runcmd 2>@$logfid wget -O $distbz $dlurl/$distbz
-runcmd 2>@$logfid wget -O $distwin $dlurl/$distwin
+runcmd 2>@$logfid curl -LJO $dlurl/$distgz
+runcmd 2>@$logfid curl -LJO $dlurl/$distbz
+runcmd 2>@$logfid curl -LJO $dlurl/$distwin
 runcmd md5sum --check ../mpub.ok
 
 file delete $distgz $distbz $distwin
