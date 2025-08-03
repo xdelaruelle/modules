@@ -1252,3 +1252,7 @@ value'
 libb
 koji
 taskinfo
+rpmlintrc
+rpm
+rpms
+srpm
