@@ -87,7 +87,7 @@ clean fashion. All popular shells are supported, including bash, ksh,
 zsh, sh, csh, tcsh, as well as some scripting languages such as perl.
 
 Modules are useful in managing different versions of applications.
-Modules can also be bundled into metamodules that will load an entire
+Modules can also be bundled into meta-modules that will load an entire
 suite of different applications.
 
 NOTE: You will need to get a new shell after installing this package to
