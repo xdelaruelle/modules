@@ -61,7 +61,6 @@ Requires(post): coreutils
 Requires(post): %{_bindir}/update-alternatives
 Requires(postun): %{_bindir}/update-alternatives
 Provides:       environment(modules)
-Obsoletes:      modules-tcl <= 1.923
 Obsoletes:      environment-modules-compat <= 4.8.99
 
 # Tcl linter is useful for module lint command
