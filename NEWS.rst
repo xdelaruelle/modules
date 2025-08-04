@@ -181,7 +181,7 @@ Modules 5.6.0 (2025-07-31)
   if Tcl 9 is selected.
 * Introduce the :mfcmd:`provide` modulefile command that defines module alias
   over currently evaluating module. This helps convey that the module offers
-  additional functionality or components.
+  additional functionality or components. (fix issue #539)
 * Change :mfcmd:`extensions` modulefile command to be an alias over the
   :mfcmd:`provide` command.
 * Add the ``provided-alias`` element in the allowed value list of the
