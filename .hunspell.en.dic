@@ -1256,3 +1256,12 @@ rpmlintrc
 rpm
 rpms
 srpm
+nushell
+XALT
+Autoswap
+clearLmod
+checkSyntax
+atleast
+atmost
+autoswapping
+clearlmod

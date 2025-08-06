@@ -33,9 +33,10 @@ table highlights features that are unique to each implementation.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 8.7.64
+   * - Lmod 8.7.65
      - Modules 5.6
-   * - * Integration with *rc* shell and *json* structured output
+   * - * Integration with *nushell* and *rc* shells and *json* structured
+         output
        * `Lua modulefile support`_
        * `Inactive modules`_
        * Save configuration under :envvar:`XDG_CONFIG_HOME`
@@ -88,7 +89,7 @@ at the end of this section to map these equivalents.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 8.7.64
+   * - Lmod 8.7.65
      - Modules 5.6
    * - ``category``, ``overview``, ``tablelist``
      - :subcmd:`aliases`, :subcmd:`append-path`, :subcmd:`cachebuild`,
@@ -112,7 +113,7 @@ the end of this section to map these equivalents.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 8.7.64
+   * - Lmod 8.7.65
      - Modules 5.6
    * - ``remove-property``
      - :mfcmd:`getvariant`, :mfcmd:`is-saved`, :mfcmd:`is-used`,
@@ -133,7 +134,7 @@ implementation.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 8.7.64
+   * - Lmod 8.7.65
      - Modules 5.6
    * - `Module properties`_
      - :ref:`Module tags` 
