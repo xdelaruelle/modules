@@ -6,7 +6,7 @@ Add a new maintainer
 This document is a guide on how to set a new person as a maintainer for
 Modules project.
 
-* Confirm he/she has read and understood the `Code of conduct`_ and
+* Confirm they have read and understood the `Code of conduct`_ and
   :ref:`Technical charter<CHARTER>` of the project
 * Add to the `maintainer GitHub's team`_
 * Invite to the `modules-maintainers chat room`_

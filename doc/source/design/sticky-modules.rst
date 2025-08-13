@@ -64,7 +64,7 @@ Specification
 - An error is reported when trying to unload a sticky or super-sticky module
 
   - As the expected unload is not performed
-  - So with the return code and message, user knows that what he/she asked for was not done
+  - So with the return code and message, user knows that what they asked for was not done
   - Same goes for the ``purge`` command: user expects no more module loaded
 
     - so an error is returned as after the command the sticky module is still loaded
@@ -73,7 +73,7 @@ Specification
 
     - the sticky module is unloaded as expected but a warning message is done
     - as the module was tagged not to be unloaded by default
-    - user should know he/she has done something specific
+    - user should know they have done something specific
 
 - Reporting an error during a ``purge`` may be considered inappropriate
 

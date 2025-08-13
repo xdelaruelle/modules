@@ -45,8 +45,8 @@ switches :envvar:`MODULEPATH` to a locally-created git clone of the
 Modulefiles. When unloaded, it switches :envvar:`MODULEPATH` back to the
 default.
 
-After this, any time a user wants to edit the Modulefiles, he works in
-his local git repo. After editing, testing, and committing to the local
+After this, any time a user wants to edit the Modulefiles, they work in
+their local git repo. After editing, testing, and committing to the local
 git repo, ``git push`` updates the main repository, which (assuming the
 user knows the password for user ``modules``) automatically updates
 ``/home/modules/modulefiles``.

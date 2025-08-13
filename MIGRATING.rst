@@ -3282,8 +3282,8 @@ to guide for instance users when they try to evaluate a forbidden module:
       Software bar/1.0 is decommissioned, please now use bar/2.0
 
 When an evaluated module will soon be forbidden, a message is returned to the
-user to warn him/her of the near limit. An additional warning message can
-also be defined here with the ``--nearly-message`` option to guide users.
+user to warn them of the near limit. An additional warning message can also be
+defined here with the ``--nearly-message`` option to guide users.
 
 .. parsed-literal::
 

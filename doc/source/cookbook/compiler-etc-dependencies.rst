@@ -8,7 +8,7 @@ for users to use, there is the problem of ensuring that the
 user is using the correct builds of everything. Generally,
 if an user is attempting to compile code making use of the system
 software collection, you want to ensure that the user is compiling
-his code with the same compiler that was used to compile the library.
+their code with the same compiler that was used to compile the library.
 This tends to be particularly true of C++ and Fortran code using modules,
 and parallel codes using MPI libraries.
 

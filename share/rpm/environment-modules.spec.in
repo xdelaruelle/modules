@@ -196,9 +196,9 @@ fi
 
 update-alternatives \
   --install %{_sysconfdir}/profile.d/modules.sh modules.sh %{_datadir}/Modules/init/profile.sh 40 \
-  --slave %{_sysconfdir}/profile.d/modules.csh modules.csh %{_datadir}/Modules/init/profile.csh \
-  --slave %{_datadir}/fish/vendor_conf.d/modules.fish modules.fish %{_datadir}/Modules/init/fish \
-  --slave %{_bindir}/modulecmd modulecmd %{_datadir}/Modules/libexec/modulecmd.tcl
+  --follower %{_sysconfdir}/profile.d/modules.csh modules.csh %{_datadir}/Modules/init/profile.csh \
+  --follower %{_datadir}/fish/vendor_conf.d/modules.fish modules.fish %{_datadir}/Modules/init/fish \
+  --follower %{_bindir}/modulecmd modulecmd %{_datadir}/Modules/libexec/modulecmd.tcl
 
 %postun
 if [ $1 -eq 0 ] ; then
