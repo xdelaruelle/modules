@@ -5,13 +5,13 @@ Modules Technical Charter
 
 **Technical Charter (the "Charter") for Modules.**
 
-Draft version.
+**Adopted September 4, 2025**
 
 This Charter sets forth the responsibilities and procedures for technical
-contribution to, and oversight of, the Modules open source project, which has
-been established as a project of Linux Foundation Europe, a Belgian private
-stichting headquartered at Kunstlaan 56, Brussels ("LF Europe").(the
-"Project"). All contributors (including maintainers, and other technical
+contribution to, and oversight of, the Modules open source project (the
+"Project"), which has been established as a project of Linux Foundation
+Europe, a Belgian private stichting headquartered at Kunstlaan 56, Brussels
+("LF Europe"). All contributors (including maintainers, and other technical
 positions) and other participants in the Project (collectively,
 "Collaborators") must comply with the terms of this Charter.
 
@@ -47,16 +47,15 @@ positions) and other participants in the Project (collectively,
       :ref:`GOVERNANCE<GOVERNANCE>` file. Unless otherwise documented:
 
       i. Contributors include anyone in the technical community that
-         contributes code, documentation, or other technical artifacts to
-         the Project;
+         contributes code, documentation, or other technical artifacts to the
+         Project;
 
       ii. Maintainers are Contributors who have earned the ability to modify
           ("commit") source code, documentation or other technical artifacts
           in a project's repository; and
 
-      iii. Maintainers are appointed by the TSC. A Contributor may become a
-           Maintainer by a majority approval of the TSC. A Maintainer may be
-           removed by a majority approval of the TSC.
+      iii. A Contributor may become a Maintainer by a majority approval of the
+           TSC. A Maintainer may be removed by a majority approval of the TSC.
 
    d. Participation in the Project through becoming a Contributor and
       Maintainer is open to anyone so long as they abide by the terms of this
@@ -201,7 +200,7 @@ positions) and other participants in the Project (collectively,
       are subject to the following:
 
       i. All new inbound code contributions to the Project must be made using
-         GPL-2.0-or-later (the "Project License").
+         GNU General Public License v2.0 or later (the "Project License").
 
       ii. All new inbound code contributions must also be accompanied by a
           Developer Certificate of Origin (http://developercertificate.org)
