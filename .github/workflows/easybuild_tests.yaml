@@ -1,0 +1,63 @@
+name: easybuild-tests
+
+on:
+  push:
+    branches-ignore:
+      - c-main
+      - c-3.2
+  pull_request:
+
+jobs:
+  framework:
+    strategy:
+      matrix:
+        module_syntax: [Tcl]
+    runs-on: ubuntu-24.04
+    env:
+      EASYBUILD_MODULES_TOOL: EnvironmentModules
+      EASYBUILD_MODULE_SYNTAX: ${{ matrix.module_syntax }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install system packages
+        run: |
+          sudo apt-get -y update
+          # package required to build and install Modules
+          sudo apt-get install -y expect-dev dejagnu python3-sphinx gzip bash tcl python3
+          # libtclenvmodules build requirements
+          sudo apt-get install -y gcc autoconf tcl-dev
+          # EasyBuild framework test requirement
+          sudo apt-get install -y python3-pycodestyle python3-pygraphviz python3-autopep8
+      - name: Build and Install Modules
+        run: |
+          ./configure
+          make
+          sudo make install
+      - name: Fetch EasyBuild framework
+        run: |
+          # need to setup repository in HOME for test_run_shell_cmd_fail to succeed
+          cd $HOME
+          git clone https://github.com/easybuilders/easybuild-framework.git
+          cd easybuild-framework
+          latest_tag=$(git describe --tags "$(git rev-list --tags --max-count=1)")
+          git switch --detach $latest_tag
+      - name: Test EasyBuild framework suite with Modules
+        run: |
+          cd ${HOME}/easybuild-framework
+          source /usr/local/Modules/init/bash
+          export TEST_EASYBUILD_MODULES_TOOL=${EASYBUILD_MODULES_TOOL}
+          export TEST_EASYBUILD_MODULE_SYNTAX=${EASYBUILD_MODULE_SYNTAX}
+          export PYTHONPATH=$(pwd):$PYTHONPATH
+          export PATH=$(pwd):$PATH
+          # fake this is a pull request build to skip test_push_branch_to_github
+          export GITHUB_EVENT_NAME=pull_request
+          # record output in file to check test suite result
+          python -m test.framework.suite 2>&1 | tee test_framework_suite.log
+          tail -n 1 test_framework_suite.log | grep --quiet '^OK$'
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: easybuild-${{ matrix.module_syntax }}-tests-logs-${{ github.job }}
+          path: /tmp/eb-*/eb-*/easybuild-tests-*.log
+          retention-days: 5
