@@ -37,9 +37,8 @@ equivalent Tcl modulefile to ensure the same functionality:
 * ``error`` command is equivalent to ``LmodError``
 * ``module-help`` (v5.6+) is equivalent to ``help`` (if version below 5.6 is
   expected, define a ``ModulesHelp`` procedure)
-
-A ``.modulerc`` file will be needed to define the ``sticky`` tag onto EESSI
-module.
+* ``module-tag`` command is equivalent to ``add_property`` (needed to define
+  the ``sticky`` tag)
 
 .. _EESSI bash script:
 
@@ -209,19 +208,6 @@ stored in the same directory as the Lua modulefile: when evaluating the
 ``EESSI/2025.06`` module, Lmod will interpret the ``EESSI/2025.06.lua`` file
 and Environment Modules the ``EESSI/2025.06`` file.
 
-The ``.modulerc`` file needed in this directory by Environment Modules to
-eventually set the ``EESSI`` module sticky should use code to avoid Lmod to
-parse it (as Lmod does not know the ``module-tag`` modulefile command):
-
-.. code-block:: tcl
-
-    #%Module
-    if {![info exists ::env(LMOD_VERSION_MAJOR)]} {
-        if {[info exists ::env(EESSI_MODULE_STICKY)]} {
-            module-tag sticky EESSI
-        }
-    }
-
 Sourcing the EESSI ``bash`` initialization script
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -243,5 +229,30 @@ determine the correct module tool initialization script to source.
 
 Such adaptation helps to keep a single ``bash`` initialization script whatever
 the module tool used.
+
+Reducing maintenance load
+-------------------------
+
+``EESSI/2025.06`` modulefile only in Tcl syntax
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To reduce the maintenance load, it would be nice to have the ``EESSI``
+modulefiles only in Tcl and not in both Tcl and Lua syntaxes.
+
+Lmod supports evaluation of Tcl modulefiles, but we need to check that a
+syntax understood by both module tools exists to have a single implementation
+of ``EESSI`` modulefile.
+
+Based on the analysis of `EESSI Lua module`_, the following things should be
+taken into account:
+
+* ``report`` procedure should be added to Lmod to support an equivalent to
+  ``LmodMessage`` in Tcl evaluation context
+* ``module-help`` is available on Lmod (in the not yet released version after
+  8.7.65): if EESSI would like to support older Lmod releases, the
+  ``ModulesHelp`` procedure should be used instead
+* ``add-property`` should be used instead of ``module-tag`` to define the
+  module ``sticky``: Environment Modules 5.6+ supports defining a tag with
+  this command
 
 .. vim:set tabstop=2 shiftwidth=2 expandtab autoindent:
