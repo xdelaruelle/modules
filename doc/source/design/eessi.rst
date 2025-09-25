@@ -33,12 +33,17 @@ This Lua modulefile requires a corresponding Tcl version for Environment
 Modules to interpret it. Below are the commands to use when creating the
 equivalent Tcl modulefile to ensure the same functionality:
 
-* ``report`` procedure is equivalent to ``LmodMessage``
+* ``report`` procedure is equivalent to ``LmodMessage`` (execution should be
+  restricted to ``load`` evaluation mode to avoid polluting other modes)
 * ``error`` command is equivalent to ``LmodError``
 * ``module-help`` (v5.6+) is equivalent to ``help`` (if version below 5.6 is
   expected, define a ``ModulesHelp`` procedure)
 * ``module-tag`` command is equivalent to ``add_property`` (needed to define
   the ``sticky`` tag)
+* ``uname machine`` modulefile command is equivalent than calling ``uname -m``
+  in a sub-process
+* ``versioncmp`` command helps to compare software release number (like
+  ``convertToCanonical`` does in Lua)
 
 .. _EESSI bash script:
 
@@ -123,6 +128,31 @@ set.
 This script is similar to `EESSI Lmod initialization shell scripts`_ described
 above and the same adaptation strategy could be applied here.
 
+.. _EESSI-extend Lua module:
+
+``EESSI-extend-easybuild.eb`` easyconfig file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This easyconfig file is there to produce the extra modulefile
+``EESSI-extend``. It contains a large ``modluafooter`` variable to define the
+content of the modulefile.
+
+A Tcl version of this ``EESSI-extend`` modulefile is needed for Environment
+Modules. A ``modtclfooter`` variable should be added in the easyconfig file to
+define the same kind of code than in ``modluafooter``.
+
+The following Tcl code, similar to the one needed for the `EESSI Lua module`_,
+is needed here to provide the same functionalities than the Lua code:
+
+* ``report`` procedure is equivalent to ``LmodMessage`` (execution should be
+  restricted to ``load`` evaluation mode to avoid polluting other modes)
+* ``error`` command is equivalent to ``LmodError``
+* ``versioncmp`` command helps to compare software release number (like
+  ``convertToCanonical`` does in Lua)
+* ``module load`` command should be used to translate the if not
+  ``isloaded()`` then ``load()`` code block (in order to always define the
+  dependency link, even if it is already loaded)
+
 ``$EESSI_SOFTWARE_PATH/modules`` modulepaths
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -189,6 +219,58 @@ the EESSI repository and each Environment Modules installation should point to
 it via a symbolic link. No ``LMOD_PACKAGE_PATH`` environment variable should
 be ported to Environment Modules.
 
+Site-specific ``SitePackage.lua`` config file
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+As expressed in `EESSI issue #456`_, site-specific ``SitePackage.lua`` config
+file may be used to apply tuning when loading specific modules. Here it meant
+adding environment variable definition into the modulefile evaluation context.
+
+.. _EESSI issue #456: https://github.com/EESSI/software-layer/issues/456
+
+The software provided by EESSI have a generic configuration that may need to
+be adapted to correctly work on sites, especially things related to the
+underlying high performance network of the supercomputer.
+
+The recommended way to provide an equivalent functionality is to let site
+define the content of a modulefile where they will put all their configuration
+specificities. This modulefile would be automatically loaded by the ``EESSI``
+modulefile.
+
+With this approach, sites only have to maintain environment definition and not
+complex hook code in addition to environment definition code. The counterpart
+is that these environment changes are loaded once and for all even if the
+modules they relate to are not loaded.
+
+If the strategy to use a site-specific modulefile for this setup does not fit,
+a site-specific ``siteconfig.tcl`` file can be used with the following kind of
+code:
+
+.. code-block:: tcl
+
+    proc load_hook {cmd_str op} {
+        switch -- [module-info name] {
+            OpenMPI/5.0.3 {
+                set itrp [getCurrentModfileInterpName]
+                interp eval $itrp {
+                    setenv OMPI_MCA_btl ^openib
+                    setenv OMPI_MCA_osc ^ucx
+                    setenv OMPI_MCA_pml ^ucx
+                }
+            }
+        }
+    }
+    trace add execution evaluateModulefile enter load_hook
+
+Such site-specific ``siteconfig.tcl`` file may be loaded by the main
+``siteconfig.tcl`` section as described in the above section.
+
+Adding Environment Modules into EESSI compat layer
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A Gentoo Ebuild should be developed for Environment Modules to incorporate it
+into the EESSI compatibility layer.
+
 Branching depending on chosen module tool
 -----------------------------------------
 
@@ -246,7 +328,7 @@ of ``EESSI`` modulefile.
 Based on the analysis of `EESSI Lua module`_, the following things should be
 taken into account:
 
-* ``report`` procedure should be added to Lmod to support an equivalent to
+* ``report`` procedure should be added to Lmod to support an equivalent of
   ``LmodMessage`` in Tcl evaluation context
 * ``module-help`` is available on Lmod (in the not yet released version after
   8.7.65): if EESSI would like to support older Lmod releases, the
@@ -254,5 +336,40 @@ taken into account:
 * ``add-property`` should be used instead of ``module-tag`` to define the
   module ``sticky``: Environment Modules 5.6+ supports defining a tag with
   this command
+* ``uname machine`` modulefile command is supported by Lmod
+* ``versioncmp`` modulefile command is supported by Lmod since 8.4.7
+
+``EESSI-extend/2025.06-easybuild`` modulefile only in Tcl syntax
+----------------------------------------------------------------
+
+Like for the ``EESSI`` module, having only a Tcl modulefile for the
+``EESSI-extend`` will help to reduce the overall quantity of code to maintain.
+
+Based on the analysis of `EESSI-extend Lua module`_, the following things
+should be taken into account to have a Tcl version of ``EESSI-extend`` module
+that Lmod is able to evaluate:
+
+* ``report`` procedure should be added to Lmod to support an equivalent of
+  ``LmodMessage`` in Tcl evaluation context
+* ``module-help`` is available on Lmod (in the not yet released version after
+  8.7.65): if EESSI would like to support older Lmod releases, the
+  ``ModulesHelp`` procedure should be used instead
+* ``versioncmp`` modulefile command is supported by Lmod since 8.4.7
+* ``depends-on`` should be used instead of ``module load`` to define
+  ``EasyBuild`` module dependency (to avoid reload of the module by Lmod if it
+  is already loaded)
+
+Decommissioning the EESSI ``bash`` initialization script
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+EESSI currently provides two ways for initialization which adds load to the
+maintenance process. Advertising a single initialization way may simplify
+things.
+
+Initialization via the ``EESSI`` modulefile allows to switch between EESSI
+releases.
+
+For a smooth migration, the ``bash`` initialization script may at first
+redirect to the ``EESSI`` modulefile initialization process.
 
 .. vim:set tabstop=2 shiftwidth=2 expandtab autoindent:

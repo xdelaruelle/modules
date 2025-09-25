@@ -1283,3 +1283,14 @@ EPREFIX
 TOOL'
 esac
 centres
+convertToCanonical
+eb
+easyconfig
+modluafooter
+modtclfooter
+isloaded
+specificities
+itrp
+getCurrentModfileInterpName
+evaluateModulefile
+Ebuild
