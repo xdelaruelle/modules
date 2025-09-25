@@ -340,7 +340,7 @@ taken into account:
 * ``versioncmp`` modulefile command is supported by Lmod since 8.4.7
 
 ``EESSI-extend/2025.06-easybuild`` modulefile only in Tcl syntax
-----------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Like for the ``EESSI`` module, having only a Tcl modulefile for the
 ``EESSI-extend`` will help to reduce the overall quantity of code to maintain.
