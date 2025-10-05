@@ -137,19 +137,19 @@ html_css_files = [
 if os_rtd:
     html_theme_options = {
         'sidebar_hide_name': True,
-        'light_logo': '../../img/modules_red.svg',
-        'dark_logo': '../../img/modules_white.svg',
+        'light_logo': 'modules_red.svg',
+        'dark_logo': 'modules_white.svg',
     }
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
 if not os_rtd:
-    html_logo = '../img/modules_red.svg'
+    html_logo = '_static/modules_red.svg'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = '../img/favicon.ico'
+html_favicon = '_static/favicon.ico'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
