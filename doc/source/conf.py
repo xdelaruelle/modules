@@ -118,21 +118,16 @@ todo_include_todos = False
 #
 os_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 if os_rtd:
-    html_theme = 'sphinx_rtd_theme'
-    # override wide tables in RTD theme
-    # colorize terminal output
-    html_css_files = [
-        'rtd_literal_block.css',
-        'rtd_theme_overrides.css',
-        'terminal_output.css',
-        ]
+    html_theme = 'furo'
 else:
     html_theme = 'bizstyle'
-    # colorize terminal output
-    html_css_files = [
-        'literal_block.css',
-        'terminal_output.css',
-        ]
+
+# colorize terminal output
+# handle large table
+html_css_files = [
+    'literal_block.css',
+    'terminal_output.css',
+]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -141,21 +136,14 @@ else:
 # html_theme_options = {}
 if os_rtd:
     html_theme_options = {
-        'logo_only': True,
-    }
-    html_context = {
-        'conf_py_path': '/doc/source/',
-        'display_github': True,
-        'github_user': 'envmodules',
-        'github_repo': 'modules',
-        'github_version': 'main',
+        'sidebar_hide_name': True,
+        'light_logo': '../../img/modules_red.svg',
+        'dark_logo': '../../img/modules_white.svg',
     }
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-if os_rtd:
-    html_logo = '../img/modules_white.svg'
-else:
+if not os_rtd:
     html_logo = '../img/modules_red.svg'
 
 # The name of an image file (within the static path) to use as favicon of the

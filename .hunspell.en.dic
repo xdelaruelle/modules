@@ -1294,3 +1294,5 @@ itrp
 getCurrentModfileInterpName
 evaluateModulefile
 Ebuild
+furo
+rtd

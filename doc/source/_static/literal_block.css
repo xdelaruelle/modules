@@ -1,6 +1,14 @@
 /* Render literal-block like terminal output */
 .section pre.literal-block, section pre.literal-block {
     border-radius: 8px;
-    background-color: #1e1e1e !important;
+    background-color: #2b2b2b !important;
     color: #ffffff;
+}
+
+/* Break long word in tables expect first cell of each row */
+table.docutils td:first-child p {
+    word-break: normal;
+}
+table.docutils td p {
+    word-break: break-word;
 }
