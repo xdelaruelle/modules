@@ -96,6 +96,7 @@ task:
   macos_instance:
     image: ghcr.io/cirruslabs/macos-runner:sonoma
   reqinstall_script:
+    - brew uninstall mise
     - brew update
     - brew install md5sha1sum expect dejagnu grep fish r tcl-tk gzip powershell
   configure_script:
