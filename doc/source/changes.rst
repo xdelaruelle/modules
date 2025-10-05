@@ -442,7 +442,7 @@ The following modulefile Tcl commands appeared on Modules 4.
 | in version |                                                                 |
 +============+=================================================================+
 | 4.0        | :mfcmd:`module-info command<module-info>`, :mfcmd:`getenv`,     |
-|            | :mfcmd:`reportError`, :mfcmd:`reportWarning`                    |
+|            | :mfcmd:`report`, :mfcmd:`reportError`, :mfcmd:`reportWarning`   |
 +------------+-----------------------------------------------------------------+
 | 4.1        | :mfcmd:`module-info loaded<module-info>`, :mfcmd:`is-saved`,    |
 |            | :mfcmd:`is-used`, :mfcmd:`is-avail`, :mfcmd:`module-virtual`    |

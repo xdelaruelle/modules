@@ -1450,6 +1450,14 @@ the *modulefile* is being loaded.
     .. versionchanged:: 5.4
        Option ``--glob`` added
 
+.. mfcmd:: report string
+
+ Output *string* as a message during *modulefile* evaluation.
+
+ .. only:: html
+
+    .. versionadded:: 4.0
+
 .. mfcmd:: reportError string
 
  Output *string* as an error message during *modulefile* evaluation and raise
