@@ -14,9 +14,14 @@ Environment Modules
     :target: https://github.com/envmodules/modules/releases/latest
     :alt: GitHub Release
 
-.. image:: https://img.shields.io/twitter/url/https/twitter.com/EnvModules.svg?style=social&label=@EnvModules
-    :target: https://twitter.com/EnvModules
-    :alt: Twitter/X
+.. image:: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpublic.api.bsky.app%2Fxrpc%2Fapp.bsky.actor.getProfile%2F%3Factor%3Denvmodules.bsky.social&query=%24.followersCount&style=social&logo=bluesky&label=%40EnvModules
+    :target: https://bsky.app/profile/envmodules.bsky.social
+    :alt: Bluesky
+
+.. image:: https://img.shields.io/matrix/modules%3Amatrix.org?color=darkcyan
+   :target: https://matrix.to/#/#modules:matrix.org
+   :alt: Matrix
+
 
 **Welcome to the Environment Modules documentation portal. The Environment
 Modules package provides for the dynamic modification of a user's environment
