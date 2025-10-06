@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/envmodules/modules/main/doc/img/modules_red.svg" height="180" alt="Modules"/>
+# <img src="https://raw.githubusercontent.com/envmodules/modules/main/share/logo/modules_logo_text.svg" height="180" alt="Modules"/>
 
 [![Linux Build Status](https://github.com/envmodules/modules/workflows/linux-tests/badge.svg)](https://github.com/envmodules/modules/actions?query=workflow:linux-tests)
 [![Windows Build Status](https://github.com/envmodules/modules/workflows/windows-tests/badge.svg)](https://github.com/envmodules/modules/actions?query=workflow:windows-tests)
@@ -7,6 +7,7 @@
 [![Documentation Status](https://readthedocs.org/projects/modules/badge/?version=latest)](https://modules.readthedocs.io/en/latest/?badge=latest)
 [![Packaging status](https://repology.org/badge/tiny-repos/environment-modules.svg)](https://repology.org/metapackage/environment-modules/versions)
 [![Bluesky](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpublic.api.bsky.app%2Fxrpc%2Fapp.bsky.actor.getProfile%2F%3Factor%3Denvmodules.bsky.social&query=%24.followersCount&style=social&logo=bluesky&label=%40EnvModules)](https://bsky.app/profile/envmodules.bsky.social)
+[![Matrix](https://img.shields.io/matrix/modules%3Amatrix.org?color=darkcyan)](https://matrix.to/#/#modules:matrix.org)
 
 Modules, provides dynamic modification of a user's environment
 ==============================================================
