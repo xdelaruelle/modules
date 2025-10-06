@@ -6,7 +6,7 @@
 [![Coverage Status](https://codecov.io/gh/envmodules/modules/branch/main/graph/badge.svg)](https://codecov.io/gh/envmodules/modules)
 [![Documentation Status](https://readthedocs.org/projects/modules/badge/?version=latest)](https://modules.readthedocs.io/en/latest/?badge=latest)
 [![Packaging status](https://repology.org/badge/tiny-repos/environment-modules.svg)](https://repology.org/metapackage/environment-modules/versions)
-[![Bluesky](https://img.shields.io/badge/Bluesky-0285FF?logo=bluesky&logoColor=fff)](https://bsky.app/profile/envmodules.bsky.social)
+[![Bluesky](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpublic.api.bsky.app%2Fxrpc%2Fapp.bsky.actor.getProfile%2F%3Factor%3Denvmodules.bsky.social&query=%24.followersCount&style=social&logo=bluesky&label=%40EnvModules)](https://bsky.app/profile/envmodules.bsky.social)
 
 Modules, provides dynamic modification of a user's environment
 ==============================================================
