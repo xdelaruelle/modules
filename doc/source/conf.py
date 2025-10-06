@@ -138,7 +138,7 @@ if os_rtd:
     html_theme_options = {
         'sidebar_hide_name': True,
         'light_logo': 'modules_red.svg',
-        'dark_logo': 'modules_white.svg',
+        'dark_logo': 'modules_red.svg',
     }
 
 # The name of an image file (relative to this directory) to place at the top
