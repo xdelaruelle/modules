@@ -84,14 +84,6 @@ Requirements
  * Tcl >= 8.5
 
 
-License
--------
-
-Modules is distributed under the GNU General Public License, either version 2
-or (at your option) any later version (`GPL-2.0-or-later`). Read the file
-`COPYING.GPLv2` for details.
-
-
 Documentation
 -------------
 
@@ -168,8 +160,23 @@ Please note that Modules project has a [Code of conduct][12]. It ensures a
 respectful and inclusive environment for all contributors. By participating in
 the Modules community, you agree to abide by its rules.
 
-This project also adheres to a [Technical charter][13], which defines its
+
+Governance
+----------
+
+Modules is part of the [High Performance Software Foundation](https://hpsf.io)
+within the [Linux Foundation](http://linuxfoundation.org).
+
+This project adheres to a [Technical charter][13], which defines its
 governance model, decision-making process, and long-term vision.
+
+
+License
+-------
+
+Modules is distributed under the GNU General Public License, either version 2
+or (at your option) any later version (`GPL-2.0-or-later`). Read the file
+`COPYING.GPLv2` for details.
 
 
 Authors

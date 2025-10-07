@@ -194,10 +194,19 @@ Please note that Modules project has a `Code of conduct`_. It ensures a
 respectful and inclusive environment for all contributors. By participating in
 the Modules community, you agree to abide by its rules.
 
-This project also adheres to a :ref:`Technical charter<CHARTER>`, which
-defines its governance model, decision-making process, and long-term vision.
-
 .. _Code of conduct: https://github.com/envmodules/modules?tab=coc-ov-file#readme
+
+Governance
+----------
+
+Modules is part of the `High Performance Software Foundation`_ within the
+`Linux Foundation`_.
+
+This project adheres to a :ref:`Technical charter<CHARTER>`, which defines its
+governance model, decision-making process, and long-term vision.
+
+.. _High Performance Software Foundation: https://hpsf.io
+.. _Linux Foundation: http://linuxfoundation.org
 
 License
 -------
