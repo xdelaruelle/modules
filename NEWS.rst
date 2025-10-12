@@ -8,8 +8,27 @@ documents those changes that are of interest to users and admins.
 
 .. _5.6 release notes:
 
-Modules 5.6.0 (2025-07-31)
+Modules 5.6.1 (not yet released)
 --------------------------------
+
+* Script: improve :command:`mrel` to better support Koji states and not rely
+  on sudo privileges to test a new release.
+* Script: adapt utilities to only use :command:`curl` rather also requiring
+  :command:`wget`.
+* Doc: :ref:`CHARTER` has been approved on September 4, 2025.
+* Doc: add :ref:`EESSI` design notes.
+* Doc: update :ref:`modulefile(5)` man page to describe the :mfcmd:`report`
+  modulefile command, which is supported since version 4.0. 
+* Doc: use `Furo`_ Sphinx theme for the documentation published on Read The
+  Docs.
+* Doc: describe how to call modulefile command from a hook procedure in
+  :ref:`module(1)` man page. (fix issue #590)
+
+.. _Furo: https://github.com/pradyunsg/furo
+
+
+Modules 5.6.0 (2025-07-31)
+--------------------------
 
 * Rename :file:`contrib` directory as :file:`share` in sources to use clearer
   name for architecture and configuration independent files.
