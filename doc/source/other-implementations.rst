@@ -43,6 +43,7 @@ table highlights features that are unique to each implementation.
        * `i18n`_
        * `Find best module`_
        * `Path entry priorities`_
+       * `Update path entry order`_
        * ``--regexp`` search option
        * `settarg`_
        * `Hook functions`_
@@ -76,6 +77,7 @@ table highlights features that are unique to each implementation.
 .. _Find best module: https://lmod.readthedocs.io/en/latest/060_locating.html
 .. _i18n: https://lmod.readthedocs.io/en/latest/185_localization.html
 .. _Path entry priorities: https://lmod.readthedocs.io/en/latest/077_ref_counting.html#specifying-priorities-for-path-entries
+.. _Update path entry order: https://lmod.readthedocs.io/en/latest/077_ref_counting.html
 .. _settarg: https://lmod.readthedocs.io/en/latest/310_settarg.html
 .. _Hook functions: https://lmod.readthedocs.io/en/latest/170_hooks.html#hook-functions
 .. |LMOD_FILE_IGNORE_PATTERNS| replace:: ``LMOD_FILE_IGNORE_PATTERNS``
