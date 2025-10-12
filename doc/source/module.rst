@@ -3844,6 +3844,21 @@ adds a new query option to the :mfcmd:`module-info` modulefile command:
        }
     }
 
+If a hook procedure needs to execute modulefile commands (for example, to
+define environment variables), these commands should be run through the
+current modulefile Tcl interpreter. This ensures that the commands behave
+consistently with the current modulefile evaluation mode.
+
+.. code-block:: tcl
+
+    proc hook_procedure {value} {
+        # get the name of the current modulefile Tcl interpreter
+        set modfile_interp [getCurrentModfileInterpName]
+
+        # execute a modulefile command in the current interpreter context
+        interp eval $modfile_interp setenv MYVAR $value
+    }
+
 Siteconfig hook variables
 """""""""""""""""""""""""
 
