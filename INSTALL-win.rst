@@ -107,3 +107,9 @@ a modulepath and contains few modulefile examples::
 Documentation of the :ref:`module(1)`, :ref:`ml(1)` and :ref:`envml(1)`
 commands and :ref:`modulefile(5)` syntax can be found in the ``doc`` directory
 in installation directory.
+
+.. warning:: If both Modules and the *MSVC x86 toolchain* are installed and
+   Modules has been initialized in the current shell session, the command
+   ``ml`` will refer to the Modules version rather than the *MSVC assembler*.
+   To invoke the *MSVC assembler* while Modules is active, you must call it
+   explicitly as ``ml.exe``.

@@ -23,6 +23,8 @@ Modules 5.6.1 (not yet released)
   Docs.
 * Doc: describe how to call modulefile command from a hook procedure in
   :ref:`module(1)` man page. (fix issue #590)
+* Doc: add warning in :ref:`INSTALL-win` to mention :command:`ml` command name
+  conflict with *MSVC x86 toolchain* ``ml.exe``. (fix issue #589)
 
 .. _Furo: https://github.com/pradyunsg/furo
 
