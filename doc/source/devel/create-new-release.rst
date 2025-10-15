@@ -7,6 +7,18 @@ This document is a guide to draft then publish a new release of Modules. It
 provides all the information from building the distribution tarballs to
 updating external resources providing Modules.
 
+Versioning policy
+-----------------
+
+Modules project follows `Semantic Versioning 2.0.0`_. Version number has the
+``MAJOR.MINOR.PATCH`` form. For a new release, increment the:
+
+* ``MAJOR`` when you make incompatible changes
+* ``MINOR`` when you add backward-compatible features
+* ``PATCH`` when you add backward-compatible bug fixes
+
+.. _Semantic Versioning 2.0.0: https://semver.org/
+
 Release commit
 --------------
 
