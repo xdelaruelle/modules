@@ -1296,3 +1296,8 @@ evaluateModulefile
 Ebuild
 furo
 rtd
+PRs
+buildable
+Reproducibility
+rebase
+reproducibility
