@@ -124,8 +124,7 @@ Now the website should mention the new release on the *Download* link. Stable
 target of online document should also point to the new release. It may be
 verified at:
 
-* http://modules.sf.net
-* http://envmodules.github.io/modules/
+* https://envmodules.io
 * https://modules.readthedocs.io/en/stable/NEWS.html
 
 Change *Default Download* on `SourceForge Files`_ page. Set the ``.tar.gz``
