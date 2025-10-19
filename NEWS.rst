@@ -26,6 +26,7 @@ Modules 5.6.1 (not yet released)
 * Doc: add warning in :ref:`INSTALL-win` to mention :command:`ml` command name
   conflict with *MSVC x86 toolchain* ``ml.exe``. (fix issue #589)
 * Doc: add :ref:`maintainer-guide`.
+* Doc: website is now located at https://envmodules.io.
 
 .. _Furo: https://github.com/pradyunsg/furo
 

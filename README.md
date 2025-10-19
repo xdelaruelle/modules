@@ -124,11 +124,10 @@ ability to test this installation with:
 Links
 -----
 
-* Web site: http://modules.sourceforge.net
+* Web site: https://envmodules.io
 * Online documentation: https://modules.readthedocs.io
 * GitHub source repository: https://github.com/envmodules/modules
 * GitHub Issue tracking system: https://github.com/envmodules/modules/issues
-* SourceForge project page: http://sourceforge.net/projects/modules/
 
 
 Community

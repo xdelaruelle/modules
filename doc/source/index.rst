@@ -152,7 +152,7 @@ needs.
 Links
 -----
 
-* Web site: http://modules.sourceforge.net
+* Web site: https://envmodules.io
 * Documentation: https://modules.readthedocs.io
 * Source repository: https://github.com/envmodules/modules
 * Issue tracking system: https://github.com/envmodules/modules/issues

@@ -11,7 +11,7 @@ Release:        @MODULES_RPM_RELEASE@%{?dist}
 Summary:        Provides dynamic modification of a user's environment
 
 License:        GPL-2.0-or-later
-URL:            http://modules.sourceforge.net/
+URL:            https://envmodules.io
 Source0:        http://downloads.sourceforge.net/modules/modules-@MODULES_RELEASE@@MODULES_BUILD@.tar.bz2
 
 BuildRequires:  tcl
