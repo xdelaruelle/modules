@@ -254,7 +254,7 @@ implementations.
 * `RSModules`_: Environment Modules implementation in Rust
 
 .. _Modulecmd.py: https://github.com/tjfulle/Modulecmd.py
-.. _Pmodules: https://gitlab.psi.ch/Pmodules
+.. _Pmodules: https://github.com/Pmodules/Pmodules
 .. _RSModules: https://github.com/fretn/rsmodules
 
 If you know of a ``module`` implementation project that's not listed here,
