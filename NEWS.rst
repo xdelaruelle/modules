@@ -27,6 +27,9 @@ Modules 5.6.1 (not yet released)
   conflict with *MSVC x86 toolchain* ``ml.exe``. (fix issue #589)
 * Doc: add :ref:`maintainer-guide`.
 * Doc: website is now located at https://envmodules.io.
+* Doc: precise that no automatic path resolution is performed on
+  :mfcmd:`prepend-path`, :mfcmd:`append-path` or :mfcmd:`remove-path`
+  modulefile commands. (fix issue #597)
 
 .. _Furo: https://github.com/pradyunsg/furo
 

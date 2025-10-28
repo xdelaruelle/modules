@@ -1182,6 +1182,13 @@ the *modulefile* is being loaded.
  If *value* corresponds to the concatenation of multiple elements separated by
  colon, or *delimiter*, character, each element is treated separately.
 
+ The provided *value* is used as-is. If any path resolution is required, it
+ must be performed within the *modulefile* itself. Use caution when including
+ characters with special meanings in the shell context (such as ``~``), as the
+ shell may expand these paths automatically. This can prevent the
+ corresponding entries from being properly removed when the *modulefile* is
+ unloaded.
+
  If the *variable* is :envvar:`MODULEPATH` and :mconfig:`require_via`
  configuration option is activated, the *modulefile* is considered a
  dependency by the loaded modulefiles stored in the added modulepaths.
