@@ -3,25 +3,26 @@
 Environment Modules
 ===================
 
-.. image:: https://img.shields.io/github/stars/envmodules/modules
-    :target: https://github.com/envmodules/modules
-    :alt: GitHub Repository
+.. only:: html
 
-.. image:: https://img.shields.io/github/license/envmodules/modules?color=lightsteelblue
-    :alt: GitHub License
+   .. image:: https://img.shields.io/github/stars/envmodules/modules
+      :target: https://github.com/envmodules/modules
+      :alt: GitHub Repository
 
-.. image:: https://img.shields.io/github/v/release/envmodules/modules
-    :target: https://github.com/envmodules/modules/releases/latest
-    :alt: GitHub Release
+   .. image:: https://img.shields.io/github/license/envmodules/modules?color=lightsteelblue
+      :alt: GitHub License
 
-.. image:: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpublic.api.bsky.app%2Fxrpc%2Fapp.bsky.actor.getProfile%2F%3Factor%3Denvmodules.bsky.social&query=%24.followersCount&style=social&logo=bluesky&label=%40EnvModules
-    :target: https://bsky.app/profile/envmodules.bsky.social
-    :alt: Bluesky
+   .. image:: https://img.shields.io/github/v/release/envmodules/modules
+      :target: https://github.com/envmodules/modules/releases/latest
+      :alt: GitHub Release
 
-.. image:: https://img.shields.io/matrix/modules%3Amatrix.org?color=darkcyan
-   :target: https://matrix.to/#/#modules:matrix.org
-   :alt: Matrix
+   .. image:: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpublic.api.bsky.app%2Fxrpc%2Fapp.bsky.actor.getProfile%2F%3Factor%3Denvmodules.bsky.social&query=%24.followersCount&style=social&logo=bluesky&label=%40EnvModules
+      :target: https://bsky.app/profile/envmodules.bsky.social
+      :alt: Bluesky
 
+   .. image:: https://img.shields.io/matrix/modules%3Amatrix.org?color=darkcyan
+      :target: https://matrix.to/#/#modules:matrix.org
+      :alt: Matrix
 
 **Welcome to the Environment Modules documentation portal. The Environment
 Modules package provides for the dynamic modification of a user's environment
@@ -55,7 +56,7 @@ different applications.
    capabilities to scripts.
 
 Quick examples
---------------
+^^^^^^^^^^^^^^
 
 Here is an example of loading a module on a Linux machine under bash.
 ::
@@ -88,51 +89,8 @@ Now we'll log into a different machine, using a different shell (tcsh).
 Note that the command line is exactly the same, but the path has
 automatically configured to the correct architecture.
 
-.. toctree::
-   :hidden:
-   :maxdepth: 2
-   :caption: Basics
-
-   INSTALL
-   INSTALL-win
-   MIGRATING
-   NEWS
-   FAQ
-   changes
-   other-implementations
-
-.. toctree::
-   :hidden:
-   :maxdepth: 2
-   :caption: Examples
-
-   cookbook
-
-.. toctree::
-   :hidden:
-   :maxdepth: 2
-   :caption: Reference
-
-   ml
-   module
-   modulefile
-   envml
-
-.. toctree::
-   :hidden:
-   :maxdepth: 2
-   :caption: Development
-
-   CONTRIBUTING
-   devel
-   design
-   CHARTER
-   GOVERNANCE
-   acknowledgments
-
-
 Get started with Modules
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Learn how to retrieve and install Modules :ref:`on Unix<INSTALL>` or
 :ref:`on Windows<INSTALL-win>`. An overlook on the new functionalities
@@ -150,7 +108,7 @@ Modules and how to extend the :command:`module` command to achieve specific
 needs.
 
 Links
------
+^^^^^
 
 * Web site: https://envmodules.io
 * Documentation: https://modules.readthedocs.io
@@ -161,7 +119,7 @@ Links
 .. _Community:
 
 Community
----------
+^^^^^^^^^
 
 Modules is an open source project. Questions, discussion, and contributions
 are welcome. You can get in contact with the Modules community via:
@@ -183,7 +141,7 @@ The project is also present on several social media platforms:
 .. _@EnvModules.bsky.social: https://bsky.app/profile/envmodules.bsky.social
 
 Contributing
-------------
+^^^^^^^^^^^^
 
 Modules project welcomes contributions of all kinds! Before submitting an
 issue or pull request, please take a moment to review our :ref:`Contributing
@@ -197,7 +155,7 @@ the Modules community, you agree to abide by its rules.
 .. _Code of conduct: https://github.com/envmodules/modules?tab=coc-ov-file#readme
 
 Governance
-----------
+^^^^^^^^^^
 
 Modules is part of the `High Performance Software Foundation`_ within the
 `Linux Foundation`_.
@@ -209,7 +167,51 @@ governance model, decision-making process, and long-term vision.
 .. _Linux Foundation: http://linuxfoundation.org
 
 License
--------
+^^^^^^^
 
 Modules is distributed under the GNU General Public License, either version 2
 or (at your option) any later version (`GPL-2.0-or-later`).
+
+.. only:: html
+
+   .. toctree::
+      :hidden:
+      :maxdepth: 2
+      :caption: Basics
+
+      INSTALL
+      INSTALL-win
+      MIGRATING
+      NEWS
+      FAQ
+      changes
+      other-implementations
+
+   .. toctree::
+      :hidden:
+      :maxdepth: 2
+      :caption: Examples
+
+      cookbook
+
+   .. toctree::
+      :hidden:
+      :maxdepth: 2
+      :caption: Reference
+
+      ml
+      module
+      modulefile
+      envml
+
+   .. toctree::
+      :hidden:
+      :maxdepth: 2
+      :caption: Development
+
+      CONTRIBUTING
+      devel
+      design
+      CHARTER
+      GOVERNANCE
+      acknowledgments
