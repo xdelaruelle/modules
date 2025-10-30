@@ -42,10 +42,7 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 
 # The master toctree document.
-if 'latex' in tags:
-    master_doc = 'latex_index'
-else:
-    master_doc = 'index'
+master_doc = 'index'
 
 # General information about the project.
 project = u'Modules'
@@ -105,10 +102,7 @@ language = 'en'
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-if 'latex' in tags:
-    exclude_patterns = []
-else:
-    exclude_patterns = ['latex_index.rst']
+exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -364,9 +358,9 @@ def ghcommit_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
     title = nodes.reference('', commit_id, refuri=commit_url)
     return [title], []
 
-# define new directive/role that can be used as .. subcmd::/:subcmd:,
-# .. mfcmd::/:mfcmd:, .. mfvar::/:mfvar: and .. sitevar::/:sitevar:
 def setup(app):
+    # define new directive/role that can be used as .. subcmd::/:subcmd:,
+    # .. mfcmd::/:mfcmd:, .. mfvar::/:mfvar: and .. sitevar::/:sitevar:
     app.add_object_type('subcmd', 'subcmd',
                         objname='module sub-command',
                         indextemplate='pair: %s; module sub-command',
@@ -392,3 +386,9 @@ def setup(app):
                         indextemplate='pair: %s; module configuration option')
     app.add_role('ghcommit', ghcommit_role)
 
+    # exclude latex index document on non-latex output builder
+    def on_builder_inited(app):
+        if app.builder.name != 'latex':
+            app.config.exclude_patterns.append('latex_index.rst')
+
+    app.connect('builder-inited', on_builder_inited)

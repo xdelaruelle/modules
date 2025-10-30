@@ -119,7 +119,7 @@ $(BUILD_DIR)/module.1: $(BUILD_DIR)/module.1.in
 
 $(BUILD_DIR)/latex/modules.tex: $(SOURCE_DIR)/version.py
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$@
-	$(SPHINXBUILD) $(SPHINXOPTS) -t latex -b latex "$(SOURCE_DIR)" "$(BUILD_DIR)/latex"
+	$(SPHINXBUILD) $(SPHINXOPTS) -b latex "$(SOURCE_DIR)" "$(BUILD_DIR)/latex"
 
 $(BUILD_DIR)/latex/modules.pdf: $(BUILD_DIR)/latex/modules.tex
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$@
