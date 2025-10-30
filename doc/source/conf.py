@@ -42,12 +42,15 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 
 # The master toctree document.
-master_doc = 'index'
+if 'latex' in tags:
+    master_doc = 'latex_index'
+else:
+    master_doc = 'index'
 
 # General information about the project.
 project = u'Modules'
-copyright = '1996-2025, Modules Contributors'
-author = ''
+author = 'Modules Contributors'
+copyright = f'1996-2025, {author}'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -102,7 +105,10 @@ language = 'en'
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = []
+if 'latex' in tags:
+    exclude_patterns = []
+else:
+    exclude_patterns = ['latex_index.rst']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -196,6 +202,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
+    ('latex_index', 'modules.tex', f'{project} documentation', author, 'manual'),
 ]
 
 

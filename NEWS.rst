@@ -30,6 +30,7 @@ Modules 5.6.1 (not yet released)
 * Doc: precise that no automatic path resolution is performed on
   :mfcmd:`prepend-path`, :mfcmd:`append-path` or :mfcmd:`remove-path`
   modulefile commands. (fix issue #597)
+* Doc: add way to build latexpdf documentation.
 
 .. _Furo: https://github.com/pradyunsg/furo
 
