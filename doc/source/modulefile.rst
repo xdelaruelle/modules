@@ -2025,7 +2025,7 @@ specification of modulefile passed on Modules specific Tcl commands changes.
 After the module name a version constraint and variants may be added.
 
 Version specifiers
-""""""""""""""""""
+^^^^^^^^^^^^^^^^^^
 
 After the module name a version constraint prefixed by the ``@`` character may
 be added. It could be directly appended to the module name or separated from
@@ -2077,7 +2077,7 @@ version will be selected.
       Use of version range is allowed in version list
 
 Variants
-""""""""
+^^^^^^^^
 
 After the module name, variants can be specified. :ref:`Module variants` are
 alternative evaluation of the same *modulefile*. A variant is specified by
