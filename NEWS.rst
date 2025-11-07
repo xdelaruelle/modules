@@ -31,6 +31,8 @@ Modules 5.6.1 (not yet released)
   :mfcmd:`prepend-path`, :mfcmd:`append-path` or :mfcmd:`remove-path`
   modulefile commands. (fix issue #597)
 * Doc: add way to build latexpdf documentation.
+* Ensure that a module having the same name than a loaded module from
+  another modulepath does not inherit its tags. (fix issue #599)
 
 .. _Furo: https://github.com/pradyunsg/furo
 

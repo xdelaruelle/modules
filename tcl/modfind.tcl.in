@@ -646,24 +646,38 @@ proc getModuleTagProp {mod fpmod tag prop} {
 
 # Gather all tags applying to a given module
 proc collectModuleTags {mod} {
+   if {[info exists ::g_tagHash($mod)]} {
+      set known_tag_list $::g_tagHash($mod)
+   } else {
+      set known_tag_list {}
+   }
+   set tag_list [getMatchingTagList $mod $known_tag_list]
+   if {[llength $tag_list]} {
+      setModuleTag $mod {*}$tag_list
+   }
+}
+
+proc getMatchingTagList {mod {known_tag_list {}}} {
+   set tag_list {}
    set modroot [getModuleRootFromVersSpec $mod]
    # look if mod matches one of the module specs applying to mod root
    if {[info exists ::g_moduleTagRoot($modroot)]} {
       for {set i 0} {$i < [llength $::g_moduleTagRoot($modroot)]} {incr i} {
          set tag [lindex $::g_moduleTagRoot($modroot) $i]
-         # skip already known tag
-         if {![info exists ::g_tagHash($mod)] || $tag ni $::g_tagHash($mod)} {
+         if {$tag ni $tag_list} {
             foreach {tmodspec tprops} [lindex\
                $::g_moduleTagRootSpec($modroot) $i] {
                # add tag if one modspec matches mod
                if {[modEq $tmodspec $mod eqstart 1 0 1]} {
-                  setModuleTag $mod $tag
+                  lappend known_tag_list $tag
+                  lappend tag_list $tag
                   break
                }
             }
          }
       }
    }
+   return $tag_list
 }
 
 proc setModuleTag {mod args} {
@@ -730,8 +744,16 @@ proc getTagList {mod {fpmod {}} {sort 1}} {
    if {$fpmod ne {} && [info exists ::g_moduleTagFullPath($fpmod)]} {
       appendNoDupToList tag_list {*}$::g_moduleTagFullPath($fpmod)
    }
+   # recompute tags applying from module specification if mod is loaded but
+   # not the same modulefile. tags applying to loaded mod are recorded in
+   # g_tagHash but should not apply to same mod from a different modulepath
+   # do not make this distinction if modulefile is not provided
+   # directly check on g_loadedModules array to avoid triggering env check
+   if {[string length $fpmod] && [info exists ::g_loadedModules($mod)] &&\
+      $fpmod ne [getModulefileFromLoadedModule $mod]} {
+      appendNoDupToList tag_list {*}[getMatchingTagList $mod]
    # get collected tags applied on short designation
-   if {[info exists ::g_tagHash($mod)]} {
+   } elseif {[info exists ::g_tagHash($mod)]} {
       appendNoDupToList tag_list {*}$::g_tagHash($mod)
    }
    if {[llength $tag_list]} {
