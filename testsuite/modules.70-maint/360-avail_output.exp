@@ -467,7 +467,7 @@ modb/1  modb/2  "
 # several loaded modules using same modulepath
 unsetenv_var TESTSUITE_VIA
 setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
-setenv_loaded_module [list moda/1 moda/2] [list $modpath.spider1/moda/1 $modpath.spider2/moda/2]
+setenv_loaded_module [list moda/1 moda/2] [list $modpath.spider1/moda/1 $modpath.spider1/moda/2]
 setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:moda/2&$modpath.spider2
 set tserr "$modlin $modpathre.spider2 \\(via moda/1\\) $modlin
 modb/1  modb/2  
@@ -485,6 +485,7 @@ modb/1  modb/2
 
 $modlin $modpathre.spider1 $modlin
 moda/1 <L>  moda/2 <L>  "
+testouterr_cmd_re sh {avail mod} OK $tserr
 unsetenv_var __MODULES_SHARE_MODULEPATH
 
 # whatis/search report (no effect)

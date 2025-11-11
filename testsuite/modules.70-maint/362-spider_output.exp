@@ -429,7 +429,7 @@ modc/1  modc/2  "
 # several loaded modules using same modulepath
 unsetenv_var TESTSUITE_VIA
 setenv_path_var MODULEPATH $modpath.spider2:$modpath.spider1
-setenv_loaded_module [list moda/1 moda/2] [list $modpath.spider1/moda/1 $modpath.spider2/moda/2]
+setenv_loaded_module [list moda/1 moda/2] [list $modpath.spider1/moda/1 $modpath.spider1/moda/2]
 setenv_var __MODULES_LMUSE moda/1&$modpath.spider2:moda/2&$modpath.spider2
 set tserr "$modlin $modpathre.spider2 \\(via moda/1\\) $modlin
 modb/1  modb/2  
