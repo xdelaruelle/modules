@@ -529,9 +529,8 @@ setenv_var MODULES_AVAIL_OUTPUT sym:tag:modulepath:via
 setenv_loaded_module [list foo/0.2] [list $modpath.2/foo/0.2]
 setenv_var __MODULES_LMUSE foo/0.2&$modpath.3
 setenv_path_var MODULEPATH $modpath.3:$modpath.2
-# FIXME: only foo/0.2 from modpath.2 should appear with L tag
 testouterr_cmd_re sh {avail foo/0} OK "$modlin $modpathre.3 \\(via foo/0.2\\) $modlin
-foo/0.2\\(sym\\) <L:tag>  foo/0.err  foo/0.load  foo/0.prereq  
+foo/0.2\\(sym\\) <tag>  foo/0.err  foo/0.load  foo/0.prereq  
 
 $modlin $modpathre.2 $modlin
 foo/0.1  foo/0.2\\(sym\\) <L:tag>  "
