@@ -281,6 +281,7 @@ proc install_test_xxx_ {command} {
 
    if {$shell eq {ruby}} {
       set comp_error [regsub -all -line {^.* warning: Insecure world writable dir .*(\n|$)} $comp_error {}]
+      set comp_error [regsub -all -line {^`RubyGems' were not loaded\.(\n|$)} $comp_error {}]
    }
 }
 
