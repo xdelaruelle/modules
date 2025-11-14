@@ -705,7 +705,7 @@ proc setModuleAndVariantsExtraTag {mod mod_with_vr args} {
 proc unsetModuleTag {mod args} {
    if {[info exists ::g_tagHash($mod)]} {
       lassign [getDiffBetweenList $::g_tagHash($mod) $args] diff_list
-      if {[llength $diff_list]} {
+      if {[llength $args] && [llength $diff_list]} {
          set ::g_tagHash($mod) $diff_list
       } else {
          unset ::g_tagHash($mod)
@@ -723,7 +723,7 @@ proc unsetModuleAndVariantsTag {mod mod_with_vr args} {
 proc unsetModuleExtraTag {mod args} {
    if {[info exists ::g_extraTagHash($mod)]} {
       lassign [getDiffBetweenList $::g_extraTagHash($mod) $args] diff_list
-      if {[llength $diff_list]} {
+      if {[llength $args] && [llength $diff_list]} {
          set ::g_extraTagHash($mod) $diff_list
       } else {
          unset ::g_extraTagHash($mod)

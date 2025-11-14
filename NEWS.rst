@@ -33,6 +33,9 @@ Modules 5.6.1 (not yet released)
 * Doc: add way to build latexpdf documentation.
 * Ensure that a module having the same name than a loaded module from
   another modulepath does not inherit its tags. (fix issue #599)
+* Drop tags stored in memory that applies to a module when unloading it. It
+  ensures that tags applied to the module when reloaded from a different
+  modulepath are not inherited.
 
 .. _Furo: https://github.com/pradyunsg/furo
 

@@ -1706,16 +1706,11 @@ proc cmdModuleUnload {context match auto force onlyureq args} {
 
          # unset tags declared for this module
          unsetEnvLoadedModuleProperty $modname tag
-         # also remove the auto-loaded and keep-loaded tags from
-         # in-memory knowledge not to re-apply them if module is reloaded
-         # in other conditions
-         unsetModuleAndVariantsTag $modname $modnamevr auto-loaded keep-loaded
+         # also remove tags from in-memory knowledge not to re-apply them if
+         # module is reloaded in other conditions
+         unsetModuleAndVariantsTag $modname $modnamevr
          unsetEnvLoadedModuleProperty $modname extratag
-         # also remove extra tags from in-memory knowledge not re-apply
-         # them if module is reloaded in other conditions
-         set extratag_list [getExtraTagList $modname]
-         unsetModuleAndVariantsTag $modname $modnamevr {*}$extratag_list
-         unsetModuleAndVariantsExtraTag $modname $modnamevr {*}$extratag_list
+         unsetModuleAndVariantsExtraTag $modname $modnamevr
          unsetEnvLoadedModuleProperty $modname stickyrule
 
          if {[getConf auto_handling] && $auto && [isTopEvaluation] &&\
