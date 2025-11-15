@@ -859,6 +859,9 @@ proc reloadModuleListLoadPhase {mod_list {errmsgtpl {}} {context load}} {
          $modnamevr]} {
          set errMsg [string map [list _MOD_ [getModuleDesignation spec\
             $modnamevr]] $errmsgtpl]
+         if {$is_sticky} {
+            set errMsg [string map {dependent {sticky dependent}} $errMsg]
+         }
          # unless sticky no process stop if forced, or ongoing reload or
          # switch cmd in continue behavior
          if {!$is_sticky && ([getState force] || (([isStateEqual commandname\
