@@ -633,7 +633,6 @@ setenv_var TESTSUITE_REQUIRE_VIA tag_before_not_after
 setenv_var __MODULES_LMEXTRATAG othervib/1&bar
 setenv_var __MODULES_LMTAG othervib/1&foo&bar
 
-#FIXME: foo tag should not apply to othervib/1 in new modulepath
 set ans [list]
 lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.other2:modb/1&$modpath.spider3]
 lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
@@ -642,7 +641,7 @@ lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb
 lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
 lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
 lappend ans [list set __MODULES_LMEXTRATAG othervib/1&bar]
-lappend ans [list set __MODULES_LMTAG othervib/1&foo&bar]
+lappend ans [list set __MODULES_LMTAG othervib/1&bar]
 set tserr [msg_top_load othervia/1 moda/1 {} {modb/1 othervib/1 modc/1 othervic/1}]
 testouterr_cmd bash {load --auto othervia/1} $ans $tserr
 
@@ -681,7 +680,7 @@ lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb
 lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
 lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
 lappend ans [list set __MODULES_LMEXTRATAG othervib/1&bar]
-lappend ans [list set __MODULES_LMTAG othervib/1&foo&bar]
+lappend ans [list set __MODULES_LMTAG othervib/1&bar&foo]
 set tserr [msg_top_load othervia/1 moda/1 {} {modb/1 othervib/1 modc/1 othervic/1}]
 testouterr_cmd bash {load --auto othervia/1} $ans $tserr
 
@@ -777,7 +776,7 @@ lappend ans [list set __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1
 lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.other2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1]
 lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
 lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
-lappend ans [list set __MODULES_LMTAG othervib/1&sticky]
+lappend ans [list unset __MODULES_LMTAG]
 set tserr [msg_top_load othervia/1 moda/1 {} {modb/1 othervib/1 modc/1 othervic/1}]
 testouterr_cmd bash {load --auto othervia/1} $ans $tserr
 
@@ -852,7 +851,7 @@ lappend ans [list set __MODULES_LMPREREQ othervib/1&modb/1:othervic/1&othervib/1
 lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.other2/othervib/1:$modpath.spider3/modc/1:$modpath.spider3/othervic/1]
 lappend ans [list set LOADEDMODULES othervia/1:modb/1:othervib/1:modc/1:othervic/1]
 lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
-lappend ans [list set __MODULES_LMTAG othervib/1&super-sticky]
+lappend ans [list unset __MODULES_LMTAG]
 set tserr [msg_top_load othervia/1 moda/1 {} {modb/1 othervib/1 modc/1 othervic/1}]
 testouterr_cmd bash {load --auto othervia/1} $ans $tserr
 

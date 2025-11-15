@@ -267,7 +267,7 @@ set ans [list]
 lappend ans [list set __MODULES_LMSTICKYRULE stickysub/dir1/1.0&sticky|stickysub&super-sticky|stickysub/dir1]
 lappend ans [list set _LMFILES_ $mp/stickysub/dir1/1.0]
 lappend ans [list set LOADEDMODULES stickysub/dir1/1.0]
-lappend ans [list set __MODULES_LMTAG stickysub/dir1/1.0&super-sticky&sticky]
+lappend ans [list set __MODULES_LMTAG stickysub/dir1/1.0&sticky&super-sticky]
 testouterr_cmd_re sh {switch stickysub/dir1/1.0} $ans {}
 set ans [list]
 lappend ans [list set __MODULES_LMSTICKYRULE stickysub/dir1/2.0&sticky|stickysub&super-sticky|stickysub/dir1]
