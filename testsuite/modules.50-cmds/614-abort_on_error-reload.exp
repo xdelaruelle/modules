@@ -483,7 +483,7 @@ setenv_var TESTSUITE_ABORT_ON_ERROR super-sticky_forbidden_same
 set ts_forbidden [err_accessdenied err/1.0]
 testouterr_cmd bash {reload} ERR $ts_forbidden
 
-testouterr_cmd bash {reload --force} $ans_load_fail_tag_forced $ts_forbidden
+testouterr_cmd bash {reload --force} ERR $ts_forbidden
 
 
 #
@@ -715,15 +715,15 @@ setenv_loaded_module [list foo/1.0 err/1.0 all/1.0] [list $mp/foo/1.0 $mp/err/1.
 setenv_var __MODULES_LMTAG err/1.0&sticky
 setenv_var TESTSUITE_ABORT_ON_ERROR sticky_forbidden_same
 
-testouterr_cmd bash {reload} $ans_load_fail_tag_forced $ts_forbidden
+testouterr_cmd bash {reload} ERR $ts_forbidden
 testouterr_cmd bash {reload --force} $ans_load_fail_tag_forced $ts_forbidden
 
 
 setenv_var __MODULES_LMTAG err/1.0&super-sticky
 setenv_var TESTSUITE_ABORT_ON_ERROR super-sticky_forbidden_same
 
-testouterr_cmd bash {reload} $ans_load_fail_tag_forced $ts_forbidden
-testouterr_cmd bash {reload --force} $ans_load_fail_tag_forced $ts_forbidden
+testouterr_cmd bash {reload} ERR $ts_forbidden
+testouterr_cmd bash {reload --force} ERR $ts_forbidden
 
 
 #
