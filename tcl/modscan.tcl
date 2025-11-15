@@ -391,18 +391,6 @@ proc insertProvidedAliases {modpath res_arrname} {
 proc scanExtraMatchSearch {modpath mod res_arrname} {
    upvar $res_arrname found_list
 
-   # get extra match query properties
-   set spec_vr_list [getVariantListFromVersSpec $mod]
-   set check_variant [llength $spec_vr_list]
-   lassign [getSplitExtraListFromVersSpec $mod] spec_tag_list spec_xt_list
-   set check_extra [llength $spec_xt_list]
-
-   # no scan evaluation if extra match search not needed
-   if {!$check_variant && !$check_extra && ![isEltInReport variant 0] &&\
-      ![isEltInReport provided-alias 0]} {
-      return
-   }
-
    # disable error reporting to avoid modulefile errors (not coping with
    # scan evaluation for instance) to pollute result
    set alreadyinhibit [getState inhibit_errreport]
