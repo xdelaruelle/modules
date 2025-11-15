@@ -824,20 +824,11 @@ testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
 setenv_var TESTSUITE_REQUIRE_VIA sticky_before_no_module_after
 setenv_var __MODULES_LMTAG othervib/1&sticky
 
-set tserr [msg_load othervia/1 $err_path'othervib/1' [err_depre othervib/1]]
+set tserr [msg_load othervia/1 $err_path'othervib/1' [err_stickydepre othervib/1]]
 testouterr_cmd bash {load --auto othervia/1} ERR $tserr
 
-set ans [list]
-lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.other2:modb/1&$modpath.spider3]
-lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
-lappend ans [list unset __MODULES_LMPREREQ]
-lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.spider3/modc/1]
-lappend ans [list set LOADEDMODULES othervia/1:modb/1:modc/1]
-lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
-lappend ans [list unset __MODULES_LMTAG]
-lappend ans [list ERR]
-set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {{othervic/1 modc/1 othervib/1 modb/1} {modb/1 modc/1}} $err_path'othervib/1' [err_depref othervib/1]]
-testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+set tserr [msg_switch moda/1 othervia/1 $err_path'othervib/1' [err_stickydepre othervib/1]]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} ERR $tserr
 
 
 # super-sticky tag
@@ -899,28 +890,16 @@ testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
 setenv_var TESTSUITE_REQUIRE_VIA super_sticky_before_no_module_after
 setenv_var __MODULES_LMTAG othervib/1&super-sticky
 
-set tserr [msg_load othervia/1 $err_path'othervib/1' [err_depre othervib/1]]
+set tserr [msg_load othervia/1 $err_path'othervib/1' [err_stickydepre othervib/1]]
 testouterr_cmd bash {load --auto othervia/1} ERR $tserr
 
-#FIXME: whole load should fail as super-sticky module cannot be reloaded
-set ans [list]
-lappend ans [list set __MODULES_LMUSE othervia/1&$modpath.other2:modb/1&$modpath.spider3]
-lappend ans [list set __MODULES_LMCONFLICT othervia/1&moda]
-lappend ans [list unset __MODULES_LMPREREQ]
-lappend ans [list set _LMFILES_ $modpath.spider1/othervia/1:$modpath.other2/modb/1:$modpath.spider3/modc/1]
-lappend ans [list set LOADEDMODULES othervia/1:modb/1:modc/1]
-lappend ans [list set MODULEPATH $modpath.spider3:$modpath.other2:$modpath.spider1]
-lappend ans [list unset __MODULES_LMTAG]
-lappend ans [list ERR]
-set tserr [msg_top_load othervia/1 moda/1 {} {{othervic/1 modc/1 othervib/1 modb/1} {modb/1 modc/1}} $err_path'othervib/1' [err_depref othervib/1]]
-testouterr_cmd bash {load --force --auto othervia/1} $ans $tserr
+set tserr [msg_load othervia/1 $err_path'othervib/1' [err_stickydepre othervib/1]]
+testouterr_cmd bash {load --force --auto othervia/1} ERR $tserr
 
-#FIXME: whole switch should fail as super-sticky module cannot be reloaded
-set tserr [msg_top_switch moda/1 othervia/1 {} {} {} {} {{othervic/1 modc/1 othervib/1 modb/1} {modb/1 modc/1}} $err_path'othervib/1' [err_depref othervib/1]]
-testouterr_cmd bash {switch --auto moda/1 othervia/1} $ans $tserr
+set tserr [msg_switch moda/1 othervia/1 $err_path'othervib/1' [err_stickydepre othervib/1]]
+testouterr_cmd bash {switch --auto moda/1 othervia/1} ERR $tserr
 
-#FIXME: whole switch should fail as super-sticky module cannot be reloaded
-testouterr_cmd bash {switch --force --auto moda/1 othervia/1} $ans $tserr
+testouterr_cmd bash {switch --force --auto moda/1 othervia/1} ERR $tserr
 
 unsetenv_var __MODULES_LMTAG
 

@@ -571,6 +571,10 @@ proc err_depref {mod} {
     return "$::warn_msgs: Reload of dependent $mod failed"
 }
 
+proc err_stickydepre {mod} {
+    return "$::error_msgs: Reload of sticky dependent $mod failed"
+}
+
 proc err_depreun {mod} {
     return [err_depun $mod]
 }
