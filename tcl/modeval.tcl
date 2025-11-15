@@ -843,11 +843,14 @@ proc reloadModuleListLoadPhase {mod_list {errmsgtpl {}} {context load}} {
       # if an auto set default was excluded, module spec need parsing
       lassign [parseModuleSpecification 0 0 0 0 $mod {*}$vr_list] modnamevr
 
+      set is_sticky [isModuleStickyFromTagList {*}$tag_list\
+         {*}$extra_tag_list]
+
       # do not try to reload DepRe module if requirements are not satisfied
       # unless if sticky
       if {$context eq {depre} && ![isModuleLoadable $mod $modnamevr\
          $conflict_list $prereq_list $prereq_path_list $modpath] &&\
-         ![isModuleStickyFromTagList {*}$tag_list {*}$extra_tag_list]} {
+         !$is_sticky} {
          continue
       }
 
@@ -856,10 +859,11 @@ proc reloadModuleListLoadPhase {mod_list {errmsgtpl {}} {context load}} {
          $modnamevr]} {
          set errMsg [string map [list _MOD_ [getModuleDesignation spec\
             $modnamevr]] $errmsgtpl]
-         # no process stop if forced, or ongoing reload or switch cmd in
-         # continue behavior
-         if {[getState force] || (([isStateEqual commandname reload] ||\
-            [isStateEqual commandname switch]) && ![commandAbortOnError])} {
+         # unless sticky no process stop if forced, or ongoing reload or
+         # switch cmd in continue behavior
+         if {!$is_sticky && ([getState force] || (([isStateEqual commandname\
+            reload] || [isStateEqual commandname switch]) &&\
+            ![commandAbortOnError]))} {
             # no msg for reload sub-cmd which provides an empty msg template
             reportWarning $errMsg
          # stop if one load fails unless force mode enabled
