@@ -55,7 +55,7 @@ modulepaths and recursively found in modulepaths enabled by available modules.
     -------------- :sgrdi:`/path/to/modulefiles.3` (via bar/1) --------------
     qux/1  qux/2
 
-The :subcmd:`spider` sub-command relies on the :ref:Extra match search
+The :subcmd:`spider` sub-command relies on the :ref:`Extra match search`
 mechanism to scan modulefiles and identify the modulepaths they enable. Since
 all modulefiles are evaluated during this scan, it is recommended to build
 and use a :ref:`Module cache` to improve search performance.
@@ -295,7 +295,7 @@ for the module.
 
     :ps:`$` module show foo
     -------------------------------------------------------------------
-    :sgrhi:`/path/to/modulefiles/mp4/foo/1`:
+    :sgrhi:`/path/to/modulefiles/foo/1`:
 
     :sgrcm:`provide`         liba/1.2 libb/2.1
     :sgrcm:`conflict`        foo
@@ -717,7 +717,7 @@ module will automatically be unloaded.
     :ps:`$` module purge
     :ps:`$` module load bar/1
     :ps:`$` echo $_LMFILES_
-    /path/to/othermfiles/mp2/bar/1
+    /path/to/othermfiles/bar/1
     :ps:`$` module load foo/1
     Loading :sgrhi:`bar/1`
       :sgrer:`ERROR`: Module already loaded from a different modulepath
