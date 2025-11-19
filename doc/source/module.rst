@@ -2754,8 +2754,9 @@ Module Sub-Commands
 .. subcmd:: switch [options] [modulefile1] modulefile2
 
  Switch loaded *modulefile1* with *modulefile2*. If *modulefile1* is not
- specified, then it is assumed to be the currently loaded module with the
- same root name as *modulefile2*.
+ specified, it is assumed to be the currently loaded module that shares the
+ same root name as *modulefile2*. The root name is defined as the initial part
+ of a module name, i.e., all characters preceding the first ``/``.
 
  :subcmd:`switch` command accepts the following options:
 
