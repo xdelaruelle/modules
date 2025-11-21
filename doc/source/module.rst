@@ -4537,7 +4537,9 @@ ENVIRONMENT
    available.
 
  However, reload is always attempted if the modulefile is tagged as
- ``super-sticky`` or ``sticky``, and force mode is not enabled. Dependent
+ ``super-sticky`` or ``sticky``, and force mode is not enabled. *Abort on
+ error* behavior is applied if reload of such module kind fails whatever the
+ value of the :mconfig:`abort_on_error` configuration option. Dependent
  Reload modulefiles whose reload has been skipped are treated as Dependent
  Unload modulefiles.
 
@@ -4570,6 +4572,10 @@ ENVIRONMENT
 
     .. versionchanged:: 5.5
        Reload of all Dependent Reload modules occurs after the main evaluation
+
+    .. versionchanged:: 5.6
+       *Abort on error* behavior is always applied if reload of a Dependent
+       Reload sticky or super-sticky module fails
 
 .. envvar:: MODULES_AVAIL_INDEPTH
 

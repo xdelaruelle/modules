@@ -36,6 +36,9 @@ Modules 5.6.1 (not yet released)
 * Drop tags stored in memory that applies to a module when unloading it. It
   ensures that tags applied to the module when reloaded from a different
   modulepath are not inherited.
+* Always apply *abort on error* behavior in case a Dependent Reload sticky
+  (and :option:`--force` is not set) or super-sticky module fails to reload.
+  (fix issue #601)
 
 .. _Furo: https://github.com/pradyunsg/furo
 

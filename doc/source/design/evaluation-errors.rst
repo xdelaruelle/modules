@@ -36,6 +36,10 @@ The following list describes the different kind of evaluation error:
 * *forbidden*: evaluated modulefile is tagged forbidden
 * *sticky unload*: when unloading a module tagged sticky
 * *super-sticky unload*: when unloading a module tagged super-sticky
+* *dependent sticky reload*: *dependent reload* special case where a sticky
+  dependent module fails to reload (during the load phase)
+* *dependent super-sticky reload*: *dependent reload* special case where a
+  super-sticky dependent module fails to reload (during the load phase)
 
 .. note:: Use of ``continue`` Tcl command in modulefile shortens evaluation
    but it is not considered an error.
@@ -123,6 +127,12 @@ configuration options are set to a given value.
 +---------------------+------------+-------------------------------+
 | super-sticky unload | unload     |                               |
 +---------------------+------------+-------------------------------+
+| dependent sticky    | load       |                               |
+| reload              |            |                               |
++---------------------+------------+-------------------------------+
+| dependent           | load       |                               |
+| super-sticky reload |            |                               |
++---------------------+------------+-------------------------------+
 
 When evaluation mode and/or configuration option matches for these error kinds
 to raise, a :ref:`default error behavior<default>` error behavior is applied.
@@ -142,6 +152,7 @@ following errors:
 * conflict
 * missing requirement
 * dependent reload
+* dependent sticky reload
 
 Following behavior is observed:
 
@@ -159,6 +170,12 @@ nonexistent modulefile.
 
 ``abort_on_error`` configuration option is ignored when ``--force`` option is
 in use. Which means *continue on error* behavior is applied.
+
+*Abort on error* behavior is applied whatever the value of
+:mconfig:`abort_on_error` if following kind of error occurs:
+
+* dependent sticky reload and force mode is disabled.
+* dependent super-sticky reload
 
 Multiple modulefiles passed as argument
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -299,6 +316,12 @@ force mode is enabled or if reload is removed from :mconfig:`abort_on_error`
 configuration option (where it is enabled by default). In this case, a
 *continue on error* behavior is applied.
 
+*Abort on error* behavior is applied whatever the value of
+:mconfig:`abort_on_error` if:
+
+* a sticky module is not able to reload and force mode is disabled.
+* a super-sticky module is not able to reload
+
 Prior running evaluations, dependencies of loaded modules are checked. If at
 least one dependency (requirement or conflict) is not satisfied, an error is
 raised.
@@ -332,6 +355,7 @@ following errors:
 * dependent reload
 * unloading dependent
 * sticky unload
+* dependent sticky reload
 
 Following behavior is observed:
 
@@ -344,6 +368,12 @@ it from user's loaded environment.
 
 ``abort_on_error`` configuration option is ignored when ``--force`` option is
 in use. Which means *continue on error* behavior is applied.
+
+*Abort on error* behavior is applied whatever the value of
+:mconfig:`abort_on_error` if following kind of error occurs:
+
+* dependent sticky reload and force mode is disabled.
+* dependent super-sticky reload
 
 Multiple modulefiles passed as argument
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
