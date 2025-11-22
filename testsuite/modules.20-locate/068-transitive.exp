@@ -372,6 +372,9 @@ for {set i 1} {$i <= 30} {incr i} {
     testouterr_cmd "sh" "unload $modsym" $ans "$modwarn"
 }
 
+unsetenv_loaded_module
+unsetenv_var __MODULES_LMALTNAME
+
 # transitive symbol sets from a distant module (different name) cannot
 # be resolved when queyring target module name
 set modsym "loc_tr/trbar"
