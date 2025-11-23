@@ -1195,10 +1195,11 @@ proc getPathToModule {mod {indir {}} {report_issue 1} {look_loaded no}\
    # or to find a closest match (used when switching with single name arg)
    } elseif {$look_loaded ne {no}} {
       switch -- $look_loaded {
-         match {set getLoadedNameProc getLoadedMatchingName}
+         exact {set getLoadedNameProc getLoadedExactName}
+         match {set getLoadedNameProc getLoadedEqstartName}
          close {set getLoadedNameProc getLoadedWithClosestName}
       }
-      if {[set lm [$getLoadedNameProc $mod]] ne {}} {
+      if {[set lm [$getLoadedNameProc $mod $indir]] ne {}} {
          set vrlist [getVariantList $lm 1]
          set retlist [list [getModulefileFromLoadedModule $lm] $lm]
       } else {
@@ -1436,7 +1437,7 @@ proc unsetLoadedModule {mod modfile} {
 # return the currently loaded module whose name is the closest to the
 # name passed as argument. if no loaded module match at least one part
 # of the passed name, an empty string is returned.
-proc getLoadedWithClosestName {name} {
+proc getLoadedWithClosestName {name modulepath_list} {
    set ret {}
    set retmax 1
 
@@ -1497,12 +1498,20 @@ proc getLoadedWithClosestName {name} {
    return $ret
 }
 
+proc getLoadedExactName {name modulepath_list} {
+   return [getLoadedMatchingName $name {} 0 {} $modulepath_list eqspec]
+}
+
+proc getLoadedEqstartName {name modulepath_list} {
+   return [getLoadedMatchingName $name {} 0 {} $modulepath_list]
+}
+
 # return the currently loaded module whose name is equal or include the name
 # passed as argument. if no loaded module match, an empty string is returned.
 # loading: look at currently loading modules instead of loaded if loading == 1
 # lmlist: only take into account passed loaded module list not all loaded mods
 proc getLoadedMatchingName {name {behavior {}} {loading 0} {lmlist {}}\
-   {modulepath_list {}}} {
+   {modulepath_list {}} {eqtest eqstart}} {
    set ret {}
    set retmax 0
    # get default behavior from unload_match_order config
@@ -1569,7 +1578,7 @@ proc getLoadedMatchingName {name {behavior {}} {loading 0} {lmlist {}}\
          if {![$isLoadedMatchSpecificPath $mod $modulepath_list]} {
             continue
          }
-         if {[modEq $name $matchmod eqstart 1 [expr {$loading ? 1 : 2}] 1]} {
+         if {[modEq $name $matchmod $eqtest 1 [expr {$loading ? 1 : 2}] 1]} {
             switch -- $behavior {
                returnlast {
                   # the last loaded module will be returned

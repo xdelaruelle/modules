@@ -39,6 +39,9 @@ Modules 5.6.1 (not yet released)
 * Always apply *abort on error* behavior in case a Dependent Reload sticky
   (and :option:`--force` is not set) or super-sticky module fails to reload.
   (fix issue #601)
+* When loading a module, check already loaded modules and their aliases
+  exactly matching specification before looking at available modules and their
+  aliases. (fix issue #602)
 
 .. _Furo: https://github.com/pradyunsg/furo
 

@@ -1690,6 +1690,13 @@ proc getModuleNameFromVersSpec {modarg} {
    }
 }
 
+proc getCmpSpecFromVersSpec {modarg} {
+   if {[info exists ::g_moduleVersSpec($modarg)]} {
+      return [lindex $::g_moduleVersSpec($modarg) 2]
+   } else {
+      return eq
+   }
+}
 # get module root name from module name and version spec if parsed
 proc getModuleRootFromVersSpec {modarg} {
    if {[info exists ::g_moduleVersSpec($modarg)]} {
