@@ -904,6 +904,10 @@ proc if_availindepth {then {else {}}} {
     return [expr {$::install_availindepth eq {y} ? $then : $else}]
 }
 
+proc if_searchcontains {then {else {}}} {
+    return [expr {$::install_searchmatch eq {contains} ? $then : $else}]
+}
+
 proc if_configlocked {option then {else {}}} {
     return [expr {[is_config_locked $option] ? $then : $else}]
 }
