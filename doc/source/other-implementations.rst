@@ -33,7 +33,7 @@ table highlights features that are unique to each implementation.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 8.7.67
+   * - Lmod 9.0.4
      - Modules 5.6
    * - * Integration with *nushell* and *rc* shells and *json* structured
          output
@@ -91,7 +91,7 @@ at the end of this section to map these equivalents.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 8.7.67
+   * - Lmod 9.0.4
      - Modules 5.6
    * - ``category``, ``overview``, ``tablelist``
      - :subcmd:`aliases`, :subcmd:`append-path`, :subcmd:`cachebuild`,
@@ -115,7 +115,7 @@ the end of this section to map these equivalents.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 8.7.67
+   * - Lmod 9.0.4
      - Modules 5.6
    * - ``remove-property``
      - :mfcmd:`getvariant`, :mfcmd:`is-saved`, :mfcmd:`is-used`,
@@ -135,7 +135,7 @@ implementation.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 8.7.67
+   * - Lmod 9.0.4
      - Modules 5.6
    * - `Module properties`_
      - :ref:`Module tags` 
