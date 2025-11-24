@@ -490,7 +490,7 @@ setenv_loaded_module [list autosym8/2] [list $mp/autosym8/2]
 setenv_var __MODULES_LMALTNAME autosym8/2&al|autosym8/3&as|autosym8/default&as|autosym8/latest
 testouterr_cmd sh {is-loaded autosym8/default} OK {}
 testouterr_cmd sh {is-loaded autosym8/latest} OK {}
-testouterr_cmd sh {load autosym8/latest} ERR $err_path'autosym8/latest'
+testouterr_cmd sh {load autosym8/latest} OK {}
 testouterr_cmd sh {load autosym8} OK {}
 testouterr_cmd sh {list} OK "$cur_loaded\n 1) autosym8/2  "
 testouterr_cmd sh {avail -t autosym8/latest} OK {}

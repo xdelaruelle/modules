@@ -201,8 +201,7 @@ lappend ans [list set _LMFILES_ $mp/provide/1:$mp/bar/1]
 lappend ans [list set LOADEDMODULES provide/1:bar/1]
 testouterr_cmd bash {load bar/1} $ans {}
 
-#FIXME: should find foo/1 already loaded
-testouterr_cmd bash {load foo/1} ERR $err_path'foo/1'
+testouterr_cmd bash {load foo/1} OK {}
 
 setenv_loaded_module [list bar/1] [list $mp/bar/1]
 setenv_var __MODULES_LMALTNAME bar/1&al|foo/1
@@ -213,8 +212,7 @@ lappend ans [list set _LMFILES_ $mp/bar/1:$mp/provide/1]
 lappend ans [list set LOADEDMODULES bar/1:provide/1]
 testouterr_cmd bash {load provide/1} $ans {}
 
-#FIXME: should find foo/1 already loaded
-testouterr_cmd bash {load foo/1} ERR $err_path'foo/1'
+testouterr_cmd bash {load foo/1} OK {}
 
 set ans [list]
 lappend ans [list unset __MODULES_LMALTNAME]
@@ -226,8 +224,7 @@ testouterr_cmd bash {unload foo/1} $ans {}
 setenv_loaded_module [list bar/1 provide/1] [list $mp/bar/1 $mp/provide/1]
 setenv_var __MODULES_LMALTNAME bar/1&al|foo/1:provide/1&al|foo/1
 
-#FIXME: should find foo/1 already loaded
-testouterr_cmd bash {load foo/1} ERR $err_path'foo/1'
+testouterr_cmd bash {load foo/1} OK {}
 
 setenv_var MODULES_UNLOAD_MATCH_ORDER returnlast
 set ans [list]
@@ -375,12 +372,7 @@ testouterr_cmd bash {load provide/1} $ans {}
 setenv_loaded_module [list provide/1] [list $mp/provide/1]
 setenv_var __MODULES_LMALTNAME provide/1&al|foo
 
-#FIXME: should find foo already loaded
-set ans [list]
-lappend ans [list set __MODULES_LMALTNAME provide/1&al|foo:bar/1&al|foo]
-lappend ans [list set _LMFILES_ $mp/provide/1:$mp/bar/1]
-lappend ans [list set LOADEDMODULES provide/1:bar/1]
-testouterr_cmd bash {load foo} $ans {}
+testouterr_cmd bash {load foo} OK {}
 
 set ans [list]
 lappend ans [list unset __MODULES_LMALTNAME]
@@ -460,12 +452,7 @@ testouterr_cmd bash {load provide/1} $ans {}
 setenv_loaded_module [list provide/1] [list $mp/provide/1]
 setenv_var __MODULES_LMALTNAME provide/1&al|provide/foo
 
-#FIXME: should find provide/foo already loaded
-set ans [list]
-lappend ans [list set __MODULES_LMALTNAME provide/1&al|provide/foo:provide/2&provide/foo]
-lappend ans [list set _LMFILES_ $mp/provide/1:$mp/provide/2]
-lappend ans [list set LOADEDMODULES provide/1:provide/2]
-testouterr_cmd bash {load provide/foo} $ans {}
+testouterr_cmd bash {load provide/foo} OK {}
 
 set ans [list]
 lappend ans [list unset __MODULES_LMALTNAME]
