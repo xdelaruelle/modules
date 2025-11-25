@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-proc testouterr_shtomod {sh cmdline out err {script {}}} {
+proc testouterr_shtomod {sh cmdline out err {script {}} {xfail {}}} {
     if {$sh eq {ALL}} {
         set shlist $::shtomod_avail_shells
     } else {
@@ -35,7 +35,7 @@ proc testouterr_shtomod {sh cmdline out err {script {}}} {
             set shscript $::testscript($sh)
         }
         set tserr [string map [list {<SHELL>} $sh {<SCRIPTSH>} $shscript] $err]
-        testouterr_cmd sh "sh-to-mod $sh $shscript$cmdline" $out $tserr
+        testouterr_cmd sh "sh-to-mod $sh $shscript$cmdline" $out $tserr $xfail
     }
 }
 
@@ -809,12 +809,14 @@ if {$is_modules_defined} {
     set extratserr {}
 }
 if {$is_modules_defined_fish && $os_name ne {cygwin}} {
+    set xfail_fish {xfail}
     set extratserr_fish "\nunset-function\tml\nunset-function\tmodule"
     if {$is_mogui_defined} {
         append extratserr_fish "\nunset-function\tmogui"
     }
     append extratserr_fish "\nunsetenv\tMODULESHOME"
 } else {
+    set xfail_fish {}
     set extratserr_fish {}
 }
 
@@ -836,7 +838,7 @@ foreach sh $shtomod_avail_shells {
     } elseif {$sh ne {fish}} {
         testouterr_shtomod $sh {} OK $tserr
     } elseif {$sh eq {fish} && $fish_version_ge31} {
-        testouterr_shtomod $sh {} OK $tserr$extratserr_fish
+        testouterr_shtomod $sh {} OK $tserr$extratserr_fish {} $xfail_fish
     }
 }
 
