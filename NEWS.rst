@@ -8,8 +8,8 @@ documents those changes that are of interest to users and admins.
 
 .. _5.6 release notes:
 
-Modules 5.6.1 (not yet released)
---------------------------------
+Modules 5.6.1 (2025-11-25)
+--------------------------
 
 * Script: improve :command:`mrel` to better support Koji states and not rely
   on sudo privileges to test a new release.
