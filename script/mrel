@@ -313,6 +313,9 @@ runcmd >@stdout rpmlint --rpmlintrc share/rpm/environment-modules.rpmlintrc\
    share/rpm/environment-modules.spec $srcrpm {*}$rpmpkg_list
 quitorcont
 
+# test RPM uninstall
+runcmd 2>@$logfid sudo rpm -e --nodeps environment-modules
+
 
 # Phase 4: build, test, install from generated dists
 # ---------------------------------------------------------
