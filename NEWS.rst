@@ -6,6 +6,14 @@ Release notes
 This file describes changes in recent versions of Modules. It primarily
 documents those changes that are of interest to users and admins.
 
+.. _5.7 release notes:
+
+Modules 5.7.0 (not yet released)
+--------------------------------
+
+* Script: improve :command:`mrel` to always ask a Fedora Kerberos ticket.
+
+
 .. _5.6 release notes:
 
 Modules 5.6.1 (2025-11-25)
