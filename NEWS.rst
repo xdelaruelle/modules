@@ -12,6 +12,8 @@ Modules 5.7.0 (not yet released)
 --------------------------------
 
 * Script: improve :command:`mrel` to always ask a Fedora Kerberos ticket.
+* Use CMake ``EVAL CODE`` to forward arguments passed to ``module`` CMake
+  function. (fix issue #419 with contribution from Benoit Dumas)
 
 
 .. _5.6 release notes:
