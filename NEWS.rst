@@ -16,6 +16,7 @@ Modules 5.7.0 (not yet released)
   function. (fix issue #419 with contribution from Benoit Dumas)
 * Doc: update email address in `Code of conduct`_ to report bad behavior to
   maintainers.
+* Move *modules-interest* mailing-list to HPSF.
 
 
 .. _5.6 release notes:

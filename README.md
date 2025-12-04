@@ -137,7 +137,7 @@ Modules is an open source project. Questions, discussion, and contributions
 are welcome. You can get in contact with the Modules community via:
 
 * the [modules-interest mailing list][6]
-  (`modules-interest@lists.sourceforge.net`)
+  (`modules-interest@lists.hpsf.io`)
 * the [Modules chat room][7] (`#modules:matrix.org`)
 
 The project is also present on several social media platforms:
@@ -212,7 +212,7 @@ be what it is without their contributions:
 [3]: https://modules.readthedocs.io/en/stable/MIGRATING.html
 [4]: https://modules.readthedocs.io/en/stable/NEWS.html
 [5]: https://modules.readthedocs.io/en/stable/changes.html
-[6]: https://sourceforge.net/projects/modules/lists/modules-interest
+[6]: https://lists.hpsf.io/g/modules-interest
 [7]: https://matrix.to/#/#modules:matrix.org
 [8]: https://x.com/EnvModules
 [9]: https://mast.hpc.social/@EnvModules

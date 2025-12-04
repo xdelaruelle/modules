@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([Envmodules],[1.4.3],[modules-interest@lists.sourceforge.net],[],[https://envmodules.io])
+AC_INIT([Envmodules],[1.4.3],[modules-interest@lists.hpsf.io],[],[https://envmodules.io])
 AC_CONFIG_SRCDIR([envmodules.c])
 AC_CONFIG_HEADERS([config.h])
 

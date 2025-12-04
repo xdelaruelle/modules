@@ -20,11 +20,11 @@ Support questions
 -----------------
 
 Please use the `modules-interest mailing list`_
-(``modules-interest@lists.sourceforge.net``) or the `Modules chat room`_
+(``modules-interest@lists.hpsf.io``) or the `Modules chat room`_
 (``#modules:matrix.org``) for questions. Do not use the
 issue tracker for this.
 
-.. _modules-interest mailing list: https://sourceforge.net/projects/modules/lists/modules-interest
+.. _modules-interest mailing list: https://lists.hpsf.io/g/modules-interest
 .. _Modules chat room: https://matrix.to/#/#modules:matrix.org
 
 Asking for new features
