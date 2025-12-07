@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/BLIS/0.8.1-GCC-11.2.0
+conflict BLIS
+module load GCC/11.2.0

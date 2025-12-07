@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/xorg-macros/1.20.0-GCCcore-13.2.0
+conflict xorg-macros
+module load GCCcore/13.2.0

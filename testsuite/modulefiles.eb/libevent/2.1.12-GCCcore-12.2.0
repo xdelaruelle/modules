@@ -1,0 +1,7 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libevent/2.1.12-GCCcore-12.2.0
+conflict libevent
+module load GCCcore/12.2.0
+module load zlib/1.2.12-GCCcore-12.2.0
+module load OpenSSL/1.1

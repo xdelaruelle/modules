@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/FFTW.MPI/3.3.10-gompi-2023b
+conflict FFTW.MPI
+module load gompi/2023b
+module load FFTW/3.3.10-GCC-13.2.0

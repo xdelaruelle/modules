@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/pkgconf/1.8.0-GCCcore-11.3.0
+conflict pkgconf
+module load GCCcore/11.3.0
+setenv	PKG_CONFIG		"/software/pkgconf/1.8.0-GCCcore-11.3.0/bin/pkgconf"

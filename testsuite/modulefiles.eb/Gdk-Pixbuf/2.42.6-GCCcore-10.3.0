@@ -1,0 +1,10 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Gdk-Pixbuf/2.42.6-GCCcore-10.3.0
+conflict Gdk-Pixbuf
+module load GCCcore/10.3.0
+module load GLib/2.68.2-GCCcore-10.3.0
+module load libjpeg-turbo/2.0.6-GCCcore-10.3.0
+module load libpng/1.6.37-GCCcore-10.3.0
+module load LibTIFF/4.2.0-GCCcore-10.3.0
+module load X11/20210518-GCCcore-10.3.0

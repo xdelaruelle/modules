@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Doxygen/1.9.1-GCCcore-10.3.0
+conflict Doxygen
+module load GCCcore/10.3.0
+module load libiconv/1.16-GCCcore-10.3.0

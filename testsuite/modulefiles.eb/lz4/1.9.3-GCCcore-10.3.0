@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/lz4/1.9.3-GCCcore-10.3.0
+conflict lz4
+module load GCCcore/10.3.0

@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/bzip2/1.0.8-GCCcore-12.2.0
+conflict bzip2
+module load GCCcore/12.2.0

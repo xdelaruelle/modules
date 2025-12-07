@@ -1,0 +1,11 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Perl/5.34.0-GCCcore-11.2.0
+conflict Perl
+module load GCCcore/11.2.0
+module load zlib/1.2.11-GCCcore-11.2.0
+module load expat/2.4.1-GCCcore-11.2.0
+module load ncurses/6.2-GCCcore-11.2.0
+module load libreadline/8.1-GCCcore-11.2.0
+module load DB/18.1.40-GCCcore-11.2.0
+module load OpenSSL/1.1

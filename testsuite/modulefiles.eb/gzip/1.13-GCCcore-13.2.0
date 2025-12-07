@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/gzip/1.13-GCCcore-13.2.0
+conflict gzip
+module load GCCcore/13.2.0

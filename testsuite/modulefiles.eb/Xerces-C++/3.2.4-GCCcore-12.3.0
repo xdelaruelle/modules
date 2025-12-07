@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Xerces-C++/3.2.4-GCCcore-12.3.0
+conflict Xerces-C++
+module load GCCcore/12.3.0
+module load cURL/8.0.1-GCCcore-12.3.0

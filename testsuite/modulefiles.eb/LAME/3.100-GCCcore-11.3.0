@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/LAME/3.100-GCCcore-11.3.0
+conflict LAME
+module load GCCcore/11.3.0
+module load ncurses/6.3-GCCcore-11.3.0

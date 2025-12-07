@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/FriBidi/1.0.10-GCCcore-11.2.0
+conflict FriBidi
+module load GCCcore/11.2.0

@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libffi/3.4.4-GCCcore-12.3.0
+conflict libffi
+module load GCCcore/12.3.0

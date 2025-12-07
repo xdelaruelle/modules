@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/GEOS/3.9.1-GCC-10.3.0
+conflict GEOS
+module load GCC/10.3.0

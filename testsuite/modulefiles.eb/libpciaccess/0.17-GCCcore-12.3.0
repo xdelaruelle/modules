@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libpciaccess/0.17-GCCcore-12.3.0
+conflict libpciaccess
+module load GCCcore/12.3.0

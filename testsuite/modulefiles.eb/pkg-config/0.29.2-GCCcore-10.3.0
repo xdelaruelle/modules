@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/pkg-config/0.29.2-GCCcore-10.3.0
+conflict pkg-config
+module load GCCcore/10.3.0

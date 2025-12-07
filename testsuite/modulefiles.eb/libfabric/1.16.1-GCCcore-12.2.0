@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libfabric/1.16.1-GCCcore-12.2.0
+conflict libfabric
+module load GCCcore/12.2.0
+module load numactl/2.0.16-GCCcore-12.2.0

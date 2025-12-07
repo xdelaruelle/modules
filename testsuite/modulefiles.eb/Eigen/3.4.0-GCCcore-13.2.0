@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Eigen/3.4.0-GCCcore-13.2.0
+conflict Eigen
+module load GCCcore/13.2.0

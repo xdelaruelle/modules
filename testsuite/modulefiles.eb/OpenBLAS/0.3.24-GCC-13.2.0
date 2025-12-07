@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/OpenBLAS/0.3.24-GCC-13.2.0
+conflict OpenBLAS
+module load GCC/13.2.0

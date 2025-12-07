@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Imath/3.1.7-GCCcore-12.3.0
+conflict Imath
+module load GCCcore/12.3.0

@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/ncurses/6.2-GCCcore-10.3.0
+conflict ncurses
+module load GCCcore/10.3.0

@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Bison/3.8.2-GCCcore-13.2.0
+conflict Bison
+module load GCCcore/13.2.0

@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/make/4.3-GCCcore-11.2.0
+conflict make
+module load GCCcore/11.2.0

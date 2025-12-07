@@ -1,0 +1,40 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/R/4.2.2-foss-2022b
+conflict R
+module load foss/2022b
+module load X11/20221110-GCCcore-12.2.0
+module load Mesa/22.2.4-GCCcore-12.2.0
+module load libGLU/9.0.2-GCCcore-12.2.0
+module load cairo/1.17.4-GCCcore-12.2.0
+module load libreadline/8.2-GCCcore-12.2.0
+module load ncurses/6.3-GCCcore-12.2.0
+module load bzip2/1.0.8-GCCcore-12.2.0
+module load XZ/5.2.7-GCCcore-12.2.0
+module load zlib/1.2.12-GCCcore-12.2.0
+module load SQLite/3.39.4-GCCcore-12.2.0
+module load PCRE2/10.40-GCCcore-12.2.0
+module load libpng/1.6.38-GCCcore-12.2.0
+module load libjpeg-turbo/2.1.4-GCCcore-12.2.0
+module load LibTIFF/4.4.0-GCCcore-12.2.0
+module load Java/11
+module load Tk/8.6.12-GCCcore-12.2.0
+module load cURL/7.86.0-GCCcore-12.2.0
+module load libxml2/2.10.3-GCCcore-12.2.0
+module load GMP/6.2.1-GCCcore-12.2.0
+module load NLopt/2.7.1-GCCcore-12.2.0
+module load FFTW/3.3.10-GCC-12.2.0
+module load libsndfile/1.2.0-GCCcore-12.2.0
+module load ICU/72.1-GCCcore-12.2.0
+module load HDF5/1.14.0-gompi-2022b
+module load UDUNITS/2.2.28-GCCcore-12.2.0
+module load GSL/2.7-GCC-12.2.0
+module load ImageMagick/7.1.0-53-GCCcore-12.2.0
+module load GLPK/5.0-GCCcore-12.2.0
+module load nodejs/18.12.1-GCCcore-12.2.0
+module load GDAL/3.6.2-foss-2022b
+module load MPFR/4.2.0-GCCcore-12.2.0
+module load libgit2/1.5.0-GCCcore-12.2.0
+module load OpenSSL/1.1
+module load protobuf/23.0-GCCcore-12.2.0
+module load jq/1.6-GCCcore-12.2.0

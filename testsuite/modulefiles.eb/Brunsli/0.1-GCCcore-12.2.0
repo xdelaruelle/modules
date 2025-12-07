@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Brunsli/0.1-GCCcore-12.2.0
+conflict Brunsli
+module load GCCcore/12.2.0
+module load Brotli/1.0.9-GCCcore-12.2.0

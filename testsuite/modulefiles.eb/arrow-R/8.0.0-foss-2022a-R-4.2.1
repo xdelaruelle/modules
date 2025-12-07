@@ -1,0 +1,8 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/arrow-R/8.0.0-foss-2022a-R-4.2.1
+conflict arrow-R
+module load foss/2022a
+module load R/4.2.1-foss-2022a
+module load Arrow/8.0.0-foss-2022a
+prepend-path	R_LIBS_SITE		$root

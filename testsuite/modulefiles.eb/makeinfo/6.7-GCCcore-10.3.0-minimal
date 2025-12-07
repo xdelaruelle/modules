@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/makeinfo/6.7-GCCcore-10.3.0-minimal
+conflict makeinfo
+module load GCCcore/10.3.0
+module load Perl/5.32.1-GCCcore-10.3.0-minimal

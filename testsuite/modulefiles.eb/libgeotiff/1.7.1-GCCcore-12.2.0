@@ -1,0 +1,11 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libgeotiff/1.7.1-GCCcore-12.2.0
+conflict libgeotiff
+module load GCCcore/12.2.0
+module load PROJ/9.1.1-GCCcore-12.2.0
+module load libjpeg-turbo/2.1.4-GCCcore-12.2.0
+module load zlib/1.2.12-GCCcore-12.2.0
+module load SQLite/3.39.4-GCCcore-12.2.0
+module load LibTIFF/4.4.0-GCCcore-12.2.0
+module load cURL/7.86.0-GCCcore-12.2.0

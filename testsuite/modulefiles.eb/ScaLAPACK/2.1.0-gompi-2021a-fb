@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/ScaLAPACK/2.1.0-gompi-2021a-fb
+conflict ScaLAPACK
+module load gompi/2021a
+module load FlexiBLAS/3.0.4-GCC-10.3.0

@@ -1,0 +1,8 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/netCDF/4.8.1-gompi-2021b
+conflict netCDF
+module load gompi/2021b
+module load HDF5/1.12.1-gompi-2021b
+module load cURL/7.78.0-GCCcore-11.2.0
+module load Szip/2.1.1-GCCcore-11.2.0

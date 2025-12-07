@@ -1,0 +1,7 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/SQLite/3.38.3-GCCcore-11.3.0
+conflict SQLite
+module load GCCcore/11.3.0
+module load libreadline/8.1.2-GCCcore-11.3.0
+module load Tcl/8.6.12-GCCcore-11.3.0

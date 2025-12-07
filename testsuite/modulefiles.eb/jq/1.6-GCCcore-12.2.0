@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/jq/1.6-GCCcore-12.2.0
+conflict jq
+module load GCCcore/12.2.0

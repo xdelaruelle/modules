@@ -1,0 +1,8 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Python-bundle-PyPI/2023.10-GCCcore-13.2.0
+conflict Python-bundle-PyPI
+module load GCCcore/13.2.0
+module load Python/3.11.5-GCCcore-13.2.0
+module load cryptography/41.0.5-GCCcore-13.2.0
+module load virtualenv/20.24.6-GCCcore-13.2.0

@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Yasm/1.3.0-GCCcore-12.3.0
+conflict Yasm
+module load GCCcore/12.3.0

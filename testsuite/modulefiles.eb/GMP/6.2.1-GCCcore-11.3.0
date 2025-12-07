@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/GMP/6.2.1-GCCcore-11.3.0
+conflict GMP
+module load GCCcore/11.3.0

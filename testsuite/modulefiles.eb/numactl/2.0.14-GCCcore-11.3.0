@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/numactl/2.0.14-GCCcore-11.3.0
+conflict numactl
+module load GCCcore/11.3.0

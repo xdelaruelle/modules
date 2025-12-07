@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/gperf/3.1-GCCcore-13.2.0
+conflict gperf
+module load GCCcore/13.2.0

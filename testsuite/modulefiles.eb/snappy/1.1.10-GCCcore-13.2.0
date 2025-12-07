@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/snappy/1.1.10-GCCcore-13.2.0
+conflict snappy
+module load GCCcore/13.2.0

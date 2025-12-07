@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/PCRE2/10.42-GCCcore-12.3.0
+conflict PCRE2
+module load GCCcore/12.3.0

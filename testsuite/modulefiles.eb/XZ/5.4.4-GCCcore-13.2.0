@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/XZ/5.4.4-GCCcore-13.2.0
+conflict XZ
+module load GCCcore/13.2.0

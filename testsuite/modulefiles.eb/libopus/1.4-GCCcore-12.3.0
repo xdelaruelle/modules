@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libopus/1.4-GCCcore-12.3.0
+conflict libopus
+module load GCCcore/12.3.0

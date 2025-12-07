@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/help2man/1.49.2-GCCcore-12.2.0
+conflict help2man
+module load GCCcore/12.2.0

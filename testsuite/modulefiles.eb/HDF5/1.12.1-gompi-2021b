@@ -1,0 +1,8 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/HDF5/1.12.1-gompi-2021b
+conflict HDF5
+module load gompi/2021b
+module load zlib/1.2.11-GCCcore-11.2.0
+module load Szip/2.1.1-GCCcore-11.2.0
+setenv	HDF5_DIR		"/software/HDF5/1.12.1-gompi-2021b"

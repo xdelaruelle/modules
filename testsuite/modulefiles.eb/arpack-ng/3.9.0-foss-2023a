@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/arpack-ng/3.9.0-foss-2023a
+conflict arpack-ng
+module load foss/2023a

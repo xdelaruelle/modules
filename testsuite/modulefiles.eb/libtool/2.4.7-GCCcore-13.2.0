@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libtool/2.4.7-GCCcore-13.2.0
+conflict libtool
+module load GCCcore/13.2.0
+module load M4/1.4.19-GCCcore-13.2.0

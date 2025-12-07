@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Szip/2.1.1-GCCcore-12.2.0
+conflict Szip
+module load GCCcore/12.2.0

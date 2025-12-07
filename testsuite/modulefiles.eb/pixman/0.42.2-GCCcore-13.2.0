@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/pixman/0.42.2-GCCcore-13.2.0
+conflict pixman
+module load GCCcore/13.2.0

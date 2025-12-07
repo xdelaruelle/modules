@@ -1,0 +1,36 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/GDAL/3.9.0-foss-2023b
+conflict GDAL
+module load foss/2023b
+module load Python/3.11.5-GCCcore-13.2.0
+module load netCDF/4.9.2-gompi-2023b
+module load expat/2.5.0-GCCcore-13.2.0
+module load GEOS/3.12.1-GCC-13.2.0
+module load SQLite/3.43.1-GCCcore-13.2.0
+module load libarchive/3.7.2-GCCcore-13.2.0
+module load libxml2/2.11.5-GCCcore-13.2.0
+module load libpng/1.6.40-GCCcore-13.2.0
+module load libjpeg-turbo/3.0.1-GCCcore-13.2.0
+module load LibTIFF/4.6.0-GCCcore-13.2.0
+module load zlib/1.2.13-GCCcore-13.2.0
+module load cURL/8.3.0-GCCcore-13.2.0
+module load PCRE/8.45-GCCcore-13.2.0
+module load PROJ/9.3.1-GCCcore-13.2.0
+module load libgeotiff/1.7.3-GCCcore-13.2.0
+module load SciPy-bundle/2023.11-gfbf-2023b
+module load HDF5/1.14.3-gompi-2023b
+module load HDF/4.2.16-2-GCCcore-13.2.0
+module load Armadillo/12.8.0-foss-2023b
+module load CFITSIO/4.3.1-GCCcore-13.2.0
+module load zstd/1.5.5-GCCcore-13.2.0
+module load giflib/5.2.1-GCCcore-13.2.0
+module load json-c/0.17-GCCcore-13.2.0
+module load Xerces-C++/3.2.5-GCCcore-13.2.0
+module load PCRE2/10.42-GCCcore-13.2.0
+module load OpenEXR/3.2.0-GCCcore-13.2.0
+module load Brunsli/0.1-GCCcore-13.2.0
+module load Qhull/2020.2-GCCcore-13.2.0
+module load LERC/4.0.0-GCCcore-13.2.0
+module load OpenJPEG/2.5.0-GCCcore-13.2.0
+module load SWIG/4.1.1-GCCcore-13.2.0

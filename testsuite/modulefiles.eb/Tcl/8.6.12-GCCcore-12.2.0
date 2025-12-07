@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Tcl/8.6.12-GCCcore-12.2.0
+conflict Tcl
+module load GCCcore/12.2.0
+module load zlib/1.2.12-GCCcore-12.2.0

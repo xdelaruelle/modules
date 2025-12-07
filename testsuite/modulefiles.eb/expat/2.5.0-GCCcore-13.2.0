@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/expat/2.5.0-GCCcore-13.2.0
+conflict expat
+module load GCCcore/13.2.0

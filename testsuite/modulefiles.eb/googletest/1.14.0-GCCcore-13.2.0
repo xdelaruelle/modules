@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/googletest/1.14.0-GCCcore-13.2.0
+conflict googletest
+module load GCCcore/13.2.0

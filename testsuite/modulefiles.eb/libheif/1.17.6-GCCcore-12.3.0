@@ -1,0 +1,10 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libheif/1.17.6-GCCcore-12.3.0
+conflict libheif
+module load GCCcore/12.3.0
+module load libpng/1.6.39-GCCcore-12.3.0
+module load libjpeg-turbo/2.1.5.1-GCCcore-12.3.0
+module load libde265/1.0.15-GCCcore-12.3.0
+module load x265/3.5-GCCcore-12.3.0
+module load Gdk-Pixbuf/2.42.10-GCCcore-12.3.0

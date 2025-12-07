@@ -1,0 +1,4 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/GCCcore/10.3.0
+conflict GCCcore

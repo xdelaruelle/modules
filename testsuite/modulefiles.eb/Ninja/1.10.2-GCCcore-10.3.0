@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Ninja/1.10.2-GCCcore-10.3.0
+conflict Ninja
+module load GCCcore/10.3.0

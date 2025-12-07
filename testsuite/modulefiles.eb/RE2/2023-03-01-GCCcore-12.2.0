@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/RE2/2023-03-01-GCCcore-12.2.0
+conflict RE2
+module load GCCcore/12.2.0

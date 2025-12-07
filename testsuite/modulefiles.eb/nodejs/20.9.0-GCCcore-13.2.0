@@ -1,0 +1,7 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/nodejs/20.9.0-GCCcore-13.2.0
+conflict nodejs
+module load GCCcore/13.2.0
+module load ICU/74.1-GCCcore-13.2.0
+module load OpenSSL/1.1

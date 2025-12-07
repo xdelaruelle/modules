@@ -1,0 +1,7 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/util-linux/2.39-GCCcore-13.2.0
+conflict util-linux
+module load GCCcore/13.2.0
+module load ncurses/6.4-GCCcore-13.2.0
+module load zlib/1.2.13-GCCcore-13.2.0

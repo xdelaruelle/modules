@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libdeflate/1.15-GCCcore-12.2.0
+conflict libdeflate
+module load GCCcore/12.2.0

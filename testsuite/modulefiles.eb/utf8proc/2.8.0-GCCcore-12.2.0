@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/utf8proc/2.8.0-GCCcore-12.2.0
+conflict utf8proc
+module load GCCcore/12.2.0

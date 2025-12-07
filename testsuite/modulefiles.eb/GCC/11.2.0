@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/GCC/11.2.0
+conflict GCC
+module load GCCcore/11.2.0
+module load binutils/2.37-GCCcore-11.2.0

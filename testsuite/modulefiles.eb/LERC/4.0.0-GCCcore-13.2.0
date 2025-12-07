@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/LERC/4.0.0-GCCcore-13.2.0
+conflict LERC
+module load GCCcore/13.2.0

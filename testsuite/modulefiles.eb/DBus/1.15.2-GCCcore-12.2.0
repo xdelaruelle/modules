@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/DBus/1.15.2-GCCcore-12.2.0
+conflict DBus
+module load GCCcore/12.2.0
+module load expat/2.4.9-GCCcore-12.2.0

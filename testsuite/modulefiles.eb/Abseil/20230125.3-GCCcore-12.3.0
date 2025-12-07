@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Abseil/20230125.3-GCCcore-12.3.0
+conflict Abseil
+module load GCCcore/12.3.0

@@ -1,0 +1,4 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/binutils/2.37
+conflict binutils

@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/NASM/2.16.01-GCCcore-13.2.0
+conflict NASM
+module load GCCcore/13.2.0

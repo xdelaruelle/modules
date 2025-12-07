@@ -1,0 +1,8 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/SciPy-bundle/2023.11-gfbf-2023b
+conflict SciPy-bundle
+module load gfbf/2023b
+module load Python/3.11.5-GCCcore-13.2.0
+module load Python-bundle-PyPI/2023.10-GCCcore-13.2.0
+module load pybind11/2.11.1-GCCcore-13.2.0

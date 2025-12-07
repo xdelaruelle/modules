@@ -1,0 +1,7 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Autotools/20220317
+conflict Autotools
+module load Autoconf/2.71
+module load Automake/1.16.5
+module load libtool/2.4.7

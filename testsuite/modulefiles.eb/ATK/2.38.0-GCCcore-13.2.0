@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/ATK/2.38.0-GCCcore-13.2.0
+conflict ATK
+module load GCCcore/13.2.0
+module load GLib/2.78.1-GCCcore-13.2.0

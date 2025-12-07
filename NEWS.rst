@@ -17,6 +17,8 @@ Modules 5.7.0 (not yet released)
 * Doc: update email address in `Code of conduct`_ to report bad behavior to
   maintainers.
 * Move *modules-interest* mailing-list to HPSF.
+* Script: add tests on :command:`mb` utility to track performance of load,
+  list and purge sub-commands with large number (>100) of modules.
 
 
 .. _5.6 release notes:

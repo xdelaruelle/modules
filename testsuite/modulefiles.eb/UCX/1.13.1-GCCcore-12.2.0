@@ -1,0 +1,7 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/UCX/1.13.1-GCCcore-12.2.0
+conflict UCX
+module load GCCcore/12.2.0
+module load zlib/1.2.12-GCCcore-12.2.0
+module load numactl/2.0.16-GCCcore-12.2.0

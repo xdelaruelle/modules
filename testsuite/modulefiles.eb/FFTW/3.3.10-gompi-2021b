@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/FFTW/3.3.10-gompi-2021b
+conflict FFTW
+module load gompi/2021b

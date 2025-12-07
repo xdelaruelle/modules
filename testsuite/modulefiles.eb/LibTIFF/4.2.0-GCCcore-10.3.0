@@ -1,0 +1,10 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/LibTIFF/4.2.0-GCCcore-10.3.0
+conflict LibTIFF
+module load GCCcore/10.3.0
+module load zlib/1.2.11-GCCcore-10.3.0
+module load libjpeg-turbo/2.0.6-GCCcore-10.3.0
+module load XZ/5.2.5-GCCcore-10.3.0
+module load jbigkit/2.1-GCCcore-10.3.0
+module load zstd/1.4.9-GCCcore-10.3.0

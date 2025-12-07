@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libjpeg-turbo/2.0.6-GCCcore-10.3.0
+conflict libjpeg-turbo
+module load GCCcore/10.3.0
+module load NASM/2.15.05-GCCcore-10.3.0

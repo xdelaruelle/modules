@@ -1,0 +1,8 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/LLVM/16.0.6-GCCcore-12.3.0
+conflict LLVM
+module load GCCcore/12.3.0
+module load ncurses/6.4-GCCcore-12.3.0
+module load zlib/1.2.13-GCCcore-12.3.0
+setenv	ASAN_SYMBOLIZER_PATH		"/software/LLVM/16.0.6-GCCcore-12.3.0/bin/llvm-symbolizer"

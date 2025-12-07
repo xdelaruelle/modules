@@ -1,0 +1,7 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Meson/1.2.3-GCCcore-13.2.0
+conflict Meson
+module load GCCcore/13.2.0
+module load Python/3.11.5-GCCcore-13.2.0
+module load Ninja/1.11.1-GCCcore-13.2.0

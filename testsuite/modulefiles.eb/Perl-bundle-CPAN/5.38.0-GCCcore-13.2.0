@@ -1,0 +1,12 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Perl-bundle-CPAN/5.38.0-GCCcore-13.2.0
+conflict Perl-bundle-CPAN
+module load GCCcore/13.2.0
+module load Perl/5.38.0-GCCcore-13.2.0
+module load zlib/1.2.13-GCCcore-13.2.0
+module load expat/2.5.0-GCCcore-13.2.0
+module load ncurses/6.4-GCCcore-13.2.0
+module load libreadline/8.2-GCCcore-13.2.0
+module load OpenSSL/1.1
+prepend-path	PERL5LIB		$root/share/perl5/5.40

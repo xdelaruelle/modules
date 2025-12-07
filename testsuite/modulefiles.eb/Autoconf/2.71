@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Autoconf/2.71
+conflict Autoconf
+module load M4/1.4.18

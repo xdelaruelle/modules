@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/GSL/2.7-GCC-10.3.0
+conflict GSL
+module load GCC/10.3.0

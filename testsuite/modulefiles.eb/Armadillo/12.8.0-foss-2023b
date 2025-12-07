@@ -1,0 +1,8 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Armadillo/12.8.0-foss-2023b
+conflict Armadillo
+module load foss/2023b
+module load Boost/1.83.0-GCC-13.2.0
+module load HDF5/1.14.3-gompi-2023b
+module load arpack-ng/3.9.0-foss-2023b

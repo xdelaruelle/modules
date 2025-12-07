@@ -1,0 +1,7 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/gettext/0.21-GCCcore-11.2.0
+conflict gettext
+module load GCCcore/11.2.0
+module load libxml2/2.9.10-GCCcore-11.2.0
+module load ncurses/6.2-GCCcore-11.2.0

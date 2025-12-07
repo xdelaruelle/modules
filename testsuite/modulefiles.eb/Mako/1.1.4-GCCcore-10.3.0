@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Mako/1.1.4-GCCcore-10.3.0
+conflict Mako
+module load GCCcore/10.3.0
+module load Python/3.9.5-GCCcore-10.3.0

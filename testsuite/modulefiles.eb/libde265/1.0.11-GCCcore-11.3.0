@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/libde265/1.0.11-GCCcore-11.3.0
+conflict libde265
+module load GCCcore/11.3.0

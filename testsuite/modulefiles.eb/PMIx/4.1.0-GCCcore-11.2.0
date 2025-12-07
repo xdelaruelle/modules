@@ -1,0 +1,9 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/PMIx/4.1.0-GCCcore-11.2.0
+conflict PMIx
+module load GCCcore/11.2.0
+module load libevent/2.1.12-GCCcore-11.2.0
+module load zlib/1.2.11-GCCcore-11.2.0
+module load hwloc/2.5.0-GCCcore-11.2.0
+module load libfabric/1.13.2-GCCcore-11.2.0

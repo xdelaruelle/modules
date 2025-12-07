@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/FFTW/3.3.10-GCC-12.2.0
+conflict FFTW
+module load GCC/12.2.0

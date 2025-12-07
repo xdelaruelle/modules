@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/Qhull/2020.2-GCCcore-12.2.0
+conflict Qhull
+module load GCCcore/12.2.0

@@ -1,0 +1,5 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/groff/1.23.0-GCCcore-13.2.0
+conflict groff
+module load GCCcore/13.2.0

@@ -1,0 +1,6 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/binutils/2.38-GCCcore-11.3.0
+conflict binutils
+module load GCCcore/11.3.0
+module load zlib/1.2.12-GCCcore-11.3.0

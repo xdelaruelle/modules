@@ -1,0 +1,23 @@
+#%Module
+module-whatis {Description: module name and version}
+set root /software/GDAL/3.3.0-foss-2021a
+conflict GDAL
+module load foss/2021a
+module load Python/3.9.5-GCCcore-10.3.0
+module load netCDF/4.8.0-gompi-2021a
+module load expat/2.2.9-GCCcore-10.3.0
+module load GEOS/3.9.1-GCC-10.3.0
+module load SQLite/3.35.4-GCCcore-10.3.0
+module load libxml2/2.9.10-GCCcore-10.3.0
+module load libpng/1.6.37-GCCcore-10.3.0
+module load libjpeg-turbo/2.0.6-GCCcore-10.3.0
+module load JasPer/2.0.28-GCCcore-10.3.0
+module load LibTIFF/4.2.0-GCCcore-10.3.0
+module load zlib/1.2.11-GCCcore-10.3.0
+module load cURL/7.76.0-GCCcore-10.3.0
+module load PCRE/8.44-GCCcore-10.3.0
+module load PROJ/8.0.1-GCCcore-10.3.0
+module load libgeotiff/1.6.0-GCCcore-10.3.0
+module load SciPy-bundle/2021.05-foss-2021a
+module load HDF5/1.10.7-gompi-2021a
+module load HDF/4.2.15-GCCcore-10.3.0
