@@ -66,7 +66,7 @@ proc bench {tag args} {
 
 # profile given modulecmd version test run
 proc profile {tag args} {
-   return [eval exec script/mlprof report$::profprocnb $tag $args]
+   return [exec script/mlprof report$::profprocnb $tag {*}$args]
 }
 
 # procedures to create cache file in modulepaths prior tests and remove them
@@ -123,7 +123,7 @@ proc runtest {mode test} {
          if {$use_cache} {
             module_cache_create $tag
          }
-         set res [eval $mode $tag $cmdlist]
+         set res [$mode $tag {*}$cmdlist]
          if {$use_cache} {
             module_cache_delete $tag
          }
