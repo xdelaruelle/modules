@@ -55,7 +55,7 @@ proc reportWarning {str} {
 }
 
 set benchrep 20
-set profprocnb 10
+set profprocnb 20
 set curdir [pwd]
 
 # time test run for a given modulecmd version
@@ -299,8 +299,8 @@ array set testcompatlist [list avail3 4.6.0 whatis3 4.6.0 avail_cache 5.3.0\
 
 # adapt output table to test mode
 if {$mode eq {profile}} {
-   set collen 45
-   set colsep {----------------------------------------------+}
+   set collen 50
+   set colsep {---------------------------------------------------+}
 } else {
    set collen 9
    set colsep {----------+}
@@ -325,9 +325,12 @@ foreach test $testlist {
          append tooutput [format "%13s |" [expr {$i == 0 ? $test : {}}]]
          foreach {tag res} $::testres($test) {
             set procname [lindex $res [expr {$i * 3}]]
+            if {[string length $procname] > 32} {
+               set procname "[string range $procname 0 28]..."
+            }
             set nbcalls [lindex $res [expr {$i * 3 + 1}]]
             set runtime [lindex $res [expr {$i * 3 + 2}]]
-            append tooutput [format "%29s: %6d %7d |" $procname $nbcalls\
+            append tooutput [format "%32s: %7d %8d |" $procname $nbcalls\
                $runtime]
          }
          append tooutput \n
