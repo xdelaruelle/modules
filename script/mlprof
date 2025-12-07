@@ -1,7 +1,7 @@
 #!/usr/bin/env tclsh
 #
 # MLPROF, profile a given modulecmd execution
-# Copyright (C) 2019-2022 Xavier Delaruelle
+# Copyright (C) 2019-2025 Xavier Delaruelle
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -94,9 +94,9 @@ package require profiler
 
 # Rewrite profProc procedure of profiler Tcllib module as original procedure
 # reset procedure it profiles each time it is defined, which does not suit
-# our needs as modulecmd.tcl as several procedures that are rewritten along
-# the process. So here pre-existing statistic counters are not reset during
-# proc profiling initialization.
+# our needs for modulecmd.tcl as several procedures are rewritten along the
+# process. So here pre-existing statistic counters are not reset during proc
+# profiling initialization.
 rename ::profiler::profProc ::profiler::__profProc
 proc ::profiler::profProc {name arglist body} {
    # save pre-existing counters for proc name
@@ -169,8 +169,11 @@ if {[string equal -length 6 $mode report]} {
       set procname [string trimleft $procname :]
       # compute proc inner runtime (subtracting descendent proc runtime)
       set runtime [expr {$procprof(totalRuntime) - $procprof(descendantTime)}]
-      incr totalruntime $runtime
-      incr totalcall $procprof(callCount)
+      if {$runtime < 0} {
+         set runtime 0
+      }
+      set totalruntime [expr {$totalruntime + $runtime}]
+      set totalcall [expr {$totalcall + $procprof(callCount)}]
       lappend profres [list $procname $procprof(callCount) $runtime]
    }
    # record total runtime
