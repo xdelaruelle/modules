@@ -600,6 +600,8 @@ proc defineModEqProc {icase extdfl {loadedmod 0}} {
          # remove existing debug trace if any
          initProcReportTrace remove modEq
          rename ::modEq ::$::g_modEq_proc
+         # drop existing mem cache
+         array unset ::g_modEqMemCache
       }
       ##nagelfar syntax modEq x x x? x? x? x? x? x?
       rename ::$procname ::modEq
@@ -620,6 +622,12 @@ proc defineModEqProc {icase extdfl {loadedmod 0}} {
 # alternative definitions of modEq proc
 proc modEqProc {pattern mod {test equal} {trspec 1} {ismodlo 0} {vrcmp 0}\
    {modvrlist 0} {psuf {}}} {
+   # return cached result if any and not checking loaded mod
+   set searchid $pattern:$mod:$test:$trspec:$vrcmp:$modvrlist:$psuf
+   if {!$ismodlo && [info exists ::g_modEqMemCache($searchid)]} {
+      return $::g_modEqMemCache($searchid)
+   }
+
    # extract specified module name from name and version spec
    if {$trspec} {
       lassign [getModuleVersSpec $pattern] pmod pmodname cmpspec versspec\
@@ -747,10 +755,18 @@ proc modEqProc {pattern mod {test equal} {trspec 1} {ismodlo 0} {vrcmp 0}\
    } elseif {$ret && $vrcmp && $ismodlo == 5} {
       set ret [modVariantCmp $pvrlist $modvrlist 2]
    }
+   if {!$ismodlo} {
+      set ::g_modEqMemCache($searchid) $ret
+   }
    return $ret
 }
 proc modEqProcIcase {pattern mod {test equal} {trspec 1} {ismodlo 0} {vrcmp\
    0} {modvrlist 0} {psuf {}}} {
+   set searchid $pattern:$mod:$test:$trspec:$vrcmp:$modvrlist:$psuf
+   if {!$ismodlo && [info exists ::g_modEqMemCache($searchid)]} {
+      return $::g_modEqMemCache($searchid)
+   }
+
    if {$trspec} {
       lassign [getModuleVersSpec $pattern] pmod pmodname cmpspec versspec\
          pmodnamere pmodescglob pmodroot pvrlist
@@ -868,10 +884,18 @@ proc modEqProcIcase {pattern mod {test equal} {trspec 1} {ismodlo 0} {vrcmp\
    } elseif {$ret && $vrcmp && $ismodlo == 5} {
       set ret [modVariantCmp $pvrlist $modvrlist 2]
    }
+   if {!$ismodlo} {
+      set ::g_modEqMemCache($searchid) $ret
+   }
    return $ret
 }
 proc modEqProcExtdfl {pattern mod {test equal} {trspec 1} {ismodlo 0} {vrcmp\
    0} {modvrlist 0} {psuf {}}} {
+   set searchid $pattern:$mod:$test:$trspec:$vrcmp:$modvrlist:$psuf
+   if {!$ismodlo && [info exists ::g_modEqMemCache($searchid)]} {
+      return $::g_modEqMemCache($searchid)
+   }
+
    if {$trspec} {
       lassign [getModuleVersSpec $pattern] pmod pmodname cmpspec versspec\
          pmodnamere pmodescglob pmodroot pvrlist
@@ -1005,10 +1029,18 @@ proc modEqProcExtdfl {pattern mod {test equal} {trspec 1} {ismodlo 0} {vrcmp\
    } elseif {$ret && $vrcmp && $ismodlo == 5} {
       set ret [modVariantCmp $pvrlist $modvrlist 2]
    }
+   if {!$ismodlo} {
+      set ::g_modEqMemCache($searchid) $ret
+   }
    return $ret
 }
 proc modEqProcIcaseExtdfl {pattern mod {test equal} {trspec 1} {ismodlo 0}\
    {vrcmp 0} {modvrlist 0} {psuf {}}} {
+   set searchid $pattern:$mod:$test:$trspec:$vrcmp:$modvrlist:$psuf
+   if {!$ismodlo && [info exists ::g_modEqMemCache($searchid)]} {
+      return $::g_modEqMemCache($searchid)
+   }
+
    if {$trspec} {
       lassign [getModuleVersSpec $pattern] pmod pmodname cmpspec versspec\
          pmodnamere pmodescglob pmodroot pvrlist
@@ -1142,6 +1174,9 @@ proc modEqProcIcaseExtdfl {pattern mod {test equal} {trspec 1} {ismodlo 0}\
       set ret [modVariantCmp $pvrlist [getVariantList $mod 3] 1]
    } elseif {$ret && $vrcmp && $ismodlo == 5} {
       set ret [modVariantCmp $pvrlist $modvrlist 2]
+   }
+   if {!$ismodlo} {
+      set ::g_modEqMemCache($searchid) $ret
    }
    return $ret
 }
