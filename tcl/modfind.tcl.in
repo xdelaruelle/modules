@@ -1604,13 +1604,23 @@ proc getLoadedMatchingName {name {behavior {}} {loading 0} {lmlist {}}\
 
 # return if loaded mod is part of modulepath from specified constrained list
 proc isLoadedMatchSpecificPath {mod modulepath_list} {
+   set searchid $mod:$modulepath_list
+   if {[info exists ::g_isLoadedMatchSpecificPathMemCache($searchid)]} {
+      return $::g_isLoadedMatchSpecificPathMemCache($searchid)
+   }
    set mod_file [getModulefileFromLoadedModule $mod]
-   return [isModulefileMatchSpecificPath $mod_file $modulepath_list]
+   set ::g_isLoadedMatchSpecificPathMemCache($searchid)\
+      [isModulefileMatchSpecificPath $mod_file $modulepath_list]
 }
 
 proc isLoadingMatchSpecificPath {mod modulepath_list} {
+   set searchid $mod:$modulepath_list
+   if {[info exists ::g_isLoadingMatchSpecificPathMemCache($searchid)]} {
+      return $::g_isLoadingMatchSpecificPathMemCache($searchid)
+   }
    set mod_file [getModulefileFromLoadingModule $mod]
-   return [isModulefileMatchSpecificPath $mod_file $modulepath_list]
+   set ::g_isLoadingMatchSpecificPathMemCache($searchid)\
+      [isModulefileMatchSpecificPath $mod_file $modulepath_list]
 }
 
 proc isModulefileMatchSpecificPath {mod_file modulepath_list} {

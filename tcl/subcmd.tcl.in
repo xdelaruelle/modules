@@ -1688,6 +1688,13 @@ proc cmdModuleUnload {context match auto force onlyureq args} {
          # update cache arrays
          unsetLoadedModule $modname $modfile
 
+         if {[array exists ::g_isLoadedMatchSpecificPathMemCache]} {
+            array unset ::g_isLoadedMatchSpecificPathMemCache
+         }
+         if {[array exists ::g_isLoadingMatchSpecificPathMemCache]} {
+            array unset ::g_isLoadingMatchSpecificPathMemCache
+         }
+
          # unregister declared source-sh
          unsetEnvLoadedModuleProperty $modname sourcesh
          unsetLoadedSourceSh $modname
