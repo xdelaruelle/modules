@@ -706,6 +706,12 @@ proc loadRequirementModuleList {tryload optional tag_list modulepath_list\
    set ret 0
    set prereqloaded 0
 
+   # return cached result if any
+   set searchid $tryload:$optional:$tag_list:$modulepath_list:$args
+   if {[info exists ::g_loadRequirementModuleListMemCache($searchid)]} {
+      return $::g_loadRequirementModuleListMemCache($searchid)
+   }
+
    # calling procedure must have already parsed module specification in args
    set loadedmod_list {}
    foreach mod $args {
@@ -771,7 +777,8 @@ proc loadRequirementModuleList {tryload optional tag_list modulepath_list\
       cmdModuleTag 0 0 $tag_list {*}$loadedmod_list
    }
 
-   return [list $ret $prereqloaded]
+   set ::g_loadRequirementModuleListMemCache($searchid) [list $ret\
+      $prereqloaded]
 }
 
 # save reloading module properties before they vanish with unload phase
