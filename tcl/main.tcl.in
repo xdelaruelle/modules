@@ -329,6 +329,17 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
       }
    }
 
+   # parse module version specification
+   if {$cmd in {avail paths whatis load unload switch help test display path\
+      is-avail edit try-load load-any list lint mod-to-sh source spider}} {
+      # some cmds allow to express variant without module name
+      set allow_noname_spec [expr {$cmd in {avail list paths whatis spider}}]
+      # some cmds allow extra specifier in query
+      set allow_xt_spec [expr {$cmd in {avail paths whatis spider}}]
+      set otherargs [parseModuleSpecification 0 $allow_noname_spec\
+         $allow_xt_spec 0 {*}$otherargs]
+   }
+
    reportDebug "(show_oneperline=$show_oneperline, show_mtime=$show_mtime,\
       show_filter=$show_filter, search_filter=$search_filter,\
       search_match=$search_match, dump_state=$dump_state,\
@@ -446,25 +457,12 @@ proc module {command args} {
       list avail aliases edit spider]}]
    lappendState commandname $command
 
+   defineParseModuleSpecificationProc [getConf advanced_version_spec]
    # parse options, do that globally to ignore options not related to a given
    # module sub-command (exclude them from arg list)
    lassign [parseModuleCommandArgs $topcall $command 0 {*}$args]\
       show_oneperline show_mtime show_filter search_filter search_match\
       dump_state addpath_pos not_req tag_list parsed_args
-
-   # parse module version specification
-   defineParseModuleSpecificationProc [getConf advanced_version_spec]
-   if {$command in [list avail paths whatis load unload switch help test\
-      display path is-avail edit try-load load-any list lint mod-to-sh\
-      source spider]} {
-      # some cmds allow to express variant without module name
-      set allow_noname_spec [expr {$command in {avail list paths whatis\
-         spider}}]
-      # some cmds allow extra specifier in query
-      set allow_xt_spec [expr {$command in {avail paths whatis spider}}]
-      set parsed_args [parseModuleSpecification 0 $allow_noname_spec\
-         $allow_xt_spec 0 {*}$parsed_args]
-   }
 
    if {!$topcall} {
       # some commands can only be called from top level, not within modulefile
