@@ -350,52 +350,38 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
 }
 
 proc checkModuleCommandNbArgs {topcall command nb_args} {
-   switch -- $command {
+   if {[switch -- $command {
       unload - source - display - initadd - initprepend - initrm - test -\
       is-avail - try-load - load-any {
-         if {!$nb_args} {
-            set nb_arg_err 1
-         }
+         expr {!$nb_args}
       }
       refresh - reload - aliases - purge - initlist - initclear - autoinit -\
          reset - stash - stashclear - stashlist - cacheclear {
-         if {$nb_args} {
-            set nb_arg_err 1
-         }
+         expr {$nb_args}
       }
       switch {
-         if {!$nb_args || $nb_args > 2} {
-            set nb_arg_err 1
-         }
+         expr {!$nb_args || $nb_args > 2}
       }
       path - paths - info-loaded - edit {
-         if {$nb_args != 1} {
-            set nb_arg_err 1
-         }
+         expr {$nb_args != 1}
       }
       search - save - restore - saverm - saveshow - clear - state - stashpop\
          - stashrm - stashshow {
-         if {$nb_args > 1} {
-            set nb_arg_err 1
-         }
+         expr {$nb_args > 1}
       }
       initswitch {
-         if {$nb_args != 2} {
-            set nb_arg_err 1
-         }
+         expr {$nb_args != 2}
       }
       prepend-path - append-path - remove-path - sh-to-mod - mod-to-sh {
-         if {$nb_args < 2} {
-            set nb_arg_err 1
-         }
+         expr {$nb_args < 2}
       }
       config {
-         if {$nb_args > 2} {
-            set nb_arg_err 1
-         }
+         expr {$nb_args > 2}
       }
-   }
-   if {[info exists nb_arg_err]} {
+      default {
+         expr {0 == 1}
+      }
+   }]} {
       knerrorModule $topcall "Unexpected number of args for '$command'\
          command"
    }
