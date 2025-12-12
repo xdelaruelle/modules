@@ -425,13 +425,6 @@ proc formatAndRunModuleCommand {topcall command mode tag_list addpath_pos\
 proc module {command args} {
    # guess if called from top level
    set topcall [isTopEvaluation 0]
-   set tryhelpmsg [expr {$topcall ? "\nTry 'module --help' for more\
-      information." : {}}]
-   if {$topcall} {
-      set msgprefix {}
-   } else {
-      set msgprefix {module: }
-   }
 
    # get mode, set to load if called from top level
    set mode [expr {$topcall ? {load} : [currentState mode]}]
@@ -444,7 +437,7 @@ proc module {command args} {
    }
    # raise error if supplied command is not known
    if {!$cmdvalid} {
-      knerror "${msgprefix}Invalid command '$command'$tryhelpmsg"
+      knerrorModule $topcall "Invalid command '$command'"
    }
 
    # define states needed by module spec parsing and sub-command processing
@@ -481,14 +474,14 @@ proc module {command args} {
          info-loaded - clear - sh-to-mod - edit - refresh - source - state -\
          lint - mod-to-sh - reset - stash - stashpop - stashrm - stashshow -\
          stashclear - stashlist - cachebuild - cacheclear - spider {
-            knerror "${msgprefix}Command '$command' not supported$tryhelpmsg"
+            knerrorModule $topcall "Command '$command' not supported"
          }
       }
       # other commands can only be called from modulefile evaluated from
       # command acting as top-level context (source and autoinit)
       if {([depthState modulename] > 1 || [aboveCommandName] ni [list source\
          autoinit]) && $command eq {config}} {
-         knerror "${msgprefix}Command '$command' not supported$tryhelpmsg"
+         knerrorModule $topcall "Command '$command' not supported"
       }
       # no requirement should be recorded this module load/unload/switch cmd
       if {$not_req || ![getConf implicit_requirement]} {
@@ -543,7 +536,8 @@ proc module {command args} {
       }
    }
    if {[info exists argnberr]} {
-      knerror "Unexpected number of args for '$command' command$tryhelpmsg"
+      knerrorModule $topcall "Unexpected number of args for '$command'\
+         command"
    }
 
    if {$topcall} {

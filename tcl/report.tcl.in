@@ -93,6 +93,15 @@ proc knerrorOrWarningIfForced {message {code MODULES_ERR_KNOWN}} {
    }
 }
 
+proc knerrorModule {topcall message} {
+   if {$topcall} {
+      append message "\nTry 'module --help' for more information."
+   } else {
+      set message "module: $message"
+   }
+   knerror $message
+}
+
 # save message if report is not yet initialized
 proc reportErrorAndExit {message} {
    lappend ::errreport_buffer [list reportErrorAndExit $message]
