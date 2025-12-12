@@ -338,6 +338,90 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
       $search_match $dump_state $addpath_pos $not_req $tag_list $otherargs]
 }
 
+proc formatAndRunModuleCommand {topcall command mode tag_list addpath_pos\
+   show_oneperline show_mtime show_filter search_filter search_match\
+   dump_state parsed_args} {
+   # define procedure to launch and associated options
+   set cmdopts [list]
+   switch -- $command {
+      load - try-load - load-any {
+         set cmdprocsuffix IntLoad
+      }
+      unload {
+         set cmdprocsuffix IntUnload
+      }
+      switch {
+         set cmdprocsuffix IntSwitch
+      }
+      initadd - initprepend - initswitch - initrm - initlist - initclear {
+         set cmdprocsuffix Init
+         lappend cmdopts [string range $command 4 end]
+      }
+      sh-to-mod {
+         set cmdprocsuffix ShToMod
+      }
+      mod-to-sh {
+         set cmdprocsuffix ModToSh
+      }
+      prepend-path - append-path - remove-path - is-loaded - is-saved -\
+      is-used - is-avail {
+         set cmdprocsuffix Resurface
+         lappend cmdopts $command
+      }
+      info-loaded {
+         set cmdprocsuffix Resurface
+         lappend cmdopts module-info loaded
+      }
+      whatis {
+         set cmdprocsuffix Search
+         lappend cmdopts {}
+      }
+      default {
+         set cmdprocsuffix [string toupper $command 0 0]
+      }
+   }
+   set cmdprocname cmdModule$cmdprocsuffix
+   switch -- $command {
+      load - try-load - load-any {
+         lappend cmdopts $topcall $command $mode $tag_list
+      }
+      unload {
+         lappend cmdopts $mode
+      }
+      switch {
+         lappend cmdopts $mode $tag_list
+      }
+      use {
+         lappend cmdopts $mode $addpath_pos
+      }
+      unuse {
+         lappend cmdopts $mode
+      }
+      source {
+         lappend cmdopts load
+      }
+      avail {
+         lappend cmdopts $show_oneperline $show_mtime $show_filter\
+            $search_filter $search_match [getModulePathList exiterronundef]
+      }
+      spider {
+         lappend cmdopts $show_oneperline $show_mtime $show_filter\
+            $search_filter $search_match
+      }
+      list - savelist {
+         lappend cmdopts $show_oneperline $show_mtime $search_match
+      }
+      config {
+         lappend cmdopts $dump_state
+      }
+      stashlist {
+         lappend cmdopts $show_oneperline $show_mtime
+      }
+   }
+
+   $cmdprocname {*}$cmdopts {*}$parsed_args
+}
+
 proc module {command args} {
    # guess if called from top level
    set topcall [isTopEvaluation 0]
@@ -468,85 +552,10 @@ proc module {command args} {
       runModulerc
    }
 
-   # define procedure to launch and associated options
-   set cmdopts [list]
-   switch -- $command {
-      load - try-load - load-any {
-         set cmdprocsuffix IntLoad
-      }
-      unload {
-         set cmdprocsuffix IntUnload
-      }
-      switch {
-         set cmdprocsuffix IntSwitch
-      }
-      initadd - initprepend - initswitch - initrm - initlist - initclear {
-         set cmdprocsuffix Init
-         lappend cmdopts [string range $command 4 end]
-      }
-      sh-to-mod {
-         set cmdprocsuffix ShToMod
-      }
-      mod-to-sh {
-         set cmdprocsuffix ModToSh
-      }
-      prepend-path - append-path - remove-path - is-loaded - is-saved -\
-      is-used - is-avail {
-         set cmdprocsuffix Resurface
-         lappend cmdopts $command
-      }
-      info-loaded {
-         set cmdprocsuffix Resurface
-         lappend cmdopts module-info loaded
-      }
-      whatis {
-         set cmdprocsuffix Search
-         lappend cmdopts {}
-      }
-      default {
-         set cmdprocsuffix [string toupper $command 0 0]
-      }
-   }
-   set cmdprocname cmdModule$cmdprocsuffix
-   switch -- $command {
-      load - try-load - load-any {
-         lappend cmdopts $topcall $command $mode $tag_list
-      }
-      unload {
-         lappend cmdopts $mode
-      }
-      switch {
-         lappend cmdopts $mode $tag_list
-      }
-      use {
-         lappend cmdopts $mode $addpath_pos
-      }
-      unuse {
-         lappend cmdopts $mode
-      }
-      source {
-         lappend cmdopts load
-      }
-      avail {
-         lappend cmdopts $show_oneperline $show_mtime $show_filter\
-            $search_filter $search_match [getModulePathList exiterronundef]
-      }
-      spider {
-         lappend cmdopts $show_oneperline $show_mtime $show_filter\
-            $search_filter $search_match
-      }
-      list - savelist {
-         lappend cmdopts $show_oneperline $show_mtime $search_match
-      }
-      config {
-         lappend cmdopts $dump_state
-      }
-      stashlist {
-         lappend cmdopts $show_oneperline $show_mtime
-      }
-   }
+   formatAndRunModuleCommand $topcall $command $mode $tag_list $addpath_pos\
+      $show_oneperline $show_mtime $show_filter $search_filter $search_match\
+      $dump_state $parsed_args
 
-   $cmdprocname {*}$cmdopts {*}$parsed_args
    lpopState commandname
    lpopState always_read_full_file
 

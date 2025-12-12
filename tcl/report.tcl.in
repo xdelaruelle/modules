@@ -371,6 +371,9 @@ proc formatErrStackTrace {errmsg loc {cmdlist {}}} {
          {(procedure } $stackelt] end] {"}] 1]
       if {$cmd1 eq {eval}} {
          set cmd1 $cmd2
+      # remove some calling prefix
+      } elseif {[string range $cmd1 0 3] eq {{*}[}} {
+         set cmd1 [string range $cmd1 4 end]
       }
 
       # filter out stack element referring to or called by an unknown
