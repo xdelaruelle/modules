@@ -2429,9 +2429,9 @@ proc module {command args} {
 
    checkModuleCommandNbArgs 0 $command [llength $parsed_args]
 
-   formatAndRunModuleCommand 0 $command [currentState mode] $tag_list\
+   {*}[formatModuleCommand 0 $command [currentState mode] $tag_list\
       $addpath_pos $show_oneperline $show_mtime $show_filter $search_filter\
-      $search_match $dump_state $parsed_args
+      $search_match $dump_state $parsed_args]
 
    lpopState commandname
    lpopState always_read_full_file
