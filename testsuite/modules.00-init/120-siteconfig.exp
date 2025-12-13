@@ -689,8 +689,8 @@ lappend ans {      invoked from within}
 lappend ans {  "reportModules $args $dir mp $hstyle $show_mtime 0 $one_per_line $theader_cols hidden-loaded"}
 lappend ans {      (procedure "cmdModuleAvail" line 43)}
 lappend ans {      invoked from within}
-lappend ans {  "$cmdprocname {*}$cmdopts {*}$parsed_args"}
-lappend ans {      (procedure "module" line 190)}
+lappend ans {  "{*}[formatModuleCommand 1 $command load $tag_list $addpath_pos $show_oneperline $show_mtime $show_filter $search_filter $search_match $dump_state $par..."}
+lappend ans {      (procedure "moduleTop" line 30)}
 lappend ans {      invoked from within}
 lappend ans {  "{*}$execcmdlist"}
 testouterr_cmd sh {avail} ERR [join $ans \n]

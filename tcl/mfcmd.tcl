@@ -2382,6 +2382,68 @@ proc provide {args} {
    }
 }
 
+proc module {command args} {
+   # resolve and check command name
+   lassign [parseModuleCommandName $command help] command cmdvalid cmdempty
+   # clear other args if no command name supplied
+   if {$cmdempty} {
+      set args {}
+   }
+   # raise error if supplied command is not known
+   if {!$cmdvalid} {
+      knerrorModule 0 "Invalid command '$command'"
+   }
+
+   # define states needed by module spec parsing and sub-command processing
+   # define if modfile should always be fully read even for validity check
+   lappendState always_read_full_file [expr {$command ni [list path paths\
+      list avail aliases edit spider]}]
+   lappendState commandname $command
+
+   # parse options, do that globally to ignore options not related to a given
+   # module sub-command (exclude them from arg list)
+   lassign [parseModuleCommandArgs 0 $command 0 {*}$args] show_oneperline\
+      show_mtime show_filter search_filter search_match dump_state\
+      addpath_pos not_req tag_list parsed_args
+
+   # some commands can only be called from top level, not within modulefile
+   switch -- $command {
+      path - paths - autoinit - help - prepend-path - append-path -\
+      remove-path - is-loaded - is-saved - is-used - is-avail -\
+      info-loaded - clear - sh-to-mod - edit - refresh - source - state -\
+      lint - mod-to-sh - reset - stash - stashpop - stashrm - stashshow -\
+      stashclear - stashlist - cachebuild - cacheclear - spider {
+         knerrorModule 0 "Command '$command' not supported"
+      }
+   }
+   # other commands can only be called from modulefile evaluated from
+   # command acting as top-level context (source and autoinit)
+   if {([depthState modulename] > 1 || [aboveCommandName] ni [list source\
+      autoinit]) && $command eq {config}} {
+      knerrorModule 0 "Command '$command' not supported"
+   }
+   # no requirement should be recorded this module load/unload/switch cmd
+   if {$not_req || ![getConf implicit_requirement]} {
+      lappendState inhibit_req_record [currentState evalid]
+   }
+
+   checkModuleCommandNbArgs 0 $command [llength $parsed_args]
+
+   formatAndRunModuleCommand 0 $command [currentState mode] $tag_list\
+      $addpath_pos $show_oneperline $show_mtime $show_filter $search_filter\
+      $search_match $dump_state $parsed_args
+
+   lpopState commandname
+   lpopState always_read_full_file
+
+   if {$not_req || ![getConf implicit_requirement]} {
+      lpopState inhibit_req_record
+   }
+
+   return {}
+}
+
+
 # ;;; Local Variables: ***
 # ;;; mode:tcl ***
 # ;;; End: ***

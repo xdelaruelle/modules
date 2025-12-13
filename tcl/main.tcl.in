@@ -58,18 +58,6 @@ proc ongoingCommandName {commandName} {
    return [expr {[lsearch -exact [getState commandname] $commandName] != -1}]
 }
 
-# Know if we are currently at the top evaluation level: (1) at the modulecmd
-# level (module command written by user in terminal or script) or (2) during
-# the evaluation of rc or modulefile by a source or autoinit sub-command
-# triggered from modulecmd level or (3) during the evaluation of global rc
-# file. (2) and (3) are considered "extended" top evaluation contexts.
-proc isTopEvaluation {{extended 1}} {
-   return [expr {([depthState modulename] == 0 && [currentState eval_context]\
-      in {{} load unload swload swunload}) || ($extended && [depthState\
-      modulename] == 1 && ([aboveCommandName] in {source autoinit} ||\
-      [isStateDefined rc_running]))}]
-}
-
 # analyze/translate command name passed to module
 proc parseModuleCommandName {command defaultcmd} {
    set cmdempty 0
@@ -471,13 +459,7 @@ proc formatAndRunModuleCommand {topcall command mode tag_list addpath_pos\
    $cmdprocname {*}$cmdopts {*}$parsed_args
 }
 
-proc module {command args} {
-   # guess if called from top level
-   set topcall [isTopEvaluation 0]
-
-   # get mode, set to load if called from top level
-   set mode [expr {$topcall ? {load} : [currentState mode]}]
-
+proc moduleTop {command args} {
    # resolve and check command name
    lassign [parseModuleCommandName $command help] command cmdvalid cmdempty
    # clear other args if no command name supplied
@@ -486,7 +468,7 @@ proc module {command args} {
    }
    # raise error if supplied command is not known
    if {!$cmdvalid} {
-      knerrorModule $topcall "Invalid command '$command'"
+      knerrorModule 1 "Invalid command '$command'"
    }
 
    # define states needed by module spec parsing and sub-command processing
@@ -498,56 +480,24 @@ proc module {command args} {
    defineParseModuleSpecificationProc [getConf advanced_version_spec]
    # parse options, do that globally to ignore options not related to a given
    # module sub-command (exclude them from arg list)
-   lassign [parseModuleCommandArgs $topcall $command 0 {*}$args]\
-      show_oneperline show_mtime show_filter search_filter search_match\
-      dump_state addpath_pos not_req tag_list parsed_args
+   lassign [parseModuleCommandArgs 1 $command 0 {*}$args] show_oneperline\
+      show_mtime show_filter search_filter search_match dump_state\
+      addpath_pos not_req tag_list parsed_args
 
-   if {!$topcall} {
-      # some commands can only be called from top level, not within modulefile
-      switch -- $command {
-         path - paths - autoinit - help - prepend-path - append-path -\
-         remove-path - is-loaded - is-saved - is-used - is-avail -\
-         info-loaded - clear - sh-to-mod - edit - refresh - source - state -\
-         lint - mod-to-sh - reset - stash - stashpop - stashrm - stashshow -\
-         stashclear - stashlist - cachebuild - cacheclear - spider {
-            knerrorModule $topcall "Command '$command' not supported"
-         }
-      }
-      # other commands can only be called from modulefile evaluated from
-      # command acting as top-level context (source and autoinit)
-      if {([depthState modulename] > 1 || [aboveCommandName] ni [list source\
-         autoinit]) && $command eq {config}} {
-         knerrorModule $topcall "Command '$command' not supported"
-      }
-      # no requirement should be recorded this module load/unload/switch cmd
-      if {$not_req || ![getConf implicit_requirement]} {
-         lappendState inhibit_req_record [currentState evalid]
-      }
-   }
+   checkModuleCommandNbArgs 1 $command [llength $parsed_args]
 
-   checkModuleCommandNbArgs $topcall $command [llength $parsed_args]
+   logEvent requested_cmd {command} $command arguments $args
+   # Find and execute any global rc file found
+   runModulerc
 
-   if {$topcall} {
-      logEvent requested_cmd {command} $command arguments $args
-      # Find and execute any global rc file found
-      runModulerc
-   }
-
-   formatAndRunModuleCommand $topcall $command $mode $tag_list $addpath_pos\
+   formatAndRunModuleCommand 1 $command load $tag_list $addpath_pos\
       $show_oneperline $show_mtime $show_filter $search_filter $search_match\
       $dump_state $parsed_args
 
    lpopState commandname
    lpopState always_read_full_file
 
-   if {!$topcall && ($not_req || ![getConf implicit_requirement])} {
-      lpopState inhibit_req_record
-   }
-
-   # if called from top level render settings if any
-   if {$topcall} {
-      renderSettings
-   }
+   renderSettings
 
    return {}
 }
@@ -577,7 +527,7 @@ proc ml {args} {
    # directly call module procedure if sub-command spotted as first argument
    # or no argument supplied
    if {$cmdvalid} {
-      module $command {*}$margs
+      moduleTop $command {*}$margs
    } else {
       # define if modfile should always be fully read even for validity check
       lappendState always_read_full_file 1
@@ -893,7 +843,7 @@ if {[catch {
    if {[getState subcmd] eq {ml}} {
       set execcmdlist [list ml {*}$otherargv]
    } else {
-      set execcmdlist [list module [getState subcmd] {*}$otherargv]
+      set execcmdlist [list moduleTop [getState subcmd] {*}$otherargv]
    }
 
    # now options are known initialize error report (start pager if enabled)

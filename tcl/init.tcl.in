@@ -874,6 +874,18 @@ proc isIcase {} {
    return [expr {[getConf icase] in $enabledValList}]
 }
 
+# Know if we are currently at the top evaluation level: (1) at the modulecmd
+# level (module command written by user in terminal or script) or (2) during
+# the evaluation of rc or modulefile by a source or autoinit sub-command
+# triggered from modulecmd level or (3) during the evaluation of global rc
+# file. (2) and (3) are considered "extended" top evaluation contexts.
+proc isTopEvaluation {} {
+   return [expr {([depthState modulename] == 0 && [currentState eval_context]\
+      in {{} load unload swload swunload}) || ([depthState modulename] == 1\
+      && ([aboveCommandName] in {source autoinit} || [isStateDefined\
+      rc_running]))}]
+}
+
 proc commandAbortOnError {{command {}}} {
    if {![string length $command]} {
       set command [currentState commandname]
