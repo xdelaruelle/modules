@@ -24,7 +24,6 @@ proc cmdModuleList {show_oneperline show_mtime search_match args} {
    set json [isStateEqual report_format json]
 
    if {[llength $args]} {
-      defineModEqProc [isIcase] [getConf extended_default]
       # match passed name against any part of loaded module names
       set mtest [expr {{contains} in $search_match ? {matchin} : {match}}]
       set search_queries $args
@@ -219,7 +218,6 @@ proc cmdModuleSearch {args} {
 
    set json [isStateEqual report_format json]
    set icase [isIcase]
-   defineModEqProc $icase [getConf extended_default]
 
    lappend searchmod rc_defs_included
    if {![llength $mod_pattern_list]} {

@@ -1102,7 +1102,7 @@ tcl/syntaxdb.tcl: modulecmd.tcl $(NAGELFAR)
 		proc exit {args} {};\
 		source modulecmd.tcl;\
 		defineModStartNbProc 1;\
-		defineGetEqArrayKeyProc 1 1 1;\
+		defineGetEqArrayKeyProc 1;\
 		defineDoesModMatchAtDepthProc 1 1 equal;\
 		defineModVersCmpProc 1 1;\
 		defineModEqStaticProc 1 1 mod;\

@@ -1025,7 +1025,6 @@ proc conflict {args} {
    if {[set isfullpath [isModuleFullPath $currentModule]]} {
       set currentSModule [findModuleNameFromModulefile $currentModule]
    }
-   defineModEqProc [isIcase] [getConf extended_default]
 
    set conflict_unload [expr {[getConf conflict_unload] && [getConf\
       auto_handling]}]

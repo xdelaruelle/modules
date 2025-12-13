@@ -89,7 +89,7 @@ proc modStartNbProcIcase {mod name} {
 
 # Define procedure to compare module names set as array keys against pattern.
 # Adapt procedure code whether implicit_default is enabled or disabled
-proc defineGetEqArrayKeyProc {icase extdfl impdfl} {
+proc defineGetEqArrayKeyProc {impdfl} {
    set procname getEqArrayKeyProc
    if {$impdfl} {
       append procname Impdfl
@@ -109,9 +109,6 @@ proc defineGetEqArrayKeyProc {icase extdfl impdfl} {
       initProcReportTrace add getEqArrayKey
       set ::g_getEqArrayKey_proc $procname
    }
-
-   # also define modEq which is called by getEqArrayKey
-   defineModEqProc $icase $extdfl
 }
 
 # alternative definitions of getEqArrayKey proc

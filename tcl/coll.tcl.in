@@ -361,8 +361,6 @@ proc getDiffBetweenCurEnvAndColl {collfile colldesc} {
       reportErrorAndExit "$colldesc is not a valid collection"
    }
 
-   defineModEqProc [isIcase] [getConf extended_default]
-
    # fetch what is currently loaded
    set curr_path_list [getModulePathList returnempty 0]
    # get current loaded module list

@@ -355,7 +355,6 @@ proc getAllModuleResolvedName {mod {flag_type 0} {modspec {}} {filter_default\
    set namelist {}
    set resmodlist {}
    set icase [isIcase]
-   defineModEqProc $icase [getConf extended_default]
 
    # get parent directories of mod
    foreach modelt [split $mod /] {
@@ -1229,8 +1228,7 @@ proc getPathToModule {mod {indir {}} {report_issue 1} {look_loaded no}\
       }
 
       set icase [isIcase]
-      defineGetEqArrayKeyProc $icase [getConf extended_default] [getConf\
-         implicit_default]
+      defineGetEqArrayKeyProc [getConf implicit_default]
 
       # Now search for $mod in module paths
       set modspec $mod
@@ -1459,8 +1457,6 @@ proc getLoadedWithClosestName {name modulepath_list} {
    }
 
    if {[info exists nametosplit]} {
-      set icase [isIcase]
-      defineModEqProc $icase [getConf extended_default]
       # compare name to each currently loaded module name
       ##nagelfar ignore Found constant
       foreach mod [getEnvLoadedModulePropertyParsedList name] {
@@ -1556,7 +1552,6 @@ proc getLoadedMatchingName {name {behavior {}} {loading 0} {lmlist {}}\
          }
       }
    } elseif {$name ne {}} {
-      defineModEqProc [isIcase] [getConf extended_default]
       # compare name to each currently loaded/loading module name, if multiple
       # mod match name:
       foreach mod $lmlist {
@@ -1700,7 +1695,6 @@ proc getLoadedConflict {mod} {
 
 proc getModuleLoadedConflict {mod {modulepath_list {}}} {
    set mod_con_list {}
-   defineModEqProc [isIcase] [getConf extended_default]
    # get module short name if loaded by its full pathname
    if {[set isfullpath [isModuleFullPath $mod]]} {
       set smod [findModuleNameFromModulefile $mod]
@@ -2434,8 +2428,6 @@ proc getLoadedModulePrereqListAndLoadedMatch {mod} {
    if {[getConf unload_match_order] eq {returnlast}} {
       set bef_loaded_mod_list [lreverse $bef_loaded_mod_list]
    }
-
-   defineModEqProc [isIcase] [getConf extended_default]
 
    foreach prereq $prereq_list {
       set prereq_path_list [getLoadedPrereqPath $mod $prereq]
@@ -3200,8 +3192,6 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
    }
 
    # Phase #2: early filtering of non-matching elements
-
-   defineModEqProc $icase [getConf extended_default]
 
    if {$earlyfilter} {
       foreach elt [array names found_list] {
