@@ -484,8 +484,10 @@ proc moduleTop {command args} {
    lappendState commandname $command
 
    set icase [isIcase]
+   set extdfl [getConf extended_default]
    defineModStartNbProc $icase
-   defineModEqProc $icase [getConf extended_default]
+   defineModEqProc $icase $extdfl
+   defineModVersCmpProc $icase $extdfl
    defineGetEqArrayKeyProc [getConf implicit_default]
    defineParseModuleSpecificationProc [getConf advanced_version_spec]
    if {$command ni {append-path cachebuild cacheclear clear config initadd\
@@ -552,8 +554,10 @@ proc ml {args} {
       lappendState commandname ml
 
       set icase [isIcase]
+      set extdfl [getConf extended_default]
       defineModStartNbProc $icase
-      defineModEqProc $icase [getConf extended_default]
+      defineModEqProc $icase $extdfl
+      defineModVersCmpProc $icase $extdfl
       defineGetEqArrayKeyProc [getConf implicit_default]
       defineParseModuleSpecificationProc [getConf advanced_version_spec]
       cacheCurrentModules

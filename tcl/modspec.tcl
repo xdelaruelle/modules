@@ -497,9 +497,6 @@ proc defineModEqStaticProc {icase extdfl modspec} {
          # remove existing debug trace if any
          initProcReportTrace remove modEqStatic
          rename ::modEqStatic {}
-      } else {
-         # also define modVersCmp which is called by modEqStatic
-         defineModVersCmpProc $icase $extdfl
       }
       set ::g_modEqStatic_procprops $procprops
 
@@ -606,9 +603,6 @@ proc defineModEqProc {icase extdfl} {
       initProcReportTrace add modEq
       set ::g_modEq_proc $procname
    }
-
-   # also define modVersCmp which is called by modEq
-   defineModVersCmpProc $icase $extdfl
 }
 
 # alternative definitions of modEq proc
