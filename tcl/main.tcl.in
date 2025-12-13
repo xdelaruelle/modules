@@ -375,88 +375,94 @@ proc checkModuleCommandNbArgs {topcall command nb_args} {
    }
 }
 
+# define module sub-command procedure to launch and its associated options
 proc formatModuleCommand {topcall command mode tag_list addpath_pos\
    show_oneperline show_mtime show_filter search_filter search_match\
    dump_state parsed_args} {
-   # define procedure to launch and associated options
-   set cmdopts [list]
-   switch -- $command {
+   set cmd_proc_name cmdModule[switch -- $command {
       load - try-load - load-any {
-         set cmdprocsuffix IntLoad
+         return -level 0 IntLoad
       }
       unload {
-         set cmdprocsuffix IntUnload
+         return -level 0 IntUnload
       }
       switch {
-         set cmdprocsuffix IntSwitch
+         return -level 0 IntSwitch
       }
       initadd - initprepend - initswitch - initrm - initlist - initclear {
-         set cmdprocsuffix Init
-         lappend cmdopts [string range $command 4 end]
+         return -level 0 Init
       }
       sh-to-mod {
-         set cmdprocsuffix ShToMod
+         return -level 0 ShToMod
       }
       mod-to-sh {
-         set cmdprocsuffix ModToSh
+         return -level 0 ModToSh
       }
       prepend-path - append-path - remove-path - is-loaded - is-saved -\
       is-used - is-avail {
-         set cmdprocsuffix Resurface
-         lappend cmdopts $command
+         return -level 0 Resurface
       }
       info-loaded {
-         set cmdprocsuffix Resurface
-         lappend cmdopts module-info loaded
+         return -level 0 Resurface
       }
       whatis {
-         set cmdprocsuffix Search
-         lappend cmdopts {}
+         return -level 0 Search
       }
       default {
-         set cmdprocsuffix [string toupper $command 0 0]
-      }
-   }
-   set cmdprocname cmdModule$cmdprocsuffix
-   switch -- $command {
+         return -level 0 [string toupper $command 0 0]
+      }}]
+
+   set cmd_opts [switch -- $command {
       load - try-load - load-any {
-         lappend cmdopts $topcall $command $mode $tag_list
+         list $topcall $command $mode $tag_list
       }
       unload {
-         lappend cmdopts $mode
+         list $mode
       }
       switch {
-         lappend cmdopts $mode $tag_list
+         list $mode $tag_list
       }
       use {
-         lappend cmdopts $mode $addpath_pos
+         list $mode $addpath_pos
       }
       unuse {
-         lappend cmdopts $mode
+         list $mode
       }
       source {
-         lappend cmdopts load
+         list load
       }
       avail {
-         lappend cmdopts $show_oneperline $show_mtime $show_filter\
-            $search_filter $search_match [getModulePathList exiterronundef]
+         list $show_oneperline $show_mtime $show_filter $search_filter\
+            $search_match [getModulePathList exiterronundef]
       }
       spider {
-         lappend cmdopts $show_oneperline $show_mtime $show_filter\
-            $search_filter $search_match
+         list $show_oneperline $show_mtime $show_filter $search_filter\
+            $search_match
       }
       list - savelist {
-         lappend cmdopts $show_oneperline $show_mtime $search_match
+         list $show_oneperline $show_mtime $search_match
       }
       config {
-         lappend cmdopts $dump_state
+         list $dump_state
       }
       stashlist {
-         lappend cmdopts $show_oneperline $show_mtime
+         list $show_oneperline $show_mtime
       }
-   }
+      whatis {
+         list {}
+      }
+      info-loaded {
+         list module-info loaded
+      }
+      prepend-path - append-path - remove-path - is-loaded - is-saved -\
+      is-used - is-avail {
+         list $command
+      }
+      initadd - initprepend - initswitch - initrm - initlist - initclear {
+         list [string range $command 4 end]
+      }}]
 
-   return [list $cmdprocname {*}$cmdopts {*}$parsed_args]
+   return [list $cmd_proc_name {*}$cmd_opts {*}$parsed_args]
 }
 
 proc moduleTop {command args} {
