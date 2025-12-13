@@ -19,6 +19,9 @@ Modules 5.7.0 (not yet released)
 * Move *modules-interest* mailing-list to HPSF.
 * Script: add tests on :command:`mb` utility to track performance of load,
   list and purge sub-commands with large number (>100) of modules.
+* Script: fix procedure call timing of Tcllib profiler module within
+  :command:`mlprof` to avoid mixing timers from calls made at different
+  interpretation level.
 
 
 .. _5.6 release notes:

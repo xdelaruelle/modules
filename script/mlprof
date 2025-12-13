@@ -145,6 +145,54 @@ proc ::profiler::profProc {name arglist body} {
    return
 }
 
+# Rewrite enterHandler procedure of profiler Tcllib module to correctly track
+# call timing that gets mixed in the original version with the different level
+# calls made in modulecmd.tcl
+rename ::profiler::enterHandler ::profiler::__enterHandler
+proc ::profiler::enterHandler {name caller} {
+    variable enabled
+
+    if { !$enabled($name) } {
+        return
+    }
+
+    if { [catch {incr ::profiler::callers($name,$caller)}] } {
+        set ::profiler::callers($name,$caller) 1
+    }
+    ::profiler::tZero [info level].$name.$caller
+}
+
+# Rewrite leaveHandler procedure of profiler Tcllib module to correctly track
+# call timing that gets mixed in the original version with the different level
+# calls made in modulecmd.tcl
+rename ::profiler::leaveHandler ::profiler::__leaveHandler
+proc ::profiler::leaveHandler {name caller} {
+    variable enabled
+
+    # Tkt [0dd4b31bb8] Note that the result is pulled from the
+    # caller's context as it is not passed into leaveHandler
+
+    if { !$enabled($name) } {
+    return [uplevel 1 {lindex $args 1}] ;# RETURN RESULT!
+    }
+
+    set t [::profiler::tMark [info level].$name.$caller]
+    lappend ::profiler::statTime($name) $t
+
+    if { [incr ::profiler::callCount($name)] == 1 } {
+        set ::profiler::compileTime($name) $t
+    }
+    incr ::profiler::totalRuntime($name) $t
+    if { [catch {incr ::profiler::descendantTime($caller) $t}] } {
+        set ::profiler::descendantTime($caller) $t
+    }
+    if { [catch {incr ::profiler::descendants($caller,$name)}] } {
+        set ::profiler::descendants($caller,$name) 1
+    }
+
+    return [uplevel 1 {lindex $args 1}] ;# RETURN RESULT!
+}
+
 profiler::init
 
 # run modulecmd with profiling enabled
