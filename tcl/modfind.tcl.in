@@ -1228,7 +1228,6 @@ proc getPathToModule {mod {indir {}} {report_issue 1} {look_loaded no}\
       }
 
       set icase [isIcase]
-      defineGetEqArrayKeyProc [getConf implicit_default]
 
       # Now search for $mod in module paths
       set modspec $mod
