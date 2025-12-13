@@ -50,7 +50,7 @@ proc interp-sync-env {op var {val {}}} {
 
    # apply operation to each sub-interpreters if not found autosynced
    if {[llength [interp slaves]]} {
-      reportDebug "$op var='$envvar', val='$val' on interp(s) [interp slaves]"
+      reportDebug "$op sync '$envvar' var on interp(s) [interp slaves]"
 
       foreach itrp [interp slaves] {
          switch -- $op {
