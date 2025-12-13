@@ -1460,7 +1460,6 @@ proc getLoadedWithClosestName {name modulepath_list} {
 
    if {[info exists nametosplit]} {
       set icase [isIcase]
-      defineModStartNbProc $icase
       defineModEqProc $icase [getConf extended_default]
       # compare name to each currently loaded module name
       ##nagelfar ignore Found constant
@@ -3224,7 +3223,6 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
    # Phase #4: filter-out dynamically hidden or expired elements
 
    # define module name and version comparison procs
-   defineModStartNbProc $icase
    defineModEqStaticProc $icase [getConf extended_default] $mod
 
    # remove hidden elements unless they are (or their symbols) targeted by

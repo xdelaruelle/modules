@@ -483,6 +483,7 @@ proc moduleTop {command args} {
       list avail aliases edit spider]}]
    lappendState commandname $command
 
+   defineModStartNbProc [isIcase]
    defineParseModuleSpecificationProc [getConf advanced_version_spec]
    if {$command ni {append-path cachebuild cacheclear clear config initadd\
       initclear initlist initprepend initrm initswitch is-saved is-used\
@@ -547,6 +548,7 @@ proc ml {args} {
       lappendState always_read_full_file 1
       lappendState commandname ml
 
+      defineModStartNbProc [isIcase]
       defineParseModuleSpecificationProc [getConf advanced_version_spec]
       cacheCurrentModules
 
