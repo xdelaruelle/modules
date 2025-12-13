@@ -23,9 +23,6 @@
 proc cmdModuleList {show_oneperline show_mtime search_match args} {
    set json [isStateEqual report_format json]
 
-   # load tags from loaded modules
-   cacheCurrentModules
-
    if {[llength $args]} {
       defineModEqProc [isIcase] [getConf extended_default]
       # match passed name against any part of loaded module names
@@ -2112,9 +2109,8 @@ proc cmdModuleAutoinit {} {
 
       # record what has just been loaded in the virtual init collection
       setenv __MODULES_LMINIT [getLoadedInit]
-   # if user environment is already initialized, refresh the already loaded
-   # modules unless if environment is inconsistent
-   } elseif {![catch {cacheCurrentModules}]} {
+   # if user environment is already initialized, refresh already loaded mods
+   } else {
       cmdModuleRefresh
    }
 
@@ -2648,9 +2644,6 @@ proc cmdModuleRefresh {} {
    # create an eval id to track successful/failed module evaluations
    pushMsgRecordId refresh-[depthState modulename] 0
 
-   # load variants from loaded modules
-   cacheCurrentModules
-
    foreach lm [getEnvLoadedModulePropertyParsedList refresh] {
       # prepare info to execute modulefile
       set lmvr [getAndParseLoadedModuleWithVariant $lm]
@@ -2960,9 +2953,6 @@ proc cmdModuleReset {} {
 proc cmdModuleStash {} {
    # check if there is something to stash
    if {[getConf reset_target_state] eq {__purge__}} {
-      # load tags from loaded modules
-      cacheCurrentModules
-
       # current environment differs from initial 'purge' state when at least
       # a module is loaded and it is not super-sticky and not sticky or force
       # mode is enabled to allow sticky tag unload

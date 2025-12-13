@@ -435,11 +435,6 @@ proc filterExtraMatchSearch {modpath mod res_arrname versmod_arrname} {
    set check_tag [llength $spec_tag_list]
    set filter_res [expr {$check_variant || $check_extra || $check_tag}]
 
-   if {$check_tag} {
-      # load tags from loaded mods prior collecting tags found during rc eval
-      cacheCurrentModules 0
-   }
-
    set unset_list {}
    set keep_list {}
    foreach elt [array names found_list] {

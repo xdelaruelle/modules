@@ -220,7 +220,6 @@ proc execute-modulefile {modfile modname modnamevrvar modspec requested\
 
    # gather all tags of evaluated modulefile
    if {$fetch_tags} {
-      cacheCurrentModules 0
       collectModuleTags $modnamevr
    }
 

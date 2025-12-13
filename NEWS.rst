@@ -22,6 +22,8 @@ Modules 5.7.0 (not yet released)
 * Script: fix procedure call timing of Tcllib profiler module within
   :command:`mlprof` to avoid mixing timers from calls made at different
   interpretation level.
+* Parse loaded environment in early execution stage and always fail if an
+  inconsistency is detected.
 
 
 .. _5.6 release notes:

@@ -585,7 +585,7 @@ proc defineModEqStaticProc {icase extdfl modspec} {
 
 # Define procedure to check module name equals pattern. Adapt procedure
 # code whether icase and extended_default are enabled or disabled
-proc defineModEqProc {icase extdfl {loadedmod 0}} {
+proc defineModEqProc {icase extdfl} {
    set procname modEqProc
    if {$icase} {
       append procname Icase
@@ -612,11 +612,6 @@ proc defineModEqProc {icase extdfl {loadedmod 0}} {
 
    # also define modVersCmp which is called by modEq
    defineModVersCmpProc $icase $extdfl
-
-   # comparing against loaded modules requires to know their alternative names
-   if {$loadedmod} {
-      cacheCurrentModules
-   }
 }
 
 # alternative definitions of modEq proc

@@ -319,7 +319,7 @@ proc sortModulePerLoadedAndDepOrder {modlist {nporeq 0} {loading 0}} {
 proc getUnmetDependentLoadedModuleList {modnamevr mod_file} {
    set unmetdeplist {}
    set depmodlist {}
-   defineModEqProc [isIcase] [getConf extended_default] 1
+   defineModEqProc [isIcase] [getConf extended_default]
    set mod [getModuleNameAndVersFromVersSpec $modnamevr]
    set vrlist [getVariantList $modnamevr 0 0 1]
 

@@ -484,6 +484,14 @@ proc moduleTop {command args} {
    lappendState commandname $command
 
    defineParseModuleSpecificationProc [getConf advanced_version_spec]
+   if {$command ni {append-path cachebuild cacheclear clear config initadd\
+      initclear initlist initprepend initrm initswitch is-saved is-used\
+      prepend-path remove-path savelist saverm saveshow sh-to-mod stashlist\
+      stashrm stashclear stashshow state use unuse}} {
+      # fetch loaded environment
+      cacheCurrentModules
+   }
+
    # parse options, do that globally to ignore options not related to a given
    # module sub-command (exclude them from arg list)
    lassign [parseModuleCommandArgs 1 $command 0 {*}$args] show_oneperline\
@@ -539,8 +547,10 @@ proc ml {args} {
       lappendState always_read_full_file 1
       lappendState commandname ml
 
-      # parse specified module and get list of mods to unload and mods to load
       defineParseModuleSpecificationProc [getConf advanced_version_spec]
+      cacheCurrentModules
+
+      # parse specified module and get list of mods to unload and mods to load
       lassign [parseModuleSpecification 1 0 0 0 {*}$fargs] modunlist modlolist
 
       # main procedure has already raised error for badly written argument
