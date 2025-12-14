@@ -1407,6 +1407,9 @@ proc setLoadedModule {mod modfile uasked modvr refresh} {
    # is module qualified for refresh evaluation
    set ::g_loadedModulesRefresh($mod) $refresh
 
+   # build information to more efficiently get matching loaded module
+   setLoadedByModroot $mod
+
    # build dependency chain
    setModuleDependency $mod
 }
@@ -1423,7 +1426,7 @@ proc unsetLoadedModule {mod modfile} {
 
    unset ::g_loadedModulesRefresh($mod)
 
-   # update dependencies
+   unsetLoadedByModroot $mod
    unsetModuleDependency $mod
 }
 
@@ -1513,18 +1516,18 @@ proc getLoadedMatchingName {name {behavior {}} {loading 0} {lmlist {}}\
       set isModulefileLoaded isModulefileLoading
       set getModuleFromLoadedModulefile getModuleFromLoadingModulefile
       set isLoadedMatchSpecificPath isLoadingMatchSpecificPath
-      set getLoadedModuleList [list getLoadingModuleList]
    } else {
       ##nagelfar ignore #4 Found constant
       set isModulefileLoaded isModulefileLoaded
       set getModuleFromLoadedModulefile getModuleFromLoadedModulefile
       set isLoadedMatchSpecificPath isLoadedMatchSpecificPath
-      set getLoadedModuleList [list getEnvLoadedModulePropertyParsedList name]
    }
 
    # fetch currently loaded/loading module name is no list provided
    if {![llength $lmlist]} {
-      set lmlist [{*}$getLoadedModuleList]
+      ##nagelfar ignore #2 Badly formed if statement
+      set lmlist [if {$loading} {getLoadingModuleList}\
+         {getLoadedMatchingModroot $name}]
    }
 
    # if module is passed as full modulefile path name, look at lmfile names
@@ -1839,6 +1842,46 @@ proc getLoadedAltname {mod {typelist {sym alias autosym}} {with_type 0}} {
       }
    }
    return $ret
+}
+
+# get all names of loaded module "mod" and set structure to find all root name
+# this loaded module matches. use this information to more efficiently get
+# matching loaded module: only fully test match with modules matching the root
+# name of search query
+proc setLoadedByModroot {mod} {
+   set name_list [list $mod {*}[getLoadedAltname $mod]]
+   # get module short name if it is loaded as fullpath and modulepath is used
+   if {[isModuleFullPath $mod]} {
+      set name [findModuleNameFromModulefile $mod]
+      if {[string length $name]} {
+         lappend name_list $name
+      }
+   }
+   set mod_root_list {}
+   foreach name $name_list {
+      appendNoDupToList mod_root_list [getModuleRootFromVersSpec $name]
+   }
+   foreach mod_root $mod_root_list {
+      lappend ::g_loadedByModroot($mod_root) $mod
+   }
+   # set special structure to easily unset main one on module unload
+   set ::g_modrootByLoaded($mod) $mod_root_list
+}
+
+proc getLoadedMatchingModroot {name} {
+   set mod_root [getModuleRootFromVersSpec $name]
+   set icase_root [getArrayKey ::g_loadedByModroot $mod_root [isIcase]]
+   if {[info exists ::g_loadedByModroot($icase_root)]} {
+      return $::g_loadedByModroot($icase_root)
+   }
+}
+
+proc unsetLoadedByModroot {mod} {
+   foreach mod_root $::g_modrootByLoaded($mod) {
+      set ::g_loadedByModroot($mod_root) [replaceFromList\
+         $::g_loadedByModroot($mod_root) $mod]
+   }
+   unset ::g_modrootByLoaded($mod)
 }
 
 proc setLoadedVariant {mod args} {

@@ -24,6 +24,8 @@ Modules 5.7.0 (not yet released)
   interpretation level.
 * Parse loaded environment in early execution stage and always fail if an
   inconsistency is detected.
+* Improve performances of loaded module comparison used when checking
+  conflict and requirement dependencies. (fix issue #603)
 
 
 .. _5.6 release notes:
