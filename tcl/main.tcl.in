@@ -465,6 +465,22 @@ proc formatModuleCommand {topcall command mode tag_list addpath_pos\
    return [list $cmd_proc_name {*}$cmd_opts {*}$parsed_args]
 }
 
+# define the dynamic procedures that compare module specifications and parse
+# loaded environment if enabled
+proc initModCmpProcsAndLoadedEnv {parse_loaded_env} {
+      set icase [isIcase]
+      set extdfl [getConf extended_default]
+      defineModStartNbProc $icase
+      defineModEqProc $icase $extdfl
+      defineModVersCmpProc $icase $extdfl
+      defineGetEqArrayKeyProc [getConf implicit_default]
+      defineParseModuleSpecificationProc [getConf advanced_version_spec]
+
+      if {$parse_loaded_env} {
+         cacheCurrentModules
+      }
+}
+
 proc moduleTop {command args} {
    # resolve and check command name
    lassign [parseModuleCommandName $command help] command cmdvalid cmdempty
@@ -483,20 +499,11 @@ proc moduleTop {command args} {
       list avail aliases edit spider]}]
    lappendState commandname $command
 
-   set icase [isIcase]
-   set extdfl [getConf extended_default]
-   defineModStartNbProc $icase
-   defineModEqProc $icase $extdfl
-   defineModVersCmpProc $icase $extdfl
-   defineGetEqArrayKeyProc [getConf implicit_default]
-   defineParseModuleSpecificationProc [getConf advanced_version_spec]
-   if {$command ni {append-path cachebuild cacheclear clear config initadd\
-      initclear initlist initprepend initrm initswitch is-saved is-used\
-      prepend-path remove-path savelist saverm saveshow sh-to-mod stashlist\
-      stashrm stashclear stashshow state use unuse}} {
-      # fetch loaded environment
-      cacheCurrentModules
-   }
+   initModCmpProcsAndLoadedEnv [expr {$command ni {append-path cachebuild\
+      cacheclear clear config initadd initclear initlist initprepend initrm\
+      initswitch is-saved is-used prepend-path remove-path savelist saverm\
+      saveshow sh-to-mod stashlist stashrm stashclear stashshow state use\
+      unuse}}]
 
    # parse options, do that globally to ignore options not related to a given
    # module sub-command (exclude them from arg list)
@@ -553,14 +560,7 @@ proc ml {args} {
       lappendState always_read_full_file 1
       lappendState commandname ml
 
-      set icase [isIcase]
-      set extdfl [getConf extended_default]
-      defineModStartNbProc $icase
-      defineModEqProc $icase $extdfl
-      defineModVersCmpProc $icase $extdfl
-      defineGetEqArrayKeyProc [getConf implicit_default]
-      defineParseModuleSpecificationProc [getConf advanced_version_spec]
-      cacheCurrentModules
+      initModCmpProcsAndLoadedEnv 1
 
       # parse specified module and get list of mods to unload and mods to load
       lassign [parseModuleSpecification 1 0 0 0 {*}$fargs] modunlist modlolist
