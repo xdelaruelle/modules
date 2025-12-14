@@ -274,14 +274,13 @@ if {$is_file_perms_editable && $tcl_platform(user) ne {root} && !$is_locked_dir_
 # check mix of warning and error message rendering
 # check late error message firing
 if {[siteconfig_isStderrTty]} {
-	setenv_var MODULES_PAGER foo
-	setenv_loaded_module [list foo bar] [list $mp/foo]
-	testouterr_cmd sh {list --json} ERR "{\"errors\": \[
-{ \"severity\": \"ERROR\", \"message\": \[ \"Loaded environment state is inconsistent\", \"LOADEDMODULES=foo bar\", \"_LMFILES_=$mp/foo\" \] },
-{ \"severity\": \"WARNING\", \"message\": \[ \"couldn't execute \\\"foo\\\": no such file or directory\" \] } \]
-}"
-	unsetenv_var MODULES_PAGER
-	unsetenv_loaded_module
+    setenv_var MODULES_PAGER foo
+    setenv_loaded_module [list foo bar] [list $mp/foo]
+    set tserr "$warn_msgs: couldn't execute \"foo\": no such file or directory\n"
+    append tserr "$err_loinconsist\n  LOADEDMODULES=foo bar\n  _LMFILES_=$mp/foo"
+    testouterr_cmd sh {list --json} ERR $tserr
+    unsetenv_var MODULES_PAGER
+    unsetenv_loaded_module
 } elseif {$verbose} {
     send_user "\tskipping warning/error mix rendering and late error firing test as pager cannot be started\n"
 }

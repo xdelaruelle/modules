@@ -112,9 +112,10 @@ testouterr_cmd_re "csh" "whatis $module_7" "OK" "$ts_csh_7"
 
 setenv_loaded_module [list foo bar] "/path/to/foo"
 
-# should not affect result
-testouterr_cmd_re "csh" "--terse whatis $module_5" "OK" "$ts_csh_5"
-
+set ts_csh_8 "$err_loinconsist
+  LOADEDMODULES=foo bar
+  _LMFILES_=/path/to/foo"
+testouterr_cmd_re "csh" "--terse whatis $module_5" ERR $ts_csh_8
 
 #
 #  Cleanup

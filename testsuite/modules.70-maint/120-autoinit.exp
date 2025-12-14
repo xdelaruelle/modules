@@ -983,35 +983,10 @@ skip_if_quick_mode
 setenv_path_var MODULEPATH $modpath.3
 setenv_loaded_module foo [list]
 
-set ans [list]
-# an error is raised but no message is produced
-lappend ans [list ERR]
-lappend ans [list [set "func_bash"]]
-if {$install_versioning eq "y"} {
-    lappend ans [list set MODULE_VERSION_STACK "(.*)"]
-}
-lappend ans [list set MODULES_CMD $modulecmd_path]
-if {$change_manpath} {
-    if {$extra_sysmanpath} {
-        lappend ans [list set __MODULES_SHARE_MANPATH :1]
-    }
-    lappend ans [list set MANPATH $updatedmanpath]
-}
-if {$change_path} {
-    lappend ans [list set PATH $updatedpath]
-}
-if {$install_setshellstartup eq {y}} {
-    lappend ans [list set ENV $install_initdir/profile.sh]
-}
-lappend ans [list unset __MODULES_AUTOINIT_INPROGRESS]
-if {$install_setshellstartup eq {y}} {
-    lappend ans [list set BASH_ENV $install_initdir/bash]
-}
-lappend ans [list set MODULESHOME $moduleshome]
-if {$install_versioning eq "y"} {
-    lappend ans [list set MODULE_VERSION "(.*)"]
-}
-testouterr_cmd_re bash autoinit $ans {}
+set tserr "$err_loinconsist
+  LOADEDMODULES=foo
+  _LMFILES_="
+testouterr_cmd_re bash autoinit ERR $tserr
 
 
 # coherent environment state with loaded module that defines volatile components

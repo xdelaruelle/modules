@@ -79,8 +79,10 @@ testouterr_cmd_re "csh" "avail $module3/$symbol3" "OK" "$ts_csh\\s+\n\n$key_sym"
 
 setenv_loaded_module [list foo bar] "/path/to/foo"
 
-# should not affect result
-testouterr_cmd_re "csh" "avail $module3/$symbol3" "OK" "$ts_csh\\s+\n\n$key_sym"
+set ts_csh "$err_loinconsist
+  LOADEDMODULES=foo bar
+  _LMFILES_=/path/to/foo"
+testouterr_cmd_re "csh" "avail $module3/$symbol3" ERR $ts_csh
 
 
 #
