@@ -248,9 +248,8 @@ testouterr_cmd_re sh {load loc_rc6/bar} $ans $tserr
 
 # test 'debug2' verbosity
 set tserr "(DEBUG .*)+
-DEBUG module list
-DEBUG module: isTopEvaluation 0
-DEBUG module: parseModuleCommandName list help
+DEBUG moduleTop list
+DEBUG moduleTop: parseModuleCommandName list help
 DEBUG parseModuleCommandName: \\\(command=list, cmdvalid=1, cmdempty=0\\\)
 (DEBUG .*)+
 $no_loaded
