@@ -109,7 +109,7 @@ proc parseModuleCommandName {command defaultcmd} {
 }
 
 # analyze arg list passed to a module cmd to set options
-proc parseModuleCommandArgs {topcall cmd ignerr args} {
+proc parseModuleCommandArgs {topcall cmd ignerr ml_spec args} {
    set show_oneperline 0
    set show_mtime 0
    set show_filter {}
@@ -324,7 +324,7 @@ proc parseModuleCommandArgs {topcall cmd ignerr args} {
       set allow_noname_spec [expr {$cmd in {avail list paths whatis spider}}]
       # some cmds allow extra specifier in query
       set allow_xt_spec [expr {$cmd in {avail paths whatis spider}}]
-      set otherargs [parseModuleSpecification 0 $allow_noname_spec\
+      set otherargs [parseModuleSpecification $ml_spec $allow_noname_spec\
          $allow_xt_spec 0 {*}$otherargs]
    }
 
@@ -507,7 +507,7 @@ proc moduleTop {command args} {
 
    # parse options, do that globally to ignore options not related to a given
    # module sub-command (exclude them from arg list)
-   lassign [parseModuleCommandArgs 1 $command 0 {*}$args] show_oneperline\
+   lassign [parseModuleCommandArgs 1 $command 0 0 {*}$args] show_oneperline\
       show_mtime show_filter search_filter search_match dump_state\
       addpath_pos not_req tag_list parsed_args
 
@@ -532,7 +532,7 @@ proc moduleTop {command args} {
 proc ml {args} {
    # filter out all known options from argument list to guess command name
    # without them in the way
-   lassign [parseModuleCommandArgs 1 ml 1 {*}$args] show_oneperline\
+   lassign [parseModuleCommandArgs 1 ml 1 0 {*}$args] show_oneperline\
       show_mtime show_filter search_filter search_match dump_state\
       addpath_pos not_req tag_list fargs
 
@@ -562,16 +562,15 @@ proc ml {args} {
 
       initModCmpProcsAndLoadedEnv 1
 
-      # parse specified module and get list of mods to unload and mods to load
-      lassign [parseModuleSpecification 1 0 0 0 {*}$fargs] modunlist modlolist
-
       # main procedure has already raised error for badly written argument
       # like '-' or '--', but we need here to replay module-specific argument
       # parsing to raise error if some arg are not allowed on unload/load cmd
-      set mlcmd [expr {[llength $modunlist] ? {unload} : {load}}]
-      lassign [parseModuleCommandArgs 1 $mlcmd 0 {*}$args] show_oneperline\
+      lassign [parseModuleCommandArgs 1 load 0 1 {*}$args] show_oneperline\
          show_mtime show_filter search_filter search_match dump_state\
          addpath_pos not_req tag_list fargs
+
+      # split result to get list of mods to unload and mods to load
+      lassign $fargs modunlist modlolist
 
       logEvent requested_cmd {command} ml arguments $args
 

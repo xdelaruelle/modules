@@ -174,9 +174,9 @@ proc module-sc {command args} {
    # ignore sub-commands that do not either load or unload
    if {$command in {load load-any switch try-load unload use}} {
       # parse options to distinguish them from module version spec
-      lassign [parseModuleCommandArgs 0 $command 0 {*}$args] show_oneperline\
-         show_mtime show_filter search_filter search_match dump_state\
-         addpath_pos not_req tag_list args
+      lassign [parseModuleCommandArgs 0 $command 0 0 {*}$args]\
+         show_oneperline show_mtime show_filter search_filter search_match\
+         dump_state addpath_pos not_req tag_list args
       set modspeclist [parseModuleSpecification 0 0 0 0 {*}$args]
 
       # no require/incompat extra specifier alias if --not-req option is set

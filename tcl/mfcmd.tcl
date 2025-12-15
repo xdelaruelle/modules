@@ -2401,7 +2401,7 @@ proc module {command args} {
 
    # parse options, do that globally to ignore options not related to a given
    # module sub-command (exclude them from arg list)
-   lassign [parseModuleCommandArgs 0 $command 0 {*}$args] show_oneperline\
+   lassign [parseModuleCommandArgs 0 $command 0 0 {*}$args] show_oneperline\
       show_mtime show_filter search_filter search_match dump_state\
       addpath_pos not_req tag_list parsed_args
 
