@@ -39,36 +39,24 @@ proc getCurrentModfileInterpName {} {
 
 # synchronize environment variable change over all started sub interpreters
 proc interp-sync-env {op var {val {}}} {
-   set envvar ::env($var)
-   ##nagelfar vartype envvar varName
+   set env_var ::env($var)
+   ##nagelfar vartype env_var varName
+
+   # build operation command
+   set op_cmd_list [switch -- $op {
+      set {list set $env_var $val}
+      unset {list unset -nocomplain $env_var}
+   }]
 
    # apply operation to main interpreter
-   switch -- $op {
-      set { set $envvar $val }
-      unset { unset $envvar }
-   }
+   {*}$op_cmd_list
 
    # apply operation to each sub-interpreters if not found autosynced
    if {[llength [interp slaves]]} {
-      reportDebug "$op sync '$envvar' var on interp(s) [interp slaves]"
+      reportDebug "$op sync '$env_var' var on interp(s) [interp slaves]"
 
       foreach itrp [interp slaves] {
-         switch -- $op {
-            set {
-               # no value pre-check on Windows platform as an empty value set
-               # means unsetting variable which lead querying value to error
-               if {[getState is_win] || ![interp eval $itrp [list info exists\
-                  $envvar]] || [interp eval $itrp [list set $envvar]] ne\
-                  $val} {
-                  interp eval $itrp [list set $envvar $val]
-               }
-            }
-            unset {
-               if {[interp eval $itrp [list info exists $envvar]]} {
-                  interp eval $itrp [list unset $envvar]
-               }
-            }
-         }
+         interp eval $itrp $op_cmd_list
       }
    }
 }
