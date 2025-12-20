@@ -1456,7 +1456,7 @@ proc set-env {var val} {
       if {[getState is_win] && $val eq {}} {
          unset-env $var
       } else {
-         interp-sync-env set $var $val
+         interp-env set $var $val
 
          unsetEnvVarAsCleared $var
 
@@ -1477,7 +1477,7 @@ proc isEnvVarProtected {var_name} {
 }
 
 proc reset-to-unset-env {var {val {}}} {
-   interp-sync-env set $var $val
+   interp-env set $var $val
    # set var as cleared if val is empty
    if {$val eq {}} {
       setEnvVarAsCleared $var
@@ -1511,7 +1511,7 @@ proc unset-env {var {internal 0} {val {}}} {
       # internal variables (like ref counter var) are purely unset if they
       # exists
       } elseif {[isEnvVarDefined $var]} {
-         interp-sync-env unset $var
+         interp-env unset $var
          set intwasset 1
       }
 

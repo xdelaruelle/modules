@@ -665,11 +665,11 @@ proc restoreSettings {} {
    set envvarlist [list]
    foreach {var val} [lindex $::g_SAVE_env end] {
       lappend envvarlist $var
-      interp-sync-env set $var $val
+      interp-env set $var $val
    }
    foreach var [array names ::env] {
       if {$var ni $envvarlist} {
-         interp-sync-env unset $var
+         interp-env unset $var
       }
    }
    # restore non-array variable if it was set

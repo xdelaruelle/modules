@@ -28,6 +28,11 @@ proc nimp {cmd args} {
    reportWarning "'$cmd' command not implemented"
 }
 
+proc createInterp {itrp} {
+   reportDebug "creating interp $itrp"
+   interp create $itrp
+   set ::delayed_synced_interp($itrp) {}
+}
 
 # Get identifier name of current Tcl modulefile interpreter. An interp is
 # dedicated to each mode/auto_handling option value/depth level of modulefile
@@ -37,8 +42,8 @@ proc getCurrentModfileInterpName {} {
       modulename]
 }
 
-# synchronize environment variable change over all started sub interpreters
-proc interp-sync-env {op var {val {}}} {
+# synchronize environment variable change over synced sub interpreter
+proc interp-env {op var {val {}}} {
    set env_var ::env($var)
    ##nagelfar vartype env_var varName
 
@@ -51,13 +56,29 @@ proc interp-sync-env {op var {val {}}} {
    # apply operation to main interpreter
    {*}$op_cmd_list
 
-   # apply operation to each sub-interpreters if not found autosynced
-   if {[llength [interp slaves]]} {
-      reportDebug "$op sync '$env_var' var on interp(s) [interp slaves]"
+   # apply operation to synced sub-interpreter if any
+   if {[isStateDefined synced_interp]} {
+      set itrp [getState synced_interp]
+      reportDebug "$op sync '$env_var' var on interp(s) $itrp"
+      interp eval $itrp $op_cmd_list
 
-      foreach itrp [interp slaves] {
-         interp eval $itrp $op_cmd_list
+      # save env change for delayed sync on other sub interp
+      foreach delayed_itrp [array names ::delayed_synced_interp] {
+         if {$delayed_itrp ne $itrp} {
+            lappend ::delayed_synced_interp($delayed_itrp) $op_cmd_list
+         }
       }
+   }
+}
+
+proc sync-interp-env {itrp} {
+   if {[info exists ::delayed_synced_interp($itrp)] && [llength\
+      $::delayed_synced_interp($itrp)]} {
+      interp eval $itrp [list foreach op_cmd_list\
+         $::delayed_synced_interp($itrp) {
+         {*}$op_cmd_list
+      }]
+      set ::delayed_synced_interp($itrp) {}
    }
 }
 
@@ -261,8 +282,7 @@ proc execute-modulefile {modfile modname modnamevrvar modspec requested\
 
    # create modulefile interpreter at first interpretation
    if {![interp exists $itrp]} {
-      reportDebug "creating interp $itrp"
-      interp create $itrp
+      createInterp $itrp
 
       # initialize global static variables for modulefile interp
       foreach {var val} $::g_modfileBaseVars {
@@ -596,8 +616,7 @@ proc execute-modulerc {modfile modname modspec} {
    reportTrace '$modfile' {Evaluate modulerc}
    # create modulerc interpreter at first interpretation
    if {![interp exists $itrp]} {
-      reportDebug "creating interp $itrp"
-      interp create $itrp
+      createInterp $itrp
 
       # initialize global static variables for modulerc interp
       foreach {var val} $::g_modrcBaseVars {
@@ -828,7 +847,7 @@ proc resetInterpState {itrp fresh dumpVarsVN dumpArrayVarsVN untrackVarsVN\
    } elseif {$dumpCommands ne [$itrp eval {info commands}]} {
       reportDebug "missing command(s), recreating interp $itrp"
       interp delete $itrp
-      interp create $itrp
+      createInterp $itrp
       initInterpCommands $itrp 1 $aliasesVN $aliasesPassArgVN $tracesVN\
          $renameCmdsVN
    }
@@ -860,6 +879,12 @@ proc resetInterpState {itrp fresh dumpVarsVN dumpArrayVarsVN untrackVarsVN\
             }
          }
       }
+   }
+
+   # if interp has changed apply delayed env changes to it
+   if {[getState synced_interp] ne $itrp} {
+      setState synced_interp $itrp
+      sync-interp-env $itrp
    }
 }
 
