@@ -213,13 +213,11 @@ proc appendNoDupToList {lstname args} {
    return $ret
 }
 
-proc replaceFromList {list1 item {item2 {}}} {
-   while {[set xi [lsearch -exact $list1 $item]] >= 0} {
-      ##nagelfar ignore #2 Badly formed if statement
-      set list1 [if {![string length $item2]} {lreplace $list1 $xi $xi}\
-         {lreplace $list1 $xi $xi $item2}]
+proc replaceFromList {list1 item args} {
+   set xi 0
+   while {[set xi [lsearch -exact -start $xi $list1 $item]] != -1} {
+      set list1 [lreplace $list1 $xi $xi {*}$args]
    }
-
    return $list1
 }
 

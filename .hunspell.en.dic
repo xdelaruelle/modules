@@ -1313,3 +1313,5 @@ struct
 load2
 list2
 lrem
+replaceFromList
+lreplace
