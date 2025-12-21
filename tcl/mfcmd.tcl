@@ -2442,6 +2442,24 @@ proc module {command args} {
    return {}
 }
 
+# supersede append command to sync environment variable in modulefile eval
+# sub-interpreter. use "set" Tcl command to use the Tcl-internal sync trigger.
+proc appendModfileCmd {itrp var_name args} {
+   # set a variable if passed var_name is an env variable
+   if {[string range $var_name 0 3] eq {env(}} {
+      set env_var_name ::$var_name
+   } elseif {[string range $var_name 0 5] eq {::env(}} {
+      set env_var_name $var_name
+   }
+   ##nagelfar vartype env_var_name varName
+   if {[info exists env_var_name] && [info exists $env_var_name]} {
+      set value [set $env_var_name][join $args {}]
+      set cmd_op_list [list set $var_name $value]
+   } else {
+      set cmd_op_list [list _append $var_name {*}$args]
+   }
+   interp eval $itrp $cmd_op_list
+}
 
 # ;;; Local Variables: ***
 # ;;; mode:tcl ***

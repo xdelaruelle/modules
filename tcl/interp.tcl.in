@@ -31,7 +31,6 @@ proc nimp {cmd args} {
 proc createInterp {itrp} {
    reportDebug "creating interp $itrp"
    interp create $itrp
-   set ::delayed_synced_interp($itrp) {}
 }
 
 # Get identifier name of current Tcl modulefile interpreter. An interp is
@@ -55,31 +54,6 @@ proc interp-env {op var {val {}}} {
 
    # apply operation to main interpreter
    {*}$op_cmd_list
-
-   # apply operation to synced sub-interpreter if any
-   if {[isStateDefined synced_interp]} {
-      set itrp [getState synced_interp]
-      reportDebug "$op sync '$env_var' var on interp(s) $itrp"
-      interp eval $itrp $op_cmd_list
-
-      # save env change for delayed sync on other sub interp
-      foreach delayed_itrp [array names ::delayed_synced_interp] {
-         if {$delayed_itrp ne $itrp} {
-            lappend ::delayed_synced_interp($delayed_itrp) $op_cmd_list
-         }
-      }
-   }
-}
-
-proc sync-interp-env {itrp} {
-   if {[info exists ::delayed_synced_interp($itrp)] && [llength\
-      $::delayed_synced_interp($itrp)]} {
-      interp eval $itrp [list foreach op_cmd_list\
-         $::delayed_synced_interp($itrp) {
-         {*}$op_cmd_list
-      }]
-      set ::delayed_synced_interp($itrp) {}
-   }
 }
 
 # Initialize list of interp alias commands to define for given evaluation mode
@@ -99,7 +73,8 @@ proc initModfileModeAliases {mode auto aliasesVN aliasesPassArgVN\
          reportCmdTrace reportWarning reportWarning reportError reportError\
          incrErrorCount incrErrorCount report report isWin initStateIsWin\
          puts putsModfileCmd getModuleContent getModuleContent lsb-release\
-         lsb-release getModuleHelpLines getModuleHelpLines]
+         lsb-release getModuleHelpLines getModuleHelpLines append\
+         appendModfileCmd]
 
       if {[getConf source_cache]} {
          lappend ::g_modfileBaseAliases source sourceModfileCmd
@@ -164,7 +139,8 @@ x-resource     {x-resource     x-resource     reportCmd      nop            nop 
 
    # alias commands where interpreter ref should be passed as argument
    array set aliasesPassArg [list getvariant [list __itrp__] puts [list\
-      __itrp__] variant [list __itrp__] source [list __itrp__]]
+      __itrp__] variant [list __itrp__] source [list __itrp__] append [list\
+      __itrp__]]
 
    # initialize list with all commands not dependent of the evaluation mode
    array set aliases $::g_modfileBaseAliases
@@ -237,7 +213,7 @@ proc execute-modulefile {modfile modname modnamevrvar modspec requested\
       array set ::g_modfileUntrackVars [list ModulesCurrentModulefile 1 env 1]
 
       # commands that should be renamed before aliases setup
-      array set ::g_modfileRenameCmds [list puts _puts]
+      array set ::g_modfileRenameCmds [list puts _puts append _append]
    }
    # dedicate an interpreter per mode and per level of interpretation to have
    # a dedicated interpreter in case of cascaded multi-mode interpretations
@@ -879,12 +855,6 @@ proc resetInterpState {itrp fresh dumpVarsVN dumpArrayVarsVN untrackVarsVN\
             }
          }
       }
-   }
-
-   # if interp has changed apply delayed env changes to it
-   if {[getState synced_interp] ne $itrp} {
-      setState synced_interp $itrp
-      sync-interp-env $itrp
    }
 }
 

@@ -26,6 +26,10 @@ Modules 5.7.0 (not yet released)
   inconsistency is detected.
 * Improve performances of loaded module comparison used when checking
   conflict and requirement dependencies. (fix issue #603)
+* Fix environment variable synchronization issue between modulefile evaluation
+  interpreters: supersede the ``append`` Tcl command rather sync interpreters
+  for each environment variable change. A substantial performance improvement
+  is observed when loading or unloading many modulefiles. (fix issue #603)
 
 
 .. _5.6 release notes:
