@@ -1224,7 +1224,7 @@ proc getPathToModule {mod {indir {}} {report_issue 1} {look_loaded no}\
          exiterronundef]}]
       # remove excluded directories (already searched)
       foreach dir $excdir {
-         set dir_list [replaceFromList $dir_list $dir]
+         lrem dir_list $dir
       }
 
       set icase [isIcase]
@@ -1420,8 +1420,7 @@ proc unsetLoadedModule {mod modfile} {
    if {[llength $::g_loadedModuleFiles($modfile)] == 1} {
       unset ::g_loadedModuleFiles($modfile)
    } else {
-      set ::g_loadedModuleFiles($modfile) [replaceFromList\
-         $::g_loadedModuleFiles($modfile) $mod]
+      lrem ::g_loadedModuleFiles($modfile) $mod
    }
 
    unset ::g_loadedModulesRefresh($mod)
@@ -1878,8 +1877,7 @@ proc getLoadedMatchingModroot {name} {
 
 proc unsetLoadedByModroot {mod} {
    foreach mod_root $::g_modrootByLoaded($mod) {
-      set ::g_loadedByModroot($mod_root) [replaceFromList\
-         $::g_loadedByModroot($mod_root) $mod]
+      lrem ::g_loadedByModroot($mod_root) $mod
    }
    unset ::g_modrootByLoaded($mod)
 }
@@ -2363,8 +2361,7 @@ proc unsetModuleDependency {mod} {
             } else {
                set hashdep [list $mod]
             }
-            set ::g_dependHash($lmmod) [replaceFromList\
-               $::g_dependHash($lmmod) $hashdep]
+            lrem ::g_dependHash($lmmod) $hashdep
             if {![llength $::g_dependHash($lmmod)]} {
                unset ::g_dependHash($lmmod)
             }
@@ -2386,8 +2383,7 @@ proc unsetModuleDependency {mod} {
             } else {
                set hashdep [list $mod]
             }
-            set ::g_dependNPOHash($lmmod) [replaceFromList\
-               $::g_dependNPOHash($lmmod) $hashdep]
+            lrem ::g_dependNPOHash($lmmod) $hashdep
             if {![llength $::g_dependNPOHash($lmmod)]} {
                unset ::g_dependNPOHash($lmmod)
             }
@@ -3522,8 +3518,7 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
             # will be treated after unset dir (due to decreasing sort) if it
             # needs to get in turn unset
             if {[set pardir [file dirname $elt]] ne {.}} {
-               set fdir_list($pardir) [replaceFromList $fdir_list($pardir)\
-                  [file tail $elt]]
+               lrem fdir_list($pardir) [file tail $elt]
             }
          } else {
             # record directory properties

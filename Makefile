@@ -1111,6 +1111,7 @@ tcl/syntaxdb.tcl: modulecmd.tcl $(NAGELFAR)
 		set tcl_interactive 1;\
 		source $(NAGELFAR_RELEASE)/syntaxbuild.tcl;\
 		set ::syntax(appendNoDupToList) {n x*};\
+		set ::syntax(lrem) {n x};\
 		set ::syntax(lprepend) {n x*};\
 		set ::syntax(execute-modulefile) {x x n x x x? x? x?};\
 		set ::syntax(scanExtraMatchSearch) {x x n};\

@@ -1001,7 +1001,7 @@ proc cmdModuleSource {mode args} {
 # one of the prereq procedures
 proc cmdModuleIntLoad {topcall command mode tag_list args} {
    # ignore flag used in collection to track non-user asked state
-   set args [replaceFromList $args --notuasked]
+   lrem args --notuasked
    # no error raised on empty argument list to cope with initadd command that
    # may expect this behavior
    if {![llength $args]} {
@@ -2231,7 +2231,7 @@ proc cmdModuleInit {args} {
                      }
                      add {
                         foreach newmodule $init_list {
-                           set modules [replaceFromList $modules $newmodule]
+                           lrem modules $newmodule
                         }
                         lappend newinit "$cmd$modules $init_list$comments"
                         # delete new modules in potential next lines
@@ -2239,7 +2239,7 @@ proc cmdModuleInit {args} {
                      }
                      prepend {
                         foreach newmodule $init_list {
-                           set modules [replaceFromList $modules $newmodule]
+                           lrem modules $newmodule
                         }
                         lappend newinit "$cmd$init_list $modules$comments"
                         # delete new modules in potential next lines
@@ -2248,7 +2248,7 @@ proc cmdModuleInit {args} {
                      rm {
                         set oldmodcount [llength $modules]
                         foreach oldmodule $init_list {
-                           set modules [replaceFromList $modules $oldmodule]
+                           lrem modules $oldmodule
                         }
                         set modcount [llength $modules]
                         lappend newinit [expr {$modcount ?\

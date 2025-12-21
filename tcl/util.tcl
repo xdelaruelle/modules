@@ -223,6 +223,11 @@ proc replaceFromList {list1 item {item2 {}}} {
    return $list1
 }
 
+proc lrem {lst_name item} {
+   upvar $lst_name lst
+   set lst [lsearch -inline -all -not -exact $lst $item]
+}
+
 proc lprepend {lst_name args} {
    upvar $lst_name lst
    if {[info exists lst]} {

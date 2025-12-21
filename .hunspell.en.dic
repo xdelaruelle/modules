@@ -1312,3 +1312,4 @@ moduleTop
 struct
 load2
 list2
+lrem

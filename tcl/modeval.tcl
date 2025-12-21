@@ -37,8 +37,7 @@ proc registerModuleEval {context msgrecid {failedmod {}} {failedcontext {}}} {
          set contextevallist [lindex $::g_moduleEval($evalid) $i]
          if {[lindex $contextevallist 0] eq $context} {
             if {$unset} {
-               set contextevallist [replaceFromList $contextevallist\
-                  $msgrecid]
+               lrem contextevallist $msgrecid
             } else {
                lappend contextevallist $msgrecid
             }
@@ -116,8 +115,7 @@ proc changeContextOfModuleEval {mod old_context new_context} {
    }
 
    # remove evaluation from old context
-   set old_context_eval_list [replaceFromList $old_context_eval_list\
-      $mod_evalid]
+   lrem old_context_eval_list $mod_evalid
    lset ::g_moduleEval($evalid) $old_context_idx $old_context_eval_list
 
    # insert evaluation at start of new context
@@ -133,8 +131,7 @@ proc changeContextOfModuleEval {mod old_context new_context} {
    set old_hidden_evalid $evalid:$old_context
    if {[info exists ::g_moduleHiddenEval($old_hidden_evalid)]} {
       if {$mod_evalid in $::g_moduleHiddenEval($old_hidden_evalid)} {
-         set ::g_moduleHiddenEval($old_hidden_evalid) [replaceFromList\
-            $::g_moduleHiddenEval($old_hidden_evalid) $mod_evalid]
+         lrem ::g_moduleHiddenEval($old_hidden_evalid) $mod_evalid
          set new_hidden_evalid $evalid:$new_context
          lappend ::g_moduleHiddenEval($new_hidden_evalid) $mod_evalid
       }
@@ -153,10 +150,8 @@ proc registerModuleEvalAttempt {context mod mod_file} {
 }
 
 proc unregisterModuleEvalAttempt {context mod mod_file} {
-   set ::g_moduleEvalAttempt($mod) [replaceFromList\
-      $::g_moduleEvalAttempt($mod) $context]
-   set ::g_moduleFileEvalAttempt($mod) [replaceFromList\
-      $::g_moduleFileEvalAttempt($mod) $mod_file]
+   lrem ::g_moduleEvalAttempt($mod) $context
+   lrem ::g_moduleFileEvalAttempt($mod) $mod_file
 }
 
 # is at least one module passed as argument evaluated in passed context
@@ -349,8 +344,7 @@ proc getUnmetDependentLoadedModuleList {modnamevr mod_file} {
                                  $::g_prereqViolation($depmod)
                            }
                            # temporarily remove matching violation
-                           set ::g_prereqViolation($depmod) [replaceFromList\
-                              $::g_prereqViolation($depmod) $prereq]
+                           lrem ::g_prereqViolation($depmod) $prereq
                            if {![llength $::g_prereqViolation($depmod)]} {
                               unset ::g_prereqViolation($depmod)
                            }
@@ -808,7 +802,7 @@ proc reloadModuleListUnloadPhase {mod_list {err_msg_tpl {}} {context\
    # unload one by one to ensure same behavior whatever auto_handling state
    foreach mod [lreverse $mod_list] {
       if {[reloadModuleUnloadPhase $mod $err_msg_tpl $context]} {
-         set mod_list [replaceFromList $mod_list $mod]
+         lrem mod_list $mod
       }
    }
    return $mod_list
