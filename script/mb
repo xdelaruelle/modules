@@ -25,8 +25,9 @@ Make bench between modulecmd versions
 
 Available tests:
   help, avail, avail_cache, avail2, avail2_cache, avail3, avail3_cache,
-  whatis, whatis_cache, whatis2, whatis2_cache, whatis3, whatis3_cache,
-  apropos, load, load_cache, load2, load2_cache, list, list2, purge, unload
+  avail4, avail4_cache, whatis, whatis_cache, whatis2, whatis2_cache,
+  whatis3, whatis3_cache, apropos, load, load_cache, load2, load2_cache,
+  list, list2, purge, unload
   (all tests selected by default)
 
 Modes:
@@ -66,7 +67,8 @@ set benchrep 20
 set profprocnb 20
 set curdir [pwd]
 
-set lmod_compat_test_list [list help load2 load2_cache list2 purge]
+set lmod_compat_test_list [list help avail4 avail4_cache load2 load2_cache\
+   list2 purge]
 
 # time test run for a given modulecmd version
 proc bench {tag args} {
@@ -192,9 +194,9 @@ foreach arg $argv {
          set mode bench
       }
       help - avail - avail_cache - avail2 - avail2_cache - avail3 -\
-         avail3_cache - whatis - whatis_cache - whatis2 - whatis2_cache -\
-         whatis3 - whatis3_cache - apropos - load - load_cache - load2 -\
-         load2_cache - list - list2 - purge - unload {
+         avail3_cache - avail4 - avail4_cache - whatis - whatis_cache -\
+         whatis2 - whatis2_cache - whatis3 - whatis3_cache - apropos - load -\
+         load_cache - load2 - load2_cache - list - list2 - purge - unload {
          lappend testlist $arg
       }
       --with-lmod=* {
@@ -228,9 +230,9 @@ if {![info exists testlist]} {
       set testlist $lmod_compat_test_list
    } else {
       set testlist [list help avail avail_cache avail2 avail2_cache avail3\
-         avail3_cache whatis whatis_cache whatis2 whatis2_cache whatis3\
-         whatis3_cache apropos load load_cache load2 load2_cache list list2\
-         purge unload]
+         avail3_cache avail4 avail4_cache whatis whatis_cache whatis2\
+         whatis2_cache whatis3 whatis3_cache apropos load load_cache load2\
+         load2_cache list list2 purge unload]
    }
 } elseif {[info exists lmod_cmd]} {
    foreach test $testlist {
@@ -335,10 +337,12 @@ catch {unset env(__MODULES_SHARE_MODULEPATH)}
 
 # define bench tests and their arguments and environment
 set modpath $curdir/testsuite/modulefiles
-array set testsubcmdlist [list avail2 avail avail3 avail whatis2 whatis\
-   whatis3 whatis load2 load list2 list]
+array set testsubcmdlist [list avail2 avail avail3 avail avail4 avail whatis2\
+   whatis whatis3 whatis load2 load list2 list]
 array set testarglist [list avail2 load whatis2 load load load/all unload\
    load/all load2 R-bundle-Bioconductor/3.18-foss-2023a-R-4.3.2]
+array set testoptlist [list avail4_lmod --ignore_cache load2_lmod\
+   --ignore_cache]
 
 # load test environment recorded in external files
 foreach testenv_file [glob $curdir/testsuite/mb/testenv_*] {
@@ -353,6 +357,7 @@ foreach testenv_file [glob $curdir/testsuite/mb/testenv_*] {
 
 # define env for tests reusing env of other tests
 set testenvlist(avail2) $testenvlist(avail)
+set testenvlist(avail4) $testenvlist(load2)
 set testenvlist(whatis) $testenvlist(avail)
 set testenvlist(whatis2) $testenvlist(avail)
 set testenvlist(whatis3) $testenvlist(avail3)
