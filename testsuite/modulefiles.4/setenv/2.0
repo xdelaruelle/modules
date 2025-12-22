@@ -1,1 +1,23 @@
 #%Module
+setenv TS1 ok
+setenv TS2 ok
+setenv TS4 ok
+append ::env(TS2) ok
+append ::env(TS6) ok
+
+setenv TS11 ok
+setenv TS12 ok
+setenv TS14 ok
+setenv TS12 [getenv TS12]ok
+
+module load setenv/2.1
+
+append ::env(TS1) ok
+append ::env(TS3) ok
+append ::env(TS4) ok
+setenv TS5 ok
+
+setenv TS11 [getenv TS11]ok
+setenv TS13 [getenv TS13]ok
+setenv TS14 [getenv TS14]ok
+setenv TS15 ok

@@ -166,6 +166,31 @@ testouterr_cmd sh "load $module" $ans {}
 
 
 #
+# test appending variable also with sub module evaluation
+#
+
+setenv_var MODULEPATH $modpath.4
+
+set ans [list]
+lappend ans [list set TS1 oksubok]
+lappend ans [list set TS2 okoksub]
+lappend ans [list set TS11 oksubok]
+lappend ans [list set TS12 okoksub]
+lappend ans [list set LOADEDMODULES setenv/2.1:setenv/2.0]
+lappend ans [list set _LMFILES_ $modpath.4/setenv/2.1:$modpath.4/setenv/2.0]
+lappend ans [list set __MODULES_LMTAG setenv/2.1&auto-loaded]
+lappend ans [list set TS4 subok]
+lappend ans [list set TS13 subok]
+lappend ans [list set TS14 subok]
+lappend ans [list set TS5 ok]
+lappend ans [list set TS6 oksub]
+lappend ans [list set TS15 ok]
+lappend ans [list set __MODULES_LMPREREQ setenv/2.0&setenv/2.1]
+set tserr [msg_top_load setenv/2.0 {} setenv/2.1 {}]
+testouterr_cmd sh {load --auto setenv/2.0} $ans $tserr
+
+
+#
 # Test setenv command in a simulated Windows OS environment
 # empty value means variable unset
 #
@@ -174,8 +199,6 @@ testouterr_cmd sh "load $module" $ans {}
 if {[siteconfig_isStderrTty]} {
 # fake Windows platform with a cmd.exe tool to execute system commands
 setenv_var TESTSUITE_ENABLE_SITECONFIG_WINDOWS_PLATFORM 1
-
-setenv_var MODULEPATH $modpath.4
 
 set ans [list]
 lappend ans [list unset TS1]

@@ -1,0 +1,13 @@
+#%Module
+append ::env(TS1) sub
+append ::env(TS2) sub
+append ::env(TS3) sub
+setenv TS4 sub
+setenv TS5 sub
+setenv TS6 [append ::env(TS6)]sub
+
+setenv TS11 [getenv TS11]sub
+setenv TS12 [getenv TS12]sub
+setenv TS13 [getenv TS13]sub
+setenv TS14 sub
+setenv TS15 sub
