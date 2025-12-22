@@ -35,11 +35,14 @@ Modes:
 
 Options:
   -h, --help      Show this help message and exit
+  --with-lmod=<path>
+                  Compare exec time against specified Lmod command
 
 Examples:
    $::argv0
    $::argv0 profile
-   $::argv0 load unload list"
+   $::argv0 load unload list
+   $::argv0 --with-lmod=/path/to/lmod/libexec/lmod"
 }
 
 proc sgr {sgrcode str} {
@@ -50,6 +53,11 @@ proc reportError {str} {
    puts stderr "[sgr {1;31} ERROR]: $str"
 }
 
+proc reportErrorAndExit {str} {
+   reportError $str
+   exit 1
+}
+
 proc reportWarning {str} {
    puts stderr "[sgr {1;33} WARNING]: $str"
 }
@@ -58,9 +66,14 @@ set benchrep 20
 set profprocnb 20
 set curdir [pwd]
 
+set lmod_compat_test_list [list help load2 load2_cache list2 purge]
+
 # time test run for a given modulecmd version
 proc bench {tag args} {
-   return [expr {round([lindex [split [time {catch {exec ./modulecmd.$tag sh\
+   ##nagelfar ignore #2 Badly formed if statement
+   set cmd_list [if {$tag eq {lmod}} {list $::lmod_cmd} {list\
+      ./modulecmd.$tag}]
+   return [expr {round([lindex [split [time {catch {exec {*}$cmd_list sh\
       {*}$args >>& /dev/null}} $::benchrep]] 0] / 1000)}]
 }
 
@@ -107,6 +120,18 @@ proc runtest {mode test} {
    }
 
    foreach tag $::taglist {
+      # set Lmod-specific environment and options
+      if {$tag eq {lmod}} {
+         set lmod_test ${test}_lmod
+         if {[info exists ::testenvlist($lmod_test)]} {
+            foreach {var val} $::testenvlist($lmod_test) {
+               set ::env($var) $val
+            }
+         }
+         if {[info exists ::testoptlist($lmod_test)]} {
+            set cmdlist [concat $::testoptlist($lmod_test) $cmdlist]
+         }
+      }
       # run test if tag version is compatible with it
       if {[info exists ::testcompatlist($test)] && [string match {v[0-9]*}\
          $tag] && "v$::testcompatlist($test)" ne $tag && [lindex [lsort\
@@ -121,14 +146,31 @@ proc runtest {mode test} {
          }
       } else {
          if {$use_cache} {
-            module_cache_create $tag
+            if {$tag eq {lmod}} {
+               exec $::lmod_cmd sh avail >>& /dev/null
+            } else {
+               module_cache_create $tag
+            }
          }
          set res [$mode $tag {*}$cmdlist]
          if {$use_cache} {
-            module_cache_delete $tag
+            if {$tag eq {lmod}} {
+               catch {file delete {*}[glob\
+                  $::env(HOME)/.cache/lmod/spiderT.*]}
+            } else {
+               module_cache_delete $tag
+            }
          }
       }
       lappend ::testres($test) $tag $res
+      # clean Lmod-specific environment
+      if {$tag eq {lmod}} {
+         if {[info exists ::testenvlist($lmod_test)]} {
+            foreach {var val} $::testenvlist($lmod_test) {
+               unset ::env($var)
+            }
+         }
+      }
    }
 
    # clean test environment
@@ -155,29 +197,49 @@ foreach arg $argv {
          load2_cache - list - list2 - purge - unload {
          lappend testlist $arg
       }
+      --with-lmod=* {
+         set lmod_cmd [string range $arg 12 end]
+      }
       -h - --help {
          reportUsage
          exit 0
       }
       -* {
-         reportError "Invalid option '$arg'$hintmsg"
-         exit 1
+         reportErrorAndExit "Invalid option '$arg'$hintmsg"
       }
       default {
-         reportError "Invalid test name '$arg'$hintmsg"
-         exit 1
+         reportErrorAndExit "Invalid test name '$arg'$hintmsg"
       }
    }
+}
+# check specified lmod command exists
+if {[info exists lmod_cmd] && ![file executable $lmod_cmd]} {
+   reportErrorAndExit "Specified Lmod command is not executable"
 }
 # use default values if not set on command-line
 if {![info exists mode]} {
    set mode bench
 }
+if {[info exists lmod_cmd] && $mode ne {bench}} {
+   reportErrorAndExit "Only bench mode supported for Lmod comparison"
+}
 if {![info exists testlist]} {
-   set testlist [list help avail avail_cache avail2 avail2_cache avail3\
-      avail3_cache whatis whatis_cache whatis2 whatis2_cache whatis3\
-      whatis3_cache apropos load load_cache load2 load2_cache list list2\
-      purge unload]
+   if {[info exists lmod_cmd]} {
+      set testlist $lmod_compat_test_list
+   } else {
+      set testlist [list help avail avail_cache avail2 avail2_cache avail3\
+         avail3_cache whatis whatis_cache whatis2 whatis2_cache whatis3\
+         whatis3_cache apropos load load_cache load2 load2_cache list list2\
+         purge unload]
+   }
+} elseif {[info exists lmod_cmd]} {
+   foreach test $testlist {
+      if {$test ni $lmod_compat_test_list} {
+         set hint_lmod_msg "  Supported tests: $lmod_compat_test_list"
+         reportErrorAndExit "Unsupported test for Lmod\
+            comparison\n$hint_lmod_msg"
+      }
+   }
 }
 
 # fetch information from git repository to save workspace and get available
@@ -220,10 +282,15 @@ foreach tag [exec git tag --list v*] {
    }
 }
 
-foreach tag [lsort [array names tagarray]] {
-   lappend taglist $tagarray($tag)
+if {[info exists lmod_cmd]} {
+   # only compare Lmod with latest Modules
+   lappend taglist $headref lmod
+} else {
+   foreach tag [lsort [array names tagarray]] {
+      lappend taglist $tagarray($tag)
+   }
+   lappend taglist $headref
 }
-lappend taglist $headref
 
 # save workspace
 if {$needstash} {
@@ -232,7 +299,7 @@ if {$needstash} {
 
 # check what tag need to be built
 foreach tag $taglist {
-   if {![file exists modulecmd.$tag]} {
+   if {$tag ne {lmod} && ![file exists modulecmd.$tag]} {
       lappend tagtobuildlist $tag
    }
 }
@@ -275,7 +342,7 @@ array set testarglist [list avail2 load whatis2 load load load/all unload\
 
 # load test environment recorded in external files
 foreach testenv_file [glob $curdir/testsuite/mb/testenv_*] {
-   set test [lindex [split [file tail $testenv_file] _] 1]
+   set test [string range [file tail $testenv_file] 8 end]
    set fid [open $testenv_file]
    foreach testenv_line [split [read $fid] \n] {
       set resolved_line [string map [list {$modpath} $modpath] $testenv_line]
@@ -292,6 +359,7 @@ set testenvlist(whatis3) $testenvlist(avail3)
 set testenvlist(apropos) $testenvlist(avail)
 set testenvlist(unload) $testenvlist(list)
 set testenvlist(purge) $testenvlist(list2)
+set testenvlist(purge_lmod) $testenvlist(list2_lmod)
 # some tests have a minimum version requirement
 array set testcompatlist [list avail3 4.6.0 whatis3 4.6.0 avail_cache 5.3.0\
    avail2_cache 5.3.0 avail3_cache 5.3.0 whatis_cache 5.3.0 whatis2_cache\
@@ -347,7 +415,9 @@ foreach test $testlist {
 
 # clean built files
 foreach tag $taglist {
-   catch {file delete modulecmd.$tag lib/libtclenvmodules.so.$tag}
+   if {$tag ne {lmod}} {
+      catch {file delete modulecmd.$tag lib/libtclenvmodules.so.$tag}
+   }
 }
 catch {file delete tcl/mfinterp.tcl}
 

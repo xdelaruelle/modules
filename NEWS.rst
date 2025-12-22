@@ -30,6 +30,8 @@ Modules 5.7.0 (not yet released)
   interpreters: supersede the ``append`` Tcl command rather sync interpreters
   for each environment variable change. A substantial performance improvement
   is observed when loading or unloading many modulefiles. (fix issue #603)
+* Script: add ``--with-lmod`` option to :command:`mb` command to compare
+  current Modules version against an installed version of Lmod.
 
 
 .. _5.6 release notes:
