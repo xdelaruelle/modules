@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/Ninja/1.11.1-GCCcore-12.2.0
 conflict Ninja
-module load GCCcore/12.2.0
+depends-on GCCcore/12.2.0

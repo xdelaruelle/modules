@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/hatchling/1.18.0-GCCcore-12.3.0
 conflict hatchling
-module load GCCcore/12.3.0
-module load Python/3.11.3-GCCcore-12.3.0
+depends-on GCCcore/12.3.0
+depends-on Python/3.11.3-GCCcore-12.3.0

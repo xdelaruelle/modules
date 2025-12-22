@@ -2,13 +2,13 @@
 module-whatis {Description: module name and version}
 set root /software/Mesa/23.1.9-GCCcore-13.2.0
 conflict Mesa
-module load GCCcore/13.2.0
-module load zlib/1.2.13-GCCcore-13.2.0
-module load zstd/1.5.5-GCCcore-13.2.0
-module load libdrm/2.4.117-GCCcore-13.2.0
-module load libglvnd/1.7.0-GCCcore-13.2.0
-module load libunwind/1.6.2-GCCcore-13.2.0
-module load LLVM/16.0.6-GCCcore-13.2.0
-module load X11/20231019-GCCcore-13.2.0
-module load Wayland/1.22.0-GCCcore-13.2.0
+depends-on GCCcore/13.2.0
+depends-on zlib/1.2.13-GCCcore-13.2.0
+depends-on zstd/1.5.5-GCCcore-13.2.0
+depends-on libdrm/2.4.117-GCCcore-13.2.0
+depends-on libglvnd/1.7.0-GCCcore-13.2.0
+depends-on libunwind/1.6.2-GCCcore-13.2.0
+depends-on LLVM/16.0.6-GCCcore-13.2.0
+depends-on X11/20231019-GCCcore-13.2.0
+depends-on Wayland/1.22.0-GCCcore-13.2.0
 append-path	__EGL_VENDOR_LIBRARY_DIRS		$root/share/glvnd/egl_vendor.d

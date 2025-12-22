@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/libpciaccess/0.16-GCCcore-10.3.0
 conflict libpciaccess
-module load GCCcore/10.3.0
+depends-on GCCcore/10.3.0

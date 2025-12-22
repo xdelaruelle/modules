@@ -2,7 +2,7 @@
 module-whatis {Description: module name and version}
 set root /software/meson-python/0.15.0-GCCcore-13.2.0
 conflict meson-python
-module load GCCcore/13.2.0
-module load Python/3.11.5-GCCcore-13.2.0
-module load Python-bundle-PyPI/2023.10-GCCcore-13.2.0
-module load Meson/1.2.3-GCCcore-13.2.0
+depends-on GCCcore/13.2.0
+depends-on Python/3.11.5-GCCcore-13.2.0
+depends-on Python-bundle-PyPI/2023.10-GCCcore-13.2.0
+depends-on Meson/1.2.3-GCCcore-13.2.0

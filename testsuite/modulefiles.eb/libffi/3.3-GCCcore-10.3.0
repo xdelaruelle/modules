@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/libffi/3.3-GCCcore-10.3.0
 conflict libffi
-module load GCCcore/10.3.0
+depends-on GCCcore/10.3.0

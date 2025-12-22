@@ -2,7 +2,7 @@
 module-whatis {Description: module name and version}
 set root /software/Tk/8.6.11-GCCcore-10.3.0
 conflict Tk
-module load GCCcore/10.3.0
-module load Tcl/8.6.11-GCCcore-10.3.0
-module load X11/20210518-GCCcore-10.3.0
-module load zlib/1.2.11-GCCcore-10.3.0
+depends-on GCCcore/10.3.0
+depends-on Tcl/8.6.11-GCCcore-10.3.0
+depends-on X11/20210518-GCCcore-10.3.0
+depends-on zlib/1.2.11-GCCcore-10.3.0

@@ -2,14 +2,14 @@
 module-whatis {Description: module name and version}
 set root /software/GTK3/3.24.39-GCCcore-13.2.0
 conflict GTK3
-module load GCCcore/13.2.0
-module load ATK/2.38.0-GCCcore-13.2.0
-module load at-spi2-atk/2.38.0-GCCcore-13.2.0
-module load cairo/1.18.0-GCCcore-13.2.0
-module load Gdk-Pixbuf/2.42.10-GCCcore-13.2.0
-module load GLib/2.78.1-GCCcore-13.2.0
-module load Pango/1.51.0-GCCcore-13.2.0
-module load libepoxy/1.5.10-GCCcore-13.2.0
-module load X11/20231019-GCCcore-13.2.0
-module load FriBidi/1.0.13-GCCcore-13.2.0
-module load Wayland/1.22.0-GCCcore-13.2.0
+depends-on GCCcore/13.2.0
+depends-on ATK/2.38.0-GCCcore-13.2.0
+depends-on at-spi2-atk/2.38.0-GCCcore-13.2.0
+depends-on cairo/1.18.0-GCCcore-13.2.0
+depends-on Gdk-Pixbuf/2.42.10-GCCcore-13.2.0
+depends-on GLib/2.78.1-GCCcore-13.2.0
+depends-on Pango/1.51.0-GCCcore-13.2.0
+depends-on libepoxy/1.5.10-GCCcore-13.2.0
+depends-on X11/20231019-GCCcore-13.2.0
+depends-on FriBidi/1.0.13-GCCcore-13.2.0
+depends-on Wayland/1.22.0-GCCcore-13.2.0

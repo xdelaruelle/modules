@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/gettext/0.22
 conflict gettext
-module load ncurses/6.4
+depends-on ncurses/6.4

@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/PCRE2/10.42-GCCcore-13.2.0
 conflict PCRE2
-module load GCCcore/13.2.0
+depends-on GCCcore/13.2.0

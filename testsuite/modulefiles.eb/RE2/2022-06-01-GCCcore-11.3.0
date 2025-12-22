@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/RE2/2022-06-01-GCCcore-11.3.0
 conflict RE2
-module load GCCcore/11.3.0
+depends-on GCCcore/11.3.0

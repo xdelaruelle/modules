@@ -2,8 +2,8 @@
 module-whatis {Description: module name and version}
 set root /software/zstd/1.5.5-GCCcore-13.2.0
 conflict zstd
-module load GCCcore/13.2.0
-module load zlib/1.2.13-GCCcore-13.2.0
-module load gzip/1.13-GCCcore-13.2.0
-module load XZ/5.4.4-GCCcore-13.2.0
-module load lz4/1.9.4-GCCcore-13.2.0
+depends-on GCCcore/13.2.0
+depends-on zlib/1.2.13-GCCcore-13.2.0
+depends-on gzip/1.13-GCCcore-13.2.0
+depends-on XZ/5.4.4-GCCcore-13.2.0
+depends-on lz4/1.9.4-GCCcore-13.2.0

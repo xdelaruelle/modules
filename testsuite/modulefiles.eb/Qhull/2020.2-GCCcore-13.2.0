@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/Qhull/2020.2-GCCcore-13.2.0
 conflict Qhull
-module load GCCcore/13.2.0
+depends-on GCCcore/13.2.0

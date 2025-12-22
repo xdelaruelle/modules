@@ -2,10 +2,10 @@
 module-whatis {Description: module name and version}
 set root /software/LibTIFF/4.6.0-GCCcore-13.2.0
 conflict LibTIFF
-module load GCCcore/13.2.0
-module load zlib/1.2.13-GCCcore-13.2.0
-module load libjpeg-turbo/3.0.1-GCCcore-13.2.0
-module load XZ/5.4.4-GCCcore-13.2.0
-module load jbigkit/2.1-GCCcore-13.2.0
-module load zstd/1.5.5-GCCcore-13.2.0
-module load libdeflate/1.19-GCCcore-13.2.0
+depends-on GCCcore/13.2.0
+depends-on zlib/1.2.13-GCCcore-13.2.0
+depends-on libjpeg-turbo/3.0.1-GCCcore-13.2.0
+depends-on XZ/5.4.4-GCCcore-13.2.0
+depends-on jbigkit/2.1-GCCcore-13.2.0
+depends-on zstd/1.5.5-GCCcore-13.2.0
+depends-on libdeflate/1.19-GCCcore-13.2.0

@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/libopus/1.5.2-GCCcore-13.2.0
 conflict libopus
-module load GCCcore/13.2.0
+depends-on GCCcore/13.2.0

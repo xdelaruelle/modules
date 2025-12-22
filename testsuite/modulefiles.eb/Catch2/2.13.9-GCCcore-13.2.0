@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/Catch2/2.13.9-GCCcore-13.2.0
 conflict Catch2
-module load GCCcore/13.2.0
+depends-on GCCcore/13.2.0

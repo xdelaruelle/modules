@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/numactl/2.0.16-GCCcore-12.2.0
 conflict numactl
-module load GCCcore/12.2.0
+depends-on GCCcore/12.2.0

@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/ScaLAPACK/2.2.0-gompi-2022b-fb
 conflict ScaLAPACK
-module load gompi/2022b
-module load FlexiBLAS/3.2.1-GCC-12.2.0
+depends-on gompi/2022b
+depends-on FlexiBLAS/3.2.1-GCC-12.2.0

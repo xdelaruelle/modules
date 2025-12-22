@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/GEOS/3.9.1-GCC-11.2.0
 conflict GEOS
-module load GCC/11.2.0
+depends-on GCC/11.2.0

@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/GEOS/3.12.0-GCC-12.3.0
 conflict GEOS
-module load GCC/12.3.0
+depends-on GCC/12.3.0

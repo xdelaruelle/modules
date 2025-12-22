@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/intltool/0.51.0-GCCcore-12.3.0
 conflict intltool
-module load GCCcore/12.3.0
-module load Perl-bundle-CPAN/5.36.1-GCCcore-12.3.0
+depends-on GCCcore/12.3.0
+depends-on Perl-bundle-CPAN/5.36.1-GCCcore-12.3.0

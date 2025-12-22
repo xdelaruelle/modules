@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/snappy/1.1.10-GCCcore-12.3.0
 conflict snappy
-module load GCCcore/12.3.0
+depends-on GCCcore/12.3.0

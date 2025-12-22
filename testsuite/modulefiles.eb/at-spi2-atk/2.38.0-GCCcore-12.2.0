@@ -2,9 +2,9 @@
 module-whatis {Description: module name and version}
 set root /software/at-spi2-atk/2.38.0-GCCcore-12.2.0
 conflict at-spi2-atk
-module load GCCcore/12.2.0
-module load GLib/2.75.0-GCCcore-12.2.0
-module load DBus/1.15.2-GCCcore-12.2.0
-module load at-spi2-core/2.46.0-GCCcore-12.2.0
-module load libxml2/2.10.3-GCCcore-12.2.0
-module load ATK/2.38.0-GCCcore-12.2.0
+depends-on GCCcore/12.2.0
+depends-on GLib/2.75.0-GCCcore-12.2.0
+depends-on DBus/1.15.2-GCCcore-12.2.0
+depends-on at-spi2-core/2.46.0-GCCcore-12.2.0
+depends-on libxml2/2.10.3-GCCcore-12.2.0
+depends-on ATK/2.38.0-GCCcore-12.2.0

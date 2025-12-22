@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/JasPer/4.0.0-GCCcore-12.2.0
 conflict JasPer
-module load GCCcore/12.2.0
+depends-on GCCcore/12.2.0

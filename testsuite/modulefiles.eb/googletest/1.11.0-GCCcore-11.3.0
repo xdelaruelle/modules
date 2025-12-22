@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/googletest/1.11.0-GCCcore-11.3.0
 conflict googletest
-module load GCCcore/11.3.0
+depends-on GCCcore/11.3.0

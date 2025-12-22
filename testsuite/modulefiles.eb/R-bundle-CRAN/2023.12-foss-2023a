@@ -2,20 +2,20 @@
 module-whatis {Description: module name and version}
 set root /software/R-bundle-CRAN/2023.12-foss-2023a
 conflict R-bundle-CRAN
-module load foss/2023a
-module load R/4.3.2-gfbf-2023a
-module load libxml2/2.11.4-GCCcore-12.3.0
-module load GMP/6.2.1-GCCcore-12.3.0
-module load NLopt/2.7.1-GCCcore-12.3.0
-module load FFTW/3.3.10-GCC-12.3.0
-module load libsndfile/1.2.2-GCCcore-12.3.0
-module load ICU/73.2-GCCcore-12.3.0
-module load HDF5/1.14.0-gompi-2023a
-module load UDUNITS/2.2.28-GCCcore-12.3.0
-module load GSL/2.7-GCC-12.3.0
-module load ImageMagick/7.1.1-15-GCCcore-12.3.0
-module load GLPK/5.0-GCCcore-12.3.0
-module load nodejs/18.17.1-GCCcore-12.3.0
-module load GDAL/3.7.1-foss-2023a
-module load MPFR/4.2.0-GCCcore-12.3.0
-module load PostgreSQL/16.1-GCCcore-12.3.0
+depends-on foss/2023a
+depends-on R/4.3.2-gfbf-2023a
+depends-on libxml2/2.11.4-GCCcore-12.3.0
+depends-on GMP/6.2.1-GCCcore-12.3.0
+depends-on NLopt/2.7.1-GCCcore-12.3.0
+depends-on FFTW/3.3.10-GCC-12.3.0
+depends-on libsndfile/1.2.2-GCCcore-12.3.0
+depends-on ICU/73.2-GCCcore-12.3.0
+depends-on HDF5/1.14.0-gompi-2023a
+depends-on UDUNITS/2.2.28-GCCcore-12.3.0
+depends-on GSL/2.7-GCC-12.3.0
+depends-on ImageMagick/7.1.1-15-GCCcore-12.3.0
+depends-on GLPK/5.0-GCCcore-12.3.0
+depends-on nodejs/18.17.1-GCCcore-12.3.0
+depends-on GDAL/3.7.1-foss-2023a
+depends-on MPFR/4.2.0-GCCcore-12.3.0
+depends-on PostgreSQL/16.1-GCCcore-12.3.0

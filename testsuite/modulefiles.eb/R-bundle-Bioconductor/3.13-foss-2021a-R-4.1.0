@@ -2,9 +2,9 @@
 module-whatis {Description: module name and version}
 set root /software/R-bundle-Bioconductor/3.13-foss-2021a-R-4.1.0
 conflict R-bundle-Bioconductor
-module load foss/2021a
-module load R/4.1.0-foss-2021a
-module load Boost/1.76.0-GCC-10.3.0
-module load GSL/2.7-GCC-10.3.0
-module load ncdf4/1.17-foss-2021a-R-4.1.0
-module load arrow-R/6.0.0.2-foss-2021a-R-4.1.0
+depends-on foss/2021a
+depends-on R/4.1.0-foss-2021a
+depends-on Boost/1.76.0-GCC-10.3.0
+depends-on GSL/2.7-GCC-10.3.0
+depends-on ncdf4/1.17-foss-2021a-R-4.1.0
+depends-on arrow-R/6.0.0.2-foss-2021a-R-4.1.0

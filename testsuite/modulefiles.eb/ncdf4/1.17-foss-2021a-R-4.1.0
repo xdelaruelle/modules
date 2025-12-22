@@ -2,7 +2,7 @@
 module-whatis {Description: module name and version}
 set root /software/ncdf4/1.17-foss-2021a-R-4.1.0
 conflict ncdf4
-module load foss/2021a
-module load R/4.1.0-foss-2021a
-module load netCDF/4.8.0-gompi-2021a
+depends-on foss/2021a
+depends-on R/4.1.0-foss-2021a
+depends-on netCDF/4.8.0-gompi-2021a
 prepend-path	R_LIBS_SITE		$root

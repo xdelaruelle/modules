@@ -2,7 +2,7 @@
 module-whatis {Description: module name and version}
 set root /software/arrow-R/6.0.0.2-foss-2021b-R-4.2.0
 conflict arrow-R
-module load foss/2021b
-module load R/4.2.0-foss-2021b
-module load Arrow/6.0.0-foss-2021b
+depends-on foss/2021b
+depends-on R/4.2.0-foss-2021b
+depends-on Arrow/6.0.0-foss-2021b
 prepend-path	R_LIBS_SITE		$root

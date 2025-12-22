@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/x265/3.5-GCCcore-12.3.0
 conflict x265
-module load GCCcore/12.3.0
+depends-on GCCcore/12.3.0

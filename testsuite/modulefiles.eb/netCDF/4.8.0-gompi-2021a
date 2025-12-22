@@ -2,7 +2,7 @@
 module-whatis {Description: module name and version}
 set root /software/netCDF/4.8.0-gompi-2021a
 conflict netCDF
-module load gompi/2021a
-module load HDF5/1.10.7-gompi-2021a
-module load cURL/7.76.0-GCCcore-10.3.0
-module load Szip/2.1.1-GCCcore-10.3.0
+depends-on gompi/2021a
+depends-on HDF5/1.10.7-gompi-2021a
+depends-on cURL/7.76.0-GCCcore-10.3.0
+depends-on Szip/2.1.1-GCCcore-10.3.0

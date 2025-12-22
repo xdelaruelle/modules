@@ -2,8 +2,8 @@
 module-whatis {Description: module name and version}
 set root /software/PROJ/8.1.0-GCCcore-11.2.0
 conflict PROJ
-module load GCCcore/11.2.0
-module load SQLite/3.36-GCCcore-11.2.0
-module load LibTIFF/4.3.0-GCCcore-11.2.0
-module load cURL/7.78.0-GCCcore-11.2.0
-module load XZ/5.2.5-GCCcore-11.2.0
+depends-on GCCcore/11.2.0
+depends-on SQLite/3.36-GCCcore-11.2.0
+depends-on LibTIFF/4.3.0-GCCcore-11.2.0
+depends-on cURL/7.78.0-GCCcore-11.2.0
+depends-on XZ/5.2.5-GCCcore-11.2.0

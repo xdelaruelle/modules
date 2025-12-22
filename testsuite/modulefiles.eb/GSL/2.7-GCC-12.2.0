@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/GSL/2.7-GCC-12.2.0
 conflict GSL
-module load GCC/12.2.0
+depends-on GCC/12.2.0

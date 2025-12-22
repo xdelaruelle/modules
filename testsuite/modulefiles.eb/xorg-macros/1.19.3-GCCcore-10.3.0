@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/xorg-macros/1.19.3-GCCcore-10.3.0
 conflict xorg-macros
-module load GCCcore/10.3.0
+depends-on GCCcore/10.3.0

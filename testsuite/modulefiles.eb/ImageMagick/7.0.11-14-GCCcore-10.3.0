@@ -2,15 +2,15 @@
 module-whatis {Description: module name and version}
 set root /software/ImageMagick/7.0.11-14-GCCcore-10.3.0
 conflict ImageMagick
-module load GCCcore/10.3.0
-module load bzip2/1.0.8-GCCcore-10.3.0
-module load X11/20210518-GCCcore-10.3.0
-module load Ghostscript/9.54.0-GCCcore-10.3.0
-module load JasPer/2.0.28-GCCcore-10.3.0
-module load libjpeg-turbo/2.0.6-GCCcore-10.3.0
-module load LibTIFF/4.2.0-GCCcore-10.3.0
-module load LittleCMS/2.12-GCCcore-10.3.0
-module load Pango/1.48.5-GCCcore-10.3.0
-module load pixman/0.40.0-GCCcore-10.3.0
-module load FriBidi/1.0.10-GCCcore-10.3.0
+depends-on GCCcore/10.3.0
+depends-on bzip2/1.0.8-GCCcore-10.3.0
+depends-on X11/20210518-GCCcore-10.3.0
+depends-on Ghostscript/9.54.0-GCCcore-10.3.0
+depends-on JasPer/2.0.28-GCCcore-10.3.0
+depends-on libjpeg-turbo/2.0.6-GCCcore-10.3.0
+depends-on LibTIFF/4.2.0-GCCcore-10.3.0
+depends-on LittleCMS/2.12-GCCcore-10.3.0
+depends-on Pango/1.48.5-GCCcore-10.3.0
+depends-on pixman/0.40.0-GCCcore-10.3.0
+depends-on FriBidi/1.0.10-GCCcore-10.3.0
 setenv	MAGICK_HOME		"/software/ImageMagick/7.0.11-14-GCCcore-10.3.0"

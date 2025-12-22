@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/NLopt/2.7.1-GCCcore-12.2.0
 conflict NLopt
-module load GCCcore/12.2.0
+depends-on GCCcore/12.2.0

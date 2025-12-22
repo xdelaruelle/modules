@@ -2,7 +2,7 @@
 module-whatis {Description: module name and version}
 set root /software/Autotools/20220317-GCCcore-12.3.0
 conflict Autotools
-module load GCCcore/12.3.0
-module load Autoconf/2.71-GCCcore-12.3.0
-module load Automake/1.16.5-GCCcore-12.3.0
-module load libtool/2.4.7-GCCcore-12.3.0
+depends-on GCCcore/12.3.0
+depends-on Autoconf/2.71-GCCcore-12.3.0
+depends-on Automake/1.16.5-GCCcore-12.3.0
+depends-on libtool/2.4.7-GCCcore-12.3.0

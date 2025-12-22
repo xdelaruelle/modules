@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/gzip/1.12-GCCcore-12.2.0
 conflict gzip
-module load GCCcore/12.2.0
+depends-on GCCcore/12.2.0

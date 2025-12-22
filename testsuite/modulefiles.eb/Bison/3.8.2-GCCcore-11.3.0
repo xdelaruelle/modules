@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/Bison/3.8.2-GCCcore-11.3.0
 conflict Bison
-module load GCCcore/11.3.0
+depends-on GCCcore/11.3.0

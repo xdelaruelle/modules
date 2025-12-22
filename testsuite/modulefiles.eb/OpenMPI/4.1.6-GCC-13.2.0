@@ -2,11 +2,11 @@
 module-whatis {Description: module name and version}
 set root /software/OpenMPI/4.1.6-GCC-13.2.0
 conflict OpenMPI
-module load GCC/13.2.0
-module load zlib/1.2.13-GCCcore-13.2.0
-module load hwloc/2.9.2-GCCcore-13.2.0
-module load libevent/2.1.12-GCCcore-13.2.0
-module load UCX/1.15.0-GCCcore-13.2.0
-module load libfabric/1.19.0-GCCcore-13.2.0
-module load PMIx/4.2.6-GCCcore-13.2.0
-module load UCC/1.2.0-GCCcore-13.2.0
+depends-on GCC/13.2.0
+depends-on zlib/1.2.13-GCCcore-13.2.0
+depends-on hwloc/2.9.2-GCCcore-13.2.0
+depends-on libevent/2.1.12-GCCcore-13.2.0
+depends-on UCX/1.15.0-GCCcore-13.2.0
+depends-on libfabric/1.19.0-GCCcore-13.2.0
+depends-on PMIx/4.2.6-GCCcore-13.2.0
+depends-on UCC/1.2.0-GCCcore-13.2.0

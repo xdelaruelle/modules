@@ -2,7 +2,7 @@
 module-whatis {Description: module name and version}
 set root /software/SciPy-bundle/2023.07-gfbf-2023a
 conflict SciPy-bundle
-module load gfbf/2023a
-module load Python/3.11.3-GCCcore-12.3.0
-module load Python-bundle-PyPI/2023.06-GCCcore-12.3.0
-module load pybind11/2.11.1-GCCcore-12.3.0
+depends-on gfbf/2023a
+depends-on Python/3.11.3-GCCcore-12.3.0
+depends-on Python-bundle-PyPI/2023.06-GCCcore-12.3.0
+depends-on pybind11/2.11.1-GCCcore-12.3.0

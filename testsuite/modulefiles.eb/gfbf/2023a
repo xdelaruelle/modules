@@ -2,6 +2,6 @@
 module-whatis {Description: module name and version}
 set root /software/gfbf/2023a
 conflict gfbf
-module load GCC/12.3.0
-module load FlexiBLAS/3.3.1-GCC-12.3.0
-module load FFTW/3.3.10-GCC-12.3.0
+depends-on GCC/12.3.0
+depends-on FlexiBLAS/3.3.1-GCC-12.3.0
+depends-on FFTW/3.3.10-GCC-12.3.0

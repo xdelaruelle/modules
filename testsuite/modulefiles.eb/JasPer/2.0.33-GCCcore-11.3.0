@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/JasPer/2.0.33-GCCcore-11.3.0
 conflict JasPer
-module load GCCcore/11.3.0
-module load libheif/1.16.2-GCCcore-11.3.0
+depends-on GCCcore/11.3.0
+depends-on libheif/1.16.2-GCCcore-11.3.0

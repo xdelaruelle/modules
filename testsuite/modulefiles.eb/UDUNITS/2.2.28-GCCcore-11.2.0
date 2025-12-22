@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/UDUNITS/2.2.28-GCCcore-11.2.0
 conflict UDUNITS
-module load GCCcore/11.2.0
-module load expat/2.4.1-GCCcore-11.2.0
+depends-on GCCcore/11.2.0
+depends-on expat/2.4.1-GCCcore-11.2.0

@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/FriBidi/1.0.13-GCCcore-13.2.0
 conflict FriBidi
-module load GCCcore/13.2.0
+depends-on GCCcore/13.2.0

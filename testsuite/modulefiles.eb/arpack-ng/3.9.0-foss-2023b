@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/arpack-ng/3.9.0-foss-2023b
 conflict arpack-ng
-module load foss/2023b
-module load Eigen/3.4.0-GCCcore-13.2.0
+depends-on foss/2023b
+depends-on Eigen/3.4.0-GCCcore-13.2.0

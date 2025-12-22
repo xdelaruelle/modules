@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/libde265/1.0.15-GCCcore-13.2.0
 conflict libde265
-module load GCCcore/13.2.0
+depends-on GCCcore/13.2.0

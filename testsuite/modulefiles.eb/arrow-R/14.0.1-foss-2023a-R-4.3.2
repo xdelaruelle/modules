@@ -2,8 +2,8 @@
 module-whatis {Description: module name and version}
 set root /software/arrow-R/14.0.1-foss-2023a-R-4.3.2
 conflict arrow-R
-module load foss/2023a
-module load R/4.3.2-gfbf-2023a
-module load R-bundle-CRAN/2023.12-foss-2023a
-module load Arrow/14.0.1-gfbf-2023a
+depends-on foss/2023a
+depends-on R/4.3.2-gfbf-2023a
+depends-on R-bundle-CRAN/2023.12-foss-2023a
+depends-on Arrow/14.0.1-gfbf-2023a
 prepend-path	R_LIBS_SITE		$root

@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/Perl/5.32.1-GCCcore-10.3.0-minimal
 conflict Perl
-module load GCCcore/10.3.0
-module load zlib/1.2.11-GCCcore-10.3.0
+depends-on GCCcore/10.3.0
+depends-on zlib/1.2.11-GCCcore-10.3.0

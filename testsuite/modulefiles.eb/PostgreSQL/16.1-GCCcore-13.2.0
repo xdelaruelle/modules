@@ -2,7 +2,7 @@
 module-whatis {Description: module name and version}
 set root /software/PostgreSQL/16.1-GCCcore-13.2.0
 conflict PostgreSQL
-module load GCCcore/13.2.0
-module load libreadline/8.2-GCCcore-13.2.0
-module load zlib/1.2.13-GCCcore-13.2.0
-module load OpenSSL/1.1
+depends-on GCCcore/13.2.0
+depends-on libreadline/8.2-GCCcore-13.2.0
+depends-on zlib/1.2.13-GCCcore-13.2.0
+depends-on OpenSSL/1.1

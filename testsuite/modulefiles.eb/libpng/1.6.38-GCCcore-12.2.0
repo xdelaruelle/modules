@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/libpng/1.6.38-GCCcore-12.2.0
 conflict libpng
-module load GCCcore/12.2.0
-module load zlib/1.2.12-GCCcore-12.2.0
+depends-on GCCcore/12.2.0
+depends-on zlib/1.2.12-GCCcore-12.2.0

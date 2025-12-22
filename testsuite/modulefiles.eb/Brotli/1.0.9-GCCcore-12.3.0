@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/Brotli/1.0.9-GCCcore-12.3.0
 conflict Brotli
-module load GCCcore/12.3.0
+depends-on GCCcore/12.3.0

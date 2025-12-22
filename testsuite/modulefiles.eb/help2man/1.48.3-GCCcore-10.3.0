@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/help2man/1.48.3-GCCcore-10.3.0
 conflict help2man
-module load GCCcore/10.3.0
+depends-on GCCcore/10.3.0

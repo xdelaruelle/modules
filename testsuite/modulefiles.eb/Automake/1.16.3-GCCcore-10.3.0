@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/Automake/1.16.3-GCCcore-10.3.0
 conflict Automake
-module load GCCcore/10.3.0
-module load Autoconf/2.71-GCCcore-10.3.0
+depends-on GCCcore/10.3.0
+depends-on Autoconf/2.71-GCCcore-10.3.0

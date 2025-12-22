@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/FFTW/3.3.9-gompi-2021a
 conflict FFTW
-module load gompi/2021a
+depends-on gompi/2021a

@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/flex/2.6.4-GCCcore-12.3.0
 conflict flex
-module load GCCcore/12.3.0
-module load M4/1.4.19-GCCcore-12.3.0
+depends-on GCCcore/12.3.0
+depends-on M4/1.4.19-GCCcore-12.3.0

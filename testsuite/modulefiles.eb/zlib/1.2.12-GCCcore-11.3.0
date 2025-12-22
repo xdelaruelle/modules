@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/zlib/1.2.12-GCCcore-11.3.0
 conflict zlib
-module load GCCcore/11.3.0
+depends-on GCCcore/11.3.0

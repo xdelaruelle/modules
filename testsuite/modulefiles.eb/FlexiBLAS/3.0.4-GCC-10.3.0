@@ -2,5 +2,5 @@
 module-whatis {Description: module name and version}
 set root /software/FlexiBLAS/3.0.4-GCC-10.3.0
 conflict FlexiBLAS
-module load GCC/10.3.0
-module load OpenBLAS/0.3.15-GCC-10.3.0
+depends-on GCC/10.3.0
+depends-on OpenBLAS/0.3.15-GCC-10.3.0

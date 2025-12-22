@@ -2,15 +2,15 @@
 module-whatis {Description: module name and version}
 set root /software/Arrow/16.1.0-gfbf-2023b
 conflict Arrow
-module load gfbf/2023b
-module load Python/3.11.5-GCCcore-13.2.0
-module load SciPy-bundle/2023.11-gfbf-2023b
-module load Boost/1.83.0-GCC-13.2.0
-module load lz4/1.9.4-GCCcore-13.2.0
-module load zlib/1.2.13-GCCcore-13.2.0
-module load bzip2/1.0.8-GCCcore-13.2.0
-module load zstd/1.5.5-GCCcore-13.2.0
-module load snappy/1.1.10-GCCcore-13.2.0
-module load RapidJSON/1.1.0-20240409-GCCcore-13.2.0
-module load RE2/2024-03-01-GCCcore-13.2.0
-module load utf8proc/2.9.0-GCCcore-13.2.0
+depends-on gfbf/2023b
+depends-on Python/3.11.5-GCCcore-13.2.0
+depends-on SciPy-bundle/2023.11-gfbf-2023b
+depends-on Boost/1.83.0-GCC-13.2.0
+depends-on lz4/1.9.4-GCCcore-13.2.0
+depends-on zlib/1.2.13-GCCcore-13.2.0
+depends-on bzip2/1.0.8-GCCcore-13.2.0
+depends-on zstd/1.5.5-GCCcore-13.2.0
+depends-on snappy/1.1.10-GCCcore-13.2.0
+depends-on RapidJSON/1.1.0-20240409-GCCcore-13.2.0
+depends-on RE2/2024-03-01-GCCcore-13.2.0
+depends-on utf8proc/2.9.0-GCCcore-13.2.0

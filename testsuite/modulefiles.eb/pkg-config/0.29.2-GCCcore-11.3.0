@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/pkg-config/0.29.2-GCCcore-11.3.0
 conflict pkg-config
-module load GCCcore/11.3.0
+depends-on GCCcore/11.3.0

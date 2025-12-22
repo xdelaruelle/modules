@@ -2,7 +2,7 @@
 module-whatis {Description: module name and version}
 set root /software/hwloc/2.9.1-GCCcore-12.3.0
 conflict hwloc
-module load GCCcore/12.3.0
-module load numactl/2.0.16-GCCcore-12.3.0
-module load libxml2/2.11.4-GCCcore-12.3.0
-module load libpciaccess/0.17-GCCcore-12.3.0
+depends-on GCCcore/12.3.0
+depends-on numactl/2.0.16-GCCcore-12.3.0
+depends-on libxml2/2.11.4-GCCcore-12.3.0
+depends-on libpciaccess/0.17-GCCcore-12.3.0

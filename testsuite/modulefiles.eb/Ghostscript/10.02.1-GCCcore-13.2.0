@@ -2,13 +2,13 @@
 module-whatis {Description: module name and version}
 set root /software/Ghostscript/10.02.1-GCCcore-13.2.0
 conflict Ghostscript
-module load GCCcore/13.2.0
-module load zlib/1.2.13-GCCcore-13.2.0
-module load libpng/1.6.40-GCCcore-13.2.0
-module load freetype/2.13.2-GCCcore-13.2.0
-module load libjpeg-turbo/3.0.1-GCCcore-13.2.0
-module load expat/2.5.0-GCCcore-13.2.0
-module load GLib/2.78.1-GCCcore-13.2.0
-module load cairo/1.18.0-GCCcore-13.2.0
-module load LibTIFF/4.6.0-GCCcore-13.2.0
-module load GTK3/3.24.39-GCCcore-13.2.0
+depends-on GCCcore/13.2.0
+depends-on zlib/1.2.13-GCCcore-13.2.0
+depends-on libpng/1.6.40-GCCcore-13.2.0
+depends-on freetype/2.13.2-GCCcore-13.2.0
+depends-on libjpeg-turbo/3.0.1-GCCcore-13.2.0
+depends-on expat/2.5.0-GCCcore-13.2.0
+depends-on GLib/2.78.1-GCCcore-13.2.0
+depends-on cairo/1.18.0-GCCcore-13.2.0
+depends-on LibTIFF/4.6.0-GCCcore-13.2.0
+depends-on GTK3/3.24.39-GCCcore-13.2.0

@@ -2,11 +2,11 @@
 module-whatis {Description: module name and version}
 set root /software/Xvfb/21.1.6-GCCcore-12.2.0
 conflict Xvfb
-module load GCCcore/12.2.0
-module load X11/20221110-GCCcore-12.2.0
-module load pixman/0.42.2-GCCcore-12.2.0
-module load libdrm/2.4.114-GCCcore-12.2.0
-module load Mesa/22.2.4-GCCcore-12.2.0
-module load nettle/3.8.1-GCCcore-12.2.0
-module load libunwind/1.6.2-GCCcore-12.2.0
-module load XZ/5.2.7-GCCcore-12.2.0
+depends-on GCCcore/12.2.0
+depends-on X11/20221110-GCCcore-12.2.0
+depends-on pixman/0.42.2-GCCcore-12.2.0
+depends-on libdrm/2.4.114-GCCcore-12.2.0
+depends-on Mesa/22.2.4-GCCcore-12.2.0
+depends-on nettle/3.8.1-GCCcore-12.2.0
+depends-on libunwind/1.6.2-GCCcore-12.2.0
+depends-on XZ/5.2.7-GCCcore-12.2.0

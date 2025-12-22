@@ -2,4 +2,4 @@
 module-whatis {Description: module name and version}
 set root /software/OpenBLAS/0.3.21-GCC-12.2.0
 conflict OpenBLAS
-module load GCC/12.2.0
+depends-on GCC/12.2.0
