@@ -41,21 +41,6 @@ proc getCurrentModfileInterpName {} {
       modulename]
 }
 
-# synchronize environment variable change over synced sub interpreter
-proc interp-env {op var {val {}}} {
-   set env_var ::env($var)
-   ##nagelfar vartype env_var varName
-
-   # build operation command
-   set op_cmd_list [switch -- $op {
-      set {list set $env_var $val}
-      unset {list unset -nocomplain $env_var}
-   }]
-
-   # apply operation to main interpreter
-   {*}$op_cmd_list
-}
-
 # Initialize list of interp alias commands to define for given evaluation mode
 # and auto_handling enablement
 proc initModfileModeAliases {mode auto aliasesVN aliasesPassArgVN\
