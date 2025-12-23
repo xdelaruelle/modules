@@ -1395,8 +1395,17 @@ proc isModuleRefreshQualified {mod} {
    return $::g_loadedModulesRefresh($mod)
 }
 
-proc setLoadedModule {mod modfile uasked modvr refresh} {
+proc getLoadedModulePosition {mod} {
+   if {[info exists ::g_loadedModulePosition($mod)]} {
+      return $::g_loadedModulePosition($mod)
+   } else {
+      return -1
+   }
+}
+
+proc setLoadedModule {mod modfile uasked modvr refresh {build_dep_chain 1}} {
    set ::g_loadedModules($mod) $modfile
+   set ::g_loadedModulePosition($mod) [array size ::g_loadedModules]
    # a loaded modfile may correspond to multiple loaded virtual modules
    lappend ::g_loadedModuleFiles($modfile) $mod
 
@@ -1410,12 +1419,14 @@ proc setLoadedModule {mod modfile uasked modvr refresh} {
    # build information to more efficiently get matching loaded module
    setLoadedByModroot $mod
 
-   # build dependency chain
-   setModuleDependency $mod
+   if {$build_dep_chain} {
+      setModuleDependency $mod
+   }
 }
 
 proc unsetLoadedModule {mod modfile} {
    unset ::g_loadedModules($mod)
+   unset ::g_loadedModulePosition($mod)
    # a loaded modfile may correspond to multiple loaded virtual modules
    if {[llength $::g_loadedModuleFiles($modfile)] == 1} {
       unset ::g_loadedModuleFiles($modfile)
@@ -2433,6 +2444,35 @@ proc unsetModuleDependency {mod} {
    }
 }
 
+# get from provided loaded module list the one before and the one after
+# provided loaded position. loaded before will be the lastly loaded before or
+# the firstly loaded before, depending on ret_last_bef argument
+proc getLoadedBeforeAndAfter {loaded_mod_list mod_idx ret_last_bef} {
+   set bef_mod {}
+   set aft_mod {}
+   foreach loaded_mod $loaded_mod_list {
+      set loaded_mod_idx [getLoadedModulePosition $loaded_mod]
+      # if mod is loading (idx=-1), no after mod match
+      # if mod has a requirement on itself, add it to the before list
+      if {$mod_idx == -1 || $loaded_mod_idx <= $mod_idx} {
+         # record first or last loaded before mod (depends on ret_last_bef)
+         if {![info exists bef_idx] ||\
+            ($ret_last_bef && $loaded_mod_idx > $bef_idx) ||\
+            (!$ret_last_bef && $loaded_mod_idx < $bef_idx)} {
+            set bef_mod $loaded_mod
+            set bef_idx $loaded_mod_idx
+         }
+      } else {
+         # record first loaded after mod
+         if {![info exists aft_idx] || $loaded_mod_idx < $aft_idx} {
+            set aft_mod $loaded_mod
+            set aft_idx $loaded_mod_idx
+         }
+      }
+   }
+   return [list $bef_mod $aft_mod]
+}
+
 # return the list of prereqs of a loaded or loading module and the associated
 # loaded module corresponding to these prereq definitions. The list of each
 # prereq is returned, each entry is a list of each prereq item definition
@@ -2452,46 +2492,27 @@ proc getLoadedModulePrereqListAndLoadedMatch {mod} {
       return
    }
 
-   set loaded_mod_list [getEnvLoadedModulePropertyParsedList name]
-   set mod_load_idx [lsearch -exact $loaded_mod_list $mod]
-   # consider mod as the lastly loaded if not found in module list
-   if {$mod_load_idx == -1} {
-      set mod_load_idx [llength $loaded_mod_list]
-   }
-
-   # distinguish modules loaded before or after passed loaded mod
-   set bef_loaded_mod_list [lrange $loaded_mod_list 0 $mod_load_idx]
-   set aft_loaded_mod_list [lrange $loaded_mod_list $mod_load_idx+1 end]
-   # reverse list to get closest match if returning lastly loaded module
-   if {[getConf unload_match_order] eq {returnlast}} {
-      set bef_loaded_mod_list [lreverse $bef_loaded_mod_list]
-   }
+   set mod_idx [getLoadedModulePosition $mod]
+   # do we need lastly loaded before or firsly loaded before
+   set ret_last_bef [expr {[getConf unload_match_order] eq {returnlast}}]
 
    foreach prereq $prereq_list {
       set prereq_path_list [getLoadedPrereqPath $mod $prereq]
       set prereq_match_aftmatch [list $prereq $prereq_path_list]
 
       foreach prereq_mod_item $prereq {
-         # look at modules loaded before to find requirements
-         set bef_loaded_mod_match {}
-         foreach loaded_mod $bef_loaded_mod_list {
+         # get all loaded modules matching requirement
+         set loaded_mod_match_list {}
+         # compare with loaded mods matching root instead of all loaded mods
+         foreach loaded_mod [getLoadedMatchingModroot $prereq_mod_item] {
             if {[isLoadedMatchSpecificPath $loaded_mod $prereq_path_list] &&\
                [modEq $prereq_mod_item $loaded_mod eqstart 1 2 1]} {
-               set bef_loaded_mod_match $loaded_mod
-               break
+               lappend loaded_mod_match_list $loaded_mod
             }
          }
-
-         # modules loaded afterward are unmet dependencies as dependent have
-         # not been reloaded after them
-         set aft_loaded_mod_match {}
-         foreach loaded_mod $aft_loaded_mod_list {
-            if {[isLoadedMatchSpecificPath $loaded_mod $prereq_path_list] &&\
-               [modEq $prereq_mod_item $loaded_mod eqstart 1 2 1]} {
-               set aft_loaded_mod_match $loaded_mod
-               break
-            }
-         }
+         # find before and after matching loaded mod
+         lassign [getLoadedBeforeAndAfter $loaded_mod_match_list $mod_idx\
+            $ret_last_bef] bef_loaded_mod_match aft_loaded_mod_match
 
          lappend prereq_match_aftmatch $prereq_mod_item $bef_loaded_mod_match\
             $aft_loaded_mod_match
@@ -2502,20 +2523,9 @@ proc getLoadedModulePrereqListAndLoadedMatch {mod} {
 
    # add via module requirement if enabled and if any
    if {[llength $via_mod_list]} {
-      set bef_loaded_mod_match {}
-      foreach loaded_mod $bef_loaded_mod_list {
-         if {$loaded_mod in $via_mod_list} {
-            set bef_loaded_mod_match $loaded_mod
-            break
-         }
-      }
-      set aft_loaded_mod_match {}
-      foreach loaded_mod $aft_loaded_mod_list {
-         if {$loaded_mod in $via_mod_list} {
-            set aft_loaded_mod_match $loaded_mod
-            break
-         }
-      }
+      lassign [getLoadedBeforeAndAfter $via_mod_list $mod_idx $ret_last_bef]\
+         bef_loaded_mod_match aft_loaded_mod_match
+
       # use "<VIA>" string as prereq specification, this value is used for
       # unsatisfied requirement, which does not exist for via requirement
       lappend prereq_match_aftmatch_list [list <VIA> {} <VIA>\
@@ -2671,8 +2681,14 @@ proc cacheCurrentModules {} {
          }
          setLoadedModule $mod [lindex $modfilelist $i] [expr\
             {![isModuleTagged $mod auto-loaded 1]}] $modvr [expr {$mod in\
-            $refreshlist}]
+            $refreshlist}] 0
          incr i
+      }
+
+      # all positions and mod root search structure are required prior
+      # building dependency chains
+      foreach mod $modlist {
+         setModuleDependency $mod
       }
 
       reportDebug "$i loaded"
