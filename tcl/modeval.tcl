@@ -577,63 +577,13 @@ proc getRequiredLoadedModuleList {mod_list {excluded_mod_list {}}} {
 
 # how many settings bundle are currently saved
 proc getSavedSettingsStackDepth {} {
-   return [llength $::g_SAVE_g_loadedModules]
+   return [llength $::g_SAVE_var]
 }
 
 # manage settings to save as a stack to have a separate set of settings
 # for each module loaded or unloaded in order to be able to restore the
 # correct set in case of failure
 proc pushSettings {} {
-   foreach var {env g_clearedEnvVars g_Aliases g_stateEnvVars g_stateAliases\
-      g_stateFunctions g_Functions g_stateCompletes g_Completes\
-      g_newXResources g_delXResources g_loadedModules g_loadedModuleFiles\
-      g_loadedModuleVariant g_loadedModuleConflict g_loadedModulePrereq\
-      g_loadedModulesRefresh g_loadedModuleAltname g_loadedModuleAutoAltname\
-      g_loadedModuleAliasAltname g_moduleDepend g_dependHash\
-      g_moduleNPODepend g_dependNPOHash g_prereqViolation\
-      g_prereqNPOViolation g_conflictViolation g_moduleUnmetDep\
-      g_unmetDepHash g_moduleEval g_moduleHiddenEval g_scanModuleVariant\
-      g_savedLoReqOfReloadMod g_savedLoReqOfUnloadMod\
-      g_loadedModulePrereqPath g_tagHash g_loadedByModroot g_modrootByLoaded\
-      g_loadedModulePosition} {
-      ##nagelfar ignore Suspicious variable name
-      lappend ::g_SAVE_$var [array get ::$var]
-   }
-   # save non-array variable and indication if it was set
-   foreach var {g_changeDir g_stdoutPuts g_prestdoutPuts g_return_text\
-      g_uReqUnFromDepReList} {
-      ##nagelfar ignore #4 Suspicious variable name
-      if {[info exists ::$var]} {
-         lappend ::g_SAVE_$var [list 1 [set ::$var]]
-      } else {
-         lappend ::g_SAVE_$var [list 0 {}]
-      }
-   }
-   reportDebug "settings saved (#[getSavedSettingsStackDepth])"
-}
-
-proc popSettings {} {
-   set flushedid [getSavedSettingsStackDepth]
-   foreach var {env g_clearedEnvVars g_Aliases g_stateEnvVars g_stateAliases\
-      g_stateFunctions g_Functions g_stateCompletes g_Completes\
-      g_newXResources g_delXResources g_changeDir g_stdoutPuts\
-      g_prestdoutPuts g_return_text g_loadedModules g_loadedModuleFiles\
-      g_loadedModuleVariant g_loadedModuleConflict g_loadedModulePrereq\
-      g_loadedModulesRefresh g_loadedModuleAltname g_loadedModuleAutoAltname\
-      g_loadedModuleAliasAltname g_moduleDepend g_dependHash\
-      g_moduleNPODepend g_dependNPOHash g_prereqViolation\
-      g_prereqNPOViolation g_conflictViolation g_moduleUnmetDep\
-      g_unmetDepHash g_moduleEval g_moduleHiddenEval g_scanModuleVariant\
-      g_savedLoReqOfReloadMod g_savedLoReqOfUnloadMod g_uReqUnFromDepReList\
-      g_loadedModulePrereqPath g_tagHash g_loadedByModroot g_modrootByLoaded\
-      g_loadedModulePosition} {
-      ##nagelfar ignore Suspicious variable name
-      set ::g_SAVE_$var [lrange [set ::g_SAVE_$var] 0 end-1]
-   }
-   reportDebug "previously saved settings flushed (#$flushedid)"
-}
-
-proc restoreSettings {} {
    foreach var {g_clearedEnvVars g_Aliases g_stateEnvVars g_stateAliases\
       g_stateFunctions g_Functions g_stateCompletes g_Completes\
       g_newXResources g_delXResources g_loadedModules g_loadedModuleFiles\
@@ -646,36 +596,55 @@ proc restoreSettings {} {
       g_savedLoReqOfReloadMod g_savedLoReqOfUnloadMod\
       g_loadedModulePrereqPath g_tagHash g_loadedByModroot g_modrootByLoaded\
       g_loadedModulePosition} {
-      # clear current $var arrays
-      ##nagelfar ignore #5 Suspicious variable name
-      if {[info exists ::$var]} {
-         unset ::$var
-         array set ::$var {}
-      }
-      array set ::$var [lindex [set ::g_SAVE_$var] end]
+      ##nagelfar ignore Suspicious variable name
+      lappend save_array $var [array get ::$var]
+   }
+   lappend ::g_SAVE_array $save_array
+   lappend ::g_SAVE_env [array get ::env]
+
+   # save non-array variable and indication if it was set
+   foreach var {g_changeDir g_stdoutPuts g_prestdoutPuts g_return_text\
+      g_uReqUnFromDepReList} {
+      ##nagelfar ignore #2 Badly formed if statement
+      lappend save_var $var {*}[if {[info exists ::$var]} {list 1 [set\
+         ::$var]} {list 0 {}}]
+   }
+   lappend ::g_SAVE_var $save_var
+   reportDebug "settings saved (#[getSavedSettingsStackDepth])"
+}
+
+proc popSettings {} {
+   foreach var {::g_SAVE_array ::g_SAVE_env ::g_SAVE_var} {
+      ##nagelfar vartype var varName
+      set $var [lrange [set $var] 0 end-1]
+   }
+   reportDebug "previously saved settings flushed\
+      (#[getSavedSettingsStackDepth])"
+}
+
+proc restoreSettings {} {
+   foreach {var val} [lindex $::g_SAVE_array end] {
+      ##nagelfar ignore #2 Suspicious variable name
+      array unset ::$var
+      array set ::$var $val
    }
    # specific restore mechanism for ::env as unsetting this array will make
    # Tcl stop monitoring env accesses and not update env variables anymore
-   set envvarlist [list]
-   foreach {var val} [lindex $::g_SAVE_env end] {
-      lappend envvarlist $var
-      set ::env($var) $val
-   }
+   array set saved_env [lindex $::g_SAVE_env end]
+   array set ::env [array get saved_env]
+   set saved_env_var_list [array names saved_env]
    foreach var [array names ::env] {
-      if {$var ni $envvarlist} {
+      if {$var ni $saved_env_var_list} {
          unset ::env($var)
       }
    }
    # restore non-array variable if it was set
-   foreach var {g_changeDir g_stdoutPuts g_prestdoutPuts g_return_text\
-      g_uReqUnFromDepReList} {
-      ##nagelfar ignore #6 Suspicious variable name
-      if {[info exists ::$var]} {
-         unset ::$var
-      }
-      lassign [lindex [set ::g_SAVE_$var] end] isdefined val
-      if {$isdefined} {
+   foreach {var is_defined val} [lindex $::g_SAVE_var end] {
+      ##nagelfar ignore #4 Suspicious variable name
+      if {$is_defined} {
          set ::$var $val
+      } else {
+         unset -nocomplain ::$var
       }
    }
    reportDebug "previously saved settings restored\
