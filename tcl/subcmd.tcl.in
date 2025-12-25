@@ -1234,7 +1234,7 @@ proc cmdModuleLoad {context uasked tryload loadany tag_list modulepath_list\
                   $modulepath_list]
                reportDebug "conun mod list is '$conun_mod_list'"
                if {[llength $conun_mod_list]} {
-                  foreach conun_mod [lreverse $conun_mod_list] {
+                  foreach conun_mod $conun_mod_list {
                      if {[cmdModuleUnload conun match 1 s 0 $conun_mod]} {
                         # error message already sent within cmdModuleUnload
                         knerrorOrWarningIfForced {}

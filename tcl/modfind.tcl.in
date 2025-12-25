@@ -1691,11 +1691,40 @@ proc getLoadedSourceShScriptContent {mod script} {
 
 proc setLoadedConflict {mod args} {
    appendNoDupToList ::g_loadedModuleConflict($mod) {*}$args
+   setLoadedConflictByModroot $mod {*}$args
+}
+
+proc setLoadedConflictByModroot {mod args} {
+   foreach con_spec $args {
+      set con_mod_root [getModuleRootFromVersSpec $con_spec]
+      lappend ::g_loadedConflictByModroot($con_mod_root) $mod $con_spec
+      appendNoDupToList ::g_modrootByLoadedConflict($mod) $con_mod_root
+   }
 }
 
 proc unsetLoadedConflict {mod} {
    if {[info exists ::g_loadedModuleConflict($mod)]} {
       unset ::g_loadedModuleConflict($mod)
+   }
+   unsetLoadedConflictByModroot $mod
+}
+
+proc unsetLoadedConflictByModroot {mod} {
+   if {[info exists ::g_modrootByLoadedConflict($mod)]} {
+      foreach mod_root $::g_modrootByLoadedConflict($mod) {
+         set with_con_spec_list {}
+         foreach {with_mod con_spec} $::g_loadedConflictByModroot($mod_root) {
+            if {$with_mod ne $mod} {
+               lappend with_con_spec_list $with_mod $con_spec
+            }
+         }
+         if {[llength $with_con_spec_list]} {
+            set ::g_loadedConflictByModroot($mod_root) $with_con_spec_list
+         } else {
+            unset ::g_loadedConflictByModroot($mod_root)
+         }
+      }
+      unset ::g_modrootByLoadedConflict($mod)
    }
 }
 
@@ -1703,6 +1732,21 @@ proc getLoadedConflict {mod} {
    if {[info exists ::g_loadedModuleConflict($mod)]} {
       return $::g_loadedModuleConflict($mod)
    }
+}
+
+proc getLoadedConflictMatchingModroot {mod} {
+   set with_con_spec_list {}
+   set mod_root_list [getLoadedAllModroot $mod]
+   set icase [isIcase]
+   foreach mod_root $mod_root_list {
+      set icase_root [getArrayKey ::g_loadedConflictByModroot $mod_root\
+         $icase]
+      if {[info exists ::g_loadedConflictByModroot($icase_root)]} {
+         lappend with_con_spec_list\
+            {*}$::g_loadedConflictByModroot($icase_root)
+      }
+   }
+   return $with_con_spec_list
 }
 
 proc getModuleLoadedConflict {mod {modulepath_list {}}} {
@@ -1728,15 +1772,11 @@ proc getModuleLoadedConflict {mod {modulepath_list {}}} {
    }
 
    # check if any other loaded module has declared a conflict with mod
-   foreach mod_con [array names ::g_loadedModuleConflict] {
-      if {$mod_con eq $mod || $mod_con in $mod_con_list} {
-         continue
-      }
-      foreach with_mod $::g_loadedModuleConflict($mod_con) {
-         # check if mod or one of its alt name match conflict
-         if {[modEq $with_mod $mod_name eqstart 1 2 1]} {
-            lappend mod_con_list $mod_con
-            break
+   foreach {with_mod con_spec} [getLoadedConflictMatchingModroot $mod] {
+      # skip already found and own reflexive conflict
+      if {$with_mod ni $mod_con_list && $with_mod ne $mod} {
+         if {[modEq $con_spec $mod_name eqstart 1 2 1]} {
+            lappend mod_con_list $with_mod
          }
       }
    }
@@ -1853,11 +1893,7 @@ proc getLoadedAltname {mod {typelist {sym alias autosym}} {with_type 0}} {
    return $ret
 }
 
-# get all names of loaded module "mod" and set structure to find all root name
-# this loaded module matches. use this information to more efficiently get
-# matching loaded module: only fully test match with modules matching the root
-# name of search query
-proc setLoadedByModroot {mod} {
+proc getLoadedAllModroot {mod} {
    set name_list [list $mod {*}[getLoadedAltname $mod]]
    # get module short name if it is loaded as fullpath and modulepath is used
    if {[isModuleFullPath $mod]} {
@@ -1870,6 +1906,15 @@ proc setLoadedByModroot {mod} {
    foreach name $name_list {
       appendNoDupToList mod_root_list [getModuleRootFromVersSpec $name]
    }
+   return $mod_root_list
+}
+
+# get all names of loaded module "mod" and set structure to find all root name
+# this loaded module matches. use this information to more efficiently get
+# matching loaded module: only fully test match with modules matching the root
+# name of search query
+proc setLoadedByModroot {mod} {
+   set mod_root_list [getLoadedAllModroot $mod]
    foreach mod_root $mod_root_list {
       lappend ::g_loadedByModroot($mod_root) $mod
    }

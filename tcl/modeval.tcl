@@ -595,7 +595,8 @@ proc pushSettings {} {
       g_unmetDepHash g_moduleEval g_moduleHiddenEval g_scanModuleVariant\
       g_savedLoReqOfReloadMod g_savedLoReqOfUnloadMod\
       g_loadedModulePrereqPath g_tagHash g_loadedByModroot g_modrootByLoaded\
-      g_loadedModulePosition} {
+      g_loadedModulePosition g_modrootByLoadedConflict\
+      g_loadedConflictByModroot} {
       ##nagelfar ignore Suspicious variable name
       lappend save_array $var [array get ::$var]
    }
@@ -753,12 +754,13 @@ proc savePropsOfReloadingModule {mod} {
    set tag_list [getTagList $mod]
    set extra_tag_list [getExtraTagList $mod]
    set conflict_list [getLoadedConflict $mod]
+   set altname_list [getLoadedAltname $mod]
    set prereq_list [getLoadedPrereq $mod]
    set prereq_path_list [getLoadedPrereqPath $mod]
    set modpath [getModulepathFromLoadedOrLoadingModule $mod]
    set ::g_savedPropsOfReloadMod($mod) [list $is_user_asked $vr_list\
-      $tag_list $extra_tag_list $conflict_list $prereq_list $prereq_path_list\
-      $modpath]
+      $tag_list $extra_tag_list $conflict_list $altname_list $prereq_list\
+      $prereq_path_list $modpath]
 }
 
 proc getSavedPropsOfReloadingModule {mod} {
@@ -810,8 +812,8 @@ proc reloadModuleListLoadPhase {mod_list {errmsgtpl {}} {context load}} {
    setConf auto_handling 0
    foreach mod $mod_list {
       lassign [getSavedPropsOfReloadingModule $mod] is_user_asked vr_list\
-         tag_list extra_tag_list conflict_list prereq_list prereq_path_list\
-         modpath
+         tag_list extra_tag_list conflict_list altname_list prereq_list\
+         prereq_path_list modpath
       # if an auto set default was excluded, module spec need parsing
       lassign [parseModuleSpecification 0 0 0 0 $mod {*}$vr_list] modnamevr
 
@@ -821,8 +823,8 @@ proc reloadModuleListLoadPhase {mod_list {errmsgtpl {}} {context load}} {
       # do not try to reload DepRe module if requirements are not satisfied
       # unless if sticky
       if {$context eq {depre} && ![isModuleLoadable $mod $modnamevr\
-         $conflict_list $prereq_list $prereq_path_list $modpath] &&\
-         !$is_sticky} {
+         $conflict_list $altname_list $prereq_list $prereq_path_list\
+         $modpath] && !$is_sticky} {
          continue
       }
 
@@ -850,11 +852,14 @@ proc reloadModuleListLoadPhase {mod_list {errmsgtpl {}} {context load}} {
    setConf auto_handling 1
 }
 
-proc isModuleLoadable {mod mod_vr conflict_list prereq_list\
+proc isModuleLoadable {mod mod_vr conflict_list altname_list prereq_list\
    prereq_path_list modpath} {
+   # must set mod alternative names to correctly fetch its conflicts
+   setLoadedAltname $mod {*}$altname_list
    setLoadedConflict $mod {*}$conflict_list
    set is_conflicting [llength [getModuleLoadedConflict $mod]]
    unsetLoadedConflict $mod
+   unsetLoadedAltname $mod
 
    if {$is_conflicting} {
       return 0
