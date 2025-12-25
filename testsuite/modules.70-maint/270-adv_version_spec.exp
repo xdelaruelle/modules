@@ -661,7 +661,7 @@ if {[is_conf_enabled conflictunload]} {
 }
 testouterr_cmd_re sh {load --force --auto advvers2@5.0} $ans $tserr
 
-setenv_var __MODULES_LMCONFLICT "advvers2/5.3&advvers2 @5.0&advvers2@5.1:advvers2/5.2&advvers2 @5.0"
+setenv_var __MODULES_LMCONFLICT "advvers2/5.2&advvers2 @5.0:advvers2/5.3&advvers2 @5.0&advvers2@5.1"
 if {[is_conf_enabled conflictunload]} {
     set ans [list]
     lappend ans [list unset __MODULES_LMCONFLICT]
@@ -669,7 +669,7 @@ if {[is_conf_enabled conflictunload]} {
     lappend ans [list set _LMFILES_ $mp/advvers2/5.0]
     lappend ans [list set LOADEDMODULES advvers2/5.0]
     lappend ans [list unset __MODULES_LMTAG]
-    set tserr [msg_top_load_conun advvers2/5.0 {} {advvers2/5.3 advvers2/5.2} {advvers2/5.1} {} {}]
+    set tserr [msg_top_load_conun advvers2/5.0 {} {advvers2/5.2 advvers2/5.3} {advvers2/5.1} {} {}]
 } else {
     set tserr [msg_load advvers2/5.0 [err_conlof advvers2/5.2 advvers2/5.3]]
 }
