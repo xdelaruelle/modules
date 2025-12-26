@@ -226,12 +226,25 @@ proc lrem {lst_name item} {
    set lst [lsearch -inline -all -not -exact $lst $item]
 }
 
-proc lprepend {lst_name args} {
-   upvar $lst_name lst
-   if {[info exists lst]} {
-      set lst [list {*}$args {*}$lst]
-   } else {
-      set lst $args
+# make lprepend rely on ledit if this command exists (Tcl 9+)
+if {[string length [info commands ledit]]} {
+   proc lprepend {lst_name args} {
+      upvar $lst_name lst
+      if {[info exists lst]} {
+         ##nagelfar ignore
+         ledit lst -1 -1 {*}$args
+      } else {
+         set lst $args
+      }
+   }
+} else {
+   proc lprepend {lst_name args} {
+      upvar $lst_name lst
+      if {[info exists lst]} {
+         set lst [list {*}$args {*}$lst]
+      } else {
+         set lst $args
+      }
    }
 }
 

@@ -1316,3 +1316,4 @@ lrem
 replaceFromList
 lreplace
 interps
+ledit
