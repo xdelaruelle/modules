@@ -784,15 +784,15 @@ proc reloadModuleUnloadPhase {mod {err_msg_tpl {}} {context unload}} {
    lappendState reloading_sticky $mod
    lappendState reloading_supersticky $mod
    savePropsOfReloadingModule $mod
+   # avoid failing module on unload phase
+   # if force state is enabled, cmdModuleUnload returns 0
    if {[set ret [cmdModuleUnload $context match 0 s 0 $mod]]} {
-      # avoid failing module on load phase
-      # if force state is enabled, cmdModuleUnload returns 0
-      set err_msg [string map [list _MOD_ [getModuleDesignation loaded $mod]]\
-         $err_msg_tpl]
-      lpopState reloading_sticky
-      lpopState reloading_supersticky
       # no process stop if ongoing reload command in continue behavior
       if {![isStateEqual commandname reload] || [commandAbortOnError]} {
+         set err_msg [string map [list _MOD_ [getModuleDesignation loaded\
+            $mod]] $err_msg_tpl]
+         lpopState reloading_sticky
+         lpopState reloading_supersticky
          knerror $err_msg
       }
    }
