@@ -1727,6 +1727,14 @@ proc getModuleRootFromVersSpec {modarg} {
    }
 }
 
+proc getModuleRootFromVersSpecLowerIfIcase {modarg} {
+   set mod_root [getModuleRootFromVersSpec $modarg]
+   if {[isIcase]} {
+      set mod_root [string tolower $mod_root]
+   }
+   return $mod_root
+}
+
 # translate module name version spec to return all modules mentioned
 proc getAllModulesFromVersSpec {modarg} {
    if {[info exists ::g_moduleVersSpec($modarg)]} {

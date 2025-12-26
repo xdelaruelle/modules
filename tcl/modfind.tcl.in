@@ -1695,7 +1695,8 @@ proc setLoadedConflict {mod args} {
 
 proc setLoadedConflictByModroot {mod args} {
    foreach con_spec $args {
-      set con_mod_root [getModuleRootFromVersSpec $con_spec]
+      # record lower case mod root if icase is enabled
+      set con_mod_root [getModuleRootFromVersSpecLowerIfIcase $con_spec]
       lappend ::g_loadedConflictByModroot($con_mod_root) $mod $con_spec
       lappendNoDup ::g_modrootByLoadedConflict($mod) $con_mod_root
    }
@@ -1736,13 +1737,9 @@ proc getLoadedConflict {mod} {
 proc getLoadedConflictMatchingModroot {mod} {
    set with_con_spec_list {}
    set mod_root_list [getLoadedAllModroot $mod]
-   set icase [isIcase]
    foreach mod_root $mod_root_list {
-      set icase_root [getArrayKey ::g_loadedConflictByModroot $mod_root\
-         $icase]
-      if {[info exists ::g_loadedConflictByModroot($icase_root)]} {
-         lappend with_con_spec_list\
-            {*}$::g_loadedConflictByModroot($icase_root)
+      if {[info exists ::g_loadedConflictByModroot($mod_root)]} {
+         lappend with_con_spec_list {*}$::g_loadedConflictByModroot($mod_root)
       }
    }
    return $with_con_spec_list
@@ -1901,7 +1898,8 @@ proc getLoadedAllModroot {mod} {
    }
    set mod_root_list {}
    foreach name $name_list {
-      lappendNoDup mod_root_list [getModuleRootFromVersSpec $name]
+      # mod root recorded lower case if icase is enabled
+      lappendNoDup mod_root_list [getModuleRootFromVersSpecLowerIfIcase $name]
    }
    return $mod_root_list
 }
@@ -1920,10 +1918,10 @@ proc setLoadedByModroot {mod} {
 }
 
 proc getLoadedMatchingModroot {name} {
-   set mod_root [getModuleRootFromVersSpec $name]
-   set icase_root [getArrayKey ::g_loadedByModroot $mod_root [isIcase]]
-   if {[info exists ::g_loadedByModroot($icase_root)]} {
-      return $::g_loadedByModroot($icase_root)
+   # mod root recorded lower case if icase is enabled
+   set mod_root [getModuleRootFromVersSpecLowerIfIcase $name]
+   if {[info exists ::g_loadedByModroot($mod_root)]} {
+      return $::g_loadedByModroot($mod_root)
    }
 }
 
