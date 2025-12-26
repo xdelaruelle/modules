@@ -635,8 +635,8 @@ proc cmdModuleSave {{coll default}} {
    }
    # generate collection content with header indicating oldest Modules version
    # compatible with collection syntax
-   set coll_header [expr {[llength $curr_tag_arrser] ? {#%Module5.1} :\
-      {}}]
+   ##nagelfar ignore Bad expression
+   set coll_header [expr {[llength $curr_tag_arrser] ? {#%Module5.1} : {}}]
 
    set save [formatCollectionContent [getModulePathList returnempty 0]\
       $curr_mod_list $curr_tag_arrser $coll_header]
