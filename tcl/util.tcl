@@ -248,6 +248,18 @@ if {[string length [info commands ledit]]} {
    }
 }
 
+# provide a lpop proc if this command does not exist (Tcl <9)
+# this proc only supports removing first or last item from list
+if {![string length [info commands lpop]]} {
+   ##nagelfar ignore Procedure
+   proc lpop {lst_name {idx end}} {
+      upvar $lst_name lst
+      ##nagelfar ignore Badly formed if statement
+      lassign [if {$idx eq {end}} {list 0 end-1} {list 1 end}] first last
+      set lst [lrange $lst $first $last]
+   }
+}
+
 # test if 2 lists have at least one element in common
 proc isIntBetweenList {list1 list2} {
    foreach elt $list1 {

@@ -1636,8 +1636,7 @@ proc setLoadedSourceSh {mod args} {
    foreach arg $args {
       # each arg is a list with source-sh call string at index 0 and resulting
       # modulefile commands at all later index positions
-      set shtomodargs [lindex $arg 0]
-      set modcontent [lrange $arg 1 end]
+      set modcontent [lassign $arg shtomodargs]
       if {![llength [getLoadedSourceShScriptContent $mod $shtomodargs]]} {
          # filter alias/function/complete definition not to record them
          set shtomod_entry [list $shtomodargs]

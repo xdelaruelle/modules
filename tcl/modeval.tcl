@@ -617,7 +617,7 @@ proc pushSettings {} {
 proc popSettings {} {
    foreach var {::g_SAVE_array ::g_SAVE_env ::g_SAVE_var} {
       ##nagelfar vartype var varName
-      set $var [lrange [set $var] 0 end-1]
+      lpop $var
    }
    reportDebug "previously saved settings flushed\
       (#[getSavedSettingsStackDepth])"

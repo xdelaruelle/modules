@@ -2181,8 +2181,7 @@ proc cmdModuleAutoinit {} {
 }
 
 proc cmdModuleInit {args} {
-   set init_cmd [lindex $args 0]
-   set init_list [lrange $args 1 end]
+   set init_list [lassign $args init_cmd]
    set notdone 1
    set nomatch 1
 

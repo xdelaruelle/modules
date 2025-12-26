@@ -646,8 +646,7 @@ proc reportIssue {issuetype issuemsg {issuefile {}}} {
 proc reportCmd {cmd args} {
    # use Tcl native string representation of list
    if {$cmd eq {-nativeargrep}} {
-      set cmd [lindex $args 0]
-      set cmdargs [lrange $args 1 end]
+      set cmdargs [lassign $args cmd]
    } else {
       set cmdargs [listTo tcl $args 0]
    }
