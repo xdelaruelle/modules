@@ -201,7 +201,7 @@ proc countChar {str char} {
       $char {}] $str]]}]
 }
 
-proc appendNoDupToList {lstname args} {
+proc lappendNoDup {lstname args} {
    set ret 0
    upvar $lstname lst
    foreach elt $args {

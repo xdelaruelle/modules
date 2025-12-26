@@ -411,7 +411,7 @@ proc getAllModuleResolvedName {mod {flag_type 0} {modspec {}} {filter_default\
                } else {
                   set name_entry $resmod
                }
-               appendNoDupToList namelist $name_entry
+               lappendNoDup namelist $name_entry
 
                unset modroot
                foreach reselt [split [file dirname $resmod] /] {
@@ -419,7 +419,7 @@ proc getAllModuleResolvedName {mod {flag_type 0} {modspec {}} {filter_default\
                      append modroot /
                   }
                   append modroot $reselt
-                  appendNoDupToList resmodlist $modroot
+                  lappendNoDup resmodlist $modroot
                }
             }
          }
@@ -510,7 +510,7 @@ proc getModulePathList {{behavior returnempty} {resolv_var 1} {set_abs 1}} {
       if {$set_abs} {
          set modpath [getAbsolutePath $modpath]
       }
-      appendNoDupToList modpath_list $modpath
+      lappendNoDup modpath_list $modpath
    }
    return $modpath_list
 }
@@ -680,7 +680,7 @@ proc getMatchingTagList {mod {known_tag_list {}}} {
 }
 
 proc setModuleTag {mod args} {
-   appendNoDupToList ::g_tagHash($mod) {*}$args
+   lappendNoDup ::g_tagHash($mod) {*}$args
 }
 
 proc setModuleAndVariantsTag {mod mod_with_vr args} {
@@ -691,7 +691,7 @@ proc setModuleAndVariantsTag {mod mod_with_vr args} {
 }
 
 proc setModuleExtraTag {mod args} {
-   appendNoDupToList ::g_extraTagHash($mod) {*}$args
+   lappendNoDup ::g_extraTagHash($mod) {*}$args
 }
 
 proc setModuleAndVariantsExtraTag {mod mod_with_vr args} {
@@ -741,7 +741,7 @@ proc getTagList {mod {fpmod {}} {sort 1}} {
    set tag_list {}
    # get tags applied over module full path designation
    if {$fpmod ne {} && [info exists ::g_moduleTagFullPath($fpmod)]} {
-      appendNoDupToList tag_list {*}$::g_moduleTagFullPath($fpmod)
+      lappendNoDup tag_list {*}$::g_moduleTagFullPath($fpmod)
    }
    # recompute tags applying from module specification if mod is loaded but
    # not the same modulefile. tags applying to loaded mod are recorded in
@@ -750,10 +750,10 @@ proc getTagList {mod {fpmod {}} {sort 1}} {
    # directly check on g_loadedModules array to avoid triggering env check
    if {[string length $fpmod] && [info exists ::g_loadedModules($mod)] &&\
       $fpmod ne [getModulefileFromLoadedModule $mod]} {
-      appendNoDupToList tag_list {*}[getMatchingTagList $mod]
+      lappendNoDup tag_list {*}[getMatchingTagList $mod]
    # get collected tags applied on short designation
    } elseif {[info exists ::g_tagHash($mod)]} {
-      appendNoDupToList tag_list {*}$::g_tagHash($mod)
+      lappendNoDup tag_list {*}$::g_tagHash($mod)
    }
    if {[llength $tag_list]} {
       if {$sort} {
@@ -1690,7 +1690,7 @@ proc getLoadedSourceShScriptContent {mod script} {
 }
 
 proc setLoadedConflict {mod args} {
-   appendNoDupToList ::g_loadedModuleConflict($mod) {*}$args
+   lappendNoDup ::g_loadedModuleConflict($mod) {*}$args
    setLoadedConflictByModroot $mod {*}$args
 }
 
@@ -1698,7 +1698,7 @@ proc setLoadedConflictByModroot {mod args} {
    foreach con_spec $args {
       set con_mod_root [getModuleRootFromVersSpec $con_spec]
       lappend ::g_loadedConflictByModroot($con_mod_root) $mod $con_spec
-      appendNoDupToList ::g_modrootByLoadedConflict($mod) $con_mod_root
+      lappendNoDup ::g_modrootByLoadedConflict($mod) $con_mod_root
    }
 }
 
@@ -1766,7 +1766,7 @@ proc getModuleLoadedConflict {mod {modulepath_list {}}} {
             || [set lm_mod_list [getLoadedMatchingName $with_mod returnall\
             1]] ne {})} {
             # multiple loaded module may match conflict declared name
-            appendNoDupToList mod_con_list {*}$lm_mod_list
+            lappendNoDup mod_con_list {*}$lm_mod_list
          }
       }
    }
@@ -1791,7 +1791,7 @@ proc getModuleLoadedConflict {mod {modulepath_list {}}} {
 }
 
 proc setLoadedPrereq {mod args} {
-   appendNoDupToList ::g_loadedModulePrereq($mod) {*}$args
+   lappendNoDup ::g_loadedModulePrereq($mod) {*}$args
 }
 
 proc unsetLoadedPrereq {mod} {
@@ -1807,7 +1807,7 @@ proc getLoadedPrereq {mod} {
 }
 
 proc setLoadedPrereqPath {mod args} {
-   appendNoDupToList ::g_loadedModulePrereqPath($mod) {*}$args
+   lappendNoDup ::g_loadedModulePrereqPath($mod) {*}$args
 }
 
 proc unsetLoadedPrereqPath {mod} {
@@ -1833,15 +1833,13 @@ proc setLoadedAltname {mod args} {
    foreach arg $args {
       switch -- [lindex $arg 0] {
          al {
-            appendNoDupToList ::g_loadedModuleAliasAltname($mod) [lindex $arg\
-               1]
+            lappendNoDup ::g_loadedModuleAliasAltname($mod) [lindex $arg 1]
          }
          as {
-            appendNoDupToList ::g_loadedModuleAutoAltname($mod) [lindex $arg\
-               1]
+            lappendNoDup ::g_loadedModuleAutoAltname($mod) [lindex $arg 1]
          }
          default {
-            appendNoDupToList ::g_loadedModuleAltname($mod) [lindex $arg 0]
+            lappendNoDup ::g_loadedModuleAltname($mod) [lindex $arg 0]
          }
       }
    }
@@ -1904,7 +1902,7 @@ proc getLoadedAllModroot {mod} {
    }
    set mod_root_list {}
    foreach name $name_list {
-      appendNoDupToList mod_root_list [getModuleRootFromVersSpec $name]
+      lappendNoDup mod_root_list [getModuleRootFromVersSpec $name]
    }
    return $mod_root_list
 }
@@ -1998,7 +1996,7 @@ proc getAndParseModuleWithVariant {mod vr_list} {
 }
 
 proc setLoadedUse {mod args} {
-   appendNoDupToList ::g_loadedModuleUse($mod) {*}$args
+   lappendNoDup ::g_loadedModuleUse($mod) {*}$args
 }
 
 proc unsetLoadedUse {mod} {
@@ -2224,7 +2222,7 @@ proc setModuleConflictViolation {mod modconlist} {
    set ::g_conflictViolation($mod) $modconlist
    # also update violation state for loaded mod conflicting with mod
    foreach lmmod $modconlist {
-      if {[appendNoDupToList ::g_conflictViolation($lmmod) $mod]} {
+      if {[lappendNoDup ::g_conflictViolation($lmmod) $mod]} {
          reportDebug "set/update conflict violation state for '$lmmod'"
       }
    }
@@ -2264,8 +2262,8 @@ proc setModuleDependency {mod} {
       foreach {prereq_mod_item bef_loaded_mod_match aft_loaded_mod_match}\
          $prereq_item_match_aftmatch_list {
          if {[string length $bef_loaded_mod_match]} {
-            appendNoDupToList lmprelist $bef_loaded_mod_match
-            appendNoDupToList lmnpolist $bef_loaded_mod_match
+            lappendNoDup lmprelist $bef_loaded_mod_match
+            lappendNoDup lmnpolist $bef_loaded_mod_match
          } else {
             reportDebug "set an unmet requirement on '$prereq_mod_item' for\
                '$mod'"
@@ -2275,7 +2273,7 @@ proc setModuleDependency {mod} {
 
          # is requirement loaded after mod (in *No Particular Order*)
          if {[string length $aft_loaded_mod_match]} {
-            appendNoDupToList lmnpolist $aft_loaded_mod_match
+            lappendNoDup lmnpolist $aft_loaded_mod_match
          }
       }
 
@@ -2617,7 +2615,7 @@ proc areModuleConstraintsSatisfied {{mod {}} {nporeq 0}} {
          ##nagelfar ignore #2 Suspicious variable name
          if {[info exists ${reqListVar}($depmod)]} {
             foreach lmmodlist [set ${reqListVar}($depmod)] {
-               appendNoDupToList fulllist {*}$lmmodlist
+               lappendNoDup fulllist {*}$lmmodlist
             }
          }
       }
@@ -3377,7 +3375,7 @@ proc getModules {dir {mod {}} {fetch_mtime 0} {search {}} {filter {}}} {
          {version}} {
          set direlt $elt
          while {[set pardir [file dirname $direlt]] ne {.}} {
-            appendNoDupToList dir_list($pardir) [file tail $direlt]
+            lappendNoDup dir_list($pardir) [file tail $direlt]
             set direlt $pardir
          }
       }

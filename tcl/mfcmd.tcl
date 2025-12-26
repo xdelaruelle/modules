@@ -1189,9 +1189,9 @@ proc prereqAnyModfileCmd {tryload auto args} {
       foreach modulepath $modulepath_list {
          set matching_list [getMatchingModulepathList $modulepath]
          if {[llength $matching_list]} {
-            appendNoDupToList converted_list {*}$matching_list
+            lappendNoDup converted_list {*}$matching_list
          } else {
-            appendNoDupToList converted_list $modulepath
+            lappendNoDup converted_list $modulepath
          }
       }
       set modulepath_list $converted_list
@@ -1673,8 +1673,8 @@ proc sh-to-mod {elt_ignored_list args} {
                lappend modcmd $name
                # split value and remove duplicate entries
                set vallist [list]
-               appendNoDupToList vallist {*}[split [string range\
-                  $varaft($name) 0 $idx-2] $delim]
+               lappendNoDup vallist {*}[split [string range $varaft($name) 0\
+                  $idx-2] $delim]
                # an empty element is added
                if {![llength $vallist]} {
                   lappend vallist {}
@@ -1692,9 +1692,9 @@ proc sh-to-mod {elt_ignored_list args} {
                }
                lappend modcmd $name
                set vallist [list]
-               appendNoDupToList vallist {*}[split [string range\
-                  $varaft($name) [expr {$idx + [string length $varbef($name)]\
-                  + 1}] end] $delim]
+               lappendNoDup vallist {*}[split [string range $varaft($name)\
+                  [expr {$idx + [string length $varbef($name)] + 1}] end]\
+                  $delim]
                if {![llength $vallist]} {
                   lappend vallist {}
                }
@@ -1712,7 +1712,7 @@ proc sh-to-mod {elt_ignored_list args} {
             # define a path-like variable if path separator found in it
             # split value and remove duplicate entries
             set vallist [list]
-            appendNoDupToList vallist {*}[split $varaft($name) $pathsep]
+            lappendNoDup vallist {*}[split $varaft($name) $pathsep]
             lappend modcontent [list prepend-path $name {*}$vallist]
          }
       }
@@ -2271,7 +2271,7 @@ proc unique-name-conflict {} {
    set root_name_list [list]
    set mod [currentState modulename]
    foreach name [list $mod {*}[getAllModuleResolvedName $mod]] {
-      appendNoDupToList root_name_list [lindex [file split $name] 0]
+      lappendNoDup root_name_list [lindex [file split $name] 0]
    }
 
    # declare conflict over all these names

@@ -1437,8 +1437,8 @@ proc cmdModuleIntUnload {mode args} {
          set conun_mod_list {}
          foreach conun_arg $args {
             # unload attempt in reverse load order
-            appendNoDupToList conun_mod_list {*}[lreverse\
-               [getLoadedMatchingName $conun_arg returnall]]
+            lappendNoDup conun_mod_list {*}[lreverse [getLoadedMatchingName\
+               $conun_arg returnall]]
          }
          set ret 0
          foreach conun_mod $conun_mod_list {
@@ -2507,8 +2507,8 @@ proc cmdModuleConfig {dump_state args} {
          set curconfvallist [getConfList $name]
          switch -- [string index $value 0] {
             + {
-               appendNoDupToList curconfvallist {*}[split [string range\
-                  $value 1 end] :]
+               lappendNoDup curconfvallist {*}[split [string range $value 1\
+                  end] :]
                set value [join $curconfvallist :]
             }
             - {

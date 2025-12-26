@@ -145,8 +145,8 @@ proc currentModuleEvalContext {} {
 
 # record module evaluation attempt and corresponding context
 proc registerModuleEvalAttempt {context mod mod_file} {
-   appendNoDupToList ::g_moduleEvalAttempt($mod) $context
-   appendNoDupToList ::g_moduleFileEvalAttempt($mod) $mod_file
+   lappendNoDup ::g_moduleEvalAttempt($mod) $context
+   lappendNoDup ::g_moduleFileEvalAttempt($mod) $mod_file
 }
 
 proc unregisterModuleEvalAttempt {context mod mod_file} {
@@ -362,7 +362,7 @@ proc getUnmetDependentLoadedModuleList {modnamevr mod_file} {
    # eventual prereq violation toward mod)
    foreach depmod $depmodlist {
       if {[areModuleConstraintsSatisfied $depmod]} {
-         appendNoDupToList unmetdeplist $depmod
+         lappendNoDup unmetdeplist $depmod
       }
    }
 
@@ -477,7 +477,7 @@ proc getDependentLoadedModuleList {modlist {strong 1} {direct 1} {nporeq 0}\
    set unlonporeq [expr {$being_unload ? 0 : $nporeq}]
    foreach mod $modlist {
       # no duplicates or modules from query list
-      appendNoDupToList fulllist {*}[getDirectDependentList $mod $strong\
+      lappendNoDup fulllist {*}[getDirectDependentList $mod $strong\
          $unlonporeq $loading $fulllist]
    }
 
@@ -490,7 +490,7 @@ proc getDependentLoadedModuleList {modlist {strong 1} {direct 1} {nporeq 0}\
          if {[llength $modconlist]} {
             unsetModuleConflictViolation $mod
             set conunvioarr($mod) $modconlist
-            appendNoDupToList fulllist {*}$modconlist
+            lappendNoDup fulllist {*}$modconlist
          }
       }
    }
@@ -503,8 +503,8 @@ proc getDependentLoadedModuleList {modlist {strong 1} {direct 1} {nporeq 0}\
          $nporeq]} {
          # get dependent mod of dep mod when looking at full dep tree
          if {!$direct} {
-            appendNoDupToList fulllist {*}[getDirectDependentList $depmod\
-               $strong $nporeq 0 $fulllist]
+            lappendNoDup fulllist {*}[getDirectDependentList $depmod $strong\
+               $nporeq 0 $fulllist]
          }
          # avoid module currently unloading from result list
          if {$depmod ni $unloadingmodlist} {
@@ -562,7 +562,7 @@ proc getRequiredLoadedModuleList {mod_list {excluded_mod_list {}}} {
       foreach req_mod_list $::g_moduleDepend([lindex $full_list $i]) {
          foreach req_mod $req_mod_list {
             if {$req_mod ni $excluded_mod_list} {
-               appendNoDupToList full_list $req_mod
+               lappendNoDup full_list $req_mod
             }
          }
       }
@@ -968,7 +968,7 @@ proc saveLoadedReqOfUnloadingModule {unload_mod} {
 proc getLoadedReqOfUnloadingModuleList {} {
    set unloading_req_mod_list {}
    foreach unloading_mod [array names ::g_savedLoReqOfUnloadMod] {
-      appendNoDupToList unloading_req_mod_list\
+      lappendNoDup unloading_req_mod_list\
          {*}$::g_savedLoReqOfUnloadMod($unloading_mod)
    }
    return [sortModulePerLoadedAndDepOrder $unloading_req_mod_list]
@@ -989,7 +989,7 @@ proc saveLoadedReqOfReloadingModuleList {reload_mod_list unload_mod_list} {
 proc getLoadedReqOfReloadingModuleList {} {
    set reloading_req_mod_list {}
    foreach reloading_mod [array names ::g_savedLoReqOfReloadMod] {
-      appendNoDupToList reloading_req_mod_list\
+      lappendNoDup reloading_req_mod_list\
          {*}$::g_savedLoReqOfReloadMod($reloading_mod)
    }
    return [sortModulePerLoadedAndDepOrder $reloading_req_mod_list]

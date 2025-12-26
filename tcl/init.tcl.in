@@ -230,7 +230,7 @@ proc lappendState {state args} {
       # retrieve current val through getState to initialize it if still undef
       set value [getState $state]
       ##nagelfar ignore Found constant
-      appendNoDupToList value {*}[lrange $args 1 end]
+      lappendNoDup value {*}[lrange $args 1 end]
       setState $state $value
    } else {
       lappend ::g_states($state) {*}$args
@@ -329,8 +329,8 @@ proc getConf {option {valifundef {}}} {
                   switch -- [string index $askedval 0] {
                      + {
                         ##nagelfar ignore Found constant
-                        appendNoDupToList curvaluelist {*}[split [string\
-                           range $askedval 1 end] :]
+                        lappendNoDup curvaluelist {*}[split [string range\
+                           $askedval 1 end] :]
                      }
                      - {
                         lassign [getDiffBetweenList $curvaluelist [split\
@@ -382,7 +382,7 @@ proc lappendConf {option args} {
    # retrieve current value through getConf to initialize it if still undef
    set value [getConf $option]
    ##nagelfar ignore Found constant
-   appendNoDupToList value {*}$args
+   lappendNoDup value {*}$args
    setConf $option $value
 }
 

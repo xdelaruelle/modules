@@ -2199,7 +2199,7 @@ proc reportMissingPrereqError {curmodnamevr modulepath_list args} {
 }
 
 proc setConflictErrorAsReported {args} {
-   appendNoDupToList ::report_conflict([currentState evalid]) {*}$args
+   lappendNoDup ::report_conflict([currentState evalid]) {*}$args
    # save content added to remove it later if evaluation is withdrawn
    if {[depthState reportholdid]} {
       lappend ::g_holdReportConflict([currentState reportholdid]) \
