@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-proc testouterr_shtomod {sh cmdline out err {script {}} {xfail {}}} {
+proc testouterr_shtomod {sh cmdline out err {script {}} {failcmd {fail}}} {
     if {$sh eq {ALL}} {
         set shlist $::shtomod_avail_shells
     } else {
@@ -35,7 +35,7 @@ proc testouterr_shtomod {sh cmdline out err {script {}} {xfail {}}} {
             set shscript $::testscript($sh)
         }
         set tserr [string map [list {<SHELL>} $sh {<SCRIPTSH>} $shscript] $err]
-        testouterr_cmd sh "sh-to-mod $sh $shscript$cmdline" $out $tserr $xfail
+        testouterr_cmd sh "sh-to-mod $sh $shscript$cmdline" $out $tserr $failcmd
     }
 }
 
@@ -816,7 +816,7 @@ if {$is_modules_defined_fish && $os_name ne {cygwin}} {
     }
     append extratserr_fish "\nunsetenv\tMODULESHOME"
 } else {
-    set xfail_fish {}
+    set xfail_fish {fail}
     set extratserr_fish {}
 }
 
