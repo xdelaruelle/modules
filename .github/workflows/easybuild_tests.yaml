@@ -54,7 +54,7 @@ jobs:
           export GITHUB_EVENT_NAME=pull_request
           # record output in file to check test suite result
           python -m test.framework.suite 2>&1 | tee test_framework_suite.log
-          tail -n 1 test_framework_suite.log | grep --quiet '^OK$'
+          tail -n 1 test_framework_suite.log | grep --quiet '^OK\($\| (skipped=\)'
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
