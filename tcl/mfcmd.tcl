@@ -1381,7 +1381,7 @@ proc execShAndGetEnv {elt_ignored_list shell script args} {
             2>/dev/null; echo $sep; alias; echo $sep; echo $sep; pwd"
          set varre {export (\S+?)=["']?(.*?)["']?$}
          set funcre {(\S+?) \(\)\s?\n?{\s?\n(.+?)\n}$}
-         set aliasre {(\S+?)='(.*?)'$}
+         set aliasre {([^='\s]+?)='?(.*?)'$}
          set varvalmap [list {\"} \" \\\\ \\]
          set alvalmap [list {'\''} ' {'"'"'} ']
       }

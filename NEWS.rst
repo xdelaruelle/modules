@@ -32,6 +32,8 @@ Modules 5.7.0 (not yet released)
   is observed when loading or unloading many modulefiles. (fix issue #603)
 * Script: add ``--with-lmod`` option to :command:`mb` command to compare
   current Modules version against an installed version of Lmod.
+* Update the :subcmd:`sh-to-mod` mechanism to correctly parse shell alias on
+  Dash shell version 0.5.13.
 
 
 .. _5.6 release notes:
