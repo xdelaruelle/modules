@@ -34,6 +34,8 @@ Modules 5.7.0 (not yet released)
   current Modules version against an installed version of Lmod.
 * Update the :subcmd:`sh-to-mod` mechanism to correctly parse shell alias on
   Dash shell version 0.5.13.
+* Update the :subcmd:`sh-to-mod` mechanism to correctly parse path-like
+  environment variable on Fish shell version 4.3.
 
 
 .. _5.6 release notes:

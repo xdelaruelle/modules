@@ -1496,7 +1496,7 @@ proc execShAndGetEnv {elt_ignored_list shell script args} {
             )?([^-]\S+)(.*?)$}
          set comprevar [list match valpart1 name valpart2]
          # translate back fish-specific code
-         set varvalmap [list {'  '} : {\'} ' {\"} \" \\\\ \\]
+         set varvalmap [list {'  '} : {' '} : {\'} ' {\"} \" \\\\ \\]
          set alvalmap [list { $argv;} {}]
 
          # fish builtins change LS_COLORS variable
