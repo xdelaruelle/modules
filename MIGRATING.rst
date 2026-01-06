@@ -8,6 +8,56 @@ Modules. It provides an overview of the new features and changed behaviors
 that will be encountered when upgrading.
 
 
+v5.7
+----
+
+This new version is backward-compatible with previous version 5 release. It
+fixes bugs but also introduces new functionalities that are described in this
+section. See the :ref:`5.7 release notes<5.7 release notes>` for a complete
+list of the changes between Modules v5.6 and v5.7.
+
+Improving evaluation performances
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We observed that Modules could feel slow when evaluating more than one hundred
+modulefiles within a single command. To address this, several improvements
+have been implemented:
+
+* In-memory caching of expensive operations: the results of costly operations,
+  such as module specification comparisons, are now cached in memory.
+
+* Reworked environment synchronization between Tcl interpreters: environment
+  synchronization during Tcl modulefile evaluation has been redesigned to rely
+  on Tcl’s internal mechanisms rather than a custom reimplementation. As part
+  of this change, calls to the Tcl ``append`` command have been replaced with
+  ``set``, which reliably triggers synchronization when environment variables
+  are modified.
+
+* More efficient dependency checks: when verifying dependencies against loaded
+  modules, comparisons are now limited to the subset of loaded modules that
+  match the module root name specification, instead of comparing against all
+  loaded modules.
+
+For this work, the :command:`mb` utility was extended with new benchmark tests
+that loads 137 modulefiles, lists the loaded modules, and then purges them.
+Running this benchmark highlights the performance improvements, as shown in
+the table below:
+
++---------+-------------+--------------------+
+|         |      v5.6.1 |             v5.7.0 |
++=========+=============+====================+
+|    load |     1038 ms |      384 ms (-63%) |
++---------+-------------+--------------------+
+|    list |      222 ms |       29 ms (-87%) |
++---------+-------------+--------------------+
+|   purge |      568 ms |      303 ms (-46%) |
++---------+-------------+--------------------+
+
+These measurements were obtained on a system where all modulefiles are stored
+on local flash storage. If your modulefiles reside on a shared network
+filesystem, using a `Module cache`_ is strongly recommended.
+
+
 v5.6
 ----
 
