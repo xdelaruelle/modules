@@ -25,7 +25,7 @@
 # Test subprocedures
 #
 
-proc _test_sub {linter filepath} {
+proc _test_sub {linter filepath {input noinput} {launcher {}}} {
    set ::comp_output {}
    set ::comp_error {}
    set ::comp_exit {}

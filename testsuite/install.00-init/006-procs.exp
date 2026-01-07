@@ -25,7 +25,7 @@
 # Test subprocedures
 #
 
-proc _test_sub {test_shell cmd} {
+proc _test_sub {test_shell cmd {input noinput} {launcher {}}} {
    global comp_output
    global comp_error
    global comp_exit

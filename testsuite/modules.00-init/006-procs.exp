@@ -24,7 +24,7 @@
 # Test subprocedures
 #
 
-proc _test_sub {test_shell cmd {input noinput}} {
+proc _test_sub {test_shell cmd {input noinput} {launcher {}}} {
 	global comp_output
 	global comp_error
 	global comp_exit
@@ -47,7 +47,7 @@ proc _test_sub {test_shell cmd {input noinput}} {
 	}
 
 	set shell $test_shell
-	modulecmd_xxx_ "$cmd" $input
+	modulecmd_xxx_ "$cmd" $input $launcher
 
 	if { $verbose > 1 } {
 		set ol [string length $comp_output]

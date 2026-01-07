@@ -50,7 +50,7 @@ proc readpipe {p1 p2 varname {exit_varname {}}} {
     }
 }
 
-proc modulecmd_xxx_ {command {input noinput}} {
+proc modulecmd_xxx_ {command {input noinput} {launcher {}}} {
 	global MODULECMD
 	global TCLSH
 	global verbose
@@ -68,7 +68,12 @@ proc modulecmd_xxx_ {command {input noinput}} {
 	  unresolved "internal testsuite error: no module command specified"
 	}
 
-    set cmdlist [list $TCLSH $MODULECMD $shell]
+    set cmdlist [list]
+    if {[llength $launcher]} {
+        lappend cmdlist {*}$launcher
+    }
+    lappend cmdlist $TCLSH $MODULECMD $shell
+
     # check if asked not to split passed command line
     if {[string first "NOCMDSPLIT" $command] == 0} {
         lappend cmdlist [string range $command 10 end]
@@ -106,7 +111,7 @@ proc modulecmd_xxx_ {command {input noinput}} {
 
 } else {
 
-proc modulecmd_xxx_ {command {input noinput}} {
+proc modulecmd_xxx_ {command {input noinput} {launcher {}}} {
 	global MODULECMD
 	global TCLSH
 	global verbose
@@ -120,7 +125,12 @@ proc modulecmd_xxx_ {command {input noinput}} {
 	  unresolved "internal testsuite error: no module command specified"
 	}
 
-    set cmdlist [list exec $TCLSH $MODULECMD $shell]
+    set cmdlist [list]
+    if {[llength $launcher]} {
+        lappend cmdlist {*}$launcher
+    }
+    lappend cmdlist $TCLSH $MODULECMD $shell
+
     # check if asked not to split passed command line
     if {[string first "NOCMDSPLIT" $command] == 0} {
         lappend cmdlist [string range $command 10 end]
