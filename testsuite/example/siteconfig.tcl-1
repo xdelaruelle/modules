@@ -694,4 +694,10 @@ if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_GETCMPSPECFROMVERSSPEC)]} {
     report [getCmpSpecFromVersSpec unk]
 }
 
+# fake id command if following environment variable is set
+if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_ID)]} {
+    set env(PATH) "$env(TESTSUITEDIR):$env(PATH)"
+    report [__initStateUsergroups]
+}
+
 }

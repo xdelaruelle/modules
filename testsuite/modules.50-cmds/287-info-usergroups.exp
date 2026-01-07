@@ -136,6 +136,21 @@ unsetenv_var TESTSUITE_ENABLE_SITECONFIG_WINDOWS_PLATFORM
 }
 
 
+if {[llength $setpriv_call]} {
+
+set ans [list]
+lappend ans [list set TS1 [join [lsort [list $userfgroup 1234567]]]]
+lappend ans [list set TS2 1]
+lappend ans [list set _LMFILES_ $mp/info/usergroups]
+lappend ans [list set LOADEDMODULES info/usergroups]
+lappend ans [list set TS3 0]
+set launcher [list {*}$setpriv_call --ruid $username --regid $userfgroup --groups 1234567]
+testouterr_cmd sh {load info/usergroups} $ans {} fail $launcher
+
+} else {
+    send_user "\tSkip setpriv tests as it is not supported in this environment\n"
+}
+
 #
 #  Cleanup
 #

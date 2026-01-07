@@ -769,6 +769,13 @@ lappend ans $vers_reportre
 testouterr_cmd_re sh -V OK [join $ans \n]
 unsetenv_var TESTSUITE_ENABLE_SITECONFIG_GETCMPSPECFROMVERSSPEC
 
+setenv_var TESTSUITE_ENABLE_SITECONFIG_ID 1
+set ans [list]
+lappend ans {user wheel mock}
+lappend ans $vers_reportre
+testouterr_cmd_re sh -V OK [join $ans \n]
+unsetenv_var TESTSUITE_ENABLE_SITECONFIG_ID
+
 } elseif {$verbose} {
     send_user "\tSkip tests relying on an excepted siteconfig file installed\n"
 }

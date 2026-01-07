@@ -287,6 +287,27 @@ if {[catch {
 send_user "\tGroups of current user are '$usergroups'\n"
 set userfgroup [lindex $usergroups 0]
 
+set sudo [auto_execok sudo]
+set is_sudo_supported 0
+if {[string length $sudo]} {
+    if {![catch {exec $sudo -n -E true} errMsg]} {
+        set is_sudo_supported 1
+    }
+}
+send_user "\tCall to sudo command is [expr {$is_sudo_supported ? { } : {not }}]supported\n"
+
+set setpriv [auto_execok setpriv]
+set setpriv_call {}
+if {[string length $setpriv]} {
+    if {$tcl_platform(user) eq {root}} {
+        set setpriv_call [list $setpriv]
+    } elseif {$is_sudo_supported} {
+        set setpriv_call [list $sudo -n -E $setpriv]
+    }
+}
+send_user "\tCall setpriv command with '$setpriv_call'\n"
+
+
 set is_mogui_avail [string length [lindex [auto_execok mogui-cmd] 0]]
 
 # Dictionary-style string comparison
