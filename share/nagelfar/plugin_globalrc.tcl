@@ -1,7 +1,7 @@
 ##Nagelfar Plugin : global rc-specific notices
 #
 # PLUGIN_GLOBALRC.tcl, Nagelfar plugin to lint global rc files
-# Copyright (C) 2022-2023 Xavier Delaruelle
+# Copyright (C) 2022-2026 Xavier Delaruelle
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

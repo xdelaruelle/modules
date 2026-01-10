@@ -47,7 +47,7 @@ master_doc = 'index'
 # General information about the project.
 project = u'Modules'
 author = 'Modules Contributors'
-copyright = f'1996-2025, {author}'
+copyright = f'1996-2026, {author}'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

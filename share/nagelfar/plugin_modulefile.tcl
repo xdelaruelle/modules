@@ -1,7 +1,7 @@
 ##Nagelfar Plugin : modulefile-specific notices
 #
 # PLUGIN_MODULEFILE.tcl, Nagelfar plugin to lint modulefiles
-# Copyright (C) 2022-2025 Xavier Delaruelle
+# Copyright (C) 2022-2026 Xavier Delaruelle
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
