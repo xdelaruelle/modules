@@ -33,8 +33,8 @@ table highlights features that are unique to each implementation.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 9.0.4
-     - Modules 5.6
+   * - |lmod_version|
+     - |modules_version|
    * - * Integration with *nushell* and *rc* shells and *json* structured
          output
        * `Lua modulefile support`_
@@ -91,8 +91,8 @@ at the end of this section to map these equivalents.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 9.0.4
-     - Modules 5.6
+   * - |lmod_version|
+     - |modules_version|
    * - ``category``, ``overview``, ``tablelist``
      - :subcmd:`aliases`, :subcmd:`append-path`, :subcmd:`cachebuild`,
        :subcmd:`cacheclear`, :subcmd:`clear`, :subcmd:`config`,
@@ -115,8 +115,8 @@ the end of this section to map these equivalents.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 9.0.4
-     - Modules 5.6
+   * - |lmod_version|
+     - |modules_version|
    * - ``remove-property``
      - :mfcmd:`getvariant`, :mfcmd:`is-saved`, :mfcmd:`is-used`,
        :mfcmd:`lsb-release`, :mfcmd:`module-tag`, :mfcmd:`module-virtual`,
@@ -135,8 +135,8 @@ implementation.
 .. list-table::
    :header-rows: 1
 
-   * - Lmod 9.0.4
-     - Modules 5.6
+   * - |lmod_version|
+     - |modules_version|
    * - `Module properties`_
      - :ref:`Module tags` 
    * - `One name rule`_
@@ -285,3 +285,6 @@ additional tools that enhance how modulefiles are handled.
 
 If you're aware of a ``module``-related project missing from this list, feel
 free to :ref:`contact us<Community>` so we can add it.
+
+.. |modules_version| replace:: Modules 5.6.0
+.. |lmod_version| replace:: Lmod 9.0.5
