@@ -354,6 +354,7 @@ Envmodules_InitStateUsergroupsObjCmd(
    struct group *grp;
    char gidstr[16];
    Tcl_Obj *lres;
+   Tcl_Obj *sgrp;
 
 #if defined (__APPLE__)
    uid_t uid;
@@ -425,23 +426,14 @@ Envmodules_InitStateUsergroupsObjCmd(
    lres = Tcl_NewObj();
    Tcl_IncrRefCount(lres);
    for (i = 0; i < ngroups; i++) {
+      /* If group name cannot be resolved, add use gid number as group name */
       if ((grp = getgrgid(groups[i])) == NULL) {
-         Tcl_SetErrno(errno);
          sprintf(gidstr, "%d", groups[i]);
-         Tcl_SetObjResult(interp,
-            Tcl_ObjPrintf("couldn't find name for group id \"%s\": %s",
-            gidstr, Tcl_PosixError(interp)));
-         /* groups has been allocated within getgrouplist_2 on Darwin so
-          * memory cannot be released with Tcl-specific free function */
-#if defined (__APPLE__)
-         free((char *) groups);
-#else
-         ckfree((char *) groups);
-#endif
-         return TCL_ERROR;
+         sgrp = Tcl_NewStringObj(gidstr, -1);
+      } else {
+         sgrp = Tcl_NewStringObj(grp->gr_name, -1);
       }
-      Tcl_ListObjAppendElement(interp, lres, Tcl_NewStringObj(grp->gr_name,
-         -1));
+      Tcl_ListObjAppendElement(interp, lres, sgrp);
    }
 
    Tcl_SetObjResult(interp, lres);

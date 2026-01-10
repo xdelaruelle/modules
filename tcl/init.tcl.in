@@ -569,14 +569,27 @@ proc initStateHidingThreshold {} {
 
 # Get all groups of user running modulecmd.tcl process
 proc __initStateUsergroups {} {
-   # ensure groups including space in their name (found on Cygwin/MSYS
-   # platforms) are correctly set as list element
-   if {[catch {
-      return [split [string range [runCommand id -G -n -z] 0 end-1] \0]
-   } errMsg]} {
-      # fallback if '-z' option is not supported
-      return [runCommand id -G -n]
+   set user_group_list {}
+   # parse regular "id" output to get all group, also those whose name cannot
+   # be resolved or contain a space character
+   set id_out [runCommand id]
+   set id_out_grp_start [expr {[string first {groups=} $id_out] + 7}]
+   set id_out_next_start [string first = $id_out $id_out_grp_start]
+   ##nagelfar ignore #2 Badly formed if statement
+   set id_out_grp_end [if {$id_out_next_start > -1} {expr {[string last { }\
+      $id_out $id_out_next_start] - 1}} {return -level 0 end}]
+   set id_grp_out [string range $id_out $id_out_grp_start $id_out_grp_end]
+
+   foreach grp_info [split $id_grp_out ,] {
+      if {[set idx [string first ( $grp_info]] != -1} {
+         set grp [string range $grp_info $idx+1 end-1]
+      } else {
+         # use group gid number as name if it cannot be resolved
+         set grp $grp_info
+      }
+      lappend user_group_list $grp
    }
+   return $user_group_list
 }
 
 # Get name of user running modulecmd.tcl process

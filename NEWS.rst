@@ -36,6 +36,8 @@ Modules 5.7.0 (not yet released)
   Dash shell version 0.5.13.
 * Update the :subcmd:`sh-to-mod` mechanism to correctly parse path-like
   environment variable on Fish shell version 4.3.
+* When fetching user's groups, in case a group name cannot be resolved use
+  this group gid number as name instead of raising an error. (fix issue #604)
 
 
 .. _5.6 release notes:
