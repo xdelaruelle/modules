@@ -131,7 +131,7 @@ if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_TCLEXTLIBBADCALL)]} {
     set badcalllist [list readFile {readFile foo bar} {readFile foo 0 bar}\
         {readFile foo 0 0 0} getFilesInDirectory {getFilesInDirectory foo bar}]
     foreach badcall $badcalllist {
-        if {[catch {[eval $badcall]} errMsg]} {
+        if {[catch {eval $badcall} errMsg]} {
             reportError $errMsg
         }
     }
@@ -139,21 +139,21 @@ if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_TCLEXTLIBBADCALL)]} {
 
 # test tcl ext lib procedures against a failed closedir call
 if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_TCLEXTLIBFAILEDCLOSEDIR)]} {
-    if {[catch {[getFilesInDirectory $env(TESTSUITEDIR)/modulefiles 0]} errMsg]} {
+    if {[catch {getFilesInDirectory $env(TESTSUITEDIR)/modulefiles 0} errMsg]} {
         reportError $errMsg
     }
 }
 
 # test tcl ext lib procedures against a failed getpwduid call
 if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_TCLEXTLIBFAILEDGETPWUID)]} {
-    if {[catch {[initStateUsername]} errMsg]} {
+    if {[catch {initStateUsername} errMsg]} {
         reportError $errMsg
     }
 }
 
 # test tcl ext lib procedures against a failed getgroups call
 if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_TCLEXTLIBFAILEDGETGROUPS)]} {
-    if {[catch {[initStateUsergroups]} errMsg]} {
+    if {[catch {initStateUsergroups} errMsg]} {
         reportError $errMsg
     }
 }
@@ -170,28 +170,28 @@ if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_TCLEXTLIBDUPGETGROUPS)]} {
 
 # test tcl ext lib procedures against a failed time call
 if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_TCLEXTLIBFAILEDTIME)]} {
-    if {[catch {[initStateClockSeconds]} errMsg]} {
+    if {[catch {initStateClockSeconds} errMsg]} {
         reportError $errMsg
     }
 }
 
 # test tcl ext lib procedures called without argument
 if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_PARSEDATETIMEARG_NOARG)]} {
-    if {[catch {[parseDateTimeArg]} errMsg]} {
+    if {[catch {parseDateTimeArg} errMsg]} {
         reportError $errMsg
     }
 }
 
 # test tcl ext lib procedures against a failed mktime call
 if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_TCLEXTLIBFAILEDMKTIME)]} {
-    if {[catch {[parseDateTimeArg --before 2020-09-18]} errMsg]} {
+    if {[catch {parseDateTimeArg --before 2020-09-18} errMsg]} {
         reportError $errMsg
     }
 }
 
 # test tcl ext lib procedures called with badly formatted date
 if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_PARSEDATETIMEARG_BADDATE)]} {
-    if {[catch {[parseDateTimeArg --before 2020-09-19U20:00]} errMsg]} {
+    if {[catch {parseDateTimeArg --before 2020-09-19U20:00} errMsg]} {
         reportError $errMsg
     }
 }
