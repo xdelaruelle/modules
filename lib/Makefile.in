@@ -52,10 +52,6 @@ libtestutil-dupgetgroups@SHLIB_SUFFIX@: testutil-dupgetgroups.c
 	$(ECHO_CC)
 	$(LDCC) $< -o $@
 
-libtestutil-getgrgid@SHLIB_SUFFIX@: testutil-getgrgid.c
-	$(ECHO_CC)
-	$(LDCC) $< -o $@
-
 libtestutil-time@SHLIB_SUFFIX@: testutil-time.c
 	$(ECHO_CC)
 	$(LDCC) $< -o $@
@@ -72,7 +68,6 @@ clean:
 	rm -f libtestutil-getgroups@SHLIB_SUFFIX@
 	rm -f libtestutil-0getgroups@SHLIB_SUFFIX@
 	rm -f libtestutil-dupgetgroups@SHLIB_SUFFIX@
-	rm -f libtestutil-getgrgid@SHLIB_SUFFIX@
 	rm -f libtestutil-time@SHLIB_SUFFIX@
 	rm -f libtestutil-mktime@SHLIB_SUFFIX@
 	rm -f envmodules.c.gcov envmodules.gcda envmodules.gcno
@@ -99,5 +94,5 @@ endif
 $(V).SILENT: envmodules.o libtclenvmodules@TCL_SHLIB_SUFFIX@ \
 	libtestutil-closedir@SHLIB_SUFFIX@ libtestutil-getpwuid@SHLIB_SUFFIX@ \
 	libtestutil-getgroups@SHLIB_SUFFIX@ libtestutil-0getgroups@SHLIB_SUFFIX@ \
-	libtestutil-dupgetgroups@SHLIB_SUFFIX@ libtestutil-getgrgid@SHLIB_SUFFIX@ \
-	libtestutil-time@SHLIB_SUFFIX@ libtestutil-mktime@SHLIB_SUFFIX@
+	libtestutil-dupgetgroups@SHLIB_SUFFIX@ libtestutil-time@SHLIB_SUFFIX@ \
+	libtestutil-mktime@SHLIB_SUFFIX@

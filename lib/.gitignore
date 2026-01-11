@@ -14,7 +14,6 @@
 /libtestutil-getgroups.so
 /libtestutil-0getgroups.so
 /libtestutil-dupgetgroups.so
-/libtestutil-getgrgid.so
 /libtestutil-time.so
 /libtestutil-mktime.so
 /envmodules.c.gcov
