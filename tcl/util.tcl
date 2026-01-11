@@ -57,6 +57,28 @@ proc listTo {lang lst {esc 1}} {
    return [join $lout { }]
 }
 
+proc runEnvCommand {env_list cmd args} {
+   # set specific env
+   set saved_env_list {}
+   foreach {var val} $env_list {
+      lappend saved_env_list $var [get-env $var <unset>]
+      set ::env($var) $val
+   }
+
+   set res [runCommand $cmd {*}$args]
+
+   # restore env
+   foreach {var val} $saved_env_list {
+      if {$val eq {<unset>}} {
+         unset ::env($var)
+      } else {
+         set ::env($var) $val
+      }
+   }
+
+   return $res
+}
+
 # find command path and remember it
 proc getCommandPath {cmd} {
    return [lindex [auto_execok $cmd] 0]

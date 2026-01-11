@@ -572,7 +572,7 @@ proc __initStateUsergroups {} {
    set user_group_list {}
    # parse regular "id" output to get all group, also those whose name cannot
    # be resolved or contain a space character
-   set id_out [runCommand id]
+   set id_out [runEnvCommand {LANG C} id]
    set id_out_grp_start [expr {[string first {groups=} $id_out] + 7}]
    set id_out_next_start [string first = $id_out $id_out_grp_start]
    ##nagelfar ignore #2 Badly formed if statement

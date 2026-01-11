@@ -249,8 +249,17 @@ send_user "\tX11 setup is [expr {$is_xrdb_avail ? {KO} : {OK}}]\n"
 # check if domainname binary is available on this system
 set domainname [auto_execok domainname]
 
-# display result of id command
+# ensure id command is run with POSIX locale to correctly parse it
+if {[info exists ::env(LANG)]} {
+    set ORIG_LANG $::env(LANG)
+}
+set ::env(LANG) C
 set idoutput [exec id]
+if {[info exists ORIG_LANG]} {
+    set ::env(LANG) $ORIG_LANG
+} else {
+    unset ::env(LANG)
+}
 send_user "\tid output is '$idoutput'\n"
 
 # get current working directory
