@@ -72,7 +72,7 @@ the *modulefile* is being loaded.
  *name* is ignored. See :mfcmd:`module-tag` command for more information on
  tags.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.6
 
@@ -120,7 +120,7 @@ the *modulefile* is being loaded.
  enabled modulepath, *modulefile* will be searched into
  ``/path/to/modulefiles`` and ``/another/path`` directories.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.1
 
@@ -171,7 +171,7 @@ the *modulefile* is being loaded.
  if :option:`--force` option is set. To forbid the unload of a modulefile, it
  is recommended to tag it ``super-sticky`` with :mfcmd:`module-tag` command.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionchanged:: 5.4
        Breaking modulefile is unloaded anyway when :option:`--force` option is
@@ -193,7 +193,7 @@ the *modulefile* is being loaded.
  to the documentation of these shells to learn how to define completion. The
  command is ignored if an unsupported shell is specified.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.1
 
@@ -221,7 +221,7 @@ the *modulefile* is being loaded.
  modules that match specification. (see :ref:`Automated module handling
  mechanisms<MODULES_AUTO_HANDLING>` in :ref:`module(1)`).
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionchanged:: 5.5
        An attempt to unload module is made if :mconfig:`conflict_unload` and
@@ -240,7 +240,7 @@ the *modulefile* is being loaded.
 
  Alias of :mfcmd:`prereq-all` command.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.1
 
@@ -254,7 +254,7 @@ the *modulefile* is being loaded.
 
  Alias of :mfcmd:`prereq` command.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.6
 
@@ -272,7 +272,7 @@ the *modulefile* is being loaded.
 
  Alias of :mfcmd:`provide` command.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.1
 
@@ -307,7 +307,7 @@ the *modulefile* is being loaded.
  family is made. (see :ref:`Automated module handling
  mechanisms<MODULES_AUTO_HANDLING>` in :ref:`module(1)`).
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.1
 
@@ -329,7 +329,7 @@ the *modulefile* is being loaded.
  environment *variable* or defined fallback value is returned in *display*
  mode.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.0
 
@@ -355,7 +355,7 @@ the *modulefile* is being loaded.
  ``--return-value`` option is set. When this option is set the value of
  *variant* or defined fallback value is returned in *display* mode.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.8
 
@@ -374,7 +374,7 @@ the *modulefile* is being loaded.
  context of the current user to determine whether :envvar:`MODULEPATH` is
  updated.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.6
 
@@ -382,7 +382,7 @@ the *modulefile* is being loaded.
 
  Alias of :mfcmd:`module-hide` command.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.5
 
@@ -390,7 +390,7 @@ the *modulefile* is being loaded.
 
  Alias of :mfcmd:`module-hide` command.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.5
 
@@ -406,7 +406,7 @@ the *modulefile* is being loaded.
  modulefile alias. It may also leverage a specific syntax to finely select
  module version (see `Advanced module version specifiers`_ section below).
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.1
 
@@ -435,7 +435,7 @@ the *modulefile* is being loaded.
  no *collection* argument is provided, a true value will only be returned if
  a collection matching currently set target exists.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.1
 
@@ -446,7 +446,7 @@ the *modulefile* is being loaded.
  is enabled in case no argument is provided. If a list contains more than one
  *directory*, then each member acts as a boolean OR operation.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.1
 
@@ -462,7 +462,7 @@ the *modulefile* is being loaded.
  * ``release``: release number of distribution
  * ``codename``: codename according to distribution release
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.5
 
@@ -560,7 +560,7 @@ the *modulefile* is being loaded.
  | :subcmd:`whatis`               |                     |                     |
  +--------------------------------+---------------------+---------------------+
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionchanged:: 4.7
        Option ``--not-req`` added for ``load``, ``unload`` and ``switch``
@@ -676,7 +676,7 @@ the *modulefile* is being loaded.
  may also be a full path file name to precisely designate one module in a
  specific modulepath.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.6
 
@@ -700,7 +700,7 @@ the *modulefile* is being loaded.
  with :mfcmd:`module-help` is printed before running this procedure on
  ``help`` evaluation mode.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.6
 
@@ -797,7 +797,7 @@ the *modulefile* is being loaded.
  Moreover it may also be a full path file name to precisely designate one
  module in a specific modulepath.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.6
 
@@ -834,7 +834,7 @@ the *modulefile* is being loaded.
   ``try-load``, ``load-any``, ``mod-to-sh``, ``reset``, ``stash``,
   ``stashpop`` or ``spider``.
 
-  .. only:: html
+  .. only:: html or latex
 
      .. versionadded:: 4.0
 
@@ -850,7 +850,7 @@ the *modulefile* is being loaded.
   The defined variants of the loaded module are not included in the returned
   string.
 
-  .. only:: html
+  .. only:: html or latex
 
      .. versionadded:: 4.1
 
@@ -924,7 +924,7 @@ the *modulefile* is being loaded.
   Returns ``1`` if one of the tags applying to currently evaluated
   *modulefile* is *tag*. Returns ``0`` otherwise.
 
-  .. only:: html
+  .. only:: html or latex
 
      .. versionadded:: 4.7
 
@@ -945,7 +945,7 @@ the *modulefile* is being loaded.
   If the Modules Tcl extension library is disabled, the :manpage:`id(1)`
   command is invoked to fetch groups of current user.
 
-  .. only:: html
+  .. only:: html or latex
 
      .. versionadded:: 4.6
 
@@ -960,7 +960,7 @@ the *modulefile* is being loaded.
   If the Modules Tcl extension library is disabled, the :manpage:`id(1)`
   command is invoked to fetch username of current user.
 
-  .. only:: html
+  .. only:: html or latex
 
      .. versionadded:: 4.6
 
@@ -1023,7 +1023,7 @@ the *modulefile* is being loaded.
  automatically unloaded when it has been auto-loaded and its dependent modules
  are getting unloaded.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.7
 
@@ -1069,7 +1069,7 @@ the *modulefile* is being loaded.
  The parameter *modulefile* corresponds to the relative or absolute file
  location of a *modulefile*.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.1
 
@@ -1122,7 +1122,7 @@ the *modulefile* is being loaded.
  may also be a full path file name to precisely designate one module in a
  specific modulepath.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.6
 
@@ -1148,7 +1148,7 @@ the *modulefile* is being loaded.
  modulepath. If *directory* is ``.`` (dot) then the current directory of the
  modulerc file defining this command is assumed.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.4
 
@@ -1193,7 +1193,7 @@ the *modulefile* is being loaded.
  configuration option is activated, the *modulefile* is considered a
  dependency by the loaded modulefiles stored in the added modulepaths.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionchanged:: 4.1
        Option ``--duplicates`` added
@@ -1264,7 +1264,7 @@ the *modulefile* is being loaded.
  enabled modulepath, *modulefile* will be searched into
  ``/path/to/modulefiles`` and ``/another/path`` directories.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionchanged:: 4.2
        An attempt to load modulefile is made if :mconfig:`auto_handling`
@@ -1296,7 +1296,7 @@ the *modulefile* is being loaded.
  declared as an optional requirement. A *modulefile* that cannot be loaded,
  will not stop the evaluation.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.1
 
@@ -1310,7 +1310,7 @@ the *modulefile* is being loaded.
 
  Alias of :mfcmd:`prereq` command.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.1
 
@@ -1335,7 +1335,7 @@ the *modulefile* is being loaded.
  :mfcmd:`module-alias` command to define an alias that points to the default
  resolution target.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.6
 
@@ -1356,7 +1356,7 @@ the *modulefile* is being loaded.
  which is named by prefixing *variable* by :envvar:`__MODULES_PUSHENV_\
  <__MODULES_PUSHENV_\<VAR\>>`.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.1
 
@@ -1382,7 +1382,7 @@ the *modulefile* is being loaded.
  When *channelId* equals ``log``, content is sent to the log system through
  the defined :mconfig:`logger` command.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionchanged:: 4.1
        Content sent to ``stdout`` is spooled to apply it after the rendering
@@ -1445,7 +1445,7 @@ the *modulefile* is being loaded.
 
  An error is raised if *value* equals *delimiter* character.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionchanged:: 4.1
        Option ``--index`` added
@@ -1461,7 +1461,7 @@ the *modulefile* is being loaded.
 
  Output *string* as a message during *modulefile* evaluation.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.0
 
@@ -1472,7 +1472,7 @@ the *modulefile* is being loaded.
  the :manpage:`error(n)` Tcl command to abort evaluation in addition to emit
  an error message.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.0
 
@@ -1480,7 +1480,7 @@ the *modulefile* is being loaded.
 
  Output *string* as a warning message during *modulefile* evaluation.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.0
 
@@ -1490,7 +1490,7 @@ the *modulefile* is being loaded.
  not the fully qualified one. Module alias or a symbolic version names are
  considered fully qualified names, exception made for the *default* symbol.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.1
 
@@ -1509,7 +1509,7 @@ the *modulefile* is being loaded.
  *modulefile* is unloaded, :mfcmd:`set-function` becomes
  :mfcmd:`unset-function`.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.2
 
@@ -1534,7 +1534,7 @@ the *modulefile* is being loaded.
 
  Any newline character in *value* is chopped if using *csh* or *tcsh* shells.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionchanged:: 5.1
        Option ``--set-if-undef`` added
@@ -1574,7 +1574,7 @@ the *modulefile* is being loaded.
  multiple shell element separated by colon character. Accepted shell elements
  are: ``envvar``, ``alias``, ``function``, ``chdir`` and ``complete``.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.6
 
@@ -1630,7 +1630,7 @@ the *modulefile* is being loaded.
 
  The following shells are supported: bash, tcsh and fish.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 5.1
 
@@ -1642,7 +1642,7 @@ the *modulefile* is being loaded.
 
  Removes a function with the name *function-name* from the user's environment.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.2
 
@@ -1658,7 +1658,7 @@ the *modulefile* is being loaded.
  environment *variable* is also unset when *modulefile* is unloaded. These
  behaviors are applied even if an optional *value* is defined.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionchanged:: 5.0
        *variable* is not unset when unloading *modulefile* and no optional
@@ -1706,7 +1706,7 @@ the *modulefile* is being loaded.
 
  A variant cannot be named ``version``. An error is raised otherwise.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.8
 
@@ -1726,7 +1726,7 @@ the *modulefile* is being loaded.
  ``-1``, ``0`` or ``1`` respectively if *version1* is less than, equal to or
  greater than *version2*.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.7
 
@@ -1808,7 +1808,7 @@ Modules Variables
  implementation currently in use. The value of this variable is set to
  ``Modules`` for this implementation.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.7
 
@@ -1818,7 +1818,7 @@ Modules Variables
  implementation currently in use. The value of this variable is set to
  |code version| for this version of Modules.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.7
 
@@ -1835,7 +1835,7 @@ Modules Variables
  The list of the currently defined variants can be retrieved with
  ``[array names ModuleVariant]`` Tcl code.
 
- .. only:: html
+ .. only:: html or latex
 
     .. versionadded:: 4.8
 
@@ -2069,7 +2069,7 @@ version already exists for these ``default`` or ``latest`` version names.
 Using the ``mod@latest`` (or ``mod/latest``) syntax ensures highest available
 version will be selected.
 
-.. only:: html
+.. only:: html or latex
 
    .. versionadded:: 4.4
 
@@ -2120,7 +2120,7 @@ part of the name or version of a module. These specific characters are ``+``,
 ``+`` and ``~`` characters if string that follows after does not correspond to
 a valid variant name (e.g., *name+*, *name++*, *name/version+1*).
 
-.. only:: html
+.. only:: html or latex
 
    .. versionadded:: 4.8
 
@@ -2232,7 +2232,7 @@ pre-requirement modulefile gets loaded or conflicting modulefile gets unloaded
 the inconsistent loaded module will be automatically reloaded to make user
 environment consistent again.
 
-.. only:: html
+.. only:: html or latex
 
    .. versionchanged:: 4.2
       Options :option:`--force`, :option:`--auto` and :option:`--no-auto`
@@ -2363,7 +2363,7 @@ specified is considered an optional pre-requirement. If it is loaded
 afterward and if the :mconfig:`auto_handling` configuration option is enabled,
 the dependent module will get automatically reloaded.
 
-.. only:: html
+.. only:: html or latex
 
    .. versionadded:: 5.1
 
