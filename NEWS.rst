@@ -45,6 +45,8 @@ Modules 5.7.0 (not yet released)
   When :mconfig:`path_entry_reorder` is changed with :subcmd:`config`
   sub-command, it sets the :envvar:`MODULES_PATH_ENTRY_REORDER` environment
   variable. (fix issue #595 with contribution from Achim Gsell)
+* Install: reorder the options in the :file:`configure` script help message
+  alphabetically.
 
 
 .. _5.6 release notes:

@@ -221,210 +221,121 @@ For better control, use the options below.
 
 Fine tuning of the installation directories:
   --bindir=DIR            user executables [PREFIX/bin]
-  --libdir=DIR            object code libraries [PREFIX/lib]
-  --libexecdir=DIR        program executables [PREFIX/libexec]
+  --datarootdir=DIR       read-only arch.-independent data root [PREFIX/share]
+  --docdir=DIR            documentation root [DATAROOTDIR/doc]
+  --emacsdatadir=DIR      Emacs addons directory [DATAROOTDIR/emacs/lisp]
   --etcdir=DIR            program configurations [PREFIX/etc]
   --initdir=DIR           environment initialization scripts [PREFIX/init]
-  --datarootdir=DIR       read-only arch.-independent data root [PREFIX/share]
+  --libdir=DIR            object code libraries [PREFIX/lib]
+  --libexecdir=DIR        program executables [PREFIX/libexec]
   --mandir=DIR            man documentation [DATAROOTDIR/man]
-  --docdir=DIR            documentation root [DATAROOTDIR/doc]
-  --vimdatadir=DIR        Vim addons directory [DATAROOTDIR/vim/vimfiles]
-  --emacsdatadir=DIR      Emacs addons directory [DATAROOTDIR/emacs/lisp]
-  --nagelfardatadir=DIR   Nagelfar addons directory [DATAROOTDIR/nagelfar]
   --modulefilesdir=DIR    system modulefiles [PREFIX/modulefiles]
+  --nagelfardatadir=DIR   Nagelfar addons directory [DATAROOTDIR/nagelfar]
+  --vimdatadir=DIR        Vim addons directory [DATAROOTDIR/vim/vimfiles]
 
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-set-manpath    set mandir to MANPATH in init scripts [yes]
-  --enable-append-manpath append rather prepend mandir to MANPATH [no]
-  --enable-set-binpath    set bindir to PATH in init scripts [yes]
+  --enable-advanced-version-spec
+                          activate the advanced module version specificers to
+                          specify finer constraints on module version. [yes]
   --enable-append-binpath append rather prepend bindir to PATH [no]
-  --enable-modulespath, --enable-dotmodulespath
-                          configure modules path in modulespath file rather
-                          than initrc file (or respectively in .modulespath
-                          file rather modulerc file if \`--with-initconf-in'
-                          is set to 'initdir') [no]
-  --enable-doc-install    install documentation files in the documentation
-                          directory defined with \'docdir' (no impact on
-                          man pages installation) [yes]
-  --enable-vim-addons     install Vim addon files in the directory defined
-                          with \'vimdatadir' [yes]
-  --enable-emacs-addons   install Emacs addon files in the directory defined
-                          with \'emacsdatadir' [yes]
-  --enable-nagelfar-addons
-                          install Nagelfar addon files in the directory
-                          defined with \'nagelfardatadir' [yes]
-  --enable-example-modulefiles
-                          install in 'modulefilesdir' some modulefiles
-                          provided as examples [yes]
-  --enable-libtclenvmodules
-                          build and install the Modules Tcl extension library
-                          and enable its load in modulecmd.tcl [yes]
-  --enable-multilib-support
-                          support multilib systems by looking at an alternative
-                          location where to find the Modules Tcl extension lib
-                          depending on current machine architecture. [no]
-  --enable-versioning     append modules version to installation prefix and
-                          deploy a \`versions' modulepath, shared between all
-                          versioning enabled Modules installation, containing
-                          modulefiles that enable to switch from one Modules
-                          version to another [no]
-  --enable-silent-shell-debug-support
-                          generate code in module function definition to add
-                          support for silencing shell debugging properties [no]
-  --enable-set-shell-startup
-                          set when module function is defined the shell
-                          startup file to ensure that the module function is
-                          still defined in sub-shells [no]
-  --enable-quarantine-support
-                          generate code in module function definition to add
-                          support for the environment variable quarantine
-                          mechanism [no]
+  --enable-append-manpath append rather prepend mandir to MANPATH [no]
   --enable-auto-handling  set modulecmd.tcl to automatically apply automated
                           modulefiles handling actions, like loading the
                           pre-requisites of a modulefile when loading this
                           modulefile [yes]
+  --enable-avail-indepth  control whether \`avail' search results should
+                          recursively include or not modulefiles from
+                          directories matching search query [yes]
+  --enable-color          control colored output. \`yes' equals to the \`auto'
+                          color mode. \`no' equals to the \`never' color mode
+                          [yes]
   --enable-conflict-unload
                           set modulecmd.tcl to automatically unload modules
                           that conflict with modules to load and the dependent
                           of these conflicting modules [no]
-  --enable-require-via    set modulecmd.tcl to consider that a module enabling
-                          a modulepath is a requirement for the loaded modules
-                          stored in this modulepath [no]
-  --enable-path-entry-reorder
-                          change order of entry in a path-like environment
-                          variable when it is added again [no]
+  --enable-doc-install    install documentation files in the documentation
+                          directory defined with \'docdir' (no impact on
+                          man pages installation) [yes]
+  --enable-emacs-addons   install Emacs addon files in the directory defined
+                          with \'emacsdatadir' [yes]
+  --enable-example-modulefiles
+                          install in 'modulefilesdir' some modulefiles
+                          provided as examples [yes]
+  --enable-extended-default
+                          allow partial module version specification [yes]
+  --enable-implicit-default
+                          implicitly set a default version for modules with
+                          none defined [yes]
   --enable-implicit-requirement
                           implicitly define a requirement toward modules
                           specified on ``module load`` or ``module unload``
                           commands in modulefile [yes]
-  --enable-avail-indepth  control whether \`avail' search results should
-                          recursively include or not modulefiles from
-                          directories matching search query [yes]
-  --enable-spider-indepth control whether \`spider' search results should
-                          recursively include or not modulefiles from
-                          directories matching search query [yes]
-  --enable-implicit-default
-                          implicitly set a default version for modules with
-                          none defined [yes]
-  --enable-extended-default
-                          allow partial module version specification [yes]
-  --enable-advanced-version-spec
-                          activate the advanced module version specificers to
-                          specify finer constraints on module version. [yes]
-  --enable-unique-name-loaded
-                          only allow one module loaded per module name. [no]
-  --enable-source-cache   cache files evaluated through \`source' Tcl command.
-                          [no]
-  --enable-ml             define \`ml' command when Modules initializes [yes]
-  --enable-color          control colored output. \`yes' equals to the \`auto'
-                          color mode. \`no' equals to the \`never' color mode
-                          [yes]
-  --enable-wa-277         activate workaround for Tcsh history issue [no]
-  --enable-windows-support
-                          install all required files for Windows platform [no]
-  --enable-new-features   enable all new features that are disabled by default
-                          due to substantial behavior changes they imply on
-                          Modules 5 [no]
+  --enable-libtclenvmodules
+                          build and install the Modules Tcl extension library
+                          and enable its load in modulecmd.tcl [yes]
   --enable-mcookie-version-check
                           enable check of the version specified right after
                           Modules magic cookie in modulefiles, which defines
                           the minimal version of the Modules tool to use to
                           evaluate the modulefile [yes]
+  --enable-ml             define \`ml' command when Modules initializes [yes]
+  --enable-modulespath, --enable-dotmodulespath
+                          configure modules path in modulespath file rather
+                          than initrc file (or respectively in .modulespath
+                          file rather modulerc file if \`--with-initconf-in'
+                          is set to 'initdir') [no]
+  --enable-multilib-support
+                          support multilib systems by looking at an alternative
+                          location where to find the Modules Tcl extension lib
+                          depending on current machine architecture. [no]
+  --enable-nagelfar-addons
+                          install Nagelfar addon files in the directory
+                          defined with \'nagelfardatadir' [yes]
+  --enable-new-features   enable all new features that are disabled by default
+                          due to substantial behavior changes they imply on
+                          Modules 5 [no]
+  --enable-path-entry-reorder
+                          change order of entry in a path-like environment
+                          variable when it is added again [no]
+  --enable-quarantine-support
+                          generate code in module function definition to add
+                          support for the environment variable quarantine
+                          mechanism [no]
+  --enable-require-via    set modulecmd.tcl to consider that a module enabling
+                          a modulepath is a requirement for the loaded modules
+                          stored in this modulepath [no]
+  --enable-set-binpath    set bindir to PATH in init scripts [yes]
+  --enable-set-manpath    set mandir to MANPATH in init scripts [yes]
+  --enable-set-shell-startup
+                          set when module function is defined the shell
+                          startup file to ensure that the module function is
+                          still defined in sub-shells [no]
+  --enable-silent-shell-debug-support
+                          generate code in module function definition to add
+                          support for silencing shell debugging properties [no]
+  --enable-spider-indepth control whether \`spider' search results should
+                          recursively include or not modulefiles from
+                          directories matching search query [yes]
+  --enable-source-cache   cache files evaluated through \`source' Tcl command.
+                          [no]
+  --enable-unique-name-loaded
+                          only allow one module loaded per module name. [no]
+  --enable-versioning     append modules version to installation prefix and
+                          deploy a \`versions' modulepath, shared between all
+                          versioning enabled Modules installation, containing
+                          modulefiles that enable to switch from one Modules
+                          version to another [no]
+  --enable-vim-addons     install Vim addon files in the directory defined
+                          with \'vimdatadir' [yes]
+  --enable-wa-277         activate workaround for Tcsh history issue [no]
+  --enable-windows-support
+                          install all required files for Windows platform [no]
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-bin-search-path=PATHLIST
-                          list of paths to look at when searching the location
-                          of tools required to build and configure Modules
-                          [$binsearchpath]
-  --with-moduleshome      location of the main Modules package file
-                          directory [$prefix]
-  --with-initconf-in=VALUE
-                          location where to install Modules initialization
-                          configuration files. Either \`initdir' or \`etcdir'
-                          [etcdir]
-  --with-tclsh=BIN        name or full path of Tcl interpreter shell [tclsh]
-  --with-logger=BIN       name or full path of default logger program to use
-                          to log some evaluation information (can be super-
-                          seeded at run-time by environment variable) [$logger]
-  --with-logger-opts=OPTLIST
-                          settings to apply to default logger program
-                          [$loggeropts]
-  --with-logged-events=EVENTLIST
-                          events to log. accepted event names in EVENTLIST are
-                          \`auto_eval', \`requested_eval' and \`requested_cmd'
-                          (each event name in EVENTLIST should be separated by
-                          \`:') [$loggedevents]
-  --with-pager=BIN        name or full path of default pager program to use to
-                          paginate informational message output (can be super-
-                          seeded at run-time by environment variable) [$pager]
-  --with-pager-opts=OPTLIST
-                          settings to apply to default pager program [$pageropts]
-  --with-verbosity=VALUE  specify default message verbosity. accepted values
-                          are \`silent', \`concise', \`normal', \`verbose',
-                          \`verbose2', \`trace', \`debug' and \`debug2'
-                          [$verbosity]
-  --with-dark-background-colors=SGRLIST
-                          default color set to apply if terminal background
-                          color is defined to \`dark'. Each element in SGRLIST
-                          is an output item associated to a Select Graphic
-                          Rendition (SGR) code (elements in SGRLIST are
-                          separated by \`:')
-                          [$darkbgcolors]
-  --with-light-background-colors=SGRLIST
-                          default color set to apply if terminal background
-                          color is defined to \`light'. Expect the same syntax
-                          than described for \`--with-dark-background-colors'
-                          [$lightbgcolors]
-  --with-terminal-background=VALUE
-                          terminal background color which determines the color
-                          set to apply by default between the \`dark' background
-                          colors or the \`light' background colors [$termbg]
-  --with-locked-configs=CONFIGLIST
-                          ignore environment variable superseding value for
-                          listed configuration options. accepted option names
-                          in CONFIGLIST are \`extra_siteconfig',
-                          \`implicit_default', \`logged_events' and \`logger'
-                          (each option name in CONFIGLIST should be separated
-                          by \` ') [$lockedconfigs]
-  --with-unload-match-order=VALUE
-                          when unloading a module if multiple loaded modules
-                          match the request, unload module loaded first
-                          (\`returnfirst') or module loaded last (\`returnlast')
-                          [$unloadmatchorder]
-  --with-search-match=VALUE
-                          when searching for a module, query string should
-                          match the beginning of module name (\`starts_with')
-                          or any part of module name (\`contains')
-                          [$searchmatch]
-  --with-icase=VALUE      apply a case insensitive match to module
-                          specification on search-like sub-commands
-                          (\`search'), on all sub-commands and modulefile Tcl
-                          commands (\`always') or disable case insensitive
-                          match (\`never') [$icase]
-  --with-nearly-forbidden-days=VALUE
-                          define the number of days a module is considered
-                          nearly forbidden prior reaching its expiry date [$nearlyforbiddendays]
-  --with-tag-abbrev=ABBRVLIST
-                          define the abbreviation to use when reporting each
-                          module tag. Each element in ABBRVLIST is a tag name
-                          associated to an abbreviation string (elements in
-                          ABBRVLIST are separated by \`:')
-                          [$tagabbrev]
-  --with-tag-color-name=TAGLIST
-                          define the tags whose graphical rendering should be
-                          applied over their name instead of over the name of
-                          the module they are attached to. Each element in
-                          TAGLIST is a tag name or abbreviation (elements in
-                          TAGLIST are separated by \`:') [$tagcolorname]
-  --with-sticky-purge=VALUE
-                          define the kind of error to render when unloading
-                          a sticky or super-sticky module during a purge.
-                          Raise an \`error' or report a \`warning' or be
-                          \`silent'. [$stickypurge]
   --with-abort-on-error=LIST
                           list of sub-commands that should abort when a module
                           evaluation fails instead of continuing their
@@ -449,6 +360,37 @@ Optional Packages:
                           \`hidden', \`variant' and \`variantifspec' (elements
                           in LIST are separated by \`:')
                           [$availterseoutput]
+  --with-bashcompletiondir=DIR
+                          Bash completions directory []
+  --with-bin-search-path=PATHLIST
+                          list of paths to look at when searching the location
+                          of tools required to build and configure Modules
+                          [$binsearchpath]
+  --with-dark-background-colors=SGRLIST
+                          default color set to apply if terminal background
+                          color is defined to \`dark'. Each element in SGRLIST
+                          is an output item associated to a Select Graphic
+                          Rendition (SGR) code (elements in SGRLIST are
+                          separated by \`:')
+                          [$darkbgcolors]
+  --with-editor=BIN       name or full path of default editor program to use to
+                          edit modulefiles [$editor]
+  --with-fishcompletiondir=DIR
+                          Fish completions directory []
+  --with-icase=VALUE      apply a case insensitive match to module
+                          specification on search-like sub-commands
+                          (\`search'), on all sub-commands and modulefile Tcl
+                          commands (\`always') or disable case insensitive
+                          match (\`never') [$icase]
+  --with-initconf-in=VALUE
+                          location where to install Modules initialization
+                          configuration files. Either \`initdir' or \`etcdir'
+                          [etcdir]
+  --with-light-background-colors=SGRLIST
+                          default color set to apply if terminal background
+                          color is defined to \`light'. Expect the same syntax
+                          than described for \`--with-dark-background-colors'
+                          [$lightbgcolors]
   --with-list-output=LIST
                           specify content to report on list sub-command
                           regular output. elements accepted in LIST are:
@@ -461,6 +403,57 @@ Optional Packages:
                           \`idx', \`variant', \`alias', \`indesym', \`sym',
                           \`tag', \`hidden' and \`key' (elements in LIST are
                           separated by \`:') [$listterseoutput]
+  --with-loadedmodules=MODLIST
+                          default modulefiles to set in default configuration
+                          file to be loaded (each modulefile name in MODLIST
+                          should be separated by \`:') []
+  --with-locked-configs=CONFIGLIST
+                          ignore environment variable superseding value for
+                          listed configuration options. accepted option names
+                          in CONFIGLIST are \`extra_siteconfig',
+                          \`implicit_default', \`logged_events' and \`logger'
+                          (each option name in CONFIGLIST should be separated
+                          by \` ') [$lockedconfigs]
+  --with-logged-events=EVENTLIST
+                          events to log. accepted event names in EVENTLIST are
+                          \`auto_eval', \`requested_eval' and \`requested_cmd'
+                          (each event name in EVENTLIST should be separated by
+                          \`:') [$loggedevents]
+  --with-logger=BIN       name or full path of default logger program to use
+                          to log some evaluation information (can be super-
+                          seeded at run-time by environment variable) [$logger]
+  --with-logger-opts=OPTLIST
+                          settings to apply to default logger program
+                          [$loggeropts]
+  --with-modulepath=PATHLIST
+                          default modulepaths to set in default configuration
+                          file to be enabled (each path in PATHLIST should
+                          be separated by \`:') [PREFIX/modulefiles or
+                          BASEPREFIX/\$MODULE_VERSION/modulefiles if versioning
+                          installation mode enabled]
+  --with-moduleshome      location of the main Modules package file
+                          directory [$prefix]
+  --with-nearly-forbidden-days=VALUE
+                          define the number of days a module is considered
+                          nearly forbidden prior reaching its expiry date [$nearlyforbiddendays]
+  --with-quarantine-vars='VARNAME[=VALUE] ...'
+                          environment variables to put in quarantine when
+                          running the module command to ensure it a sane
+                          execution environment (each variable should be
+                          separated by \` '). a value can eventually be set to
+                          a quarantine variable instead of emptying it. []
+  --with-python=BIN       name or full path of Python interpreter command to
+                          use as shebang for helper scripts [$PYTHON]
+  --with-pager=BIN        name or full path of default pager program to use to
+                          paginate informational message output (can be super-
+                          seeded at run-time by environment variable) [$pager]
+  --with-pager-opts=OPTLIST
+                          settings to apply to default pager program [$pageropts]
+  --with-search-match=VALUE
+                          when searching for a module, query string should
+                          match the beginning of module name (\`starts_with')
+                          or any part of module name (\`contains')
+                          [$searchmatch]
   --with-spider-output=LIST
                           specify content to report on spider sub-command
                           regular output. elements accepted in LIST are:
@@ -477,44 +470,51 @@ Optional Packages:
                           \`hidden', \`variant' and \`variantifspec' (elements
                           in LIST are separated by \`:')
                           [$spiderterseoutput]
+  --with-sticky-purge=VALUE
+                          define the kind of error to render when unloading
+                          a sticky or super-sticky module during a purge.
+                          Raise an \`error' or report a \`warning' or be
+                          \`silent'. [$stickypurge]
+  --with-tag-abbrev=ABBRVLIST
+                          define the abbreviation to use when reporting each
+                          module tag. Each element in ABBRVLIST is a tag name
+                          associated to an abbreviation string (elements in
+                          ABBRVLIST are separated by \`:')
+                          [$tagabbrev]
+  --with-tag-color-name=TAGLIST
+                          define the tags whose graphical rendering should be
+                          applied over their name instead of over the name of
+                          the module they are attached to. Each element in
+                          TAGLIST is a tag name or abbreviation (elements in
+                          TAGLIST are separated by \`:') [$tagcolorname]
+  --with-tcl              directory containing the Tcl configuration script
+                          tclConfig.sh.
+  --with-tcl-linter=BIN   name of full path of program to use to lint Tcl
+                          modulefiles [$tcllinter]
+  --with-tcl-linter-opts=OPTLIST
+                          settings to apply to tcl linter program [$tcllinteropts]
+  --with-tclinclude       directory containing the Tcl header files.
+  --with-tclsh=BIN        name or full path of Tcl interpreter shell [tclsh]
+  --with-terminal-background=VALUE
+                          terminal background color which determines the color
+                          set to apply by default between the \`dark' background
+                          colors or the \`light' background colors [$termbg]
+  --with-unload-match-order=VALUE
+                          when unloading a module if multiple loaded modules
+                          match the request, unload module loaded first
+                          (\`returnfirst') or module loaded last (\`returnlast')
+                          [$unloadmatchorder]
   --with-variant-shortcut=SHORTCUTLIST
                           define shortcut characters to specify variant names.
                           Each element in SHORTCUTLIST is a variant name
                           associated to a shortcut character (elements in
                           SHORTCUTLIST are separated by \`:') [$variantshortcut]
-  --with-editor=BIN       name or full path of default editor program to use to
-                          edit modulefiles [$editor]
-  --with-modulepath=PATHLIST
-                          default modulepaths to set in default configuration
-                          file to be enabled (each path in PATHLIST should
-                          be separated by \`:') [PREFIX/modulefiles or
-                          BASEPREFIX/\$MODULE_VERSION/modulefiles if versioning
-                          installation mode enabled]
-  --with-loadedmodules=MODLIST
-                          default modulefiles to set in default configuration
-                          file to be loaded (each modulefile name in MODLIST
-                          should be separated by \`:') []
-  --with-quarantine-vars='VARNAME[=VALUE] ...'
-                          environment variables to put in quarantine when
-                          running the module command to ensure it a sane
-                          execution environment (each variable should be
-                          separated by \` '). a value can eventually be set to
-                          a quarantine variable instead of emptying it. []
-  --with-tcl              directory containing the Tcl configuration script
-                          tclConfig.sh.
-  --with-tclinclude       directory containing the Tcl header files.
-  --with-python=BIN       name or full path of Python interpreter command to
-                          use as shebang for helper scripts [$PYTHON]
-  --with-bashcompletiondir=DIR
-                          Bash completions directory []
-  --with-fishcompletiondir=DIR
-                          Fish completions directory []
+  --with-verbosity=VALUE  specify default message verbosity. accepted values
+                          are \`silent', \`concise', \`normal', \`verbose',
+                          \`verbose2', \`trace', \`debug' and \`debug2'
+                          [$verbosity]
   --with-zshcompletiondir=DIR
                           Zsh completions directory []
-  --with-tcl-linter=BIN   name of full path of program to use to lint Tcl
-                          modulefiles [$tcllinter]
-  --with-tcl-linter-opts=OPTLIST
-                          settings to apply to tcl linter program [$tcllinteropts]
 
 Depending on the above configuration options the files are approximately
 placed in the following directory structure:
