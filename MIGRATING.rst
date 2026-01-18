@@ -57,6 +57,42 @@ These measurements were obtained on a system where all modulefiles are stored
 on local flash storage. If your modulefiles reside on a shared network
 filesystem, using a `Module cache`_ is strongly recommended.
 
+Reorder existing entries in path-like variables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A new :mconfig:`path_entry_reorder` configuration option is introduced to
+control how path-like environment variables are modified when
+:mfcmd:`prepend-path`, :mfcmd:`append-path` or :subcmd:`use` target a path
+entry that is already defined in the environment variable.
+
+By default, this configuration option is set to ``0``, meaning that when a
+path entry already exists, the environment variable is left unchanged. When
+set to ``1``, an existing entry is reordered to the beginning or the end of
+the variable, depending on the command used, unless duplicates are explicitly
+allowed.
+
+.. parsed-literal::
+
+    :ps:`$` module append-path PATHVAR /foo
+    :ps:`$` module append-path PATHVAR /bar
+    :ps:`$` module append-path PATHVAR /foo
+    :ps:`$` echo $PATHVAR
+    /foo:/bar
+    :ps:`$` module config path_entry_reorder 1
+    :ps:`$` module append-path PATHVAR /foo
+    :ps:`$` echo $PATHVAR
+    /bar:/foo
+    :ps:`$` module append-path --duplicates PATHVAR /bar
+    :ps:`$` echo $PATHVAR
+    /bar:/foo:/bar
+
+The default value of :mconfig:`path_entry_reorder` can be defined at
+installation time with the :instopt:`--enable-path-entry-reorder` option. When
+the configuration option is changed from its default value using the
+:subcmd:`config` sub-command, the :envvar:`MODULES_PATH_ENTRY_REORDER`
+environment variable is defined accordingly. See
+:envvar:`MODULES_PATH_ENTRY_REORDER` for details.
+
 
 v5.6
 ----
