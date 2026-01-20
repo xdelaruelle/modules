@@ -10,7 +10,7 @@ Modules project.
   conduct`_ and :ref:`Technical charter<CHARTER>` of the project
 * Add to the `maintainer GitHub's team`_
 * Invite to the `modules-maintainers chat room`_
-* Subscribe to the `modules-maintainers mailing-list`_
+* Subscribe to the `modules-TSC mailing-list`_ with *Owner* role
 * Update *Current Roaster* section in :file:`GOVERNANCE.rst` file
 * Update *Authors* section in :file:`README.md` file
 * Make an announcement to:
@@ -23,7 +23,7 @@ Modules project.
 
 .. _maintainer GitHub's team: https://github.com/orgs/envmodules/teams/maintainers
 .. _modules-maintainers chat room: https://matrix.to/#/!AuNGUFFHUJpgQCfNRE:matrix.org
-.. _modules-maintainers mailing-list: https://sourceforge.net/projects/modules/lists/modules-maintainers
+.. _modules-TSC mailing-list: https://lists.hpsf.io/g/modules-TSC/members
 
 .. note:: To remove a maintainer from the group, reverse the above guidelines.
 
