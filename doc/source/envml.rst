@@ -99,4 +99,4 @@ shell function), :command:`envml` will print an error and exit.
 SEE ALSO
 --------
 
-:ref:`module(1)`, :ref:`ml(1)`, :ref:`modulefile(5)`
+:ref:`module(1)`, :ref:`modulecmd(1)`, :ref:`ml(1)`, :ref:`modulefile(5)`

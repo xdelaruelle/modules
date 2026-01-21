@@ -47,6 +47,7 @@ Modules 5.7.0 (not yet released)
   variable. (fix issue #595 with contribution from Achim Gsell)
 * Install: reorder the options in the :file:`configure` script help message
   alphabetically.
+* Doc: add manual page for :ref:`modulecmd(1)` command.
 
 
 .. _5.6 release notes:

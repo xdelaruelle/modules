@@ -70,10 +70,10 @@ program and has the shell evaluate the command's output. The first argument to
 The initialization scripts are kept in |file initdir_shell| where
 *<shell>* is the name of the sourcing shell. For example, a C Shell user
 sources the |file initdir_csh| script. The sh, csh, tcsh, bash, ksh,
-zsh, fish and cmd shells are supported by :file:`modulecmd.tcl`. In addition,
-python, perl, ruby, tcl, cmake, r and lisp "shells" are supported which
-writes the environment changes to stdout as python, perl, ruby, tcl, lisp,
-r or cmake code.
+zsh, fish, cmd and pwsh shells are supported by :file:`modulecmd.tcl`. In
+addition, python, perl, ruby, tcl, cmake, r and lisp "shells" are supported
+which writes the environment changes to stdout as python, perl, ruby, tcl,
+lisp, r or cmake code.
 
 Initialization may also be performed by directly calling the
 :subcmd:`autoinit` sub-command of the :file:`modulecmd.tcl` program.
@@ -190,6 +190,8 @@ set is not checked.
 
 .. note:: Run-command files are intended to set parameters for modulefiles,
    not to configure the :command:`module` command itself.
+
+.. _Command line switches:
 
 Command line switches
 ^^^^^^^^^^^^^^^^^^^^^
@@ -5887,6 +5889,8 @@ ENVIRONMENT
  :subcmd:`config` sub-command.
 
 
+.. _module FILES:
+
 FILES
 -----
 
@@ -5956,8 +5960,12 @@ FILES
 
 |file libexecdir_modulecmd|
 
- The *modulefile* interpreter that gets executed upon each invocation
+ Modules execution engine, interpreting *modulefile* upon each invocation
  of :command:`module`.
+
+|file bindir_modulecmd|
+
+ Generic wrapper command pointing to Modules execution engine.
 
 |file initdir_shell|
 
@@ -5967,5 +5975,5 @@ FILES
 SEE ALSO
 --------
 
-:ref:`ml(1)`, :ref:`modulefile(5)`, :ref:`envml(1)`
+:ref:`envml(1)`, :ref:`ml(1)`, :ref:`modulecmd(1)`, :ref:`modulefile(5)`
 

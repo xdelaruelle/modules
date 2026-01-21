@@ -38,7 +38,7 @@ ALL_RST := $(filter-out $(SOURCE_DIR)/latex_index.rst, $(wildcard $(SOURCE_DIR)/
 ALL_TXT := $(patsubst $(SOURCE_DIR)/%,$(BUILD_DIR)/%,$(patsubst %.rst,%.txt,$(ALL_RST)))
 ALL_HTML := $(patsubst $(SOURCE_DIR)/%,$(BUILD_DIR)/%,$(patsubst %.rst,%.html,$(ALL_RST)))
 ALL_MAN := $(BUILD_DIR)/module.1 $(BUILD_DIR)/ml.1 $(BUILD_DIR)/envml.1\
-	$(BUILD_DIR)/modulefile.5
+	$(BUILD_DIR)/modulecmd.1 $(BUILD_DIR)/modulefile.5
 ALL_TEX := $(BUILD_DIR)/latex/modules.tex
 ALL_PDF := $(BUILD_DIR)/latex/modules.pdf
 
@@ -105,7 +105,8 @@ $(BUILD_DIR)/%.txt: $(SOURCE_DIR)/%.rst $(SOURCE_DIR)/version.py
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/*.txt
 	$(SPHINXBUILD) $(SPHINXOPTS) -b text "$(SOURCE_DIR)" "$(BUILD_DIR)"
 
-$(BUILD_DIR)/module.1.in $(BUILD_DIR)/modulefile.5 $(BUILD_DIR)/ml.1 $(BUILD_DIR)/envml.1: $(ALL_RST) $(SOURCE_DIR)/version.py
+$(BUILD_DIR)/module.1.in $(BUILD_DIR)/modulefile.5 $(BUILD_DIR)/ml.1 $(BUILD_DIR)/modulecmd.1 $(BUILD_DIR)/envml.1: $(ALL_RST) $(SOURCE_DIR)/version.py
+	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/modulecmd.1
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/envml.1
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/ml.1
 	$(ECHO_GEN2) $(ECHO_DIR_PREFIX)$(BUILD_DIR)/module.1.in
@@ -138,6 +139,7 @@ ifeq ($(docinstall),y)
 endif
 	$(INSTALL_DATA) $(BUILD_DIR)/module.1 '$(DESTDIR)$(mandir)/man1/'
 	$(INSTALL_DATA) $(BUILD_DIR)/ml.1 '$(DESTDIR)$(mandir)/man1/'
+	$(INSTALL_DATA) $(BUILD_DIR)/modulecmd.1 '$(DESTDIR)$(mandir)/man1/'
 	$(INSTALL_DATA) $(BUILD_DIR)/envml.1 '$(DESTDIR)$(mandir)/man1/'
 	$(INSTALL_DATA) $(BUILD_DIR)/modulefile.5 '$(DESTDIR)$(mandir)/man5/'
 
@@ -153,6 +155,7 @@ ifeq ($(docinstall),y)
 endif
 	rm -f '$(DESTDIR)$(mandir)/man1/module.1'
 	rm -f '$(DESTDIR)$(mandir)/man1/ml.1'
+	rm -f '$(DESTDIR)$(mandir)/man1/modulecmd.1'
 	rm -f '$(DESTDIR)$(mandir)/man1/envml.1'
 	rm -f '$(DESTDIR)$(mandir)/man5/modulefile.5'
 	rmdir '$(DESTDIR)$(mandir)/man1' '$(DESTDIR)$(mandir)/man5'

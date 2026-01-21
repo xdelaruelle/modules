@@ -233,6 +233,7 @@ rst_epilog += '.. |libexecdir| replace:: %s\n' % libexecdir
 rst_epilog += '.. |emph libexecdir| replace:: *%s*\n' % libexecdir
 rst_epilog += '.. |bold libexecdir| replace:: **%s**\n' % libexecdir
 rst_epilog += '.. |file libexecdir| replace:: :file:`%s`\n' % libexecdir
+rst_epilog += '.. |file bindir_modulecmd| replace:: :file:`%s/modulecmd`\n' % bindir
 rst_epilog += '.. |file libexecdir_modulecmd| replace:: :file:`%s/modulecmd.tcl`\n' % libexecdir
 rst_epilog += '.. |etcdir| replace:: %s\n' % etcdir
 rst_epilog += '.. |emph etcdir| replace:: *%s*\n' % etcdir
@@ -295,6 +296,7 @@ man_pages = [
     ('module', 'module', u'command interface to the Modules package', [], 1),
     ('ml', 'ml', u'handy command interface to the Modules package', [], 1),
     ('modulefile', 'modulefile', u'files containing Tcl code for the Modules package', [], 5),
+    ('modulecmd', 'modulecmd', u'generic wrapper pointing to Modules execution engine', [], 1),
     ('envml', 'envml', u'run a command in an environment setting up by Modules', [], 1)
 ]
 

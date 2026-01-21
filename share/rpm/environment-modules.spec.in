@@ -253,6 +253,7 @@ fi
 %{_mandir}/man1/envml.1.gz
 %{_mandir}/man1/ml.1.gz
 %{_mandir}/man1/module.1.gz
+%{_mandir}/man1/modulecmd.1.gz
 %{_mandir}/man5/modulefile.5.gz
 %{macrosdir}/macros.%{name}
 %{vimfiles_root}/ftdetect/modulefile.vim

@@ -836,7 +836,8 @@ dist-tar: ChangeLog.gz share/rpm/environment-modules.spec pkgdoc
 		doc/build/MIGRATING.txt doc/build/changes.txt doc/build/INSTALL.txt \
 		doc/build/INSTALL-win.txt doc/build/NEWS.txt doc/build/CONTRIBUTING.txt \
 		doc/build/module.1.in doc/build/ml.1 doc/build/envml.1 \
-		doc/build/modulefile.5 share/rpm/environment-modules.spec
+		doc/build/modulecmd.1 doc/build/modulefile.5 \
+		share/rpm/environment-modules.spec
 
 dist-gzip: dist-tar
 	$(ECHO_GEN2) $(DIST_PREFIX).tar.gz

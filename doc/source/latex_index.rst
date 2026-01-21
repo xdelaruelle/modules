@@ -14,6 +14,7 @@ Introduction
 .. include:: module.rst
 .. include:: modulefile.rst
 .. include:: ml.rst
+.. include:: modulecmd.rst
 .. include:: envml.rst
 .. include:: MIGRATING.rst
 .. include:: NEWS.rst

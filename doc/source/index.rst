@@ -202,6 +202,7 @@ or (at your option) any later version (`GPL-2.0-or-later`).
       ml
       module
       modulefile
+      modulecmd
       envml
 
    .. toctree::
