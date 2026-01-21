@@ -25,11 +25,13 @@ Current Roster
 ~~~~~~~~~~~~~~
 
 * Xavier Delaruelle (`@xdelaruelle`_)
+* Adrien Cotte (`@adrien-cotte`_)
 
 .. note::
    Modules project is currently looking for additional Maintainers.
 
 .. _@xdelaruelle: https://github.com/xdelaruelle
+.. _@adrien-cotte: https://github.com/adrien-cotte
 
 Collaborators
 -------------

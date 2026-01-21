@@ -181,8 +181,10 @@ or (at your option) any later version (`GPL-2.0-or-later`). Read the file
 Authors
 -------
 
-Modules current core developer and maintainer is Xavier Delaruelle,
-xavier.delaruelle@cea.fr
+Modules current maintainers are:
+
+* Xavier Delaruelle, xavier.delaruelle@cea.fr
+* Adrien Cotte, adrien.cotte@asplus.fr
 
 Many thanks go to the [contributors][14] of the Modules project.
 
