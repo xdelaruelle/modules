@@ -693,4 +693,12 @@ if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_ID)]} {
     report [__initStateUsergroups]
 }
 
+# fake id command if following environment variable is set
+if {[info exists env(TESTSUITE_ENABLE_RUNENVCOMMAND_UNSET)]} {
+    runEnvCommand {UNK_VAR val} echo
+    if {![info exists ::env(UNK_VAR)]} {
+        report ok
+    }
+}
+
 }
