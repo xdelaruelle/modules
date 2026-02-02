@@ -376,6 +376,7 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       CONFIGURE_OPTS: --with-tclsh=tclsh9.0 --prefix=/tmp/modules --with-tcl=/usr/local/lib
+      COVERAGE: y
     steps:
       - uses: actions/checkout@v4
         with:
@@ -411,9 +412,17 @@ jobs:
       - name: Test Modules installation
         run: |
           script/mt install
+          for f in tcl/*.tcl; do
+            script/nglfar2ccov $f
+          done
+          cd lib
+          gcov envmodules
       - name: Uninstall Modules
         run: |
           make uninstall
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
