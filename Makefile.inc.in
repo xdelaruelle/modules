@@ -63,6 +63,8 @@ initconfin := @initconfin@
 builddoc := @builddoc@
 # able to use manpath cmd to get currently set manpath
 usemanpath := @usemanpath@
+# compress ChangeLog file
+compressedchangelog := @compressedchangelog@
 
 # logger setup
 loggedevents := @loggedevents@

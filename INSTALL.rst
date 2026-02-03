@@ -554,6 +554,15 @@ instance :instopt:`--disable-set-manpath<--enable-set-manpath>`):
     .. versionchanged:: 5.0
        Configuration option default set to ``yes``
 
+.. instopt:: --enable-compressed-changelog
+
+ Control if ``ChangeLog`` documentation file should be installed in a
+ compressed format or not. (default=yes)
+
+ .. only:: html or latex
+
+    .. versionadded:: 5.7
+
 .. instopt:: --enable-conflict-unload
 
  Apply automated unload of conflicting modulefiles when loading a module.

@@ -56,7 +56,13 @@ ifneq ($(wildcard Makefile.inc),Makefile.inc)
 endif
 include Makefile.inc
 
-INSTALL_PREREQ := modulecmd.tcl ChangeLog.gz README script/add.modules \
+ifeq ($(compressedchangelog),y)
+CHANGELOG := ChangeLog.gz
+else
+CHANGELOG := ChangeLog
+endif
+
+INSTALL_PREREQ := modulecmd.tcl $(CHANGELOG) README script/add.modules \
 	script/modulecmd
 TEST_PREREQ := $(MODULECMD)
 ifeq ($(COVERAGE),y)
@@ -580,16 +586,18 @@ modulecmd.tcl: tcl/cache.tcl tcl/coll.tcl tcl/envmngt.tcl tcl/init.tcl \
 
 # generate an empty changelog file if not working from git repository
 ifeq ($(wildcard .git),.git)
-ChangeLog.gz: script/gitlog2changelog.py
+ChangeLog: script/gitlog2changelog.py
 	$(ECHO_GEN)
 	script/gitlog2changelog.py
-	gzip -f -9 ChangeLog
 else
-ChangeLog.gz:
+ChangeLog:
 	$(ECHO_GEN)
-	echo "Please refer to the NEWS document to learn about main changes" >ChangeLog
-	gzip -f -9 ChangeLog
+	echo "Please refer to the NEWS document to learn about main changes" >$@
 endif
+
+ChangeLog.gz: ChangeLog
+	$(ECHO_GEN)
+	gzip --keep --force -9 $<
 
 README:
 	$(ECHO_GEN)
@@ -723,7 +731,7 @@ endif
 ifeq ($(docinstall),y)
 	$(INSTALL_DIR) '$(DESTDIR)$(docdir)'
 	$(INSTALL_DATA) COPYING.GPLv2 '$(DESTDIR)$(docdir)/'
-	$(INSTALL_DATA) ChangeLog.gz '$(DESTDIR)$(docdir)/'
+	$(INSTALL_DATA) $(CHANGELOG) '$(DESTDIR)$(docdir)/'
 	$(INSTALL_DATA) README '$(DESTDIR)$(docdir)/'
 endif
 ifeq ($(vimaddons),y)
@@ -800,7 +808,7 @@ ifeq ($(nagelfaraddons),y)
 	-rmdir -p '$(DESTDIR)$(nagelfardatadir)'
 endif
 ifeq ($(docinstall),y)
-	rm -f $(foreach docfile,ChangeLog.gz README COPYING.GPLv2,'$(DESTDIR)$(docdir)/$(docfile)')
+	rm -f $(foreach docfile,$(CHANGELOG) README COPYING.GPLv2,'$(DESTDIR)$(docdir)/$(docfile)')
 ifeq ($(builddoc),n)
 	rmdir '$(DESTDIR)$(docdir)'
 endif
@@ -827,12 +835,12 @@ endif
 
 # include pre-generated documents not to require documentation build
 # tools when installing from dist tarball
-dist-tar: ChangeLog.gz share/rpm/environment-modules.spec pkgdoc
+dist-tar: $(CHANGELOG) share/rpm/environment-modules.spec pkgdoc
 	$(ECHO_GEN2) $(DIST_PREFIX).tar
 	git archive --prefix=$(DIST_PREFIX)/ --worktree-attributes \
 		-o $(DIST_PREFIX).tar HEAD
 	tar -rf $(DIST_PREFIX).tar --transform 's,^,$(DIST_PREFIX)/,' \
-		lib/configure lib/config.h.in $(DIST_AUTORECONF_EXTRA) ChangeLog.gz \
+		lib/configure lib/config.h.in $(DIST_AUTORECONF_EXTRA) $(CHANGELOG) \
 		doc/build/MIGRATING.txt doc/build/changes.txt doc/build/INSTALL.txt \
 		doc/build/INSTALL-win.txt doc/build/NEWS.txt doc/build/CONTRIBUTING.txt \
 		doc/build/module.1.in doc/build/ml.1 doc/build/envml.1 \
@@ -850,7 +858,7 @@ dist-bzip2: dist-tar
 dist: dist-gzip
 
 # dist zip ball for Windows platform with all pre-generated relevant files
-dist-win: modulecmd.tcl ChangeLog.gz README pkgdoc
+dist-win: modulecmd.tcl $(CHANGELOG) README pkgdoc
 	$(ECHO_GEN2) $(DIST_WIN_PREFIX).zip
 	$(INSTALL_DIR) $(DIST_WIN_PREFIX)
 	$(INSTALL_DIR) $(DIST_WIN_PREFIX)/libexec
@@ -861,7 +869,7 @@ dist-win: modulecmd.tcl ChangeLog.gz README pkgdoc
 	$(INSTALL_PROGRAM) script/envml.cmd $(DIST_WIN_PREFIX)/bin/
 	$(INSTALL_DIR) $(DIST_WIN_PREFIX)/doc
 	$(INSTALL_DATA) COPYING.GPLv2 $(DIST_WIN_PREFIX)/doc/
-	$(INSTALL_DATA) ChangeLog.gz $(DIST_WIN_PREFIX)/doc/
+	$(INSTALL_DATA) $(CHANGELOG) $(DIST_WIN_PREFIX)/doc/
 	$(INSTALL_DATA) README $(DIST_WIN_PREFIX)/doc/
 	$(INSTALL_DATA) doc/build/MIGRATING.txt $(DIST_WIN_PREFIX)/doc/
 	$(INSTALL_DATA) doc/build/INSTALL-win.txt $(DIST_WIN_PREFIX)/doc/
@@ -892,7 +900,7 @@ clean:
 	rm -rf coverage
 # do not clean generated docs if not in git repository
 ifeq ($(wildcard .git),.git)
-	rm -f ChangeLog.gz
+	rm -f ChangeLog*
 endif
 	rm -f README
 	rm -f modulecmd.tcl
@@ -1138,7 +1146,7 @@ $(V).SILENT: initdir pkgdoc doc version.inc share/rpm/environment-modules.spec \
 	tcl/cache.tcl_i tcl/coll.tcl_i tcl/envmngt.tcl_i tcl/init.tcl_i tcl/interp.tcl_i \
 	tcl/main.tcl_i tcl/mfcmd.tcl_i tcl/modfind.tcl_i tcl/modeval.tcl_i \
 	tcl/modscan.tcl_i tcl/modspec.tcl_i tcl/report.tcl_i tcl/subcmd.tcl_i \
-	tcl/util.tcl_i ChangeLog.gz README script/add.modules \
+	tcl/util.tcl_i ChangeLog ChangeLog.gz README script/add.modules \
 	script/gitlog2changelog.py script/modulecmd \
 	lib/libtclenvmodules$(SHLIB_SUFFIX) lib/libtestutil-closedir$(SHLIB_SUFFIX) \
 	lib/libtestutil-getpwuid$(SHLIB_SUFFIX) lib/libtestutil-getgroups$(SHLIB_SUFFIX) \

@@ -41,7 +41,7 @@ listterseoutput editor variantshortcut bashcompletiondir fishcompletiondir \
 zshcompletiondir tcllinter tcllinteropts nagelfardatadir nagelfaraddons \
 stickypurge uniquenameloaded abortonerror sourcecache logger loggeropts \
 loggedevents conflictunload spideroutput spiderterseoutput spiderindepth \
-emacsdatadir emacsaddons requirevia"
+emacsdatadir emacsaddons requirevia compressedchangelog"
 libarglist=()
 
 # flags to know if argument has been specified on command-line
@@ -88,6 +88,7 @@ PYTHON=python
 SPHINXBUILD=sphinx-build
 builddoc=y
 usemanpath=y
+compressedchangelog=y
 PS='ps'
 BASENAME='basename'
 RMDIR_IGN_NON_EMPTY='rmdir'
@@ -250,6 +251,9 @@ Optional Features:
                           directories matching search query [yes]
   --enable-color          control colored output. \`yes' equals to the \`auto'
                           color mode. \`no' equals to the \`never' color mode
+                          [yes]
+  --enable-compressed-changelog
+                          install \`ChangeLog' file in a compressed format
                           [yes]
   --enable-conflict-unload
                           set modulecmd.tcl to automatically unload modules
@@ -735,6 +739,9 @@ for arg in "$@"; do
    --enable-doc-install*|--disable-doc-install)
       # shellcheck disable=SC2034
       docinstall=$(get_feature_value "$arg") ;;
+   --enable-compressed-changelog*|--disable-compressed-changelog)
+      # shellcheck disable=SC2034
+      compressedchangelog=$(get_feature_value "$arg") ;;
    --enable-vim-addons*|--disable-vim-addons)
       # shellcheck disable=SC2034
       vimaddons=$(get_feature_value "$arg") ;;
@@ -1086,7 +1093,7 @@ else
 fi
 
 # gzip is mandatory if installing from git repository to build ChangeLog.gz
-if [ $work_from_git_repo -eq 0 ]; then
+if [ "$compressedchangelog" = 'y' ] && [ $work_from_git_repo -eq 0 ]; then
    check_requirement gzip
 fi
 

@@ -11,4 +11,4 @@ ignore-words-list = ans,ot,ue,fo,haa,varius,tthe,tbe,nin,desig,matchin,compre,in
 #   lib/autom4te.cache/*
 # skip retrieved content: icdiff, lib/tcl.m4, tcl8.3.5, spack, miniconda3, OpenFOAM-dev
 # skip pdf papers: doc/paper/*.pdf
-skip = .git,ChangeLog.gz,modulecmd*.tcl,*doc/build,icdiff,*lib/tcl.m4,tcl8.3.5,spack,miniconda3,OpenFOAM-dev,modules.sum,modules.log,*lib/config.sub,*lib/config.guess,*lib/config.status,*lib/configure,*lib/autom4te.cache/*,*doc/paper/*.pdf
+skip = .git,ChangeLog*,modulecmd*.tcl,*doc/build,icdiff,*lib/tcl.m4,tcl8.3.5,spack,miniconda3,OpenFOAM-dev,modules.sum,modules.log,*lib/config.sub,*lib/config.guess,*lib/config.status,*lib/configure,*lib/autom4te.cache/*,*doc/paper/*.pdf

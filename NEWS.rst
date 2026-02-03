@@ -50,6 +50,10 @@ Modules 5.7.0 (not yet released)
 * Doc: add manual page for :ref:`modulecmd(1)` command.
 * Make :mfcmd:`getenv` modulefile command available from module rc file
   evaluation context. (fix issue #588)
+* Install: add installation option
+  :instopt:`--disable-compressed-changelog<--enable-compressed-changelog>` to
+  cope with packaging process handling documentation file compression at their
+  level. (fix issue #592)
 
 
 .. _5.6 release notes:
