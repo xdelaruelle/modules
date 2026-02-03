@@ -343,6 +343,9 @@ the *modulefile* is being loaded.
     .. versionchanged:: 5.1
        Option ``--return-value`` added
 
+    .. versionchanged:: 5.7
+       Command available from module rc file context
+
 .. mfcmd:: getvariant [--return-value] variant [value]
 
  Returns value of designated *variant*. If *variant* is not defined, *value*
@@ -1772,15 +1775,16 @@ for each interpretation context.
 | Commands available from   | Commands available from run-command (rc) file       |
 | modulefile interpretation | interpretation                                      |
 +===========================+=====================================================+
-| All the Modules specific  | :mfcmd:`hide-modulefile`, :mfcmd:`hide-version`,    |
-| and standard Tcl commands | :mfcmd:`is-loaded`, :mfcmd:`is-used`,               |
-|                           | :mfcmd:`lsb-release`, :mfcmd:`module-alias`,        |
-|                           | :mfcmd:`module-forbid`, :mfcmd:`module-hide`,       |
-|                           | :mfcmd:`module-info`, :mfcmd:`module-tag`,          |
-|                           | :mfcmd:`module-version`, :mfcmd:`module-virtual`,   |
-|                           | :mfcmd:`module-warn`, :mfcmd:`modulepath-label`,    |
-|                           | :mfcmd:`system`, :mfcmd:`uname`,                    |
-|                           | :mfcmd:`versioncmp` and standard Tcl commands       |
+| All the Modules specific  | :mfcmd:`getenv`, :mfcmd:`hide-modulefile`,          |
+| and standard Tcl commands | :mfcmd:`hide-version`, :mfcmd:`is-loaded`,          |
+|                           | :mfcmd:`is-used`, :mfcmd:`lsb-release`,             |
+|                           | :mfcmd:`module-alias`, :mfcmd:`module-forbid`,      |
+|                           | :mfcmd:`module-hide`, :mfcmd:`module-info`,         |
+|                           | :mfcmd:`module-tag`, :mfcmd:`module-version`,       |
+|                           | :mfcmd:`module-virtual`, :mfcmd:`module-warn`,      |
+|                           | :mfcmd:`modulepath-label`, :mfcmd:`system`,         |
+|                           | :mfcmd:`uname`, :mfcmd:`versioncmp` and standard    |
+|                           | Tcl commands                                        |
 +---------------------------+-----------------------------------------------------+
 
 .. note:: Global and user run-command files are interpreted like modulefiles

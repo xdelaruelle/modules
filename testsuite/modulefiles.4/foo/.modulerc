@@ -23,3 +23,13 @@ if {[info exists env(TESTSUITE_CONFLICT_UNLOAD)]} {
         }
     }
 }
+if {[info exists env(TESTSUITE_RC_GETENV)]} {
+    switch -- $env(TESTSUITE_RC_GETENV) {
+        sym {
+            module-version foo/1.0 [getenv TESTSUITE_RC_GETENV]
+        }
+        unk {
+            module-version foo/1.0 [getenv UNK_VAR foo]
+        }
+    }
+}

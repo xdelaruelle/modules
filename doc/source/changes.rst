@@ -1111,6 +1111,9 @@ The following modulefile Tcl commands appeared on Modules 5.
  environment variable value or its fallback when modulefile is evaluated in
  *display* mode.
 
+ Starting version 5.7, this command is also available from module rc file
+ context.
+
 :mfcmd:`prereq`, :mfcmd:`module load/try-load/load-any/switch<module>`
 
  Starting Modules 5.1, these modulefile commands accept the :option:`--tag`

@@ -48,6 +48,8 @@ Modules 5.7.0 (not yet released)
 * Install: reorder the options in the :file:`configure` script help message
   alphabetically.
 * Doc: add manual page for :ref:`modulecmd(1)` command.
+* Make :mfcmd:`getenv` modulefile command available from module rc file
+  evaluation context. (fix issue #588)
 
 
 .. _5.6 release notes:
