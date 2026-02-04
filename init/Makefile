@@ -120,7 +120,7 @@ endif
 # define variables for shell completion
 comp_cmds := add add-any apropos aliases avail append-path cachebuild cacheclear clear config del describe disable display edit help initadd initclear initlist initprepend initrm is-loaded is-saved is-used is-avail info-loaded keyword lint list load load-any mod-to-sh path paths purge prepend-path refresh reload reset restore rm remove remove-path save savelist saveshow saverm search show sh-to-mod source spider stash stashclear stashlist stashpop stashrm stashshow state swap switch test try-add try-load unload unuse update use whatis
 comp_long_opts := --debug --dumpname --help --silent --trace --verbose --version --paginate --no-pager --color --color= --width --width= --ignore-cache --ignore-user-rc
-comp_opts := -D -h -s -T -v -V -p -w $(comp_long_opts)
+comp_opts := -D -h -s -T -v -V -p -P -w $(comp_long_opts)
 comp_load_opts := --auto --no-auto --force -f --icase -i --tag --tag=
 comp_unload_opts := --auto --no-auto --force -f --icase -i
 comp_list_opts := -a -j -l -o -t --all --json --long --output --output= --terse

@@ -171,7 +171,7 @@ complete -c module -s C -l contains --description 'Search modules whose name con
 complete -c module -l indepth --description 'Perform recursive avail search'
 complete -c module -l no-indepth --description 'Perform non-recursive avail search'
 complete -c module -s p -l paginate --description 'Pipe mesg output into a pager if stream attached to terminal'
-complete -c module -l no-pager --description 'Do not pipe message output into a pager'
+complete -c module -s P -l no-pager --description 'Do not pipe message output into a pager'
 complete -c module -l auto --description 'Enable automated module handling mode'
 complete -c module -l no-auto --description 'Disable automated module handling mode'
 complete -c module -s f -l force --description 'By-pass dependency consistency or confirmation dialog'

@@ -467,13 +467,16 @@ switches are accepted:
     .. versionchanged:: 5.6
        Support for :subcmd:`spider` sub-command added
 
-.. option:: --no-pager
+.. option:: --no-pager, -P
 
  Do not pipe message output into a pager.
 
  .. only:: html or latex
 
     .. versionadded:: 4.1
+
+    .. versionchanged:: 5.7
+       Short form option :option:`-P` added
 
 .. option:: --no-redirect
 

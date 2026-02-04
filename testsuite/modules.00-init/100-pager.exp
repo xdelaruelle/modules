@@ -122,7 +122,7 @@ if {$verbose} {
 set env(LESS) $opts
 pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
 pager_test_case "-p" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "-P" 0 "0" $install_pager $install_pageropts
 
 set opts ""
 if {$verbose} {
@@ -157,7 +157,7 @@ if {$verbose} {
 set env(PAGER) $cmd
 pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
 pager_test_case "-p" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "-P" 0 "0" $install_pager $install_pageropts
 
 set cmd "cat"
 if {$verbose} {
@@ -184,7 +184,7 @@ if {$verbose} {
 set env(PAGER) $cmd
 pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
 pager_test_case "-p" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "-P" 0 "0" $install_pager $install_pageropts
 
 set cmd "/usr/bin/less"
 if {$verbose} {
@@ -233,7 +233,7 @@ if {$verbose} {
 set env(MODULES_PAGER) $cmd
 pager_test_case "" 0 "-" $cmd ""
 pager_test_case "-p" 0 "1" $cmd ""
-pager_test_case "--no-pager" 0 "0" $cmd ""
+pager_test_case "-P" 0 "0" $cmd ""
 
 set cmd "cat"
 if {$verbose} {
@@ -260,7 +260,7 @@ if {$verbose} {
 unset env(PAGER)
 pager_test_case "" 1 "-" $cmd $opts
 pager_test_case "-p" 1 "1" $cmd $opts
-pager_test_case "--no-pager" 0 "0" $cmd $opts
+pager_test_case "-P" 0 "0" $cmd $opts
 
 if {$verbose} {
     send_user "\tSetup LESS = '-K'\n"
@@ -280,7 +280,7 @@ if {$verbose} {
 set env(MODULES_PAGER) $cmd
 pager_test_case "" 1 "-" $cmd $opts
 pager_test_case "-p" 1 "1" $cmd $opts
-pager_test_case "--no-pager" 0 "0" $cmd $opts
+pager_test_case "-P" 0 "0" $cmd $opts
 
 
 # test activation depending on selected shell

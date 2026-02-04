@@ -56,6 +56,8 @@ Modules 5.7.0 (not yet released)
   level. (fix issue #592)
 * Add :option:`-p` option as an abbreviated form for :option:`--paginate`.
   (fix issue #593)
+* Add :option:`-P` option as an abbreviated form for :option:`--no-pager`.
+  (fix issue #606)
 
 
 .. _5.6 release notes:

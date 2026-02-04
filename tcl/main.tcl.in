@@ -705,7 +705,7 @@ if {[catch {
             -p - --paginate {
                set asked_paginate 1
             }
-            --no-pager {
+            -P - --no-pager {
                set asked_paginate 0
             }
             --redirect {

@@ -130,7 +130,7 @@ _module() {
       '--dumpname[Module implementation name]' \
       '(-w --width=)'{-w,--width=}'[Set output width]' \
       '(-p --paginate)'{-p,--paginate}'[Pipe mesg output into a pager if stream attached to terminal]' \
-      '--no-pager[Do not pipe message output into a pager]' \
+      '(-P --no-pager)'{-P,--no-pager}'[Do not pipe message output into a pager]' \
       '(--color --color=)'{--color,--color=}'[Colorize the output]' \
       '--ignore-cache[Ignore module cache]' \
       '--ignore-user-rc[Skip evaluation of user-specific module rc file]' \
