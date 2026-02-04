@@ -702,7 +702,7 @@ if {[catch {
             --dumpname {
                set show_name 1
             }
-            --paginate {
+            -p - --paginate {
                set asked_paginate 1
             }
             --no-pager {

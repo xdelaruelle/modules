@@ -541,7 +541,7 @@ switches are accepted:
        Elements *provided-alias* and *via* added for :subcmd:`avail` and
        :subcmd:`spider` sub-commands
 
-.. option:: --paginate
+.. option:: --paginate, -p
 
  Pipe all message output into :command:`less` (or if set, to the command
  referred in :envvar:`MODULES_PAGER` variable) if error output stream is a
@@ -550,6 +550,9 @@ switches are accepted:
  .. only:: html or latex
 
     .. versionadded:: 4.1
+
+    .. versionchanged:: 5.7
+       Short form option :option:`-p` added
 
 .. option:: --redirect
 

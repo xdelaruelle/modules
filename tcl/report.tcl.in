@@ -2169,7 +2169,7 @@ Options:
   -v | --verbose  Enable verbose messages
   -s | --silent   Turn off error, warning and informational messages
   --timer         Report execution times
-  --paginate      Pipe mesg output into a pager if stream attached to terminal
+  -p | --paginate Pipe mesg output into a pager if stream attached to terminal
   --no-pager      Do not pipe message output into a pager
   --redirect      Send output to stdout (only for sh, bash, ksh, zsh and fish)
   --no-redirect   Send output to stderr

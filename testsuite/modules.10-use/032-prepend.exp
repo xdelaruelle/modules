@@ -92,6 +92,12 @@ testouterr_cmd "sh" "$use \$TESTSUITEDIR/modulefiles.2" $ans {}
 setenv_path_var MODULEPATH $modpath
 
 
+# test overriding options
+set ans [list]
+lappend ans [list set MODULEPATH $path:$modpath]
+testouterr_cmd sh "use -a -p $path" $ans {} xfail
+
+
 #
 # Cleanup
 #

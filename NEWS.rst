@@ -54,6 +54,8 @@ Modules 5.7.0 (not yet released)
   :instopt:`--disable-compressed-changelog<--enable-compressed-changelog>` to
   cope with packaging process handling documentation file compression at their
   level. (fix issue #592)
+* Add :option:`-p` option as an abbreviated form for :option:`--paginate`.
+  (fix issue #593)
 
 
 .. _5.6 release notes:
