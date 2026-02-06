@@ -444,25 +444,33 @@ proc initStateIsStderrTty {} {
 proc initStatePaginate {} {
    set pager [getConf pager]
    # empty or 'cat' pager command means no-pager
-   set no_cmds [list {} cat]
-   set only_shell_types [list sh csh fish cmd pwsh]
-   # default pager enablement depends on pager command value and current shell
-   set paginate [expr {[file tail [lindex $pager 0]] ni $no_cmds && [getState\
-      shelltype] in $only_shell_types}]
-
-   # asked enablement could only nullify a previous asked disablement as it
-   # requires a valid pager command configuration, which by default enables
-   # pagination; some module command may also turn off pager; also if error
-   # stream is not attached to a terminal
-   set no_subcmds [list clear edit]
-   if {$paginate && (([info exists ::asked_paginate] && !$::asked_paginate)\
-      || [getState subcmd] in $no_subcmds || ([getState subcmd] eq {ml} &&\
-      [lindex [getState subcmd_args] 0] in $no_subcmds) || ![getState\
-      is_stderr_tty])} {
-      set paginate 0
+   set nopager_cmd_list [list {} cat]
+   if {[file tail [lindex $pager 0]] in $nopager_cmd_list} {
+      return 0
    }
 
-   return $paginate
+   set pager_shell_list [list sh csh fish cmd pwsh]
+   if {[getState shelltype] ni $pager_shell_list} {
+      return 0
+   }
+
+   # some module sub-commands turn off pager
+   set nopager_subcmd_list [list clear edit]
+   if {[getState subcmd] in $nopager_subcmd_list || ([getState subcmd] eq\
+      {ml} && [lindex [getState subcmd_args] 0] in $nopager_subcmd_list)} {
+      return 0
+   }
+
+   if {[info exists ::asked_paginate] && !$::asked_paginate} {
+      return 0
+   }
+
+   # error stream must be attached to a terminal
+   if {![getState is_stderr_tty]} {
+      return 0
+   }
+
+   return 1
 }
 
 # start pager pipe process with defined configuration
