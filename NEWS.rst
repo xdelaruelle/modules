@@ -58,6 +58,7 @@ Modules 5.7.0 (not yet released)
   (fix issue #593)
 * Add :option:`-P` option as an abbreviated form for :option:`--no-pager`.
   (fix issue #606)
+* Doc: add :ref:`organize-tsc-meeting` guide.
 
 
 .. _5.6 release notes:
