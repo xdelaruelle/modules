@@ -400,6 +400,12 @@ else
   setwa277 := 0
 endif
 
+ifeq ($(paginate),y)
+  setpaginate := 1
+else
+  setpaginate := 0
+endif
+
 ifeq ($(pathentryreorder),y)
   setpathentryreorder := 1
 else
@@ -440,6 +446,7 @@ sed -e 's|@prefix@|$(prefix)|g' \
 	-e 's|@loggedevents@|$(loggedevents)|g' \
 	-e 's|@loggercmd@|$(loggercmd)|g' \
 	-e 's|@pagercmd@|$(pagercmd)|g' \
+	-e 's|@paginate@|$(setpaginate)|g' \
 	-e 's|@verbosity@|$(verbosity)|g' \
 	-e 's|@color@|$(setcolor)|g' \
 	-e 's|@darkbgcolors@|$(darkbgcolors)|g' \

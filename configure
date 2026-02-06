@@ -41,7 +41,7 @@ listterseoutput editor variantshortcut bashcompletiondir fishcompletiondir \
 zshcompletiondir tcllinter tcllinteropts nagelfardatadir nagelfaraddons \
 stickypurge uniquenameloaded abortonerror sourcecache logger loggeropts \
 loggedevents conflictunload spideroutput spiderterseoutput spiderindepth \
-emacsdatadir emacsaddons requirevia compressedchangelog"
+emacsdatadir emacsaddons requirevia compressedchangelog paginate"
 libarglist=()
 
 # flags to know if argument has been specified on command-line
@@ -102,6 +102,7 @@ logger='logger'
 loggeropts='-t modules'
 pager=less
 pageropts='-eFKRX'
+paginate=y
 verbosity=normal
 color=y
 darkbgcolors='hi=1:db=2:tr=2:se=2:er=91:wa=93:me=95:in=94:mp=1;94:di=94:al=96:va=93:sy=95:de=4:cm=92:aL=100:L=90;47:H=2:F=41:nF=31;43:S=46:sS=44:kL=30;48;5;109:W=30;43'
@@ -300,6 +301,8 @@ Optional Features:
   --enable-new-features   enable all new features that are disabled by default
                           due to substantial behavior changes they imply on
                           Modules 5 [no]
+  --enable-paginate       control whether output pagination should be enabled
+                          or not [yes]
   --enable-path-entry-reorder
                           change order of entry in a path-like environment
                           variable when it is added again [no]
@@ -817,6 +820,9 @@ for arg in "$@"; do
    --enable-path-entry-reorder*|--disable-path-entry-reorder)
       # shellcheck disable=SC2034
       pathentryreorder=$(get_feature_value "$arg") ;;
+   --enable-paginate*|--disable-paginate)
+      # shellcheck disable=SC2034
+      paginate=$(get_feature_value "$arg") ;;
    --with-bin-search-path=*|--without-bin-search-path)
       binsearchpath=$(get_package_value "$arg") ;;
    --with-moduleshome=*|--without-moduleshome)
