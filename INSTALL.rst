@@ -759,6 +759,15 @@ instance :instopt:`--disable-set-manpath<--enable-set-manpath>`):
     .. versionchanged:: 5.6
        Enables automated *require via* mechanism
 
+.. instopt:: --enable-paginate
+
+ Control if output of module command should be piped into a pager by default
+ or not. (default=yes)
+
+ .. only:: html or latex
+
+    .. versionadded:: 5.7
+
 .. instopt:: --enable-path-entry-reorder
 
  Change order of entry in a path-like environment variable, when
@@ -1743,6 +1752,9 @@ installation.
 | :mconfig:`pager`                  | ``less -eFKRX``                              | :instopt:`--with-pager`,                     |              |           |
 |                                   |                                              | :instopt:`--with-pager-opts`,                |              |           |
 |                                   |                                              | :envvar:`MODULES_PAGER`,                     |              |           |
++-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
+| :mconfig:`paginate`               | ``1``                                        | :instopt:`--enable-paginate`,                |              |           |
+|                                   |                                              | :envvar:`MODULES_PAGINATE`,                  |              |           |
 |                                   |                                              | :option:`--paginate`, :option:`--no-pager`   |              |           |
 +-----------------------------------+----------------------------------------------+----------------------------------------------+--------------+-----------+
 | :mconfig:`path_entry_reorder`     | ``0``                                        | :instopt:`--enable-path-entry-reorder`,      |              |           |
