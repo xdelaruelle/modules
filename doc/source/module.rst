@@ -469,7 +469,8 @@ switches are accepted:
 
 .. option:: --no-pager, -P
 
- Do not pipe message output into a pager.
+ Do not pipe message output into a pager. See also :envvar:`MODULES_PAGINATE`
+ section.
 
  .. only:: html or latex
 
@@ -548,7 +549,7 @@ switches are accepted:
 
  Pipe all message output into :command:`less` (or if set, to the command
  referred in :envvar:`MODULES_PAGER` variable) if error output stream is a
- terminal. See also :envvar:`MODULES_PAGER` section.
+ terminal. See also :envvar:`MODULES_PAGINATE` section.
 
  .. only:: html or latex
 
@@ -5295,19 +5296,13 @@ ENVIRONMENT
 
 .. envvar:: MODULES_PAGER
 
- Text viewer for use to paginate message output if error output stream is
- attached to a terminal. The value of this variable is composed of a pager
- command name or path eventually followed by command-line options.
+ Text viewer for use to paginate message output. The value of this variable is
+ composed of a pager command name or path eventually followed by command-line
+ options. See :envvar:`MODULES_PAGINATE` to learn how pagination is enabled.
 
  This environment variable value supersedes the default value set in the
  :mconfig:`pager` configuration option. It can be defined with the
  :subcmd:`config` sub-command.
-
- If :envvar:`MODULES_PAGER` variable is set to an empty string or to the value
- ``cat``, pager will not be launched.
-
- Pager is never launched if :file:`modulecmd.tcl` program is run for scripting
- language rather shells.
 
  .. only:: html or latex
 
@@ -5315,6 +5310,29 @@ ENVIRONMENT
 
     .. versionchanged:: 5.5
        No pager when :file:`modulecmd.tcl` is run for scripting languages
+
+.. envvar:: MODULES_PAGINATE
+
+ If set to ``1``, output of module command is piped into defined pager
+ command. See :envvar:`MODULES_PAGER` variable for pager command definition.
+
+ Pagination is automatically disabled in the following situations:
+
+ * :envvar:`MODULES_PAGER` variable is set to an empty string or to the value
+   ``cat``.
+ * :file:`modulecmd.tcl` program is run for scripting language rather shells.
+ * :file:`modulecmd.tcl` error output stream is not attached to a terminal.
+ * :subcmd:`clear` or :subcmd:`edit` sub-commands are run.
+
+ The :envvar:`MODULES_PAGINATE` environment variable value supersedes the
+ default value set in the :mconfig:`paginate` configuration option. It can be
+ defined with the :subcmd:`config` sub-command. The
+ :option:`--paginate`/:option:`-p` and :option:`--no-pager`/:option:`-P`
+ command line switches override this environment variable.
+
+ .. only:: html or latex
+
+    .. versionadded:: 5.7
 
 .. envvar:: MODULES_PATH_ENTRY_REORDER
 
