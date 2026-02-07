@@ -1286,7 +1286,7 @@ The following Modules configuration option has been introduced on Modules 5.
 | 5.6        | :mconfig:`spider_output`, :mconfig:`spider_terse_output`,       |
 |            | :mconfig:`spider_indepth`, :mconfig:`require_via`               |
 +------------+-----------------------------------------------------------------+
-| 5.7        | :mconfig:`path_entry_reorder`                                   |
+| 5.7        | :mconfig:`path_entry_reorder`, :mconfig:`paginate`              |
 +------------+-----------------------------------------------------------------+
 
 :mconfig:`auto_handling`
