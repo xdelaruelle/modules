@@ -89,6 +89,7 @@ catch {unset env(__MODULES_SHARE_FPATH)}
 catch {unset env(LESS)}
 catch {unset env(PAGER)}
 catch {unset env(MODULES_PAGER)}
+setenv_var MODULES_PAGINATE 1
 
 # clean any logger configuration
 unsetenv_var MODULES_LOGGED_EVENTS
