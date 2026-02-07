@@ -27,7 +27,7 @@ if {$verbose} {
 
 
 # helper proc to generate pager test and expected debugging output
-proc pager_test_case {modarg use asked cmd opts {shell sh}} {
+proc pager_test_case {modarg use paginate cmd opts {shell sh}} {
     global MODULECMD env install_pager install_pageropts siteconfig_filere warn_msgs is_stderr_tty install_termbg
 
     if {$modarg ne ""} {
@@ -71,20 +71,23 @@ proc pager_test_case {modarg use asked cmd opts {shell sh}} {
     lappend ans "DEBUG setConf: term_background set to '$install_termbg'"
     lappend ans "(DEBUG initConfColors: Ignore invalid default.*\\n)?DEBUG setConf: colors set to '.*'"
     lappend ans "DEBUG setConf: color set to '0'"
-    lappend ans "DEBUG setConf: pager set to '$pager_cmd'"
-    if {[file tail $pager_cmd] ni {{} cat}} {
-        lappend ans "DEBUG setState: shelltype set to '$shelltype'"
+    lappend ans "DEBUG setConf: paginate set to '$paginate'"
+    if {$paginate} {
+        lappend ans "DEBUG setConf: pager set to '$pager_cmd'"
+        if {[file tail $pager_cmd] ni {{} cat}} {
+            lappend ans "DEBUG setState: shelltype set to '$shelltype'"
+        }
+        if {$use} {
+            lappend ans "DEBUG setState: is_stderr_tty set to '$is_stderr_tty'"
+        }
     }
-    if {$use} {
-        lappend ans "DEBUG setState: is_stderr_tty set to '$is_stderr_tty'"
-    }
-    lappend ans "DEBUG setState: paginate set to '[expr {$is_stderr_tty && $use}]'"
+    lappend ans "DEBUG setState: paginate set to '[expr {$is_stderr_tty && $use && $paginate}]'"
     # check command exist if specified full path
-    if {$is_stderr_tty && $use && [string index $cmd 0] eq "/" && ![file exists $cmd]} {
+    if {$is_stderr_tty && $use && $paginate && [string index $cmd 0] eq "/" && ![file exists $cmd]} {
         lappend ans "DEBUG setState: inhibit_errreport set to '0'"
         lappend ans "$warn_msgs: couldn't execute \"$cmd\": no such file or directory"
         set reportfd stderr
-    } elseif {$is_stderr_tty && $use} {
+    } elseif {$is_stderr_tty && $use && $paginate} {
         set reportfd file\\d
     } else {
         set reportfd stderr
@@ -96,7 +99,7 @@ proc pager_test_case {modarg use asked cmd opts {shell sh}} {
     lappend ans "DEBUG setConf: logger set to '$::install_loggercmd'"
     lappend ans "DEBUG setState: logging set to '0'"
     lappend ans "DEBUG setState: logfd set to ''"
-    if {!$is_stderr_tty || !$use || [string index $cmd 0] eq "/" && ![file exists $cmd]} {
+    if {!$is_stderr_tty || !$use || !$paginate || [string index $cmd 0] eq "/" && ![file exists $cmd]} {
         lappend ans "DEBUG setState: error_count set to '0'"
     }
 
@@ -107,10 +110,14 @@ proc pager_test_case {modarg use asked cmd opts {shell sh}} {
 # The tests
 #
 
+foreach paginate {0 1} {
+
+setenv_var MODULES_PAGINATE $paginate
+
 # vanilla test, no related-env variable set
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "--paginate" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "--paginate" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "--no-pager" 0 0 $install_pager $install_pageropts
 
 skip_if_quick_mode
 
@@ -120,18 +127,18 @@ if {$verbose} {
     send_user "\tSetup LESS = '$opts'\n"
 }
 set env(LESS) $opts
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "-p" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "-P" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "-p" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "-P" 0 0 $install_pager $install_pageropts
 
 set opts ""
 if {$verbose} {
     send_user "\tSetup LESS = '$opts'\n"
 }
 set env(LESS) $opts
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "--paginate" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "--paginate" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "--no-pager" 0 0 $install_pager $install_pageropts
 
 if {$verbose} {
     send_user "\tUnset LESS\n"
@@ -146,63 +153,63 @@ if {$verbose} {
     send_user "\tSetup PAGER = '$cmd'\n"
 }
 set env(PAGER) $cmd
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "--paginate" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "--paginate" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "--no-pager" 0 0 $install_pager $install_pageropts
 
 set cmd ""
 if {$verbose} {
     send_user "\tSetup PAGER = '$cmd'\n"
 }
 set env(PAGER) $cmd
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "-p" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "-P" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "-p" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "-P" 0 0 $install_pager $install_pageropts
 
 set cmd "cat"
 if {$verbose} {
     send_user "\tSetup PAGER = '$cmd'\n"
 }
 set env(PAGER) $cmd
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "--paginate" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "--paginate" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "--no-pager" 0 0 $install_pager $install_pageropts
 
 set opts "-K"
 if {$verbose} {
     send_user "\tSetup LESS = '$opts'\n"
 }
 set env(LESS) $opts
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "--paginate" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "--paginate" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "--no-pager" 0 0 $install_pager $install_pageropts
 
 set cmd "/usr/bin/more"
 if {$verbose} {
     send_user "\tSetup PAGER = '$cmd'\n"
 }
 set env(PAGER) $cmd
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "-p" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "-P" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "-p" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "-P" 0 0 $install_pager $install_pageropts
 
 set cmd "/usr/bin/less"
 if {$verbose} {
     send_user "\tSetup PAGER = '$cmd'\n"
 }
 set env(PAGER) $cmd
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "--paginate" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "--paginate" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "--no-pager" 0 0 $install_pager $install_pageropts
 
 set cmd "less -e"
 if {$verbose} {
     send_user "\tSetup PAGER = '$cmd'\n"
 }
 set env(PAGER) "$cmd"
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "--paginate" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "--paginate" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "--no-pager" 0 0 $install_pager $install_pageropts
 
 set cmd "/usr/bin/less"
 if {$verbose} {
@@ -211,9 +218,9 @@ if {$verbose} {
 }
 unset env(LESS)
 set env(PAGER) $cmd
-pager_test_case "" $pager_dfl_use "-" $install_pager $install_pageropts
-pager_test_case "--paginate" $pager_dfl_use "1" $install_pager $install_pageropts
-pager_test_case "--no-pager" 0 "0" $install_pager $install_pageropts
+pager_test_case "" $pager_dfl_use $paginate $install_pager $install_pageropts
+pager_test_case "--paginate" $pager_dfl_use 1 $install_pager $install_pageropts
+pager_test_case "--no-pager" 0 0 $install_pager $install_pageropts
 
 
 # play with MODULES_PAGER env variable
@@ -222,27 +229,27 @@ if {$verbose} {
     send_user "\tSetup MODULES_PAGER = '$cmd'\n"
 }
 set env(MODULES_PAGER) $cmd
-pager_test_case "" 1 "-" $cmd ""
-pager_test_case "--paginate" 1 "1" $cmd ""
-pager_test_case "--no-pager" 0 "0" $cmd ""
+pager_test_case "" 1 $paginate $cmd ""
+pager_test_case "--paginate" 1 1 $cmd ""
+pager_test_case "--no-pager" 0 0 $cmd ""
 
 set cmd ""
 if {$verbose} {
     send_user "\tSetup MODULES_PAGER = '$cmd'\n"
 }
 set env(MODULES_PAGER) $cmd
-pager_test_case "" 0 "-" $cmd ""
-pager_test_case "-p" 0 "1" $cmd ""
-pager_test_case "-P" 0 "0" $cmd ""
+pager_test_case "" 0 $paginate $cmd ""
+pager_test_case "-p" 0 1 $cmd ""
+pager_test_case "-P" 0 0 $cmd ""
 
 set cmd "cat"
 if {$verbose} {
     send_user "\tSetup MODULES_PAGER = '$cmd'\n"
 }
 set env(MODULES_PAGER) $cmd
-pager_test_case "" 0 "-" $cmd ""
-pager_test_case "--paginate" 0 "1" $cmd ""
-pager_test_case "--no-pager" 0 "0" $cmd ""
+pager_test_case "" 0 $paginate $cmd ""
+pager_test_case "--paginate" 0 1 $cmd ""
+pager_test_case "--no-pager" 0 0 $cmd ""
 
 set cmd "less"
 set opts "-e"
@@ -250,25 +257,25 @@ if {$verbose} {
     send_user "\tSetup MODULES_PAGER = '$cmd $opts'\n"
 }
 set env(MODULES_PAGER) "$cmd $opts"
-pager_test_case "" 1 "-" $cmd $opts
-pager_test_case "--paginate" 1 "1" $cmd $opts
-pager_test_case "--no-pager" 0 "0" $cmd $opts
+pager_test_case "" 1 $paginate $cmd $opts
+pager_test_case "--paginate" 1 1 $cmd $opts
+pager_test_case "--no-pager" 0 0 $cmd $opts
 
 if {$verbose} {
     send_user "\tUnset PAGER\n"
 }
 unset env(PAGER)
-pager_test_case "" 1 "-" $cmd $opts
-pager_test_case "-p" 1 "1" $cmd $opts
-pager_test_case "-P" 0 "0" $cmd $opts
+pager_test_case "" 1 $paginate $cmd $opts
+pager_test_case "-p" 1 1 $cmd $opts
+pager_test_case "-P" 0 0 $cmd $opts
 
 if {$verbose} {
     send_user "\tSetup LESS = '-K'\n"
 }
 set env(LESS) "-K"
-pager_test_case "" 1 "-" $cmd $opts
-pager_test_case "--paginate" 1 "1" $cmd $opts
-pager_test_case "--no-pager" 0 "0" $cmd $opts
+pager_test_case "" 1 $paginate $cmd $opts
+pager_test_case "--paginate" 1 1 $cmd $opts
+pager_test_case "--no-pager" 0 0 $cmd $opts
 
 
 # bad command set as pager
@@ -278,9 +285,9 @@ if {$verbose} {
     send_user "\tSetup MODULES_PAGER = '$cmd'\n"
 }
 set env(MODULES_PAGER) $cmd
-pager_test_case "" 1 "-" $cmd $opts
-pager_test_case "-p" 1 "1" $cmd $opts
-pager_test_case "-P" 0 "0" $cmd $opts
+pager_test_case "" 1 $paginate $cmd $opts
+pager_test_case "-p" 1 1 $cmd $opts
+pager_test_case "-P" 0 0 $cmd $opts
 
 
 # test activation depending on selected shell
@@ -290,9 +297,9 @@ setenv_var MODULES_PAGER "$cmd $opts"
 
 foreach shell $supported_shells {
     set shell_paginate [expr {$shell in [list {*}$real_shells cmd pwsh]}]
-    pager_test_case "" $shell_paginate "-" $cmd $opts $shell
-    pager_test_case "--paginate" $shell_paginate "1" $cmd $opts $shell
-    pager_test_case "--no-pager" 0 "0" $cmd $opts $shell
+    pager_test_case "" $shell_paginate $paginate $cmd $opts $shell
+    pager_test_case "--paginate" $shell_paginate 1 $cmd $opts $shell
+    pager_test_case "--no-pager" 0 0 $cmd $opts $shell
 }
 
 
@@ -304,15 +311,16 @@ if {$verbose} {
 unset env(LESS)
 unset env(MODULES_PAGER)
 
-
 # test stderr output made during modulefile evaluation comes in correct order
 # regarding other debugging information when pager is effectively enabled
 if {$is_stderr_tty} {
 
 set module "info/command"
 set modulefile "$modpath/$module"
+set ans [list]
 lappend ans [list set _LMFILES_ $modulefile]
 lappend ans [list set LOADEDMODULES $module]
+set anserr [list]
 lappend anserr "DEBUG setState: cmdline set to '$MODULECMD sh load $module -D'"
 if {$::install_multilibsupport eq {y}} {
     lappend anserr "DEBUG setState: machine set to '$::tcl_platform(machine)'"
@@ -328,17 +336,26 @@ lappend anserr "DEBUG setState: subcmd set to 'load'"
 lappend anserr "DEBUG setState: subcmd_args set to '$module'"
 lappend anserr "DEBUG setState: init_error_report set to '1'"
 lappend anserr "(DEBUG .*)+"
-lappend anserr "DEBUG setConf: pager set to '$install_pagercmd'"
-lappend anserr "DEBUG setState: shelltype set to 'sh'"
-lappend anserr "DEBUG setState: is_stderr_tty set to '1'"
-lappend anserr "DEBUG setState: paginate set to '1'"
+lappend anserr "DEBUG setConf: paginate set to '$paginate'"
+if {$paginate} {
+    lappend anserr "DEBUG setConf: pager set to '$install_pagercmd'"
+    lappend anserr "DEBUG setState: shelltype set to 'sh'"
+    lappend anserr "DEBUG setState: is_stderr_tty set to '1'"
+}
+lappend anserr "DEBUG setState: paginate set to '$paginate'"
 lappend anserr "DEBUG setState: report_format set to 'regular'"
-lappend anserr "DEBUG setState: reportfd set to 'file\\d'"
+if {$paginate} {
+    lappend anserr "DEBUG setState: reportfd set to 'file\\d'"
+} else {
+    lappend anserr "DEBUG setState: reportfd set to 'stderr'"
+}
 lappend anserr "DEBUG setState: timer set to '0'"
 lappend anserr "(DEBUG .*)+"
 lappend anserr "load"
 lappend anserr "(DEBUG .*)+"
 testouterr_cmd_re "sh" "load $module -D" $ans [join $anserr "\n"]
+
+}
 
 }
 
