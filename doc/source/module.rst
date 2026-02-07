@@ -1378,6 +1378,23 @@ Module Sub-Commands
   sub-command when changing this configuration option from its default value.
   See :envvar:`MODULES_PAGER` description for details.
 
+ .. mconfig:: paginate
+
+  Control whether or not the output of module command should be piped into
+  :mconfig:`pager` command.
+
+  Default value is ``1``. It can be changed at installation time with
+  :instopt:`--enable-paginate` option. The :envvar:`MODULES_PAGINATE`
+  environment variable is defined by :subcmd:`config` sub-command when
+  changing this configuration option from its default value. The
+  :option:`--paginate`/:option:`-p` and :option:`--no-pager`/:option:`-P`
+  command line switches change the value of this configuration option. See
+  :envvar:`MODULES_PAGINATE` description for details.
+
+  .. only:: html or latex
+
+     .. versionadded:: 5.7
+
  .. mconfig:: path_entry_reorder
 
   Change order of entry in a path-like environment variable, when 
