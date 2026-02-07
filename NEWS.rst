@@ -59,6 +59,11 @@ Modules 5.7.0 (not yet released)
 * Add :option:`-P` option as an abbreviated form for :option:`--no-pager`.
   (fix issue #606)
 * Doc: add :ref:`organize-tsc-meeting` guide.
+* Add the :mconfig:`paginate` configuration option to control whether or not
+  output message should be piped into defined pager by default. This option
+  can be changed at installation time with :instopt:`--enable-paginate`. When
+  :mconfig:`paginate` is changed with :subcmd:`config` sub-command, it sets
+  the :envvar:`MODULES_PAGINATE` environment variable. (fix issue #594)
 
 
 .. _5.6 release notes:
