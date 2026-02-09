@@ -69,6 +69,8 @@ Reference materials
 * :ref:`GOVERNANCE`
 * :ref:`CONTRIBUTING`
 * :ref:`create-new-release`
+* :ref:`plan-next-release-content`
+* :ref:`organize-tsc-meeting`
 * `Security policy`_
 
 .. _Security policy: https://github.com/envmodules/modules/security
