@@ -64,6 +64,7 @@ Modules 5.7.0 (not yet released)
   can be changed at installation time with :instopt:`--enable-paginate`. When
   :mconfig:`paginate` is changed with :subcmd:`config` sub-command, it sets
   the :envvar:`MODULES_PAGINATE` environment variable. (fix issue #594)
+* Doc: add :ref:`plan-next-release-content` guide
 
 
 .. _5.6 release notes:
