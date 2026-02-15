@@ -53,6 +53,26 @@ for guidelines on how to report such issues responsibly.
 
 .. _security policy: https://github.com/envmodules/modules/security
 
+.. _tsc-meeting:
+
+TSC meeting
+-----------
+
+A meeting of the Technical Steering Committee (TSC) is organized every
+quarter. This meeting is open to anyone willing to learn more about the
+project and its ongoing activities.
+
+The TSC usually defines or refines the roadmap for the next version during
+this meeting. The community may also raise their concerns or questions to the
+maintainers.
+
+Please visit the `Modules wiki`_ to find the date and time of the next TSC
+meeting, along with the connection details for joining the virtual session.
+The wiki also includes the agenda for upcoming meetings and notes from
+previous ones.
+
+.. _Modules wiki: https://github.com/envmodules/modules/wiki
+
 .. _submitting-patches:
 
 Submitting patches

@@ -127,6 +127,7 @@ are welcome. You can get in contact with the Modules community via:
 * the `modules-interest mailing list`_
   (``modules-interest@lists.hpsf.io``)
 * the `Modules chat room`_ (``#modules:matrix.org``)
+* the :ref:`Technical Steering Committee meeting<tsc-meeting>`
 
 The project is also present on several social media platforms:
 

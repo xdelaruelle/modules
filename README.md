@@ -139,12 +139,13 @@ are welcome. You can get in contact with the Modules community via:
 * the [modules-interest mailing list][6]
   (`modules-interest@lists.hpsf.io`)
 * the [Modules chat room][7] (`#modules:matrix.org`)
+* the [Technical Steering Committee meeting][8]
 
 The project is also present on several social media platforms:
 
-* X/Twitter: [@EnvModules][8]
-* Mastodon: [@EnvModules@mast.hpc.social][9]
-* Bluesky: [@EnvModules.bsky.social][10]
+* X/Twitter: [@EnvModules][9]
+* Mastodon: [@EnvModules@mast.hpc.social][10]
+* Bluesky: [@EnvModules.bsky.social][11]
 
 
 Contributing
@@ -152,10 +153,10 @@ Contributing
 
 Modules project welcomes contributions of all kinds! Before submitting an
 issue or pull request, please take a moment to review our [Contributing
-guide][11]. It includes important information about issue reporting, coding
+guide][12]. It includes important information about issue reporting, coding
 standards, etc.
 
-Please note that Modules project has a [Code of conduct][12]. It ensures a
+Please note that Modules project has a [Code of conduct][13]. It ensures a
 respectful and inclusive environment for all contributors. By participating in
 the Modules community, you agree to abide by its rules.
 
@@ -166,7 +167,7 @@ Governance
 Modules is part of the [High Performance Software Foundation](https://hpsf.io)
 within the [Linux Foundation](http://linuxfoundation.org).
 
-This project adheres to a [Technical charter][13], which defines its
+This project adheres to a [Technical charter][14], which defines its
 governance model, decision-making process, and long-term vision.
 
 
@@ -186,13 +187,13 @@ Modules current maintainers are:
 * Xavier Delaruelle, xavier.delaruelle@cea.fr
 * Adrien Cotte, adrien.cotte@asplus.fr
 
-Many thanks go to the [contributors][14] of the Modules project.
+Many thanks go to the [contributors][15] of the Modules project.
 
 
 Acknowledgments
 ---------------
 
-We would like to express our gratitude to [CEA][15] for the resources and
+We would like to express our gratitude to [CEA][16] for the resources and
 funding provided to the project over the recent years.
 
 The following people have notably contributed to Modules and Modules would not
@@ -216,11 +217,12 @@ be what it is without their contributions:
 [5]: https://modules.readthedocs.io/en/stable/changes.html
 [6]: https://lists.hpsf.io/g/modules-interest
 [7]: https://matrix.to/#/#modules:matrix.org
-[8]: https://x.com/EnvModules
-[9]: https://mast.hpc.social/@EnvModules
-[10]: https://bsky.app/profile/envmodules.bsky.social
-[11]: https://modules.readthedocs.io/en/latest/CONTRIBUTING.html
-[12]: CODE_OF_CONDUCT.md
-[13]: https://modules.readthedocs.io/en/latest/CHARTER.html
-[14]: https://github.com/envmodules/modules/graphs/contributors
-[15]: https://www.cea.fr/english
+[8]: https://modules.readthedocs.io/en/latest/CONTRIBUTING.html#tsc-meeting
+[9]: https://x.com/EnvModules
+[10]: https://mast.hpc.social/@EnvModules
+[11]: https://bsky.app/profile/envmodules.bsky.social
+[12]: https://modules.readthedocs.io/en/latest/CONTRIBUTING.html
+[13]: CODE_OF_CONDUCT.md
+[14]: https://modules.readthedocs.io/en/latest/CHARTER.html
+[15]: https://github.com/envmodules/modules/graphs/contributors
+[16]: https://www.cea.fr/english
