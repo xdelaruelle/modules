@@ -47,6 +47,7 @@ table highlights features that are unique to each implementation.
        * `settarg`_
        * `Hook functions`_
        * |LMOD_FILE_IGNORE_PATTERNS|_ environment variable
+       * `MarkDown support in module help and whatis`_
      - * Integration with *cmd* and *pwsh* shells and *Tcl* language
        * :ref:`Automated module handling<MODULES_AUTO_HANDLING>`
        * :ref:`Advanced module version specifiers`
@@ -81,6 +82,7 @@ table highlights features that are unique to each implementation.
 .. _Hook functions: https://lmod.readthedocs.io/en/latest/170_hooks.html#hook-functions
 .. |LMOD_FILE_IGNORE_PATTERNS| replace:: ``LMOD_FILE_IGNORE_PATTERNS``
 .. _LMOD_FILE_IGNORE_PATTERNS: https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html#setting-environment-variables-or-cosmic-assign-at-startup
+.. _MarkDown support in module help and whatis: https://lmod.readthedocs.io/en/latest/106_markdown_help.html
 
 The following table highlights ``module`` sub-commands that are exclusive to
 either Lmod or Modules. In some cases, similar functionality exists under
@@ -116,7 +118,7 @@ the end of this section to map these equivalents.
 
    * - |lmod_version|
      - |modules_version|
-   * - ``remove-property``
+   * - ``module-forbid-regex``, ``module-hide-regex``, ``remove-property``
      - :mfcmd:`getvariant`, :mfcmd:`is-saved`, :mfcmd:`is-used`,
        :mfcmd:`lsb-release`, :mfcmd:`module-tag`, :mfcmd:`module-virtual`,
        :mfcmd:`module-warn`, :mfcmd:`modulepath-label`, :mfcmd:`provide`,
@@ -288,4 +290,4 @@ If you're aware of a ``module``-related project missing from this list, feel
 free to :ref:`contact us<Community>` so we can add it.
 
 .. |modules_version| replace:: Modules 5.7.0 (not yet released)
-.. |lmod_version| replace:: Lmod 9.0.5
+.. |lmod_version| replace:: Lmod 9.1.1
