@@ -69,7 +69,7 @@ table highlights features that are unique to each implementation.
        * Integration with *bash-eval* and *fish* shells in :mfcmd:`source-sh`
        * :ref:`Specific modulepath for requirements`
        * :ref:`Logging activity`
-       * :command:`envml` launcher
+       * :ref:`envml<envml(1)>` launcher
 
 .. _Lua modulefile support: https://lmod.readthedocs.io/en/latest/050_lua_modulefiles.html
 .. _Inactive modules: https://lmod.readthedocs.io/en/latest/010_user.html#module-hierarchy
@@ -119,9 +119,9 @@ the end of this section to map these equivalents.
    * - ``remove-property``
      - :mfcmd:`getvariant`, :mfcmd:`is-saved`, :mfcmd:`is-used`,
        :mfcmd:`lsb-release`, :mfcmd:`module-tag`, :mfcmd:`module-virtual`,
-       :mfcmd:`module-warn`, :mfcmd:`modulepath-label`,
-       :mfcmd:`modulepath-label`, :mfcmd:`provide`, :mfcmd:`reportWarning`,
-       :mfcmd:`uncomplete`, :mfcmd:`variant`, :mfcmd:`x-resource`
+       :mfcmd:`module-warn`, :mfcmd:`modulepath-label`, :mfcmd:`provide`,
+       :mfcmd:`reportWarning`, :mfcmd:`uncomplete`, :mfcmd:`variant`,
+       :mfcmd:`x-resource`
 
 See the :ref:`Compatibility with Lmod Tcl modulefile` section for details on
 how the implementation of the Tcl modulefile commands differ between Lmod and
