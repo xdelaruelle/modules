@@ -47,8 +47,8 @@ MODULECMD := $(MODULECMDTEST)
 endif
 
 # definitions for enhanced diff tool (to review test results)
-ICDIFF_DLSRC := https://raw.githubusercontent.com/jeffkaufman/icdiff/release-2.0.4/
-ICDIFF_CHECKSUM := 597bd4cda393803e5991c43b78cab3b3
+ICDIFF_DLSRC := https://raw.githubusercontent.com/jeffkaufman/icdiff/release-2.0.10/
+ICDIFF_CHECKSUM := 1a9b7b2e8589f1e2ade4ead1750b5339
 
 # source definitions shared across the Makefiles of this project
 ifneq ($(wildcard Makefile.inc),Makefile.inc)
