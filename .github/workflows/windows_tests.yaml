@@ -11,7 +11,7 @@ jobs:
   native-cmd:
     runs-on: windows-2022
     env:
-      TCL_INSTALLER: SetupTcl-8.6.13-x64_Bawt-2.3.1
+      TCL_INSTALLER: SetupTcl-8.6.17-x64_Bawt-3.2.0
       TCL_DL_URL: http://www.bawt.tcl3d.org/download/Tcl-Pure
       TCLSH_DIR: C:\Tcl\bin
       DIST_WIN: modules-*-win
@@ -63,7 +63,7 @@ jobs:
   native-pwsh:
     runs-on: windows-2022
     env:
-      TCL_INSTALLER: SetupTcl-8.6.13-x64_Bawt-2.3.1
+      TCL_INSTALLER: SetupTcl-8.6.17-x64_Bawt-3.2.0
       TCL_DL_URL: http://www.bawt.tcl3d.org/download/Tcl-Pure
       TCLSH_DIR: C:\Tcl\bin
       DIST_WIN: modules-*-win
