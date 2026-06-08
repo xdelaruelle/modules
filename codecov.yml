@@ -1,10 +1,16 @@
 codecov:
   notify:
-    after_n_builds: 5
+    after_n_builds: 7
+
+comment:
+  layout: "condensed_header, condensed_files, condensed_footer"
+  behavior: new
 
 coverage:
   status:
     project:
       default:
+        target: auto
+        base: auto
         threshold: 0%
         if_ci_failed: error
