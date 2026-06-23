@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # MT, run all or specific parts of the test suite
-# Copyright (C) 2018-2024 Xavier Delaruelle
+# Copyright (C) 2018-2026 Xavier Delaruelle
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -54,6 +54,13 @@ Examples:
 echo_error() {
    echo -e "ERROR: $1" >&2
    exit 1
+}
+
+# process log file to highlight failed tests
+review_log() {
+   if [ -e $testserie.log ]; then
+      script/mtreview $testserie.log
+   fi
 }
 
 if [ ! -e tcl/main.tcl.in ]; then
@@ -213,6 +220,9 @@ if [ -t 1 ]; then
    trap 'kill $! 2>/dev/null' EXIT
 fi
 
+# parse errors in log even if full run is aborted
+trap 'review_log && exit 1' SIGINT
+
 export RUNTESTFLAGS='-v -v >/dev/null 2>&1'
 $make $target
 ret=$?
@@ -223,10 +233,8 @@ fi
 
 # highlight failed tests
 retreview=0
-if [ -e $testserie.log ]; then
-   script/mtreview $testserie.log
-   retreview+=$?
-fi
+review_log
+retreview+=$?
 
 # testsuite ok but mtreview failed to run
 if [ $ret -eq 0 ] && [ $retreview -ne 0 ]; then

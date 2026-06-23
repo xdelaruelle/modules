@@ -104,6 +104,8 @@ Modules 5.7.0 (not yet released)
   :subcmd:`config` sub-command, it sets the :envvar:`MODULES_INIT_ENVVARS`
   environment variable. (fix issue #572)
 * Enable lexical binding in Emacs addon file. (contribution from Peter Oliver)
+* Script: update :command:`mt` utility to analyze test suite log file when
+  test suite run is aborted.
 
 
 .. _5.6 release notes:
