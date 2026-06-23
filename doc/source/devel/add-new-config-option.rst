@@ -177,9 +177,8 @@ configuration option and ensure overall code coverage does not drop.
    interesting to adapt CI configuration to test a value different than the
    default one
 
-    - Files to either edit:
+    - File to edit:
 
-      - :file:`.cirrus.yml`
       - :file:`.github/workflows/linux_tests.yaml`
 
     - Example commit: :ghcommit:`8bf6fb54`

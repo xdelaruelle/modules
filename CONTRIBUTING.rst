@@ -123,8 +123,8 @@ Run the basic test suite with::
 
    make test
 
-This only runs the tests for the current environment. `GitHub Actions`_ and
-`Cirrus CI`_ will run the full suite when you submit your pull request.
+This only runs the tests for the current environment. `GitHub Actions`_ will
+run the full suite when you submit your pull request.
 
 There are more than 17 000 test cases thus it generally takes around 12
 minutes to run the full test suite. It can be executed in *quick* mode to just
@@ -143,7 +143,6 @@ Run :command:`script/mt` with ``--help`` option to get usage details and
 syntax to select several testfiles.
 
 .. _GitHub Actions: https://github.com/envmodules/modules/actions
-.. _Cirrus CI: https://cirrus-ci.com/github/envmodules/modules
 
 .. _running-test-coverage:
 

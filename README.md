@@ -1,8 +1,8 @@
 # <img src="https://raw.githubusercontent.com/envmodules/modules/main/share/logo/modules_logo_text.svg" height="180" alt="Modules"/>
 
 [![Linux Build Status](https://github.com/envmodules/modules/workflows/linux-tests/badge.svg)](https://github.com/envmodules/modules/actions?query=workflow:linux-tests)
+[![OS X Build Status](https://github.com/envmodules/modules/workflows/macos-tests/badge.svg)](https://github.com/envmodules/modules/actions?query=workflow:macos-tests)
 [![Windows Build Status](https://github.com/envmodules/modules/workflows/windows-tests/badge.svg)](https://github.com/envmodules/modules/actions?query=workflow:windows-tests)
-[![FreeBSD/OS X/Linux Build Status](https://api.cirrus-ci.com/github/envmodules/modules.svg)](https://cirrus-ci.com/github/envmodules/modules)
 [![Coverage Status](https://codecov.io/gh/envmodules/modules/branch/main/graph/badge.svg)](https://codecov.io/gh/envmodules/modules)
 [![Documentation Status](https://readthedocs.org/projects/modules/badge/?version=latest)](https://modules.readthedocs.io/en/latest/?badge=latest)
 [![Packaging status](https://repology.org/badge/tiny-repos/environment-modules.svg)](https://repology.org/metapackage/environment-modules/versions)

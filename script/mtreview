@@ -63,8 +63,6 @@ proc getDiffCommand {} {
       # force term size on the different CI environments
       if {[info exists ::env(GITHUB_ACTIONS)]} {
          lappend cmdlist --cols=170
-      } elseif {[info exists ::env(CIRRUS_CI)]} {
-         lappend cmdlist --cols=150
       }
    } else {
       set cmdlist [list diff -u]

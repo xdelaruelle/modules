@@ -59,7 +59,7 @@ Infrastructure & tooling
 ------------------------
 
 * Maintain CI pipelines and automated test coverage.
-* Manage GitHub Actions, Cirrus, test scripts, and build tools.
+* Manage GitHub Actions, test scripts, and build tools.
 * Ensure reproducibility and backward compatibility across builds.
 
 Reference materials
