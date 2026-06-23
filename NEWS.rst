@@ -103,6 +103,7 @@ Modules 5.7.0 (not yet released)
   :instopt:`--with-init-envvars`. When :mconfig:`init_envvars` is changed with
   :subcmd:`config` sub-command, it sets the :envvar:`MODULES_INIT_ENVVARS`
   environment variable. (fix issue #572)
+* Enable lexical binding in Emacs addon file. (contribution from Peter Oliver)
 
 
 .. _5.6 release notes:
