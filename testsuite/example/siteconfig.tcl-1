@@ -715,4 +715,9 @@ if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_REPLACEFIRSTINSTR)]} {
     report [replaceFirstInStr string unk foo]
 }
 
+if {[info exists env(TESTSUITE_ENABLE_SITECONFIG_INITCONFINITENVVARS)]} {
+    set ::g_config_defs(init_envvars) {MODULES_INIT_ENVVARS FOO 0 l {} {} initConfInitEnvvars}
+    report [string length [getConf init_envvars]]
+}
+
 }
