@@ -99,5 +99,8 @@ if {[info exists env(TESTSUITE_PROVIDE)]} {
         explicit_default_and_alias_hidden {
             provide provide/0
         }
+        extensions_err_arg {
+            extensions
+        }
     }
 }
