@@ -1784,9 +1784,7 @@ proc unload-path {cmd mode dflbhv args} {
       if {!$isrefcount || ![info exists countarr($init_value)] ||\
          $countarr($init_value) <= 1} {
          set newpath [list]
-         if {[info exists countarr($init_value)]} {
-            unset countarr($init_value)
-         }
+         unset -nocomplain countarr($init_value)
       }
    }
 
