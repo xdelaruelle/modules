@@ -51,7 +51,7 @@ if {[info exists tclextlib_file]} {
     lappend ans "DEBUG setState: init_error_report set to '1'"
     lappend ans "DEBUG setConf: verbosity set to 'debug'"
     lappend ans "DEBUG setConf: term_background set to '$install_termbg'"
-    lappend ans "(DEBUG initConfColors: Ignore invalid default.*\\n)?DEBUG setConf: colors set to '.*'"
+    lappend ans "(DEBUG parseEqualListConfValue: Ignore invalid default.*\\n)?DEBUG setConf: colors set to '.*'"
     lappend ans "DEBUG setConf: color set to '0'"
     lappend ans "DEBUG setConf: paginate set to '0'"
     lappend ans "DEBUG setState: paginate set to '0'"

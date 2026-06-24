@@ -629,53 +629,58 @@ proc __initStateClockSeconds {} {
    return [clock seconds]
 }
 
-# Initialize Select Graphic Rendition table
-proc initConfColors {envvar value validvallist intvallist} {
+proc parseEqualListConfValue {option envvar value {level Warning}} {
    # overridden value coming from environment
    if {[isEnvVarDefined $envvar]} {
-      set colors_list $::env($envvar)
       if {[catch {
-         # test overridden value could be set to a dummy array variable
-         array set test_colors [split $colors_list {:=}]
+         # try to set the variable init value mapping table
+         array set test_arr [split $::env($envvar) {:=}]
+         set value $::env($envvar)
+         set setfromenv 1
       } errMsg ]} {
-         # report issue as a debug message rather warning to avoid
-         # disturbing user with a warning message in the middle of a
-         # useful output as this table will be initialized at first use
-         reportDebug "Ignore invalid value set in $envvar ($colors_list)"
-         unset colors_list
+         report$level "Ignore invalid value set in $envvar ($::env($envvar))"
       }
    }
 
-   # if no valid override set use default color theme for terminal
-   # background color kind (light or dark)
-   if {![info exists colors_list]} {
-      if {[getConf term_background] eq {light}} {
-         ##nagelfar ignore Too long line
-         set colors_list {@lightbgcolors@}
-      } else {
-         ##nagelfar ignore Too long line
-         set colors_list {@darkbgcolors@}
-      }
+   # test default value
+   if {![info exists setfromenv]} {
       if {[catch {
-         array set test_colors [split $colors_list {:=}]
+         array set test_arr [split $value {:=}]
       } errMsg ]} {
-         reportDebug "Ignore invalid default [getConf term_background]\
-            background colors ($colors_list)"
+         report$level "Ignore invalid default value for '$option' config\
+            ($value)"
          # define an empty list if no valid value set
-         set colors_list {}
+         set value {}
       }
    }
+
+   return $value
+}
+
+# Initialize Select Graphic Rendition table
+proc initConfColors {envvar value validvallist intvallist} {
+   # default color theme depends on terminal background color kind
+   if {[getConf term_background] eq {light}} {
+      ##nagelfar ignore Too long line
+      set value {@lightbgcolors@}
+      set option light-background-colors
+   } else {
+      ##nagelfar ignore Too long line
+      set value {@darkbgcolors@}
+      set option dark-background-colors
+   }
+   set value [parseEqualListConfValue $option $envvar $value Debug]
 
    # check each color defined and unset invalid codes
-   set value {}
-   foreach {elt col} [split $colors_list {:=}] {
+   set colors_list {}
+   foreach {elt col} [split $value {:=}] {
       if {![regexp {^[\d;]+$} $col]} {
          reportDebug "Ignore invalid color code for '$elt' ($col)"
       } else {
-         lappend value $elt=$col
+         lappend colors_list $elt=$col
       }
    }
-   set value [join $value :]
+   set value [join $colors_list :]
 
    # set SGR table as an array to easily access rendition for each key
    array unset ::g_colors
@@ -762,30 +767,8 @@ proc initConfTclExtLib {envvar value validvallist intvallist} {
 
 # Initialize module tag abbreviation table
 proc initConfTagAbbrev {envvar value validvallist intvallist} {
-   # overridden value coming from environment
-   if {[isEnvVarDefined $envvar]} {
-      if {[catch {
-         # try to set the tag-abbreviation mapping table
-         array set ::g_tagAbbrev [split $::env($envvar) {:=}]
-         set value $::env($envvar)
-      } errMsg ]} {
-         reportWarning "Ignore invalid value set in $envvar ($::env($envvar))"
-         array unset ::g_tagAbbrev
-      }
-   }
-
-   # test default value
-   if {![array exists ::g_tagAbbrev]} {
-      if {[catch {
-         array set ::g_tagAbbrev [split $value {:=}]
-      } errMsg ]} {
-         reportWarning "Ignore invalid default value for 'tag_abbrev' config\
-            ($value)"
-         array unset ::g_tagAbbrev
-         # define an empty list if no valid value set
-         set value {}
-      }
-   }
+   set value [parseEqualListConfValue tag_abbrev $envvar $value]
+   array set ::g_tagAbbrev [split $value {:=}]
 
    # build abbrev:tagname array
    foreach {tag abbrev} [array get ::g_tagAbbrev] {
@@ -828,33 +811,8 @@ proc initConfTagColorName {envvar value validvallist intvallist} {
 
 # Initialize env variable initial value array
 proc initConfInitEnvvars {envvar value validvallist intvallist} {
-   # overridden value coming from environment
-   if {[isEnvVarDefined $envvar]} {
-      if {[catch {
-         # try to set the variable init value mapping table
-         array set testarr [split $::env($envvar) {:=}]
-         set value $::env($envvar)
-         set setfromenv 1
-      } errMsg ]} {
-         reportWarning "Ignore invalid value set in $envvar ($::env($envvar))"
-      }
-   }
-
-   # test default value
-   if {![info exists setfromenv]} {
-      if {[catch {
-         array set testarr [split $value {:=}]
-      } errMsg ]} {
-         reportWarning "Ignore invalid default value for 'init_envvars'\
-            config ($value)"
-         # define an empty list if no valid value set
-         set value {}
-      }
-   }
-
-   foreach {envvar init_value} [split $value {:=}] {
-      set ::g_initEnvvars($envvar) $init_value
-   }
+   set value [parseEqualListConfValue init_envvars $envvar $value]
+   array set ::g_initEnvvars [split $value {:=}]
 
    return $value
 }
@@ -896,29 +854,7 @@ proc initConfEditor {envvar value validvallist intvallist} {
 
 # Initialize variant shortcut table
 proc initConfVariantShortcut {envvar value validvallist intvallist} {
-   # overridden value coming from environment
-   if {[isEnvVarDefined $envvar]} {
-      if {[catch {
-         # try to set the variant-shortcut mapping table
-         array set testarr [split $::env($envvar) {:=}]
-         set value $::env($envvar)
-         set setfromenv 1
-      } errMsg ]} {
-         reportWarning "Ignore invalid value set in $envvar ($::env($envvar))"
-      }
-   }
-
-   # test default value
-   if {![info exists setfromenv]} {
-      if {[catch {
-         array set testarr [split $value {:=}]
-      } errMsg ]} {
-         reportWarning "Ignore invalid default value for 'variant_shortcut'\
-            config ($value)"
-         # define an empty list if no valid value set
-         set value {}
-      }
-   }
+   set value [parseEqualListConfValue variant_shortcut $envvar $value]
 
    # ignore shortcut if not equal to one character or if set on alphanum char
    # or on char with special meaning
