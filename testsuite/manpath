@@ -1,0 +1,5 @@
+#!/bin/sh
+# fake manpath output
+
+echo "/tmp"
+exit 0

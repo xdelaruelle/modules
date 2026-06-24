@@ -2440,7 +2440,41 @@ if {$install_setmanpath eq {y}} {
     }
     testouterr_cmd_re bash autoinit $ans {}
 
+    setenv_var PATH $env(TESTSUITEDIR):$env(PATH)
+    setenv_var MODULES_INIT_ENVVARS MANPATH=
     unsetenv_var MANPATH
+    set ans [list]
+    lappend ans [list [set "func_bash"]]
+    if {$install_versioning eq "y"} {
+        lappend ans [list set MODULE_VERSION_STACK "(.*)"]
+    }
+    lappend ans [list set MODULES_CMD $modulecmd_path]
+    lappend ans [list set __MODULES_SHARE_MANPATH :1]
+    if {$install_appendmanpath eq {y}} {
+        lappend ans [list set MANPATH :$install_mandir]
+    } else {
+        lappend ans [list set MANPATH ${install_mandir}:]
+    }
+    if {$change_path} {
+        lappend ans [list set PATH "(.*)"]
+    }
+    if {$install_setshellstartup eq {y}} {
+        lappend ans [list set ENV $install_initdir/profile.sh]
+    }
+    lappend ans [list unset __MODULES_AUTOINIT_INPROGRESS]
+    if {$install_setshellstartup eq {y}} {
+        lappend ans [list set BASH_ENV $install_initdir/bash]
+    }
+    lappend ans [list set MODULESHOME $moduleshome]
+    lappend ans [list set LOADEDMODULES {}]
+    if {$install_versioning eq "y"} {
+        lappend ans [list set MODULE_VERSION "(.*)"]
+    }
+    testouterr_cmd_re bash autoinit $ans {}
+
+    setenv_var PATH $ORIG_PATH
+    unsetenv_var MANPATH
+    setenv_var MODULES_INIT_ENVVARS {}
 }
 
 
