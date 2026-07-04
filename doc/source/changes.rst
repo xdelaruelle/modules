@@ -1010,6 +1010,10 @@ The following module sub-commands appeared on Modules 5.
  Starting Modules 5.5, definition of :command:`mogui` shell alias or function
  is added on this sub-command.
 
+ Starting Modules 5.7, initialization directory is added to ``PYTHONPATH``
+ environment variable unless installation option
+ :instopt:`--disable-set-pythonpath<--enable-set-pythonpath>` is used.
+
 :subcmd:`lint`
 
  Starting Modules 5.6, readable modulecache files are also linted when no

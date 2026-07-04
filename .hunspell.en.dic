@@ -1339,3 +1339,5 @@ OSX
 BAWT
 HTTPS
 mirrorEnvVarChange
+PYTHONPATH
+pythonpath

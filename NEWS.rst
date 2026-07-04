@@ -111,6 +111,21 @@ Modules 5.7.0 (not yet released)
 * Also consider ``-`` in addition to ``.`` as a version number separator
   character when selecting a module with the :mconfig:`extended_default`
   mechanism. (fix issue #619)
+* Rename Modules initialization script for Python ``env_modules.py`` to make
+  it a proper Python module name.
+* Rename the Python initialization script to :file:`env_modules.py` so that it
+  uses a valid Python module name. Generates a :file:`python.py` symlink onto
+  :file:`env_modules.py` to preserve compatibility. (contribution from Byron
+  Boulton)
+* Install: introduce the :instopt:`--enable-set-pythonpath` installation
+  option to prepend Modules ``init`` directory to the :envvar:`PYTHONPATH`
+  environment variable during Modules initialization. This option is enabled
+  by default and make it easier to import the ``env_modules`` Python module.
+  (fix issue #483 with contribution from Byron Boulton)
+* Install: add the :instopt:`--enable-append-pythonpath` installation option,
+  which causes :instopt:`--enable-set-pythonpath` to append the Modules
+  ``init`` directory to :envvar:`PYTHONPATH` instead of prepending it.
+  (contribution from Byron Boulton)
 
 
 .. _5.6 release notes:
