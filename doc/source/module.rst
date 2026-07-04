@@ -89,11 +89,18 @@ time if :command:`mogui-cmd` command is found in :envvar:`PATH`.
 changes performed in the GUI is applied onto the shell session that executed
 :command:`mogui`.
 
+The installation location of the ``env_modules`` Python module may also be
+added to the :envvar:`PYTHONPATH` environment variable during initialization,
+unless the :instopt:`--enable-append-pythonpath` installation option has been
+disabled.
+
 .. only:: html or latex
 
    .. versionchanged:: 5.5
       Definition of :command:`mogui` alias or function added
 
+   .. versionchanged:: 5.7
+      Update of :envvar:`PYTHONPATH` environment variable added
 
 Examples of initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -128,14 +135,13 @@ Perl:
 
 Python:
 
-Default installation should have added |file initdir| to the :envvar:`PYTHONPATH` environment variable allowing initialization as follows
-
 .. parsed-literal::
 
      from env_modules import module
      module("load", "modulefile", "modulefile", "...")
 
-Otherwise
+Alternative initialization for Python if ``env_modules`` script is not part of
+an enabled Python module directory:
 
 .. parsed-literal::
 
