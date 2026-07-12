@@ -55,7 +55,6 @@ table highlights features that are unique to each implementation.
        * :ref:`Virtual modules`
        * :ref:`Sourcing modulefiles`
        * Handle modulefile outside modulepath
-       * :ref:`Quarantine mechanism`
        * :ref:`Case insensitive module load<Insensitive case>`
        * Automatic ``latest`` and ``loaded`` symbols
        * ``alias``, ``command``, ``loaded``, ``tags``, ``usergroups`` and
@@ -166,6 +165,9 @@ implementation.
      - :ref:`Dependencies between modulefiles`
    * - |LMOD_QUARANTINE_VARS|_ environment variable
      - :mconfig:`protected_envvars` configuration option
+   * - Protect from changes to :envvar:`LD_PRELOAD` and
+       :envvar:`LD_LIBRARY_PATH`
+     - :ref:`Quarantine mechanism`
    * - |clearLmod|_ shell function
      - ``module`` :subcmd:`clear`
    * - |update_lmod_system_cache_files|_ script
@@ -291,4 +293,4 @@ If you're aware of a ``module``-related project missing from this list, feel
 free to :ref:`contact us<Community>` so we can add it.
 
 .. |modules_version| replace:: Modules 5.7.0 (not yet released)
-.. |lmod_version| replace:: Lmod 9.2.1
+.. |lmod_version| replace:: Lmod 9.2.5
