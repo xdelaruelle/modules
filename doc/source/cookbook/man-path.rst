@@ -75,7 +75,7 @@ To do this on Modules 5.7 or any newer version, add the following line to the
 ``initrc`` configuration file (typically located in
 ``/etc/environment-modules``):
 
-.. code-block:: tcl
+.. code-block::
 
    module config init_envvars MANPATH=
 
