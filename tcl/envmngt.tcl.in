@@ -39,52 +39,51 @@ proc updateErrorCount {count} {
 }
 
 proc renderFalse {} {
-   if {[isStateDefined false_rendered]} {
-      reportDebug {false already rendered}
-   # no shell code to render false if shell not set
-   } elseif {[isStateDefined shell]} {
-      # setup flag to render only once
-      setState false_rendered 1
+   if {[isStateDefined false_rendered] || ![isStateDefined shell]} {
+      return
+   }
 
-      # render a false value most of the time through a variable assignment
-      # that will be looked at in the shell module function calling
-      # modulecmd.tcl to return in turns a boolean status. Except for python
-      # and cmake, the value assigned to variable is also returned as the
-      # entire rendering status
-      switch -- [getState shelltype] {
-         sh - csh - fish {
-            # no need to set a variable on real shells as last statement
-            # result can easily be checked
-            lappend ::g_shcode_out {test 0 = 1;}
-         }
-         tcl {
-            lappend ::g_shcode_out {set _mlstatus 0;}
-         }
-         cmd {
-            lappend ::g_shcode_out {set errorlevel=1}
-         }
-         perl {
-            lappend ::g_shcode_out {{ no strict 'vars'; $_mlstatus = 0; }}
-         }
-         python {
-            lappend ::g_shcode_out {_mlstatus = False}
-         }
-         ruby {
-            lappend ::g_shcode_out {_mlstatus = false}
-         }
-         lisp {
-            lappend ::g_shcode_out {nil}
-         }
-         cmake {
-            lappend ::g_shcode_out {set(_mlstatus FALSE)}
-         }
-         r {
-            lappend ::g_shcode_out {mlstatus <- FALSE}
-         }
-         pwsh {
-            lappend ::g_shcode_out {Set-Variable -Name "_mlstatus" -Value\
-               $false -Scope Global}
-         }
+   # setup flag to render only once
+   setState false_rendered 1
+
+   # render a false value most of the time through a variable assignment
+   # that will be looked at in the shell module function calling
+   # modulecmd.tcl to return in turns a boolean status. Except for python
+   # and cmake, the value assigned to variable is also returned as the
+   # entire rendering status
+   switch -- [getState shelltype] {
+      sh - csh - fish {
+         # no need to set a variable on real shells as last statement
+         # result can easily be checked
+         lappend ::g_shcode_out {test 0 = 1;}
+      }
+      tcl {
+         lappend ::g_shcode_out {set _mlstatus 0;}
+      }
+      cmd {
+         lappend ::g_shcode_out {set errorlevel=1}
+      }
+      perl {
+         lappend ::g_shcode_out {{ no strict 'vars'; $_mlstatus = 0; }}
+      }
+      python {
+         lappend ::g_shcode_out {_mlstatus = False}
+      }
+      ruby {
+         lappend ::g_shcode_out {_mlstatus = false}
+      }
+      lisp {
+         lappend ::g_shcode_out {nil}
+      }
+      cmake {
+         lappend ::g_shcode_out {set(_mlstatus FALSE)}
+      }
+      r {
+         lappend ::g_shcode_out {mlstatus <- FALSE}
+      }
+      pwsh {
+         lappend ::g_shcode_out {Set-Variable -Name "_mlstatus" -Value $false\
+            -Scope Global}
       }
    }
 }
