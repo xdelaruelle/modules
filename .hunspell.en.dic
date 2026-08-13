@@ -263,6 +263,7 @@ autotools
 availabilities
 avx
 ba
+backtick
 backticks
 badcommand
 baf
@@ -285,6 +286,7 @@ boolvariantname
 boolvr
 bourne
 bugfix
+builtin
 cachebuild
 cacheclear
 cachefile
@@ -341,6 +343,7 @@ comgen
 commandexp
 commandname
 compA
+compadd
 compB
 compat
 compdef
@@ -842,6 +845,7 @@ subdir
 subdirectories
 subdirectory
 submodule
+subprocess
 subprojects
 subshell
 substring

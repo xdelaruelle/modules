@@ -78,6 +78,18 @@
 #			   worked around here, since 'help' otherwise dispatches
 #			   exactly like 'show'/'display'/'test'/... which all
 #			   already carry that macro)
+#
+#			Also checks, like 021-bash.exp/031-zsh.exp, that a
+#			candidate word built from untrusted text (a module
+#			name, LOADEDMODULES, MODULEPATH) cannot reach a shell
+#			expansion step: init/tcsh_completion.in only ever hands
+#			such text to a plain 'n/.../`...`/' backtick rule, where
+#			each output line becomes a literal candidate string, so
+#			this is expected to already be safe -- these cases guard
+#			against a regression, not a known vulnerability. The
+#			MODULEPATH case uses a bare 'module unuse ' (no typed
+#			prefix), same restriction as this file's own 'unuse'
+#			section above
 #		}C%
 #
 ##############################################################################
@@ -453,6 +465,83 @@ foreach subcmd $help_subcmds {
 
 completion_tcsh_close
 unsetenv_loaded_module
+
+
+#
+# candidate words built from untrusted text cannot reach a shell expansion
+# step (see this file's header, and the security fix for the bash-completion
+# command injection this guards against a regression of)
+#
+
+# each case below spawns a fresh tcsh session and, unlike every other
+# section in this file, its Ctrl-D listing goes through _module_loaded/
+# _module_avail/_module_modulepath cold (no completion call already primed
+# the pty/subprocess pipeline): comfortably inside the default 10s
+# 'timeout' most of the time, but occasionally not under a loaded machine,
+# so it is raised for just this section rather than risking a false
+# UNRESOLVED
+set old_timeout $timeout
+set timeout 30
+
+set marker "$env(TESTSUITEDIR)/completion-injection-marker"
+file delete -force $marker
+
+# module avail: malicious module name read off disk
+
+# the marker path is passed through as an env var rather than embedded
+# directly in the filename, since a filename cannot itself contain '/'
+setenv_var INJMARKER $marker
+set evilname {evil$(touch>$INJMARKER)}
+file mkdir $injectdir
+set fd [open "$injectdir/$evilname" w]
+puts $fd {#%Module1.0}
+close $fd
+
+setenv_path_var MODULEPATH $injectdir
+
+completion_tcsh_start
+
+set got [completion_tcsh_list {module load }]
+completion_assert_no_exec $marker
+completion_assert_contains $got [list $evilname]
+
+completion_tcsh_close
+unsetenv_path_var MODULEPATH
+unsetenv_var INJMARKER
+file delete -force $injectdir
+
+# LOADEDMODULES: malicious already-loaded module name
+
+set evilmod [string map [list MARKERPATH $marker] {python$(touch>MARKERPATH)}]
+setenv_loaded_module [list gcc $evilmod] [list /fake/gcc /fake/evilmod]
+
+completion_tcsh_start
+
+set got [completion_tcsh_list {module unload }]
+completion_assert_no_exec $marker
+completion_assert_contains $got [list $evilmod]
+
+completion_tcsh_close
+unsetenv_loaded_module
+
+# MODULEPATH: malicious path entry (module unuse); like this file's own
+# 'unuse' section above, only a bare, empty word reaches the modulepath
+# listing at all (see this file's header)
+
+set evilpath [string map [list MARKERPATH $marker] {/opt$(touch>MARKERPATH)}]
+setenv_path_var MODULEPATH /tmp $evilpath
+
+completion_tcsh_start
+
+set got [completion_tcsh_list {module unuse }]
+completion_assert_no_exec $marker
+completion_assert_contains $got [list $evilpath]
+
+completion_tcsh_close
+unsetenv_path_var MODULEPATH
+
+set timeout $old_timeout
+file delete -force $marker
 
 
 #

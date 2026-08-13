@@ -38,6 +38,15 @@
 #			   @comp_*_opts@ flags into the candidate set
 #			   regardless of prefix, so a bare trailing-space
 #			   listing here only ever shows one set at a time
+#
+#			Also checks, like 021-bash.exp, that a candidate word
+#			built from untrusted text (a module name,
+#			LOADEDMODULES, MODULEPATH) cannot reach a shell
+#			expansion step: init/zsh-functions/_module.in only ever
+#			hands such text to 'compadd -a <array>', where each
+#			array element is used as a literal candidate string, so
+#			this is expected to already be safe -- these cases guard
+#			against a regression, not a known vulnerability
 #		}C%
 #
 ##############################################################################
@@ -391,6 +400,79 @@ foreach subcmd $help_subcmds {
 
 completion_zsh_close
 unsetenv_loaded_module
+
+
+#
+# candidate words built from untrusted text cannot reach a shell expansion
+# step (see this file's header, and the security fix for the bash-completion
+# command injection this guards against a regression of)
+#
+
+set marker "$env(TESTSUITEDIR)/completion-injection-marker"
+file delete -force $marker
+
+# module avail: malicious module name read off disk
+
+# the marker path is passed through as an env var rather than embedded
+# directly in the filename, since a filename cannot itself contain '/'
+setenv_var INJMARKER $marker
+set evilname {evil$(touch>$INJMARKER)}
+file mkdir $injectdir
+set fd [open "$injectdir/$evilname" w]
+puts $fd {#%Module1.0}
+close $fd
+
+setenv_path_var MODULEPATH $injectdir
+
+completion_zsh_start
+
+## _module_avail_mods hands this candidate to 'compadd', which backslash-
+## escapes every shell metacharacter in it before display/insertion (the
+## same protection this file's header notes _module.in relies on instead of
+## bash's compgen -W): the listing shows 'evil\$\(touch\>\$INJMARKER\)', not
+## the raw string
+set got [completion_zsh_list {module load }]
+completion_assert_no_exec $marker
+completion_assert_contains $got [list [regsub -all {[$()>]} $evilname {\\&}]]
+
+completion_zsh_close
+unsetenv_path_var MODULEPATH
+unsetenv_var INJMARKER
+file delete -force $injectdir
+
+# LOADEDMODULES: malicious already-loaded module name
+
+set evilmod [string map [list MARKERPATH $marker] {python$(touch>MARKERPATH)}]
+setenv_loaded_module [list gcc $evilmod] [list /fake/gcc /fake/evilmod]
+
+completion_zsh_start
+
+set got [completion_zsh_list {module unload }]
+completion_assert_no_exec $marker
+completion_assert_contains $got [list $evilmod]
+
+completion_zsh_close
+unsetenv_loaded_module
+
+# MODULEPATH: malicious path entry (module unuse)
+
+set evilpath [string map [list MARKERPATH $marker] {/opt$(touch>MARKERPATH)}]
+setenv_path_var MODULEPATH /tmp $evilpath
+
+completion_zsh_start
+
+## both entries share a leading '/', so type it explicitly: otherwise zle
+## auto-inserts that common prefix on the first Tab and the double-Tab below
+## would only ring the bell instead of listing (same trap as the "bar"/"ba"
+## cases earlier in this file)
+set got [completion_zsh_list {module unuse /}]
+completion_assert_no_exec $marker
+completion_assert_contains $got [list $evilpath]
+
+completion_zsh_close
+unsetenv_path_var MODULEPATH
+
+file delete -force $marker
 
 
 #

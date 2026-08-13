@@ -66,6 +66,17 @@
 #			   the word being completed starts with '-' -- so a bare
 #			   trailing-space listing only ever shows one set, same
 #			   as 031-zsh.exp
+#
+#			Also checks, like 021-bash.exp/031-zsh.exp, that a
+#			candidate word built from untrusted text (a module
+#			name, LOADEDMODULES) cannot reach a shell expansion
+#			step: init/fish_completion only ever hands such text to
+#			'complete -a "(...)"', where the parenthesized command's
+#			output is split into literal candidate lines, so this is
+#			expected to already be safe -- these cases guard against
+#			a regression, not a known vulnerability. No MODULEPATH
+#			case here: 'unuse' does not list modulepaths at all in
+#			fish (see this file's header)
 #		}C%
 #
 ##############################################################################
@@ -369,6 +380,69 @@ foreach subcmd $help_subcmds {
 
 completion_fish_close
 unsetenv_loaded_module
+
+
+#
+# candidate words built from untrusted text cannot reach a shell expansion
+# step (see this file's header, and the security fix for the bash-completion
+# command injection this guards against a regression of)
+#
+
+set marker "$env(TESTSUITEDIR)/completion-injection-marker"
+file delete -force $marker
+
+# module avail: malicious module name read off disk
+
+# the marker path is passed through as an env var rather than embedded
+# directly in the filename, since a filename cannot itself contain '/'
+setenv_var INJMARKER $marker
+set evilname {evil$(touch>$INJMARKER)}
+file mkdir $injectdir
+set fd [open "$injectdir/$evilname" w]
+puts $fd {#%Module1.0}
+close $fd
+
+setenv_path_var MODULEPATH $injectdir
+
+completion_fish_start
+
+## this fixture has only one module, so a single Tab completes it inline
+## rather than showing a pager listing (see completion_fish_list's own
+## single-candidate fallback) -- and fish, like zsh, protects a candidate
+## containing shell metacharacters before inserting it: fish 4 wraps it in
+## single quotes whereas fish 3 backslash-escapes each metacharacter
+set got [completion_fish_list {module load }]
+completion_assert_no_exec $marker
+completion_assert_any $got [list "'$evilname'"\
+   [regsub -all {[$()>]} $evilname {\\&}]]
+
+completion_fish_close
+unsetenv_path_var MODULEPATH
+unsetenv_var INJMARKER
+file delete -force $injectdir
+
+# LOADEDMODULES: malicious already-loaded module name
+
+set evilmod [string map [list MARKERPATH $marker] {python$(touch>MARKERPATH)}]
+setenv_loaded_module [list gcc $evilmod] [list /fake/gcc /fake/evilmod]
+
+completion_fish_start
+
+## two candidates here (gcc and evilmod) means a real pager listing, which
+## completion_fish_list runs through completion_fish_strip_descriptions to
+## drop each candidate's "(description)" suffix -- the injected
+## '(touch>...)' substring is indistinguishable from that convention and
+## gets stripped the same way, so the surviving candidate is the text up to
+## its own first '(', not the full raw string (still proven never executed
+## by completion_assert_no_exec above)
+set got [completion_fish_list {module unload }]
+completion_assert_no_exec $marker
+completion_assert_contains $got [list [completion_fish_strip_descriptions $evilmod]]
+
+completion_fish_close
+unsetenv_loaded_module
+
+file delete -force $marker
 
 
 #
