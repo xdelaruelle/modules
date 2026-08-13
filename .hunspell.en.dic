@@ -284,6 +284,7 @@ chemappB
 chempappB
 chgrp
 chmod
+claude
 cleanupAndExit
 cmake
 cmd
@@ -319,11 +320,13 @@ cmdstring
 codecov
 codespell
 collectModuleTag
+comgen
 commandexp
 commandname
 compA
 compB
 compat
+compgen
 compilerTag
 compopt
 config
@@ -639,6 +642,7 @@ nonpersist
 noop
 nop
 noparse
+nospace
 notavail
 nothreads
 notuasked
@@ -873,6 +877,7 @@ unsetState
 unsetenv
 unsets
 unsetting
+untrusted
 unuse
 unusing
 updateInstead
