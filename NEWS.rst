@@ -251,6 +251,12 @@ Modules 5.7.0 (not yet released)
 * Doc: add the :ref:`user-guide` document that explains a selection of
   useful but lesser known features through practical examples and common
   use cases.
+* Init: fix command injection in Bash completion when module names contain
+  shell meta-characters. Completion candidates were passed to ``compgen -W``
+  which evaluates command substitution syntax. (fix `CVE-2026-85013`_ found
+  by AISLE in partnership with Red Hat)
+
+.. _CVE-2026-85013: https://github.com/envmodules/modules/security/advisories/GHSA-8hrw-p88g-qhmg
 
 
 .. _5.6 release notes:

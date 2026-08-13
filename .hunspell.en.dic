@@ -344,6 +344,7 @@ compA
 compB
 compat
 compdef
+compgen
 completionhome
 compilerTag
 compopt
@@ -922,6 +923,7 @@ unloadable
 unprefixed
 unsetConf
 unsetModuleDependency
+untrusted
 unsetState
 unsetenv
 unsets
@@ -1617,3 +1619,4 @@ cuda
 lindex
 defineModStartNbProc
 isIcase
+CVE
