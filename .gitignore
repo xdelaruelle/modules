@@ -61,6 +61,8 @@
 /testsuite/completion-use-fixture
 /testsuite/completion-home
 /testsuite/cookbook-sandbox
+/testsuite/completion-inject-fixture
+/testsuite/completion-injection-marker
 /doc/build
 /doc/source/version.py
 /doc/demo/*/*.svg

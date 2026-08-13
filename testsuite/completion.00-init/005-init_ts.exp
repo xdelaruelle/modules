@@ -121,4 +121,8 @@ set out [open $tcshcompletion w]
 puts -nonewline $out $tcshcompletion_content
 close $out
 
+# scratch area for modulefiles created on the fly by completion tests
+set injectdir "$env(TESTSUITEDIR)/completion-inject-fixture"
+file delete -force $injectdir
+
 # vim:set tabstop=3 shiftwidth=3 expandtab autoindent:

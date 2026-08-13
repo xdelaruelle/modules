@@ -46,8 +46,10 @@ DejaGnu tools:
     Drives a real, interactive shell process (via Expect ``spawn``/``send``/
     ``expect``, not just a captured non-interactive run like the other three
     tools) to press Tab against the built shell completion script and check
-    that the resulting candidate list holds the expected module names and
-    option flags. Driven by the :file:`completion.00-init` directory;
+    the resulting candidate list -- both that expected module names/option
+    flags show up, and that a candidate word built from untrusted text (a
+    module name, ``LOADEDMODULES``, ``MODULEPATH``, ...) can never reach a
+    shell expansion step. Driven by the :file:`completion.00-init` directory;
     currently covers bash, zsh, fish and tcsh, see `completion.00-init
     layout`_.
 
@@ -181,9 +183,9 @@ shell-specific in a way none of the other three tools are:
   :file:`init/zsh-functions/_module`, :file:`init/fish_completion` and
   :file:`init/tcsh_completion` scripts, a clean fixture modulepath), the
   shell-agnostic assert procedures (``completion_assert_contains``,
-  ``completion_assert_not_contains``, ``completion_assert_eq``), and the
-  clean baseline environment/``save_test_env`` checkpoint, exactly as for
-  the other tools.
+  ``completion_assert_not_contains``, ``completion_assert_eq``,
+  ``completion_assert_no_exec``), and the clean baseline
+  environment/``save_test_env`` checkpoint, exactly as for the other tools.
 - ``0NN-<shell>-procs.exp`` defines one ``completion_<shell>_start`` /
   ``completion_<shell>_raw`` / ``completion_<shell>_list`` /
   ``completion_<shell>_inline`` / ``completion_<shell>_close`` set per

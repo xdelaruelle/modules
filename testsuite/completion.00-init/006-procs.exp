@@ -130,4 +130,20 @@ proc completion_assert_eq {got expected} {
    }
 }
 
+# assert a marker file was not created (used to prove no shell code
+# injected through a candidate word got executed); the test label is built
+# from the cmdline last passed to completion_<shell>_list plus the marker
+# path
+proc completion_assert_no_exec {markerpath} {
+   global completion_last_cmdline
+
+   set label "'$completion_last_cmdline' completion does not execute injected code ($markerpath)"
+   if {[file exists $markerpath]} {
+      fail "$label (marker file was created: injected code ran)"
+      file delete -force $markerpath
+   } else {
+      pass $label
+   }
+}
+
 # vim:set tabstop=3 shiftwidth=3 expandtab autoindent:

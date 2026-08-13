@@ -10,7 +10,7 @@
 #   Authors:		Xavier Delaruelle, xavier.delaruelle@cea.fr
 #
 #   Description:	Testuite testsequence
-#   Command:		avail, load, unload, ml, use, unuse, restore
+#   Command:		avail, load, unload, ml, use, unuse, restore, switch
 #   Sub-Command:
 #
 #   Comment:	%C{
@@ -26,7 +26,12 @@
 #			'ml' Tab-completion proposes is checked against the
 #			ground truth fetched from 'module help' (see
 #			007-module_help.exp) and 'module config' (see
-#			008-module_config.exp) -- neither less nor more
+#			008-module_config.exp) -- neither less nor more, and
+#			completion candidate words built from untrusted text
+#			(module names read off disk, LOADEDMODULES,
+#			MODULEPATH) cannot reach a shell expansion step -- a
+#			candidate embedding shell code must be listed as an
+#			inert string, never executed
 #		}C%
 #
 ##############################################################################
@@ -478,6 +483,75 @@ foreach subcmd $help_subcmds {
 
 completion_bash_close
 unsetenv_loaded_module
+
+
+#
+# candidate words built from untrusted text cannot reach a shell expansion
+# step (see security fix for the bash-completion command injection)
+#
+
+set marker "$env(TESTSUITEDIR)/completion-injection-marker"
+file delete -force $marker
+
+# module/spider avail: malicious module name read off disk
+
+# the marker path is passed through as an env var rather than embedded
+# directly in the filename, since a filename cannot itself contain '/'
+setenv_var INJMARKER $marker
+set evilname {evil$(touch>$INJMARKER)}
+file mkdir $injectdir
+set fd [open "$injectdir/$evilname" w]
+puts $fd {#%Module1.0}
+close $fd
+
+setenv_path_var MODULEPATH $injectdir
+
+completion_bash_start
+
+set got [completion_bash_list {module load }]
+completion_assert_no_exec $marker
+completion_assert_contains $got [list $evilname]
+
+completion_bash_close
+unsetenv_path_var MODULEPATH
+unsetenv_var INJMARKER
+file delete -force $injectdir
+
+# LOADEDMODULES: malicious already-loaded module name
+
+set evilmod [string map [list MARKERPATH $marker] {python$(touch>MARKERPATH)}]
+# _LMFILES_ is set consistently alongside LOADEDMODULES (matching entry
+# count) purely to avoid an unrelated "inconsistent state" warning; its
+# content is not used by the completion script
+setenv_loaded_module [list gcc $evilmod] [list /fake/gcc /fake/evilmod]
+
+completion_bash_start
+
+set got [completion_bash_list {module unload }]
+completion_assert_no_exec $marker
+completion_assert_contains $got [list $evilmod]
+
+completion_bash_close
+unsetenv_loaded_module
+
+# MODULEPATH: malicious path entry (module unuse)
+
+set evilpath [string map [list MARKERPATH $marker] {/opt$(touch>MARKERPATH)}]
+setenv_path_var MODULEPATH /tmp $evilpath
+
+completion_bash_start
+
+## both entries share a leading '/', so type it explicitly: otherwise
+## readline auto-inserts that common prefix on the first Tab and the
+## double-Tab below would only ring the bell instead of listing
+set got [completion_bash_list {module unuse /}]
+completion_assert_no_exec $marker
+completion_assert_contains $got [list $evilpath]
+
+completion_bash_close
+unsetenv_path_var MODULEPATH
+
+file delete -force $marker
 
 
 #
