@@ -11,12 +11,12 @@ dnl Process this file with autoconf to produce a configure script
 dnl You need autoconf 2.52 or better!
 dnl
 dnl ---------------------------------------------------------------------------
-AC_INIT(modules,3.2)
+AC_INIT([modules],[3.2])
 AC_CONFIG_AUX_DIR(config)
 AM_INIT_AUTOMAKE(1.9.6 foreign dejagnu no-installinfo dist-bzip2)
 AC_CONFIG_SRCDIR([version.c])
-AM_CONFIG_HEADER(config.h)
-AC_PREREQ(2.59)
+AC_CONFIG_HEADERS([config.h])
+AC_PREREQ([2.69])
 
 dnl ---------------------------------------------------------------------------
 dnl Autoheader "templates" (was acconfig.h)
@@ -56,7 +56,7 @@ AC_SUBST(NOTVERSIONING)
 AH_TEMPLATE([WANTS_VERSIONING],[
 WANTS_VERSIONING Does the system want to use modules versions])
 AC_ARG_ENABLE(versioning,
-	AC_HELP_STRING([--enable-versioning], [use modules versioning [[yes]]]),
+	AS_HELP_STRING([--enable-versioning],[use modules versioning [[yes]]]),
 	if test "$enableval" = "yes"; then
 	    WANTS_VERSIONING=1
 	    AC_DEFINE(WANTS_VERSIONING,1)
@@ -151,7 +151,7 @@ dnl --disable-use-default       Use PREFIX/VERSION/ in init scripts
 dnl ---------------------------------------------------------------------------
 AC_DEFINE_UNQUOTED(MODULES_INIT_DIR, "$MODULES_INIT_DIR")
 AC_ARG_ENABLE(use-default,
-	AC_HELP_STRING([--enable-use-default],[use DEFAULTPATH in init scripts [[yes]]]),
+	AS_HELP_STRING([--enable-use-default],[use DEFAULTPATH in init scripts [[yes]]]),
 	if test "$enableval" = "no" -o $WANTS_VERSIONING -eq 0; then
 		DEFAULTPATH=$NODEFAULTPATH
 	fi)
@@ -171,19 +171,17 @@ dnl Checks for programs
 dnl ---------------------------------------------------------------------------
 AC_PROG_CC
 AC_PROG_CPP
-AC_PROG_GCC_TRADITIONAL
 AC_PROG_INSTALL
 AM_PROG_CC_C_O
 AC_PROG_MAKE_SET
-AC_AIX
-AC_ISC_POSIX
+AC_USE_SYSTEM_EXTENSIONS
+AC_SEARCH_LIBS([strerror],[cposix])
 AC_PATH_PROG([UNAME],[uname],[""])
 dnl ---------------------------------------------------------------------------
 dnl Checks for header files
 dnl ---------------------------------------------------------------------------
 
 AC_HEADER_DIRENT
-AC_HEADER_STDC
 AC_CHECK_HEADERS(string.h memory.h stdlib.h unistd.h termio.h fcntl.h ctype.h \
 	stdarg.h varargs.h syslog.h stdint.h)
 AC_CHECK_HEADERS([sys/ioctl.h sys/termios.h sys/mode.h sys/stat.h sys/param.h \
@@ -331,7 +329,7 @@ else
 	AC_MSG_RESULT([no - $em_split_size_total < 4000 - splitting at $em_split_size])
 fi
 AC_ARG_WITH(split-size,
-	AC_HELP_STRING([--with-split-size[=<size>]],[use split size=<size> [[test]]]),
+	AS_HELP_STRING([--with-split-size[=<size>]],[use split size=<size> [[test]]]),
 	if test "${withval+set}" = "set" -a "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			withval=1000
@@ -355,7 +353,7 @@ dnl
 AC_SUBST(STATIC)
 dnl
 AC_ARG_WITH(static,
-	AC_HELP_STRING([--with-static[[=<option>]]],[use static linking [[no]]]),
+	AS_HELP_STRING([--with-static[[=<option>]]],[use static linking [[no]]]),
 	EM_SET_STATIC(STATIC, $withval))
 
 dnl ---------------------------------------------------------------------------
@@ -391,7 +389,7 @@ else
 fi
 AC_MSG_RESULT([$em_bourne_funcs])
 AC_ARG_ENABLE(shell-funcs,
-	AC_HELP_STRING([--enable-shell-funcs],[use sh functions [[test]]]),
+	AS_HELP_STRING([--enable-shell-funcs],[use sh functions [[test]]]),
 	if test "$enableval" = "yes" ; then
 	    AC_DEFINE(HAS_BOURNE_FUNCS)
 	fi,
@@ -434,7 +432,7 @@ else
 fi
 AC_MSG_RESULT([$em_bourne_alias])
 AC_ARG_ENABLE(shell-alias,
-	AC_HELP_STRING([--enable-shell-alias],[use sh aliases [[test]]]),
+	AS_HELP_STRING([--enable-shell-alias],[use sh aliases [[test]]]),
 	if test "$enableval" = "yes" ; then
 	    AC_DEFINE(HAS_BOURNE_ALIAS)
 	fi,
@@ -452,7 +450,7 @@ to evaluate aliases via stdout like other environment changes instead
 of opening a file and then asking the shell to source the file and
 then remove it.])
 AC_ARG_ENABLE(shell-eval,
-	AC_HELP_STRING([--enable-shell-eval],[use shell alias eval [[yes]]]),
+	AS_HELP_STRING([--enable-shell-eval],[use shell alias eval [[yes]]]),
 	if test "$enableval" = "yes"; then
 	    AC_DEFINE(EVAL_ALIAS)
 	fi, AC_DEFINE(EVAL_ALIAS))
@@ -462,7 +460,7 @@ USE_FREE:
 By default, Modules will not call free() for any dynamic data. This
 define enables these calls.])
 AC_ARG_ENABLE(free,
-	AC_HELP_STRING([--enable-free],[use free() calls [[no]]]),
+	AS_HELP_STRING([--enable-free],[use free() calls [[no]]]),
 	if test "$enableval" = "yes"; then
 	    AC_DEFINE(USE_FREE)
 	fi)
@@ -472,7 +470,7 @@ CACHE_AVAIL:
 This symbol, if defined, indicates that Modules should cache the
 directories in MODULEPATH when doing an avail.])
 AC_ARG_ENABLE(cache,
-	AC_HELP_STRING([--enable-cache],[use directory cache [[no]]]),
+	AS_HELP_STRING([--enable-cache],[use directory cache [[no]]]),
 	if test "$enableval" = "yes"; then
 	    AC_DEFINE(CACHE_AVAIL)
 	fi)
@@ -482,7 +480,7 @@ CACHE_UMASK:
 This symbol, if defined, is used as the umask for creating
 cachefiles for the module avail command.])
 AC_ARG_WITH(cache-umask,
-	AC_HELP_STRING([--with-cache-umask=<umask>],[use cache files umask=<umask> [[000]]]),
+	AS_HELP_STRING([--with-cache-umask=<umask>],[use cache files umask=<umask> [[000]]]),
 	if test "$withval" != "no"; then
 	    test "$withval" = "yes" && withval=0
 	    AC_DEFINE_UNQUOTED(CACHE_UMASK, ${withval})
@@ -490,7 +488,7 @@ AC_ARG_WITH(cache-umask,
 dnl ---------------------------------------------------------------------------
 AH_TEMPLATE([WITH_DEBUG_INFO],[WITH_DEBUG_INFO: Debug info level if defined])
 AC_ARG_WITH(debug,
-	AC_HELP_STRING([--with-debug=<value>],[set debugging level <value> [[no]]]),
+	AS_HELP_STRING([--with-debug=<value>],[set debugging level <value> [[no]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="1"
 		AC_DEFINE_UNQUOTED(WITH_DEBUG_INFO, ${withval})
@@ -501,7 +499,7 @@ VERSION_MAGIC:
 By default, .version files will be required to have the modulefile
 magic cookie to be valid, else an error message will be printed out.])
 AC_ARG_ENABLE(version-magic,
-	AC_HELP_STRING([--enable-version-magic],[set .version magic requirement  [[yes]]]),
+	AS_HELP_STRING([--enable-version-magic],[set .version magic requirement  [[yes]]]),
 	if test "$enableval" != "no"; then
 		AC_DEFINE(VERSION_MAGIC,1)
 	else
@@ -517,7 +515,7 @@ this feature, but will only work if the MODULESBEGINENV env.var is
 set to a file name (e.g. '$HOME/.modulesbeginenv.$$'- modules will
 do one-level of variable expansion.)])
 AC_ARG_ENABLE(beginenv,
-	AC_HELP_STRING([--enable-beginenv],[use .modulesbeginenv for initial env [[test]]]),
+	AS_HELP_STRING([--enable-beginenv],[use .modulesbeginenv for initial env [[test]]]),
 	if test "$enableval" = "yes"; then
 		AC_DEFINE(BEGINENV,1)
 	elif test "$enableval" = "test"; then
@@ -544,67 +542,67 @@ AH_TEMPLATE([WITH_LOG_FACILITY_FATAL],[])
 AH_TEMPLATE([WITH_LOG_FACILITY_PANIC],[])
 WITH_LOGGING=0
 AC_ARG_ENABLE(logging,
-	AC_HELP_STRING([--enable-logging],[turn logging on                 [[no]]]),
+	AS_HELP_STRING([--enable-logging],[turn logging on                 [[no]]]),
 	if test "$enableval" = "yes"; then
 		AC_DEFINE(WITH_LOGGING)
 		WITH_LOGGING=1
 	fi)
 AC_ARG_WITH(log-dir,
-	AC_HELP_STRING([--with-log-dir=<value>],[select an alternate log dir.  [[no]]]),
+	AS_HELP_STRING([--with-log-dir=<value>],[select an alternate log dir.  [[no]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="/tmp"
 		AC_DEFINE_UNQUOTED(WITH_LOG_DIR, "$withval")
 	fi)
 AC_ARG_WITH(log-facility-verbose,
-	AC_HELP_STRING([--with-log-facility-verbose[=<facility>]],[Log facility    [[stderr]]]),
+	AS_HELP_STRING([--with-log-facility-verbose[=<facility>]],[Log facility    [[stderr]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="stderr"
 		AC_DEFINE_UNQUOTED(WITH_LOG_FACILITY_VERBOSE, "$withval")
 	fi)
 AC_ARG_WITH(log-facility-info,
-	AC_HELP_STRING([--with-log-facility-info[=<facility>]],[Log facility    [[local7.notice]]]),
+	AS_HELP_STRING([--with-log-facility-info[=<facility>]],[Log facility    [[local7.notice]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="local7.notice"
 		AC_DEFINE_UNQUOTED(WITH_LOG_FACILITY_INFO, "$withval")
 	fi)
 AC_ARG_WITH(log-facility-debug,
-	AC_HELP_STRING([--with-log-facility-debug[=<facility>]],[Log facility    [[local7.notice]]]),
+	AS_HELP_STRING([--with-log-facility-debug[=<facility>]],[Log facility    [[local7.notice]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="local7.notice"
 		AC_DEFINE_UNQUOTED(WITH_LOG_FACILITY_DEBUG, "$withval")
 	fi)
 AC_ARG_WITH(log-facility-trace,
-	AC_HELP_STRING([--with-log-facility-trace[=<facility>]],[Log facility    [[local7.notice]]]),
+	AS_HELP_STRING([--with-log-facility-trace[=<facility>]],[Log facility    [[local7.notice]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="local7.notice"
 		AC_DEFINE_UNQUOTED(WITH_LOG_FACILITY_TRACE, "$withval")
 	fi)
 AC_ARG_WITH(log-facility-warn,
-	AC_HELP_STRING([--with-log-facility-warn[=<facility>]],[Log facility    [[local7.warning]]]),
+	AS_HELP_STRING([--with-log-facility-warn[=<facility>]],[Log facility    [[local7.warning]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="local7.warning"
 		AC_DEFINE_UNQUOTED(WITH_LOG_FACILITY_WARN, "$withval")
 	fi)
 AC_ARG_WITH(log-facility-problem,
-	AC_HELP_STRING([--with-log-facility-problem[=<facility>]],[Log facility    [[local7.error]]]),
+	AS_HELP_STRING([--with-log-facility-problem[=<facility>]],[Log facility    [[local7.error]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="local7.error"
 		AC_DEFINE_UNQUOTED(WITH_LOG_FACILITY_PROB, "$withval")
 	fi)
 AC_ARG_WITH(log-facility-error,
-	AC_HELP_STRING([--with-log-facility-error[=<facility>]],[Log facility    [[local7.error]]]),
+	AS_HELP_STRING([--with-log-facility-error[=<facility>]],[Log facility    [[local7.error]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="local7.error"
 		AC_DEFINE_UNQUOTED(WITH_LOG_FACILITY_ERROR, "$withval")
 	fi)
 AC_ARG_WITH(log-facility-fatal,
-	AC_HELP_STRING([--with-log-facility-fatal[=<facility>]],[Log facility    [[local7.error]]]),
+	AS_HELP_STRING([--with-log-facility-fatal[=<facility>]],[Log facility    [[local7.error]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="local7.error"
 		AC_DEFINE_UNQUOTED(WITH_LOG_FACILITY_FATAL, "$withval")
 	fi)
 AC_ARG_WITH(log-facility-panic,
-	AC_HELP_STRING([--with-log-facility-panic[=<facility>]],[Log facility    [[local7.error]]]),
+	AS_HELP_STRING([--with-log-facility-panic[=<facility>]],[Log facility    [[local7.error]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval="local7.error"
 		AC_DEFINE_UNQUOTED(WITH_LOG_FACILITY_PANIC, "$withval")
@@ -631,7 +629,7 @@ AH_TEMPLATE([WITH_TRACE_WHATIS],[])
 AH_TEMPLATE([WITH_TRACE_APROPOS],[])
 
 AC_ARG_WITH(trace-load,
-	AC_HELP_STRING([--with-trace-load=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-load=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_LOAD, _all_on)
@@ -640,7 +638,7 @@ AC_ARG_WITH(trace-load,
 		fi
 	fi)
 AC_ARG_WITH(trace-unload,
-	AC_HELP_STRING([--with-trace-unload=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-unload=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_UNLOAD, _all_on)
@@ -649,7 +647,7 @@ AC_ARG_WITH(trace-unload,
 		fi
 	fi)
 AC_ARG_WITH(trace-switch,
-	AC_HELP_STRING([--with-trace-switch=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-switch=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_SWITCH, _all_on)
@@ -658,7 +656,7 @@ AC_ARG_WITH(trace-switch,
 		fi
 	fi)
 AC_ARG_WITH(trace-disp,
-	AC_HELP_STRING([--with-trace-disp=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-disp=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_DISP, _all_on)
@@ -667,7 +665,7 @@ AC_ARG_WITH(trace-disp,
 		fi
 	fi)
 AC_ARG_WITH(trace-list,
-	AC_HELP_STRING([--with-trace-list=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-list=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_LIST, _all_on)
@@ -676,7 +674,7 @@ AC_ARG_WITH(trace-list,
 		fi
 	fi)
 AC_ARG_WITH(trace-avail,
-	AC_HELP_STRING([--with-trace-avail=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-avail=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_AVAIL, _all_on)
@@ -685,7 +683,7 @@ AC_ARG_WITH(trace-avail,
 		fi
 	fi)
 AC_ARG_WITH(trace-help,
-	AC_HELP_STRING([--with-trace-help=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-help=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_HELP, _all_on)
@@ -694,7 +692,7 @@ AC_ARG_WITH(trace-help,
 		fi
 	fi)
 AC_ARG_WITH(trace-init,
-	AC_HELP_STRING([--with-trace-init=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-init=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_INIT, _all_on)
@@ -703,7 +701,7 @@ AC_ARG_WITH(trace-init,
 		fi
 	fi)
 AC_ARG_WITH(trace-use,
-	AC_HELP_STRING([--with-trace-use=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-use=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_USE, _all_on)
@@ -712,7 +710,7 @@ AC_ARG_WITH(trace-use,
 		fi
 	fi)
 AC_ARG_WITH(trace-unuse,
-	AC_HELP_STRING([--with-trace-unuse=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-unuse=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_UNUSE, _all_on)
@@ -721,7 +719,7 @@ AC_ARG_WITH(trace-unuse,
 		fi
 	fi)
 AC_ARG_WITH(trace-update,
-	AC_HELP_STRING([--with-trace-update=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-update=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_UPDATE, _all_on)
@@ -730,7 +728,7 @@ AC_ARG_WITH(trace-update,
 		fi
 	fi)
 AC_ARG_WITH(trace-purge,
-	AC_HELP_STRING([--with-trace-purge=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-purge=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_PURGE, _all_on)
@@ -739,7 +737,7 @@ AC_ARG_WITH(trace-purge,
 		fi
 	fi)
 AC_ARG_WITH(trace-clear,
-	AC_HELP_STRING([--with-trace-clear=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-clear=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_CLEAR, _all_on)
@@ -748,7 +746,7 @@ AC_ARG_WITH(trace-clear,
 		fi
 	fi)
 AC_ARG_WITH(trace-whatis,
-	AC_HELP_STRING([--with-trace-whatis=<value>],[specify a pattern for trace   [[no]]]),
+	AS_HELP_STRING([--with-trace-whatis=<value>],[specify a pattern for trace   [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_WHATIS, _all_on)
@@ -757,7 +755,7 @@ AC_ARG_WITH(trace-whatis,
 		fi
 	fi)
 AC_ARG_WITH(trace-apropos,
-	AC_HELP_STRING([--with-trace-apropos=<value>],[specify a pattern for trace  [[no]]]),
+	AS_HELP_STRING([--with-trace-apropos=<value>],[specify a pattern for trace  [[no]]]),
 	if test "$withval" != "no"; then
 		if test "$withval" = "yes"; then
 			AC_DEFINE_UNQUOTED(WITH_TRACE_APROPOS, _all_on)
@@ -809,7 +807,7 @@ dnl --------------------------------------------------------------------
 dnl Find Python interpreter
 dnl --------------------------------------------------------------------
 AC_ARG_WITH(python,
-	AC_HELP_STRING([--with-python=<bin>],[Python interpreter command to use [[python]]]),
+	AS_HELP_STRING([--with-python=<bin>],[Python interpreter command to use [[python]]]),
 	[python="$withval"], [python="python"])
 # specified python is full path bin or uses env command
 if test x"$python" = x"/usr/bin/env python" || test -x "$python" ; then
@@ -843,7 +841,7 @@ AC_SUBST(MODULEPATH)
 AH_TEMPLATE([MODULEPATH],[
 MODULEPATH: Directory that contains all the system module files])
 AC_ARG_WITH(module-path,
-	AC_HELP_STRING([--with-module-path=<path>],[use module path=<path> [[PREFIX/Modules/modulefiles]]]),
+	AS_HELP_STRING([--with-module-path=<path>],[use module path=<path> [[PREFIX/Modules/modulefiles]]]),
 	MODULEPATH="$withval"
 	AC_MSG_RESULT([MODULEPATH = $with_module_path])
 	AC_DEFINE_UNQUOTED(MODULEPATH, "$withval")
@@ -860,7 +858,7 @@ AC_SUBST(VERSIONPATH)
 AH_TEMPLATE([VERSIONPATH],[
 VERSIONPATH: Directory that contains the env.modules version files.])
 AC_ARG_WITH(version-path,
-	AC_HELP_STRING([--with-version-path=<path>],[use version path=<path> [[PREFIX/Modules/versions]]]),
+	AS_HELP_STRING([--with-version-path=<path>],[use version path=<path> [[PREFIX/Modules/versions]]]),
 	VERSIONPATH="$withval"
 	AC_MSG_RESULT([VERSIONPATH = $with_version_path])
 	AC_DEFINE_UNQUOTED(VERSIONPATH, "$withval")
@@ -875,7 +873,7 @@ fi)
 dnl ---------------------------------------------------------------------------
 AH_TEMPLATE([TMP_DIR],[TMP_DIR: tmp directory name])
 AC_ARG_WITH(tmp-dir,
-	AC_HELP_STRING([--with-tmp-dir=<dir>],[use <dir> as a temporary dir [[/tmp]]]),
+	AS_HELP_STRING([--with-tmp-dir=<dir>],[use <dir> as a temporary dir [[/tmp]]]),
         if test ! -d $withval ; then
            AC_MSG_ERROR([tmp dir $withval does not exist])
         fi
@@ -890,7 +888,7 @@ AC_ARG_WITH(tmp-dir,
 dnl ---------------------------------------------------------------------------
 AH_TEMPLATE([DEFAULTMANPATH],[DEFAULTMANPATH: default man path])
 AC_ARG_WITH(man-path,
-	AC_HELP_STRING([--with-man-path=<dir>],[use <dir> for the default MANPATH [[/usr/man:/usr/share/man]]]),
+	AS_HELP_STRING([--with-man-path=<dir>],[use <dir> for the default MANPATH [[/usr/man:/usr/share/man]]]),
 	AC_DEFINE_UNQUOTED(DEFAULTMANPATH, "$withval")
 	AC_MSG_RESULT([DEFAULTMANPATH = $withval]),
         if test -d "/usr/man" ; then
@@ -913,7 +911,7 @@ AUTOLOADPATH:
 This symbol, if defined, is the "default" path of directories
 Tcl will look for functions to autoload.  It is space separated!])
 AC_ARG_WITH(autoload-path,
-	AC_HELP_STRING([--with-autoload-path=<path>],[use autoload path=<path> [[PREFIX/lib/tcl]]]),
+	AS_HELP_STRING([--with-autoload-path=<path>],[use autoload path=<path> [[PREFIX/lib/tcl]]]),
 	if test "$withval" = "no" || test "$withval" = "yes"; then
 		if test "$prefix" != "NONE" ; then
 			withval="$prefix/lib/tcl"
@@ -932,7 +930,7 @@ dnl ETCPATH		Where to find the /etc/"login" files
 dnl
 AC_SUBST(ETCPATH)
 AC_ARG_WITH(etc-path,
-	AC_HELP_STRING([--with-etc-path=<path>],[use etc path=<path> [[/etc]]]),
+	AS_HELP_STRING([--with-etc-path=<path>],[use etc path=<path> [[/etc]]]),
 	[if test "$withval" = "no" || test "$withval" = "yes"; then
 		AC_MSG_WARN(
 	[if using '--with-etc-path': need to specify a path! Using /etc])
@@ -946,7 +944,7 @@ dnl SKELPATH		Where to find the $HOME/dot file skeletons
 dnl
 AC_SUBST(SKELPATH)
 AC_ARG_WITH(skel-path,
-	AC_HELP_STRING([--with-skel-path=<path>],[use skel path=<path> [[/etc/skel]]]),
+	AS_HELP_STRING([--with-skel-path=<path>],[use skel path=<path> [[/etc/skel]]]),
 	if test "$withval" = "no" || test "$withval" = "yes"; then
 	AC_MSG_WARN([if using '--with-skel-path': need to specify a path! Using /etc/skel])
 		withval="/etc/skel"
@@ -967,7 +965,7 @@ each shell dot-file name in the list for each shell for processing
 the "module init*" commands.  For example - C-shell: .cshrc.ext,
 .login.ext.])
 AC_ARG_WITH(dot-ext,
-	AC_HELP_STRING([--with-dot-ext=<.ext>],[append <.ext> (default=.ext) to shell dot files [[no]]]),
+	AS_HELP_STRING([--with-dot-ext=<.ext>],[append <.ext> (default=.ext) to shell dot files [[no]]]),
 	if test "$withval" != "no"; then
 		test "$withval" = "yes" && withval=".ext"
 		AC_DEFINE_UNQUOTED(DOT_EXT, "$withval")
