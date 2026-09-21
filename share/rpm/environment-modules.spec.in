@@ -6,7 +6,7 @@
 %endif
 
 Name:           environment-modules
-Version:        5.6.1
+Version:        5.7.0
 Release:        @MODULES_RPM_RELEASE@%{?dist}
 Summary:        Provides dynamic modification of a user's environment
 
@@ -281,6 +281,16 @@ fi
 
 
 %changelog
+* Mon Sep 21 2026 Xavier Delaruelle <xavier.delaruelle@cea.fr> - 5.7.0-1
+- Update to 5.7.0
+- Add modulecmd(1) man page
+- Initialize MANPATH to an empty string when set for the first time
+- Rename COPYING.GPLv2 license file to COPYING
+- Install 'env_modules' Python module in %%python3_sitelib
+
+* Mon Sep 07 2026 Xavier Delaruelle <xavier.delaruelle@cea.fr> - 5.6.2-1
+- Update to 5.6.2 (fix CVE-2026-85013)
+
 * Tue Nov 25 2025 Xavier Delaruelle <xavier.delaruelle@cea.fr> - 5.6.1-1
 - Update to 5.6.1
 - Update-alternatives is now available from _bindir

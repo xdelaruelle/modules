@@ -8,8 +8,8 @@ documents those changes that are of interest to users and admins.
 
 .. _5.7 release notes:
 
-Modules 5.7.0 (not yet released)
---------------------------------
+Modules 5.7.0 (2026-09-21)
+--------------------------
 
 * Script: improve :command:`mrel` to always ask a Fedora Kerberos ticket.
 * Use CMake ``EVAL CODE`` to forward arguments passed to ``module`` CMake
@@ -256,7 +256,8 @@ Modules 5.7.0 (not yet released)
   which evaluates command substitution syntax. (fix `CVE-2026-85013`_ found
   by AISLE in partnership with Red Hat)
 * Accept abbreviated upper bounds in version ranges such as ``@3.20:3`` to
-  select versions starting at ``3.20`` within major version ``3``.
+  select versions starting at ``3.20`` within major version ``3``. (fix issue
+  #698)
 * Fix resolution of relative path entries in :envvar:`MODULEPATH` when a
   module is loaded during a modulefile evaluation. Such entry was resolved
   against the directory of the evaluating modulefile rather than against the
