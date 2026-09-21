@@ -265,9 +265,9 @@ runcmd >log-prev-win zipinfo -1 $prevdistwin
 extractflist $prevver-win log-prev-win distfiles-win-prev
 
 # compare dist content with previous release
-runcmd >@stdout ./icdiff distfiles-prev distfiles | less -eFKRX
+catch {runcmd >@stdout ./icdiff distfiles-prev distfiles | less -eFKRX}
 quitorcont
-runcmd >@stdout ./icdiff distfiles-win-prev distfiles-win | less -eFKRX
+catch {runcmd >@stdout ./icdiff distfiles-win-prev distfiles-win | less -eFKRX}
 quitorcont
 
 file delete log-gz log-bz log-win $prevdistgz distfiles distfiles-win\
