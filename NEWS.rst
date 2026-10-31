@@ -26,6 +26,10 @@ Modules 5.8.0 (not yet released)
   :subcmd:`search` sub-commands to get one output line per
   :mfcmd:`module-whatis` entry prefixed by module name, without wrapping or
   padding, and modulepath reported as a header line. (fix issue #720)
+* Evaluate the shell script of :mfcmd:`source-sh` modulefile command and
+  :subcmd:`sh-to-mod` sub-command with an empty standard input, as script is
+  run to collect its environment changes and some shells start an interactive
+  session when a terminal is found on their standard input.
 
 
 .. _5.7 release notes:
