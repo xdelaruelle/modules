@@ -1,0 +1,11 @@
+whatis("Description: module name and version")
+local root = "/software/GTK3/3.24.35-GCCcore-12.2.0"
+conflict("GTK3")
+depends_on("GCCcore/12.2.0")
+depends_on("ATK/2.38.0-GCCcore-12.2.0")
+depends_on("at-spi2-atk/2.38.0-GCCcore-12.2.0")
+depends_on("Gdk-Pixbuf/2.42.10-GCCcore-12.2.0")
+depends_on("Pango/1.50.12-GCCcore-12.2.0")
+depends_on("libepoxy/1.5.10-GCCcore-12.2.0")
+depends_on("X11/20221110-GCCcore-12.2.0")
+depends_on("FriBidi/1.0.12-GCCcore-12.2.0")

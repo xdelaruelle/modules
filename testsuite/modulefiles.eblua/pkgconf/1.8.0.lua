@@ -1,0 +1,4 @@
+whatis("Description: module name and version")
+local root = "/software/pkgconf/1.8.0"
+conflict("pkgconf")
+setenv("PKG_CONFIG", "/software/pkgconf/1.8.0/bin/pkgconf")

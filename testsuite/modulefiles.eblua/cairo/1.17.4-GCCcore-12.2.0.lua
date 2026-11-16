@@ -1,0 +1,12 @@
+whatis("Description: module name and version")
+local root = "/software/cairo/1.17.4-GCCcore-12.2.0"
+conflict("cairo")
+depends_on("GCCcore/12.2.0")
+depends_on("bzip2/1.0.8-GCCcore-12.2.0")
+depends_on("zlib/1.2.12-GCCcore-12.2.0")
+depends_on("libpng/1.6.38-GCCcore-12.2.0")
+depends_on("freetype/2.12.1-GCCcore-12.2.0")
+depends_on("pixman/0.42.2-GCCcore-12.2.0")
+depends_on("expat/2.4.9-GCCcore-12.2.0")
+depends_on("GLib/2.75.0-GCCcore-12.2.0")
+depends_on("X11/20221110-GCCcore-12.2.0")

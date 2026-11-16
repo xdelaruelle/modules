@@ -1,0 +1,5 @@
+whatis("Description: module name and version")
+local root = "/software/LittleCMS/2.15-GCCcore-12.3.0"
+conflict("LittleCMS")
+depends_on("GCCcore/12.3.0")
+depends_on("libjpeg-turbo/2.1.5.1-GCCcore-12.3.0")

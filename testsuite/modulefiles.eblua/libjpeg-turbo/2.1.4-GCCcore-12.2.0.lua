@@ -1,0 +1,5 @@
+whatis("Description: module name and version")
+local root = "/software/libjpeg-turbo/2.1.4-GCCcore-12.2.0"
+conflict("libjpeg-turbo")
+depends_on("GCCcore/12.2.0")
+depends_on("NASM/2.15.05-GCCcore-12.2.0")

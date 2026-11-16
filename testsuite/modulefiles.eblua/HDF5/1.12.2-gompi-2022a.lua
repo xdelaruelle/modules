@@ -1,0 +1,7 @@
+whatis("Description: module name and version")
+local root = "/software/HDF5/1.12.2-gompi-2022a"
+conflict("HDF5")
+depends_on("gompi/2022a")
+depends_on("zlib/1.2.12-GCCcore-11.3.0")
+depends_on("Szip/2.1.1-GCCcore-11.3.0")
+setenv("HDF5_DIR", "/software/HDF5/1.12.2-gompi-2022a")

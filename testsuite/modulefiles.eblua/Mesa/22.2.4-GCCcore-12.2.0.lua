@@ -1,0 +1,12 @@
+whatis("Description: module name and version")
+local root = "/software/Mesa/22.2.4-GCCcore-12.2.0"
+conflict("Mesa")
+depends_on("GCCcore/12.2.0")
+depends_on("zlib/1.2.12-GCCcore-12.2.0")
+depends_on("zstd/1.5.2-GCCcore-12.2.0")
+depends_on("libdrm/2.4.114-GCCcore-12.2.0")
+depends_on("libglvnd/1.6.0-GCCcore-12.2.0")
+depends_on("libunwind/1.6.2-GCCcore-12.2.0")
+depends_on("LLVM/15.0.5-GCCcore-12.2.0")
+depends_on("X11/20221110-GCCcore-12.2.0")
+append_path("__EGL_VENDOR_LIBRARY_DIRS", pathJoin(root, "share/glvnd/egl_vendor.d"))

@@ -1,0 +1,6 @@
+whatis("Description: module name and version")
+local root = "/software/libxslt/1.1.34-GCCcore-11.3.0"
+conflict("libxslt")
+depends_on("GCCcore/11.3.0")
+depends_on("zlib/1.2.12-GCCcore-11.3.0")
+depends_on("libxml2/2.9.13-GCCcore-11.3.0")

@@ -1,0 +1,4 @@
+whatis("Description: module name and version")
+local root = "/software/jbigkit/2.1-GCCcore-12.3.0"
+conflict("jbigkit")
+depends_on("GCCcore/12.3.0")

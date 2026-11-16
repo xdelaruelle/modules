@@ -1,0 +1,9 @@
+whatis("Description: module name and version")
+local root = "/software/libheif/1.19.5-GCCcore-13.2.0"
+conflict("libheif")
+depends_on("GCCcore/13.2.0")
+depends_on("libpng/1.6.40-GCCcore-13.2.0")
+depends_on("libjpeg-turbo/3.0.1-GCCcore-13.2.0")
+depends_on("libde265/1.0.15-GCCcore-13.2.0")
+depends_on("x265/3.5-GCCcore-13.2.0")
+depends_on("Gdk-Pixbuf/2.42.10-GCCcore-13.2.0")

@@ -1,0 +1,11 @@
+whatis("Description: module name and version")
+local root = "/software/Perl-bundle-CPAN/5.38.0-GCCcore-13.2.0"
+conflict("Perl-bundle-CPAN")
+depends_on("GCCcore/13.2.0")
+depends_on("Perl/5.38.0-GCCcore-13.2.0")
+depends_on("zlib/1.2.13-GCCcore-13.2.0")
+depends_on("expat/2.5.0-GCCcore-13.2.0")
+depends_on("ncurses/6.4-GCCcore-13.2.0")
+depends_on("libreadline/8.2-GCCcore-13.2.0")
+depends_on("OpenSSL/1.1")
+prepend_path("PERL5LIB", pathJoin(root, "share/perl5/5.40"))

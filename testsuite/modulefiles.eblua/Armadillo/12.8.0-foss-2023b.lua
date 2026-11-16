@@ -1,0 +1,7 @@
+whatis("Description: module name and version")
+local root = "/software/Armadillo/12.8.0-foss-2023b"
+conflict("Armadillo")
+depends_on("foss/2023b")
+depends_on("Boost/1.83.0-GCC-13.2.0")
+depends_on("HDF5/1.14.3-gompi-2023b")
+depends_on("arpack-ng/3.9.0-foss-2023b")

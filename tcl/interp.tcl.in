@@ -92,7 +92,7 @@ proc initModfileModeAliases {mode auto aliasesVN aliasesPassArgVN\
          incrErrorCount incrErrorCount report report isWin initStateIsWin\
          puts putsModfileCmd getModuleContent getModuleContent lsb-release\
          lsb-release getModuleHelpLines getModuleHelpLines append\
-         appendModfileCmd]
+         appendModfileCmd evalLuaModulefile evalLuaModulefile]
 
       if {[getConf source_cache]} {
          lappend ::g_modfileBaseAliases source sourceModfileCmd
@@ -164,7 +164,7 @@ x-resource     {x-resource     x-resource     reportCmd      nop            nop 
    # alias commands where interpreter ref should be passed as argument
    array set aliasesPassArg [list getvariant [list __itrp__] puts [list\
       __itrp__] variant [list __itrp__] source [list __itrp__] append [list\
-      __itrp__]]
+      __itrp__] evalLuaModulefile [list __itrp__]]
 
    # initialize list with all commands not dependent of the evaluation mode
    array set aliases $::g_modfileBaseAliases
@@ -404,7 +404,11 @@ proc evaluateModulefile {itrp mod_file vr_spec_list} {
       # raise conflict error if one name of currently loading module is shared
       # by an already loaded module
       unique-name-conflict
-      eval [getModuleContent $::ModulesCurrentModulefile]
+      if {[string range $::ModulesCurrentModulefile end-3 end] eq {.lua}} {
+         evalLuaModulefile $::ModulesCurrentModulefile
+      } else {
+         eval [getModuleContent $::ModulesCurrentModulefile]
+      }
       # raise error if a variant specified is not defined in modulefile
       set vrerrlist {}
       foreach vrspec $vrspeclist {
@@ -456,6 +460,230 @@ proc evaluateModulefile {itrp mod_file vr_spec_list} {
    }
 }
 
+# quote a string as a Lua string literal
+proc quoteLuaString {str} {
+   return \"[string map [list \\ \\\\ \" \\\" \n \\n \r \\r \0 \\000]\
+      $str]\"
+}
+
+# start the persistent Lua interpreter that evaluates Lua modulefiles
+proc startLuaInterp {} {
+   set lua_interp [expr {[info exists ::env(MODULES_LUA_INTERP)] ?\
+      $::env(MODULES_LUA_INTERP) : {lua}}]
+   set lua_script [file join [file dirname $::argv0] mfinterp.lua]
+
+   # protect Lua interpreter start from initialization code and from
+   # variables put in quarantine
+   foreach var [array names ::env LUA_INIT*] {
+      set orig_val($var) $::env($var)
+      unset ::env($var)
+   }
+   set quar_var_list [getQuarantineVarList]
+   foreach var $quar_var_list {
+      if {[info exists ::env($var)]} {
+         set orig_val($var) $::env($var)
+      }
+      if {[info exists ::env(MODULES_RUNENV_$var)]} {
+         set ::env($var) $::env(MODULES_RUNENV_$var)
+      } else {
+         unset -nocomplain ::env($var)
+      }
+   }
+
+   reportDebug "starting Lua interpreter ($lua_interp $lua_script)"
+   if {[catch {
+      set chan [open |[list $lua_interp $lua_script 2>@stderr] r+]
+   } errMsg]} {
+      set start_err $errMsg
+   } else {
+      fconfigure $chan -buffering full -translation lf
+   }
+
+   foreach var $quar_var_list {
+      if {[info exists orig_val($var)]} {
+         set ::env($var) $orig_val($var)
+      } else {
+         unset -nocomplain ::env($var)
+      }
+      # actual value is transmitted with first evaluation request
+      set ::g_luaEnvChanged($var) 1
+   }
+   foreach var [array names orig_val LUA_INIT*] {
+      set ::env($var) $orig_val($var)
+   }
+
+   if {[info exists start_err]} {
+      error "Cannot start Lua interpreter ($start_err)" {} MODULES_ERR_GLOBAL
+   }
+   set ::g_luaChan $chan
+   set ::g_luaTrace [isVerbosityLevel debug2]
+   array unset ::g_luaModeSent
+}
+
+proc stopLuaInterp {} {
+   if {[info exists ::g_luaChan]} {
+      catch {close $::g_luaChan}
+      unset ::g_luaChan
+      array unset ::g_luaEnvChanged
+      reportDebug {Lua interpreter ended}
+   }
+}
+
+# record environment variable change to notify Lua interpreter
+proc recordLuaEnvChange {var} {
+   set ::g_luaEnvChanged($var) 1
+}
+
+# build Lua table of the names of the environment variables changed since
+# last message. their value is sent when Lua interpreter asks for it
+proc getLuaEnvChangeTable {} {
+   set res {}
+   foreach var [array names ::g_luaEnvChanged] {
+      append res [quoteLuaString $var],
+   }
+   array unset ::g_luaEnvChanged
+   return "{$res}"
+}
+
+proc sendToLuaInterp {msg} {
+   if {$::g_luaTrace} {
+      reportDebug "to Lua: $msg"
+   }
+   puts $::g_luaChan $msg
+   flush $::g_luaChan
+}
+
+# helper procedures Lua interpreter is allowed to call in main interp. their
+# result is expressed in Lua syntax
+proc luaHelper {name args} {
+   switch -- $name {
+      is-loading {
+         return [expr {[is-loading {*}$args] ? {true} : {false}}]
+      }
+      getenv {
+         set res {}
+         foreach var $args {
+            if {[info exists ::env($var)] && ![info exists\
+               ::g_clearedEnvVars($var)]} {
+               append res \[[quoteLuaString $var]\]=[quoteLuaString\
+                  $::env($var)],
+            } else {
+               append res \[[quoteLuaString $var]\]=false,
+            }
+         }
+         return "{$res}"
+      }
+      default {
+         error "Unknown helper '$name'"
+      }
+   }
+}
+
+# evaluate a Lua modulefile through the Lua interpreter bridge. Tcl commands
+# received from Lua interpreter are evaluated in modulefile interp
+proc evalLuaModulefile {itrp modfile} {
+   if {[catch {
+      set content [expr {[info exists ::g_modfileContent($modfile)] ? [lindex\
+         $::g_modfileContent($modfile) 1] : [readFile $modfile 0 0]}]
+   }]} {
+      error [parseAccessIssue $modfile] {} MODULES_ERR_READ
+   }
+   if {![info exists ::g_luaChan]} {
+      startLuaInterp
+   }
+   set chan $::g_luaChan
+   set mode [currentState mode]
+
+   set msg "return \"eval\",{modulefile=[quoteLuaString\
+      $modfile],modulename=[quoteLuaString [currentState\
+      modulename]],specifiedname=[quoteLuaString [currentState\
+      specifiedname]],modulepath=[quoteLuaString [currentState\
+      modulepath]],mode=\"$mode\""
+   # properties that are constant for a mode are sent once
+   if {![info exists ::g_luaModeSent($mode)]} {
+      set ::g_luaModeSent($mode) 1
+      set modeidx [lsearch -exact $::g_modfileEvalModes $mode]
+      set nop_list {}
+      foreach alias [array names ::g_modfilePerModeAliases] {
+         if {[lindex $::g_modfilePerModeAliases($alias) $modeidx] eq\
+            {nop}} {
+            append nop_list \[\"$alias\"\]=true,
+         }
+      }
+      append msg ",nop={$nop_list},shell=[quoteLuaString [getState\
+         shell]],shelltype=[quoteLuaString [getState shelltype]]"
+   }
+   append msg "},[quoteLuaString $content]"
+   if {[array size ::g_luaEnvChanged]} {
+      append msg ,[getLuaEnvChangeTable]
+   }
+   reportDebug "start Lua evaluation of $modfile"
+   sendToLuaInterp $msg
+
+   set stop_code 0
+   while {1} {
+      if {[gets $chan line] < 0} {
+         stopLuaInterp
+         error {Lua interpreter ended unexpectedly} {} MODULES_ERR_LUA
+      }
+      if {$::g_luaTrace} {
+         reportDebug "from Lua: $line"
+      }
+      switch -- [lindex $line 0] {
+         c {
+            set code [catch {interp eval $itrp [lrange $line 1 end]} res\
+               opts]
+         }
+         h {
+            set code [catch {luaHelper {*}[lrange $line 1 end]} res opts]
+            if {!$code} {
+               sendToLuaInterp "return \"ok\",$res"
+               continue
+            }
+         }
+         e {
+            break
+         }
+         default {
+            stopLuaInterp
+            error "Unexpected message from Lua interpreter '$line'" {}\
+               MODULES_ERR_LUA
+         }
+      }
+      switch -- $code {
+         0 {
+            set msg {return "ok"}
+            if {[string length $res]} {
+               append msg ,[quoteLuaString $res]
+               if {[array size ::g_luaEnvChanged]} {
+                  append msg ,[getLuaEnvChangeTable]
+               }
+            } elseif {[array size ::g_luaEnvChanged]} {
+               append msg ,nil,[getLuaEnvChangeTable]
+            }
+         }
+         1 {
+            set msg "return \"err\",[quoteLuaString\
+               $res],[getLuaEnvChangeTable],[quoteLuaString [dict get $opts\
+               -errorcode]]"
+         }
+         default {
+            # break, continue or return: evaluation should stop
+            set stop_code $code
+            set msg "return \"stop\",nil,[getLuaEnvChangeTable]"
+         }
+      }
+      sendToLuaInterp $msg
+   }
+   reportDebug "end Lua evaluation of $modfile"
+
+   if {[llength $line] > 1} {
+      error [lindex $line 1] {} [lindex $line 2]
+   } elseif {$stop_code} {
+      return -code $stop_code
+   }
+}
+
 proc renderModulefileEvalError {itrp mode mod_file failed_eval error_msg} {
    if {!$failed_eval} {
       return 0
@@ -486,7 +714,7 @@ proc renderModulefileEvalError {itrp mode mod_file failed_eval error_msg} {
    } else {
       switch -- [getInterpVar $itrp errorCode] {
          MODULES_ERR_READ {}
-         MODULES_ERR_VALIDITY {
+         MODULES_ERR_VALIDITY - MODULES_ERR_LUA {
             set error_msg [formatMessageInModule $error_msg $mod_file]
             set internal_bug 1
          }

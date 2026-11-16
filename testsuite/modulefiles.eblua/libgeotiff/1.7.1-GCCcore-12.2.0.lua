@@ -1,0 +1,10 @@
+whatis("Description: module name and version")
+local root = "/software/libgeotiff/1.7.1-GCCcore-12.2.0"
+conflict("libgeotiff")
+depends_on("GCCcore/12.2.0")
+depends_on("PROJ/9.1.1-GCCcore-12.2.0")
+depends_on("libjpeg-turbo/2.1.4-GCCcore-12.2.0")
+depends_on("zlib/1.2.12-GCCcore-12.2.0")
+depends_on("SQLite/3.39.4-GCCcore-12.2.0")
+depends_on("LibTIFF/4.4.0-GCCcore-12.2.0")
+depends_on("cURL/7.86.0-GCCcore-12.2.0")

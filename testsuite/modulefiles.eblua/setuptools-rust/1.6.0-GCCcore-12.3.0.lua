@@ -1,0 +1,5 @@
+whatis("Description: module name and version")
+local root = "/software/setuptools-rust/1.6.0-GCCcore-12.3.0"
+conflict("setuptools-rust")
+depends_on("GCCcore/12.3.0")
+depends_on("Python/3.11.3-GCCcore-12.3.0")

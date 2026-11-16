@@ -1,0 +1,10 @@
+whatis("Description: module name and version")
+local root = "/software/LibTIFF/4.6.0-GCCcore-13.2.0"
+conflict("LibTIFF")
+depends_on("GCCcore/13.2.0")
+depends_on("zlib/1.2.13-GCCcore-13.2.0")
+depends_on("libjpeg-turbo/3.0.1-GCCcore-13.2.0")
+depends_on("XZ/5.4.4-GCCcore-13.2.0")
+depends_on("jbigkit/2.1-GCCcore-13.2.0")
+depends_on("zstd/1.5.5-GCCcore-13.2.0")
+depends_on("libdeflate/1.19-GCCcore-13.2.0")

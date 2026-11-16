@@ -1,0 +1,9 @@
+whatis("Description: module name and version")
+local root = "/software/Gdk-Pixbuf/2.42.10-GCCcore-13.2.0"
+conflict("Gdk-Pixbuf")
+depends_on("GCCcore/13.2.0")
+depends_on("GLib/2.78.1-GCCcore-13.2.0")
+depends_on("libjpeg-turbo/3.0.1-GCCcore-13.2.0")
+depends_on("libpng/1.6.40-GCCcore-13.2.0")
+depends_on("LibTIFF/4.6.0-GCCcore-13.2.0")
+depends_on("X11/20231019-GCCcore-13.2.0")

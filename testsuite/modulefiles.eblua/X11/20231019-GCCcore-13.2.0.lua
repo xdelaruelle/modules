@@ -1,0 +1,10 @@
+whatis("Description: module name and version")
+local root = "/software/X11/20231019-GCCcore-13.2.0"
+conflict("X11")
+depends_on("GCCcore/13.2.0")
+depends_on("bzip2/1.0.8-GCCcore-13.2.0")
+depends_on("fontconfig/2.14.2-GCCcore-13.2.0")
+depends_on("freetype/2.13.2-GCCcore-13.2.0")
+depends_on("zlib/1.2.13-GCCcore-13.2.0")
+depends_on("xorg-macros/1.20.0-GCCcore-13.2.0")
+depends_on("libpciaccess/0.17-GCCcore-13.2.0")

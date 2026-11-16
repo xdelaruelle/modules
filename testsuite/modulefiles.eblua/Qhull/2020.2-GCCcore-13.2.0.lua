@@ -1,0 +1,4 @@
+whatis("Description: module name and version")
+local root = "/software/Qhull/2020.2-GCCcore-13.2.0"
+conflict("Qhull")
+depends_on("GCCcore/13.2.0")

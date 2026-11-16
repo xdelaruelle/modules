@@ -1471,6 +1471,9 @@ proc set-env {var val} {
          unset-env $var
       } else {
          set ::env($var) $val
+         if {[info exists ::g_luaChan]} {
+            recordLuaEnvChange $var
+         }
 
          unsetEnvVarAsCleared $var
 
@@ -1503,6 +1506,9 @@ proc envVarInitValue {var_name} {
 
 proc reset-to-unset-env {var {val {}}} {
    set ::env($var) $val
+   if {[info exists ::g_luaChan]} {
+      recordLuaEnvChange $var
+   }
    # set var as cleared if val is empty
    if {$val eq {}} {
       setEnvVarAsCleared $var
@@ -1537,6 +1543,9 @@ proc unset-env {var {internal 0} {val {}}} {
       # exists
       } elseif {[isEnvVarDefined $var]} {
          unset ::env($var)
+         if {[info exists ::g_luaChan]} {
+            recordLuaEnvChange $var
+         }
          set intwasset 1
       }
 

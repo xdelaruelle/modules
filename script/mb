@@ -68,7 +68,7 @@ set profprocnb 20
 set curdir [pwd]
 
 set lmod_compat_test_list [list help avail4 avail4_cache load2 load2_cache\
-   list2 purge]
+   load2_lua list2 purge]
 
 # time test run for a given modulecmd version
 proc bench {tag args} {
@@ -196,7 +196,7 @@ foreach arg $argv {
       help - avail - avail_cache - avail2 - avail2_cache - avail3 -\
          avail3_cache - avail4 - avail4_cache - whatis - whatis_cache -\
          whatis2 - whatis2_cache - whatis3 - whatis3_cache - apropos - load -\
-         load_cache - load2 - load2_cache - load3 - load3_cache -\
+         load_cache - load2 - load2_cache - load2_lua - load3 - load3_cache -\
          list - list2 - purge - unload {
          lappend testlist $arg
       }
@@ -320,6 +320,9 @@ if {[info exists tagtobuildlist]} {
       exec make SHLIB_SUFFIX=.so.$tag $buildtarget
       file rename $buildtarget modulecmd.$tag
       file attributes modulecmd.$tag -permissions ugo+x
+      if {[file exists lua/mfinterp.lua]} {
+         exec make mfinterp.lua
+      }
       if {[file exists lib/envmodules.c]} {
          exec make lib/libtclenvmodules.so
          file rename lib/libtclenvmodules.so lib/libtclenvmodules.so.$tag
@@ -339,12 +342,12 @@ catch {unset env(__MODULES_SHARE_MODULEPATH)}
 # define bench tests and their arguments and environment
 set modpath $curdir/testsuite/modulefiles
 array set testsubcmdlist [list avail2 avail avail3 avail avail4 avail whatis2\
-   whatis whatis3 whatis load2 load load3 load list2 list]
+   whatis whatis3 whatis load2 load load2_lua load load3 load list2 list]
 array set testarglist [list avail2 load whatis2 load load load/all unload\
-   load/all load2 R-bundle-Bioconductor/3.18-foss-2023a-R-4.3.2 load3\
-   bigmod/1.1]
+   load/all load2 R-bundle-Bioconductor/3.18-foss-2023a-R-4.3.2 load2_lua\
+   R-bundle-Bioconductor/3.18-foss-2023a-R-4.3.2 load3 bigmod/1.1]
 array set testoptlist [list avail4_lmod --ignore_cache load2_lmod\
-   --ignore_cache]
+   --ignore_cache load2_lua_lmod --ignore_cache]
 
 # the load3 bench needs a module root holding several hundred sibling
 # versions (mixing valid and invalid modulefiles, matching the shape
@@ -428,7 +431,7 @@ set testenvlist(purge_lmod) $testenvlist(list2_lmod)
 array set testcompatlist [list avail3 4.6.0 whatis3 4.6.0 avail_cache 5.3.0\
    avail2_cache 5.3.0 avail3_cache 5.3.0 whatis_cache 5.3.0 whatis2_cache\
    5.3.0 whatis3_cache 5.3.0 load_cache 5.3.0 load2_cache 5.3.0 load3_cache\
-   5.3.0]
+   5.3.0 load2_lua 5.8.0]
 
 # adapt output table to test mode
 if {$mode eq {profile}} {

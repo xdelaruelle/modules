@@ -1,0 +1,8 @@
+whatis("Description: module name and version")
+local root = "/software/R-bundle-Bioconductor/3.15-foss-2022a-R-4.2.1"
+conflict("R-bundle-Bioconductor")
+depends_on("foss/2022a")
+depends_on("R/4.2.1-foss-2022a")
+depends_on("Boost/1.79.0-GCC-11.3.0")
+depends_on("GSL/2.7-GCC-11.3.0")
+depends_on("arrow-R/8.0.0-foss-2022a-R-4.2.1")

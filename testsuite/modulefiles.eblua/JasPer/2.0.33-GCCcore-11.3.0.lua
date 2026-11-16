@@ -1,0 +1,5 @@
+whatis("Description: module name and version")
+local root = "/software/JasPer/2.0.33-GCCcore-11.3.0"
+conflict("JasPer")
+depends_on("GCCcore/11.3.0")
+depends_on("libheif/1.16.2-GCCcore-11.3.0")

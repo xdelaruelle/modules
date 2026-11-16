@@ -632,11 +632,23 @@ proc restoreSettings {} {
    # specific restore mechanism for ::env as unsetting this array will make
    # Tcl stop monitoring env accesses and not update env variables anymore
    array set saved_env [lindex $::g_SAVE_env end]
+   # record restored variables to transmit them to Lua interpreter
+   if {[info exists ::g_luaChan]} {
+      foreach var [array names saved_env] {
+         if {![info exists ::env($var)] || $::env($var) ne\
+            $saved_env($var)} {
+            recordLuaEnvChange $var
+         }
+      }
+   }
    array set ::env [array get saved_env]
    set saved_env_var_list [array names saved_env]
    foreach var [array names ::env] {
       if {$var ni $saved_env_var_list} {
          unset ::env($var)
+         if {[info exists ::g_luaChan]} {
+            recordLuaEnvChange $var
+         }
       }
    }
    # restore non-array variable if it was set

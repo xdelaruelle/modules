@@ -1,0 +1,10 @@
+whatis("Description: module name and version")
+local root = "/software/CMake/3.24.3-GCCcore-12.2.0"
+conflict("CMake")
+depends_on("GCCcore/12.2.0")
+depends_on("ncurses/6.3-GCCcore-12.2.0")
+depends_on("zlib/1.2.12-GCCcore-12.2.0")
+depends_on("bzip2/1.0.8-GCCcore-12.2.0")
+depends_on("cURL/7.86.0-GCCcore-12.2.0")
+depends_on("libarchive/3.6.1-GCCcore-12.2.0")
+depends_on("OpenSSL/1.1")

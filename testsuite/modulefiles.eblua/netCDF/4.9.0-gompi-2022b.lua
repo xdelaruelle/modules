@@ -1,0 +1,10 @@
+whatis("Description: module name and version")
+local root = "/software/netCDF/4.9.0-gompi-2022b"
+conflict("netCDF")
+depends_on("gompi/2022b")
+depends_on("HDF5/1.14.0-gompi-2022b")
+depends_on("cURL/7.86.0-GCCcore-12.2.0")
+depends_on("Szip/2.1.1-GCCcore-12.2.0")
+depends_on("zstd/1.5.2-GCCcore-12.2.0")
+depends_on("bzip2/1.0.8-GCCcore-12.2.0")
+depends_on("libxml2/2.10.3-GCCcore-12.2.0")

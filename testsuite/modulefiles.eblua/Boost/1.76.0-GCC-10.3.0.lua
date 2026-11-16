@@ -1,0 +1,10 @@
+whatis("Description: module name and version")
+local root = "/software/Boost/1.76.0-GCC-10.3.0"
+conflict("Boost")
+depends_on("GCC/10.3.0")
+depends_on("bzip2/1.0.8-GCCcore-10.3.0")
+depends_on("zlib/1.2.11-GCCcore-10.3.0")
+depends_on("XZ/5.2.5-GCCcore-10.3.0")
+depends_on("zstd/1.4.9-GCCcore-10.3.0")
+depends_on("ICU/69.1-GCCcore-10.3.0")
+setenv("BOOST_ROOT", "/software/Boost/1.76.0-GCC-10.3.0")

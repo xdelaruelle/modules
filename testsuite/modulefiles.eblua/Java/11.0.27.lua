@@ -1,0 +1,5 @@
+whatis("Description: module name and version")
+local root = "/software/Java/11.0.27"
+conflict("Java")
+setenv("JAVA_HOME", "/software/Java/11.0.27")
+setenv("UCX_ERROR_SIGNALS", "")

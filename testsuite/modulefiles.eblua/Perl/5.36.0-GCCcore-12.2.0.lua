@@ -1,0 +1,10 @@
+whatis("Description: module name and version")
+local root = "/software/Perl/5.36.0-GCCcore-12.2.0"
+conflict("Perl")
+depends_on("GCCcore/12.2.0")
+depends_on("zlib/1.2.12-GCCcore-12.2.0")
+depends_on("expat/2.4.9-GCCcore-12.2.0")
+depends_on("ncurses/6.3-GCCcore-12.2.0")
+depends_on("libreadline/8.2-GCCcore-12.2.0")
+depends_on("DB/18.1.40-GCCcore-12.2.0")
+depends_on("OpenSSL/1.1")

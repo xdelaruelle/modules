@@ -1,0 +1,13 @@
+whatis("Description: module name and version")
+local root = "/software/Ghostscript/9.56.1-GCCcore-11.3.0"
+conflict("Ghostscript")
+depends_on("GCCcore/11.3.0")
+depends_on("zlib/1.2.12-GCCcore-11.3.0")
+depends_on("libpng/1.6.37-GCCcore-11.3.0")
+depends_on("freetype/2.12.1-GCCcore-11.3.0")
+depends_on("libjpeg-turbo/2.1.3-GCCcore-11.3.0")
+depends_on("expat/2.4.8-GCCcore-11.3.0")
+depends_on("GLib/2.72.1-GCCcore-11.3.0")
+depends_on("cairo/1.17.4-GCCcore-11.3.0")
+depends_on("LibTIFF/4.3.0-GCCcore-11.3.0")
+depends_on("GTK2/2.24.33-GCCcore-11.3.0")

@@ -1,0 +1,4 @@
+whatis("Description: module name and version")
+local root = "/software/googletest/1.13.0-GCCcore-12.3.0"
+conflict("googletest")
+depends_on("GCCcore/12.3.0")

@@ -1,0 +1,11 @@
+whatis("Description: module name and version")
+local root = "/software/Xvfb/21.1.9-GCCcore-13.2.0"
+conflict("Xvfb")
+depends_on("GCCcore/13.2.0")
+depends_on("X11/20231019-GCCcore-13.2.0")
+depends_on("pixman/0.42.2-GCCcore-13.2.0")
+depends_on("libdrm/2.4.117-GCCcore-13.2.0")
+depends_on("Mesa/23.1.9-GCCcore-13.2.0")
+depends_on("nettle/3.9.1-GCCcore-13.2.0")
+depends_on("libunwind/1.6.2-GCCcore-13.2.0")
+depends_on("XZ/5.4.4-GCCcore-13.2.0")

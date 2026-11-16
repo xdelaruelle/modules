@@ -68,7 +68,16 @@ proc getStringFromListMatchingResString {str_list resolved_str} {
 
 # deduce modulepath from modulefile and module name
 proc getModulepathFromModuleName {modfile modname} {
+   # file name of a Lua modulefile is its module name plus an extension
+   if {[string range $modfile end-3 end] eq {.lua} && [string range\
+      $modname end-3 end] ne {.lua}} {
+      set modfile [string range $modfile 0 end-4]
+   }
    return [string range $modfile 0 end-[string length /$modname]]
+}
+
+proc isLuaModfile {modfile} {
+   return [expr {[string range $modfile end-3 end] eq {.lua}}]
 }
 
 # deduce module name from modulefile and modulepath
@@ -1240,7 +1249,9 @@ proc isModuleFullPath {mod} {
 # check if a module corresponds to a virtual module (module name
 # does not corresponds to end of the modulefile name)
 proc isModuleVirtual {mod modfile} {
-   return [expr {[string first $mod $modfile end-[string length $mod]] == -1}]
+   return [expr {[string first $mod $modfile end-[string length $mod]] == -1\
+      && [string first $mod.lua $modfile end-[string length $mod.lua]] ==\
+      -1}]
 }
 
 # Return the full pathname and modulename to the module.
@@ -1343,7 +1354,8 @@ proc getPathToModule {mod {indir {}} {report_issue 1} {look_loaded no}\
                   }
                   modulefile {
                      # If mod was a file in this path, return that file
-                     set retlist [list $dir/$mod $mod]
+                     set retlist [list [expr {[llength $mod_list($mod)] > 2\
+                        ? [lindex $mod_list($mod) 2] : "$dir/$mod"}] $mod]
                   }
                   virtual {
                      # return virtual name with file it targets
@@ -2854,6 +2866,10 @@ proc parseAccessIssue {modfile} {
 }
 
 proc checkValidModule {modfile} {
+   # no magic cookie in Lua modulefiles
+   if {[string range $modfile end-3 end] eq {.lua}} {
+      return [list true {}]
+   }
    # test file only once, cache result obtained to minimize file query
    # consider modfile valid without reading it if mcookie_check < always
    return [expr {[info exists ::g_modfileValid($modfile)]\
@@ -3121,15 +3137,27 @@ proc trimElemListForStopmod {dir mod_name stop_mod elt_list} {
    }
 
    set stop_elt $dir/$stop_mod
+   # PROTO: stop_mod may be a Lua modulefile
+   if {"$stop_elt.lua" in $elt_list} {
+      set stop_elt $stop_elt.lua
+   }
    if {$stop_elt ni $elt_list || [lindex [checkValidModule $stop_elt] 0]\
       ne {true}} {
       return $elt_list
    }
 
-   set tail_list {}
+   # module name of a Lua modulefile is its file name without extension. it
+   # takes precedence over a Tcl modulefile of the same name
    foreach elt $elt_list {
-      lappend tail_list [file tail $elt]
+      set tail [file tail $elt]
+      if {[string range $tail end-3 end] eq {.lua}} {
+         set tail [string range $tail 0 end-4]
+         set tail_elt($tail) $elt
+      } elseif {![info exists tail_elt($tail)]} {
+         set tail_elt($tail) $elt
+      }
    }
+   set tail_list [array names tail_elt]
 
    # sort this directory's plain elements and look, starting from the
    # highest one down to stop_mod, for the first element that is itself
@@ -3146,7 +3174,7 @@ proc trimElemListForStopmod {dir mod_name stop_mod elt_list} {
    for {set ti [expr {[llength $sorted_tails] - 1}]} {$ti > $stop_idx}\
       {incr ti -1} {
       set fp_tail [lindex $sorted_tails $ti]
-      set fp_elt $dir/$mod_name/$fp_tail
+      set fp_elt $tail_elt($fp_tail)
       if {[file isdirectory $fp_elt]} {
          # a nested version directory: its own validity cannot be settled
          # without recursing into it, give up trying to stop early, keep
@@ -3164,7 +3192,7 @@ proc trimElemListForStopmod {dir mod_name stop_mod elt_list} {
    # only keep stop_mod and highest element in returned list
    set trimmed_list [list $stop_elt]
    if {$top_idx > $stop_idx} {
-      lappend trimmed_list $dir/$mod_name/[lindex $sorted_tails $top_idx]
+      lappend trimmed_list $tail_elt([lindex $sorted_tails $top_idx])
    }
    return $trimmed_list
 }
@@ -3223,6 +3251,17 @@ proc findModulesFromDirsAndFiles {dir full_list depthlvl fetch_mtime\
       set is_elt_dir [expr {[info exists dknown_arr($modulename)] ||\
          (![info exists fknown_arr($modulename)] && [file isdirectory\
          $element])}]
+      set is_lua 0
+      if {!$is_elt_dir && [string range $tail end-3 end] eq {.lua}} {
+         # PROTO: Lua modulercs are not handled
+         if {$tail in {.lua .modulerc.lua}} {
+            continue
+         }
+         set is_lua 1
+         set tail [string range $tail 0 end-4]
+         set modulename [string range $modulename 0 end-4]
+         set parentname [file dirname $modulename]
+      }
       # skip element matching an ignore pattern as if it does not exist
       if {[isPathIgnored $dir $element $is_elt_dir]} {
          continue
@@ -3320,6 +3359,12 @@ proc findModulesFromDirsAndFiles {dir full_list depthlvl fetch_mtime\
                # found for the dirs lying at other depth level
                if {$depthlvl == 0 || $moddepthlvl == $depthlvl || ![info\
                   exists modfile_indir($parentname)]} {
+                  # Lua modulefile takes precedence over Tcl one
+                  if {!$is_lua && [info exists mod_list($modulename)] &&\
+                     [string range [lindex $mod_list($modulename) 2] end-3\
+                     end] eq {.lua}} {
+                     continue
+                  }
                   lassign [checkValidModule $element] check_valid check_msg
                   switch -- $check_valid {
                      true {
@@ -3387,6 +3432,9 @@ proc findModules {dir mod depthlvl fetch_mtime {stop_mod {}}} {
       foreach {fpelt hid} [getFilesInDirectory $dir 0] {
          set elt [file tail $fpelt]
          # include any .modulerc file found at the modulepath root
+         if {[string range $elt end-3 end] eq {.lua}} {
+            set elt [string range $elt 0 end-4]
+         }
          if {$elt eq {.modulerc} || $findall || [modEqStatic $elt match]} {
             lappend full_list $fpelt
          }

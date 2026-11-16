@@ -1,0 +1,13 @@
+whatis("Description: module name and version")
+local root = "/software/Python/3.11.3-GCCcore-12.3.0"
+conflict("Python")
+depends_on("GCCcore/12.3.0")
+depends_on("binutils/2.40-GCCcore-12.3.0")
+depends_on("bzip2/1.0.8-GCCcore-12.3.0")
+depends_on("zlib/1.2.13-GCCcore-12.3.0")
+depends_on("libreadline/8.2-GCCcore-12.3.0")
+depends_on("ncurses/6.4-GCCcore-12.3.0")
+depends_on("SQLite/3.42.0-GCCcore-12.3.0")
+depends_on("XZ/5.4.2-GCCcore-12.3.0")
+depends_on("libffi/3.4.4-GCCcore-12.3.0")
+depends_on("OpenSSL/1.1")

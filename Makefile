@@ -606,6 +606,9 @@ tcl/subcmd.tcl_i: tcl/subcmd.tcl $(NAGELFAR)
 	sed -i -e 's|$(nagelfardatadir)|share/nagelfar|g' $@
 
 # join all tcl/*.tcl files to build modulecmd.tcl
+mfinterp.lua: lua/mfinterp.lua
+	cp $< $@
+
 modulecmd.tcl: tcl/cache.tcl tcl/coll.tcl tcl/envmngt.tcl tcl/init.tcl \
 	tcl/interp.tcl tcl/main.tcl tcl/mfcmd.tcl tcl/modeval.tcl \
 	tcl/modfind.tcl tcl/modscan.tcl tcl/modspec.tcl tcl/report.tcl \

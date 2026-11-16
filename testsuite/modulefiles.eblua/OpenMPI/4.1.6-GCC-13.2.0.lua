@@ -1,0 +1,11 @@
+whatis("Description: module name and version")
+local root = "/software/OpenMPI/4.1.6-GCC-13.2.0"
+conflict("OpenMPI")
+depends_on("GCC/13.2.0")
+depends_on("zlib/1.2.13-GCCcore-13.2.0")
+depends_on("hwloc/2.9.2-GCCcore-13.2.0")
+depends_on("libevent/2.1.12-GCCcore-13.2.0")
+depends_on("UCX/1.15.0-GCCcore-13.2.0")
+depends_on("libfabric/1.19.0-GCCcore-13.2.0")
+depends_on("PMIx/4.2.6-GCCcore-13.2.0")
+depends_on("UCC/1.2.0-GCCcore-13.2.0")
